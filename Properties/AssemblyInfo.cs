@@ -1,0 +1,19 @@
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Sims3.SimIFace;
+
+[assembly: PersistableStatic]
+[assembly: Tunable]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyProduct("PassionObjects")]
+[assembly: AssemblyTitle("PassionObjects")]
+[assembly: AssemblyTrademark("")]
+[assembly: Guid("7bacbbd0-eb9f-4280-be87-6dbae3ae7cf9")]
+[assembly: ComVisible(false)]
+[assembly: AssemblyVersion("1.0.0.0")]
