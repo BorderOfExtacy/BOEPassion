@@ -24,7 +24,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString(target.IsFemale, "Vampire Fire Blast", target.SimDescription, actor.SimDescription);
 			}
@@ -34,7 +34,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString("Vampire...") };
 			}
 
-			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (GameUtils.IsInstalled(ProductVersion.EP7) && actor.SimDescription.IsVampire && target != actor && actor.TraitManager.HasElement(TraitNames.SuperVampire) && !target.SimDescription.IsServicePerson && !target.SimDescription.ChildOrBelow && !target.SimDescription.IsPet && !target.SimDescription.IsWildAnimal && !target.SimDescription.IsPregnant && Passion.Settings.VampireInteractions && !actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null))
 				{
@@ -53,7 +53,7 @@ namespace S3_Passion
 			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
 		}
 
-		protected override bool Run()
+		public override bool Run()
 		{
 			Actor.RouteTurnToFace(Target.Position);
 			StandardEntry();

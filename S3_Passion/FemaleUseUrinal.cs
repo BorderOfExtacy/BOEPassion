@@ -19,12 +19,12 @@ namespace S3_Passion
 	{
 		private sealed class Definition : InteractionDefinition<Sim, Urinal, FemaleUseUrinal>
 		{
-			protected override string GetInteractionName(Sim actor, Urinal target, InteractionObjectPair iop)
+			public override string GetInteractionName(Sim actor, Urinal target, InteractionObjectPair iop)
 			{
 				return Localization.LocalizeString(actor.IsFemale, "Gameplay/Objects/Plumbing/Toilet/UseToilet:InteractionName");
 			}
 
-			protected override bool Test(Sim sim, Urinal target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim sim, Urinal target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return sim.IsFemale;
 			}
@@ -44,7 +44,7 @@ namespace S3_Passion
 
 		private float mFartTime;
 
-		protected override bool Run()
+		public override bool Run()
 		{
 			BuffInstance element = Actor.BuffManager.GetElement(BuffNames.ReallyHasToPee);
 			if (element != null && element.mTimeoutCount <= 30f)

@@ -20,7 +20,7 @@ namespace S3_Passion
 	{
 		private sealed class Definition : InteractionDefinition<Sim, ShowerPublic_Dance, TakeNakedShower>
 		{
-			protected override string GetInteractionName(Sim actor, ShowerPublic_Dance target, InteractionObjectPair iop)
+			public override string GetInteractionName(Sim actor, ShowerPublic_Dance target, InteractionObjectPair iop)
 			{
 				if (actor.HasTrait(TraitNames.NaturalBornPerformer))
 				{
@@ -45,7 +45,7 @@ namespace S3_Passion
 				return LocalizeString(actor.IsFemale, "InteractionName");
 			}
 
-			protected override bool Test(Sim a, ShowerPublic_Dance target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim a, ShowerPublic_Dance target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return !isAutonomous || (a.Autonomy.Motives.GetValue(CommodityKind.Hygiene) < 100f && !a.SimDescription.IsFrankenstein);
 			}
@@ -169,7 +169,7 @@ namespace S3_Passion
 			}
 		}
 
-		protected override bool Run()
+		public override bool Run()
 		{
 			if (!Target.SimLine.WaitForTurn(this, SimQueue.WaitBehavior.DefaultEvict, ExitReason.Default, Shower.kTimeToWaitToEvict))
 			{
@@ -293,7 +293,7 @@ namespace S3_Passion
 			EventTracker.SendEvent(EventTypeId.kEventTakeShower, Actor, Target);
 		}
 
-		protected override void AddExcludedDreams(ICollection<DreamNames> excludedDreams)
+		public override void AddExcludedDreams(ICollection<DreamNames> excludedDreams)
 		{
 			base.AddExcludedDreams(excludedDreams);
 			AddExcludedDream(DreamNames.bathe);

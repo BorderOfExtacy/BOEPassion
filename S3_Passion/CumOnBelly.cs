@@ -16,7 +16,7 @@ namespace S3_Passion
 		[DoesntRequireTuning]
 		private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, CumOnBelly>
 		{
-			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString("CumOnBelly");
 			}
@@ -26,7 +26,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString("Ejaculate") };
 			}
 
-			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (Passion.CumInteractions)
 				{
@@ -59,7 +59,7 @@ namespace S3_Passion
 			}
 		}
 
-		protected override bool Run()
+		public override bool Run()
 		{
 			if (Actor.IsFemale && Target.IsFemale && !IsSheMale(Actor) && !IsSheMale(Target))
 			{

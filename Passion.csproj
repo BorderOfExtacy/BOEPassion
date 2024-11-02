@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>Passion</AssemblyName>
+    <AssemblyName>BOE_Passion</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TargetFramework>net20</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>

@@ -114,7 +114,7 @@ namespace S3_Passion
 			EndDialog(base.CancelID);
 		}
 
-		protected override bool OnEnd(uint endID)
+		public override bool OnEnd(uint endID)
 		{
 			if (endID == base.OkayID)
 			{

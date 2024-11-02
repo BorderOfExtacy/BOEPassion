@@ -11,7 +11,7 @@ namespace S3_Passion
 		[DoesntRequireTuning]
 		private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, RemoveVisualOverrideOnStart>
 		{
-			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString(actor.IsFemale, "Remove Pale Skin", target.SimDescription, actor.SimDescription);
 			}
@@ -21,7 +21,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString(isFemale, "Vampire...") };
 			}
 
-			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return true;
 			}
@@ -29,7 +29,7 @@ namespace S3_Passion
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		protected override bool Run()
+		public override bool Run()
 		{
 			try
 			{

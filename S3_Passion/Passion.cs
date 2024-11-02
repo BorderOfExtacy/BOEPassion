@@ -11240,12 +11240,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor) && target != null)
 						{
@@ -11281,7 +11281,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11417,12 +11417,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return Settings.SoloLabel;
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor) && target != null && (!(target is Sim) || actor == target))
 						{
@@ -11439,7 +11439,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -11512,12 +11512,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -11542,7 +11542,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -11607,12 +11607,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, AskToPassion>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AskingTo") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11620,7 +11620,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11633,12 +11633,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, BeAskedToPassion>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.BeingAskedTo") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11646,7 +11646,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11659,12 +11659,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private class Definition : InteractionDefinition<Sim, Sim, RouteToPassion>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.HeadingTo") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11677,7 +11677,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					return GetPlayer(Actor).Route();
 				}
@@ -11688,12 +11688,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, BeginPassion>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize(PassionCommon.Localize("S3_Passion.Terms.Beginning") + " " + Settings.Label);
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11706,7 +11706,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					return GetPlayer(Actor).StartLoop();
 				}
@@ -11717,7 +11717,7 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, PassionLoop>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						if (actor != null)
 						{
@@ -11730,7 +11730,7 @@ namespace S3_Passion
 						return Settings.ActiveLabel;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11743,7 +11743,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					return GetPlayer(Actor).DoLoop();
 				}
@@ -11759,12 +11759,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SwitchWith") + " " + target.Name;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && actor != target)
 						{
@@ -11781,7 +11781,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11797,12 +11797,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, SwitchRoute>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SwitchingWith") + " " + ((target != null) ? target.Name : "?");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11815,7 +11815,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -11846,12 +11846,12 @@ namespace S3_Passion
 			{
 				private sealed class Definition : InteractionDefinition<Sim, Sim, Embarrassed>
 				{
-					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Embarrassed");
 					}
@@ -11865,7 +11865,7 @@ namespace S3_Passion
 					base.Init(ref parameters);
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					bool flag = PrivacySituation.RouteToAdjacentRoom(Actor);
 					if (!flag && Actor.InteractionQueue.GetNextInteraction() == null)
@@ -11887,12 +11887,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.MoveTo");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && !(target is Sim) && PassionType.IsSupported(target))
 						{
@@ -11909,7 +11909,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -11934,12 +11934,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.MoveGroupTo");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && !(target is Sim) && PassionType.IsSupported(target))
 						{
@@ -11956,7 +11956,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -11993,12 +11993,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, IGameObject, MoveRoute>
 				{
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Moving");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12011,7 +12011,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -12032,12 +12032,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, IGameObject, MoveGroupRoute>
 				{
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Moving");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12050,7 +12050,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -12077,12 +12077,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -12105,7 +12105,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -12128,12 +12128,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -12156,7 +12156,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -12175,12 +12175,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, DelayedJoinPassion>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12193,7 +12193,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -12227,12 +12227,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoJoin") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12255,7 +12255,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Target.InteractionQueue.CancelAllInteractions();
 					Target.InteractionQueue.AddNext(JoinPassion.Singleton.CreateInstance(Actor, Target, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
@@ -12273,12 +12273,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoPassionOther") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12320,7 +12320,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					Target target = player.GetNearbySupportedTarget();
@@ -12363,12 +12363,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Settings.SoloLabel;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12397,7 +12397,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					Target target = player.GetNearbySupportedTarget();
@@ -12432,12 +12432,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Settings.SoloLabel;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						try
 						{
@@ -12455,7 +12455,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					Target target = player.GetNearbySupportedTarget();
@@ -12490,12 +12490,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Stop");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12511,7 +12511,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					if (player != null)
@@ -12533,12 +12533,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.StopAll");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12554,7 +12554,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					if (player.HasPart)
@@ -12575,12 +12575,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoWatch") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12603,7 +12603,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Target.InteractionQueue.AddNext(WatchPassion.Singleton.CreateInstance(Actor, Target, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					return true;
@@ -12615,12 +12615,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, WatchPassion>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Watch") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						Player player = GetPlayer(a);
 						Player player2 = GetPlayer(target);
@@ -12634,7 +12634,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Actor.InteractionQueue.AddNext(WatchLoop.Singleton.CreateInstance(Target, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					return true;
@@ -12646,12 +12646,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, WatchLoop>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Watch") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12664,7 +12664,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					GetPlayer(Actor).Watch(Target);
 					return true;
@@ -12676,12 +12676,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, WatchMasturbate>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.SoloLabel;
 					}
 
-					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						Player player = GetPlayer(a);
 						if (player.IsWatching && IsValid(a) && a == target && !player.Actor.SimDescription.ChildOrBelow && player.Actor.SimDescription.IsHuman)
@@ -12694,7 +12694,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Actor);
@@ -12718,12 +12718,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SetShemaleFlag");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
@@ -12751,7 +12751,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					GetPlayer(Target).IsShemale = true;
 					return true;
@@ -12768,12 +12768,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.RemoveShemaleFlag");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						// basic 'can this sim do any passion ints' test
 						// refactor to make it so robots can fuck!!!!!!!!!!!!!!!!!!!!!
@@ -12803,7 +12803,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					GetPlayer(Target).IsShemale = false;
 					return true;
@@ -12820,12 +12820,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SetPreferredOutfit");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12841,7 +12841,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					GetPlayer(Target).PreferOutfit();
 					return true;
@@ -12858,12 +12858,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ClearPreferredOutfit");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12879,7 +12879,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					GetPlayer(Target).ClearPreferredOutfit();
 					return true;
@@ -12896,12 +12896,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ChangePosition");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12917,7 +12917,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					GetPlayer(Target).ChangePosition();
 					return true;
@@ -12934,12 +12934,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SettingsMenu");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target) && !GetPlayer(target).IsActive)
 						{
@@ -12951,7 +12951,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					PersistableSettings.Show();
 					return true;
@@ -12968,12 +12968,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SettingsMenu");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target) && GetPlayer(target).IsActive)
 						{
@@ -12985,7 +12985,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					PersistableSettings.Show();
 					return true;
@@ -13002,12 +13002,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.ActiveLabel;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13015,7 +13015,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Actor.InteractionQueue.AddNext(PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					GetPlayer(Actor).GetHard();
@@ -13033,12 +13033,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.ActiveLabel;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13046,7 +13046,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Actor.InteractionQueue.AddNext(PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					GetPlayer(Actor).GetSoft();
@@ -13064,12 +13064,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ResetMe");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous)
 						{
@@ -13095,7 +13095,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					ResetMe(Target);
 					return true;
@@ -13112,12 +13112,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ResetMe");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous)
 						{
@@ -13143,7 +13143,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					ResetMe(Target);
 					return true;
@@ -13160,12 +13160,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("Report");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13173,7 +13173,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					PassionCommon.DumpMessages();
 					PassionCommon.BufferClear();
@@ -13282,12 +13282,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("Buffer Position XML");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13297,7 +13297,7 @@ namespace S3_Passion
 
 				public static int Index = 0;
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Sim sim = Target as Sim;
 					if (Test2.Exporting && Test2.Root != null && sim != null)
@@ -13384,12 +13384,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("Toggle Export");
 					}
 
-					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13401,7 +13401,7 @@ namespace S3_Passion
 
 				public static XML.Element Root = null;
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Exporting = !Exporting;
 					if (Exporting)
@@ -13435,12 +13435,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Reassure");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return target != null && target.BuffManager.HasElement((BuffNames)5912255412026328145uL);
 					}
@@ -13448,7 +13448,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -13481,12 +13481,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, BeReassured>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.BeReassured");
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13494,7 +13494,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -13537,12 +13537,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					protected override string GetInteractionName(Sim actor, PoolLadder target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, PoolLadder target, InteractionObjectPair interaction)
 					{
 						return Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, PoolLadder target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, PoolLadder target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -13567,7 +13567,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -13602,12 +13602,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private class Definition : InteractionDefinition<Sim, Sim, RouteToPoolLadderPassion>
 				{
-					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.HeadingTo") + " " + Settings.Label;
 					}
 
-					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13620,7 +13620,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				protected override bool Run()
+				public override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					if (player.IsValid && player.HasPart)
@@ -14113,7 +14113,6 @@ namespace S3_Passion
 				if (IsValid(sim, true))
 				{
 					RefreshPlayer(sim);
-					BOECommon.AddMotive(sim);
 					sim.AddInteraction(Interactions.UseObjectForPassion.Singleton, true);
 					sim.AddInteraction(Interactions.UseSimForPassion.Singleton, true);
 					sim.AddInteraction(Interactions.SwitchWith.Singleton, true);

@@ -23,12 +23,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, Dance>
 			{
-				protected override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.Dance");
 				}
 
-				protected override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove)
 					{
@@ -40,7 +40,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -115,12 +115,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, Dance2>
 			{
-				protected override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.Dance2");
 				}
 
-				protected override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove)
 					{
@@ -132,7 +132,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -208,12 +208,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, AutoDance>
 			{
-				protected override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.Dance");
 				}
 
-				protected override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman)
 					{
@@ -225,7 +225,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -339,7 +339,7 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : ImmediateInteractionDefinition<Sim, SculptureFloorGunShow, AskToDanceOnPole>
 			{
-				protected override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.AskToDance");
 				}
@@ -350,7 +350,7 @@ namespace S3_Passion
 					PopulateSimPicker(ref parameters, out listObjs, out headers, GetThePeople(parameters.Actor as Sim, parameters.Actor.LotCurrent), false);
 				}
 
-				protected override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman && target.UseCount == 0;
 				}
@@ -358,7 +358,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				Sim sim = GetSelectedObject() as Sim;
 				sim.InteractionQueue.AddNextIfPossibleAfterCheckingForDuplicates(Dance.Singleton.CreateInstance(Target, sim, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
@@ -371,7 +371,7 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : ImmediateInteractionDefinition<Sim, SculptureFloorGunShow, AskToDanceOnPole2>
 			{
-				protected override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.AskToDance2");
 				}
@@ -382,7 +382,7 @@ namespace S3_Passion
 					PopulateSimPicker(ref parameters, out listObjs, out headers, GetThePeople(parameters.Actor as Sim, parameters.Actor.LotCurrent), false);
 				}
 
-				protected override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman && target.UseCount == 0;
 				}
@@ -390,7 +390,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				Sim sim = GetSelectedObject() as Sim;
 				sim.InteractionQueue.AddNextIfPossibleAfterCheckingForDuplicates(Dance2.Singleton.CreateInstance(Target, sim, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
@@ -403,12 +403,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, DanceOnPoleStop>
 			{
-				protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.StopDance");
 				}
 
-				protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return target.InteractionQueue.GetCurrentInteraction() != null && (target.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Dance.Singleton || target.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Dance2.Singleton);
 				}
@@ -416,7 +416,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				Target.InteractionQueue.CancelInteraction(Target.InteractionQueue.GetCurrentInteraction().Id, ExitReason.UserCanceled);
 				StripperIsOnPole = false;
@@ -429,12 +429,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, Strip>
 			{
-				protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.Strip");
 				}
 
-				protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					try
 					{
@@ -456,7 +456,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked);
 				return true;
@@ -468,12 +468,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, WatchStrip>
 			{
-				protected override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.Watch") + " " + PassionCommon.Localize("S3_Passion.Terms.Strip");
 				}
 
-				protected override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && actor != Sim.ActiveActor && target != null && target.UseCount > 0 && !actor.SimDescription.IsServicePerson && actor.SimDescription.IsHuman)
 					{
@@ -508,7 +508,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;

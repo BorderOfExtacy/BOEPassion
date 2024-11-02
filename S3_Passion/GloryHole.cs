@@ -80,12 +80,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, FenceRedwood_Gate, ServiceStrangers>
 			{
-				protected override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.ServiceStrangers");
 				}
 
-				protected override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (actor != null && target != null && !IsAutonomous)
 					{
@@ -102,7 +102,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				ActiveGloryHole activeGloryHole = Get(Target);
 				if (activeGloryHole != null && Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Rear) && !activeGloryHole.HasSlut)
@@ -140,7 +140,7 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, FenceRedwood_Gate, GetSucked>
 			{
-				protected override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
+				public override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
 				{
 					ActiveGloryHole activeGloryHole = Get(target);
 					if (activeGloryHole != null)
@@ -150,7 +150,7 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.UseGloryHole");
 				}
 
-				protected override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (actor != null && target != null && !IsAutonomous)
 					{
@@ -167,7 +167,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			protected override bool Run()
+			public override bool Run()
 			{
 				ActiveGloryHole activeGloryHole = Get(Target);
 				if (activeGloryHole != null && Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Front) && !activeGloryHole.HasStud)

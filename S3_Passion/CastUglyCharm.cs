@@ -28,12 +28,12 @@ namespace S3_Passion
 				return new string[1] { MagicWand.LocalizeString(isFemale, "CastCharm", new object[0]) + Localization.Ellipsis };
 			}
 
-			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString("Make Ugly Spell");
 			}
 
-			protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (target.SimDescription.IsEP11Bot)
 				{
@@ -79,7 +79,7 @@ namespace S3_Passion
 
 		public static InteractionDefinition Singleton = new Definition();
 
-		protected override MagicWand.SpellType TypeOfSpell
+		public override MagicWand.SpellType TypeOfSpell
 		{
 			get
 			{
@@ -87,7 +87,7 @@ namespace S3_Passion
 			}
 		}
 
-		protected override string JazzStateName
+		public override string JazzStateName
 		{
 			get
 			{
@@ -95,7 +95,7 @@ namespace S3_Passion
 			}
 		}
 
-		protected override string SuccessVfxName
+		public override string SuccessVfxName
 		{
 			get
 			{
@@ -107,7 +107,7 @@ namespace S3_Passion
 			}
 		}
 
-		protected override string EpicFailVfxName
+		public override string EpicFailVfxName
 		{
 			get
 			{
@@ -115,7 +115,7 @@ namespace S3_Passion
 			}
 		}
 
-		protected override string HitVfxName
+		public override string HitVfxName
 		{
 			get
 			{
@@ -123,12 +123,12 @@ namespace S3_Passion
 			}
 		}
 
-		protected override void DrainMotives()
+		public override void DrainMotives()
 		{
 			mWand.DrainMotive(Actor, CommodityKind.MagicFatigue, 0f - MagicWand.CastGoodLuckCharm.kMotiveDrain);
 		}
 
-		protected override void OnSpellSuccess()
+		public override void OnSpellSuccess()
 		{
 			Target.BuffManager.AddElement(BuffNames.Excited, Origin.FromSpell);
 			EventTracker.SendEvent(EventTypeId.kCastCharm, Actor, Target);
@@ -141,7 +141,7 @@ namespace S3_Passion
 			}
 		}
 
-		protected override void OnSpellEpicFailure()
+		public override void OnSpellEpicFailure()
 		{
 			Actor.BuffManager.AddElement(BuffNames.ImminentNemesis, Origin.FromSpell);
 		}

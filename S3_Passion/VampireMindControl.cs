@@ -25,7 +25,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString(target.IsFemale, "Vampire Mind Control", target.SimDescription, actor.SimDescription);
 			}
@@ -35,7 +35,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString("Vampire...") };
 			}
 
-			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (GameUtils.IsInstalled(ProductVersion.EP7) && actor.TraitManager.HasElement(TraitNames.SuperVampire) && actor.SimDescription.IsVampire && !actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !target.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !target.SimDescription.IsRobot && target != actor && !target.SimDescription.IsEP11Bot && target.Household != actor.Household && !target.BuffManager.HasElement(BuffNames.WeddingDay) && !target.SimDescription.IsPregnant && !target.BuffManager.HasElement(BuffNames.Ensorcelled) && !target.SimDescription.IsServicePerson && !target.SimDescription.ChildOrBelow && !target.SimDescription.IsBonehilda && !target.SimDescription.IsPet && !target.TraitManager.HasElement(TraitNames.SuperVampire) && Passion.Settings.VampireInteractions)
 				{
@@ -54,7 +54,7 @@ namespace S3_Passion
 			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
 		}
 
-		protected override bool Run()
+		public override bool Run()
 		{
 			Definition definition = base.InteractionDefinition as Definition;
 			Actor.SynchronizationLevel = Sim.SyncLevel.NotStarted;

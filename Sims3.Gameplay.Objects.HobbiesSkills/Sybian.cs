@@ -16,12 +16,12 @@ namespace Sims3.Gameplay.Objects.HobbiesSkills
 		{
 			public sealed class PickupDefinition : Definition
 			{
-				protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair iop)
+				public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair iop)
 				{
 					return Localization.LocalizeString("Gameplay/Abstracts/ScriptObject/PutInInventory:InteractionName");
 				}
 
-				protected override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return actor != null && actor.IsHuman && !actor.SimDescription.ChildOrBelow && actor.Inventory != null && base.Test(actor, target, isAutonomous, ref greyedOutTooltipCallback);
 				}

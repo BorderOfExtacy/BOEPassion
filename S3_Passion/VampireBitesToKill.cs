@@ -30,7 +30,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString(target.IsFemale, "Vampire Bites To Kill", target.SimDescription, actor.SimDescription);
 			}
@@ -40,7 +40,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString(isFemale, "Vampire...") };
 			}
 
-			protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return GameUtils.IsInstalled(ProductVersion.EP7) && target != a && !a.LotCurrent.IsWorldLot && !target.IsActiveSim && !target.SimDescription.IsServicePerson && !target.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !target.SimDescription.IsGhost && !target.SimDescription.ChildOrBelow && !target.SimDescription.IsPet && a.SimDescription.IsVampire && a.TraitManager.HasElement(TraitNames.SuperVampire) && !a.SimDescription.ChildOrBelow && !a.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && Passion.Settings.VampireInteractions;
 			}
@@ -50,7 +50,7 @@ namespace S3_Passion
 
 		public static ResourceKey vampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
-		protected override bool Run()
+		public override bool Run()
 		{
 			bool flag = false;
 			Definition definition = base.InteractionDefinition as Definition;

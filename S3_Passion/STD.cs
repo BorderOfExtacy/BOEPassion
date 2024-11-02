@@ -234,7 +234,7 @@ namespace S3_Passion
 		{
 			protected sealed class Definition : InteractionDefinition<Sim, RabbitHole, GetTreated>
 			{
-				protected override bool Test(Sim sim, RabbitHole target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim sim, RabbitHole target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (HasTreatableSTDs(sim))
 					{
@@ -243,7 +243,7 @@ namespace S3_Passion
 					return false;
 				}
 
-				protected override string GetInteractionName(Sim actor, RabbitHole target, InteractionObjectPair iop)
+				public override string GetInteractionName(Sim actor, RabbitHole target, InteractionObjectPair iop)
 				{
 					return Localization.LocalizeString("STD.GetTreated:InteractionName") + "(" + UIUtils.FormatMoney(kCostOfTreatment) + ")";
 				}
@@ -263,7 +263,7 @@ namespace S3_Passion
 				base.ActiveStage = timedStage;
 			}
 
-			protected override bool InRabbitHole()
+			public override bool InRabbitHole()
 			{
 				StartStages();
 				BeginCommodityUpdates();

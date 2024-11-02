@@ -11,8 +11,8 @@ namespace S3_Passion
 		{
 			LoadPassion = false;
 			LoadSaveManager.ObjectGroupsPreLoad += Passion.Preload;
-			World.OnWorldLoadFinishedEventHandler += Passion.Load;
-			World.OnWorldQuitEventHandler += Passion.UnLoad;
+			World.sOnWorldLoadFinishedEventHandler += Passion.Load;
+			World.sOnWorldQuitEventHandler += Passion.UnLoad;
 		}
 	}
 }

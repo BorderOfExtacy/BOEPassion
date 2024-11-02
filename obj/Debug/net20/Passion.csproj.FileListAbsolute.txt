@@ -1,2 +1,13 @@
 c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\obj\Debug\net20\Passion.csprojAssemblyReference.cache
 c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\obj\Debug\net20\Passion.csproj.CoreCompileInputs.cache
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\BOE_Passion.dll
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\BOE_Passion.pdb
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\SimIFace.dll
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\Sims3GameplayObjects.dll
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\Sims3GameplaySystems.dll
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\Sims3StoreObjects.dll
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\UI.dll
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\bin\Debug\net20\Sims3Metadata.dll
+C:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\obj\Debug\net20\Passion.csproj.CopyComplete
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\obj\Debug\net20\BOE_Passion.dll
+c:\Users\Zin\Desktop\MEME TEAM FOREVER\!sims shit\!ts3\! BOE\BOEPassion\obj\Debug\net20\BOE_Passion.pdb
