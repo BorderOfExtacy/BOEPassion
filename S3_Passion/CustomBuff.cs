@@ -26,23 +26,48 @@ namespace S3_Passion
 
 			public const BuffNames HadWoohoo = (BuffNames)2111502432315482727uL;
 
-			public const BuffNames LibidoSatisfied = (BuffNames)8185339104921261200uL;
+			// start faux motive buffs
+			// this is going to suck
 
-			public const BuffNames LibidoSlightlyPositive = (BuffNames)16512105510841219241uL;
+			public const BuffNames LibidoLevel0 = (BuffNames)2248271455579464240uL;
 
-			public const BuffNames LibidoModeratelyPositive = (BuffNames)10626820509964641423uL;
+			public const BuffNames LibidoLevel1 = (BuffNames)2913570583726353694uL;
 
-			public const BuffNames LibidoVeryPositive = (BuffNames)16341761339885008577uL;
+			public const BuffNames LibidoLevel2 = (BuffNames)2922268820215428064uL;
 
-			public const BuffNames LibidoExtremelyPositive = (BuffNames)16113274642161440716uL;
+			public const BuffNames LibidoLevel3 = (BuffNames)3097843141287298166uL;
 
-			public const BuffNames LibidoSlightlyNegative = (BuffNames)7244019685987188093uL;
+			public const BuffNames LibidoLevel4 = (BuffNames)8198323707617122614uL;
 
-			public const BuffNames LibidoModeratelyNegative = (BuffNames)13910300093031145699uL;
+			public const BuffNames LibidoLevel5 = (BuffNames)8200297330989383022uL;
 
-			public const BuffNames LibidoVeryNegative = (BuffNames)12415407305475427397uL;
+			public const BuffNames LibidoLevel6 = (BuffNames)2917472750494117670uL;
 
-			public const BuffNames LibidoExtremelyNegative = (BuffNames)1358929223039794148uL;
+			public const BuffNames LibidoLevel7 = (BuffNames)16251613925768384549uL;
+
+			public const BuffNames LibidoLevel8 = (BuffNames)14041574305464178967uL;
+
+			public const BuffNames LibidoLevel9 = (BuffNames)13147589483235469726uL;
+
+			public const BuffNames LibidoLevel10 = (BuffNames)2922253427052633003uL;
+
+			// end faux motive buffs
+
+			// start satisfaction buffs
+
+			public const BuffNames SatisfactionAmazing = (BuffNames)11045112725886391962uL;
+
+			public const BuffNames SatisfactionGood = (BuffNames)1496533297302173594uL;
+
+			public const BuffNames SatisfactionNeutral = (BuffNames)8094910820078548906uL;
+
+			public const BuffNames SatisfactionBad = (BuffNames)3211971988725820758uL;
+
+			public const BuffNames SatisfactionHorrible = (BuffNames)18057862431175174090uL;
+
+
+			// end satisfaction buffs
+
 
 			public const BuffNames STDSimydia = (BuffNames)12465744095023444500uL;
 
@@ -74,6 +99,8 @@ namespace S3_Passion
 
 			public static readonly List<BuffNames> STD;
 
+			public static readonly List<BuffNames> Satisfaction;
+
 			public static string ToString(BuffNames buff)
 			{
 				switch (buff)
@@ -82,16 +109,24 @@ namespace S3_Passion
 					return "Had Woohoo";
 				case (BuffNames)9944098001884692765uL:
 					return "Had First Woohoo";
-				case (BuffNames)10626820509964641423uL:
-				case (BuffNames)12415407305475427397uL:
-				case (BuffNames)13910300093031145699uL:
-				case (BuffNames)16113274642161440716uL:
-				case (BuffNames)16341761339885008577uL:
-				case (BuffNames)16512105510841219241uL:
-				case (BuffNames)1358929223039794148uL:
-				case (BuffNames)7244019685987188093uL:
-				case (BuffNames)8185339104921261200uL:
+				case (BuffNames)2248271455579464240uL:
+				case (BuffNames)2913570583726353694uL:
+				case (BuffNames)2922268820215428064uL:
+				case (BuffNames)3097843141287298166uL:
+				case (BuffNames)8198323707617122614uL:
+				case (BuffNames)8200297330989383022uL:
+				case (BuffNames)2917472750494117670uL:
+				case (BuffNames)16251613925768384549uL:
+				case (BuffNames)14041574305464178967uL:
+				case (BuffNames)13147589483235469726uL:
+				case (BuffNames)2922253427052633003uL:
 					return "Libido";
+				case (BuffNames)11045112725886391962uL:
+				case (BuffNames)1496533297302173594uL:
+				case (BuffNames)8094910820078548906uL:
+				case (BuffNames)3211971988725820758uL:
+				case (BuffNames)18057862431175174090uL:
+					return "Satisfaction";
 				case (BuffNames)12465744095023444500uL:
 					return "Simydia";
 				case (BuffNames)16328498947224254690uL:
@@ -118,15 +153,24 @@ namespace S3_Passion
 				List<BuffNames> list = new List<BuffNames>();
 				list.Add((BuffNames)2111502432315482727uL);
 				list.Add((BuffNames)9944098001884692765uL);
-				list.Add((BuffNames)8185339104921261200uL);
-				list.Add((BuffNames)16512105510841219241uL);
-				list.Add((BuffNames)10626820509964641423uL);
-				list.Add((BuffNames)16341761339885008577uL);
-				list.Add((BuffNames)16113274642161440716uL);
-				list.Add((BuffNames)7244019685987188093uL);
-				list.Add((BuffNames)13910300093031145699uL);
-				list.Add((BuffNames)12415407305475427397uL);
-				list.Add((BuffNames)1358929223039794148uL);
+				//start new stuff
+				list.Add((BuffNames)2248271455579464240uL);
+				list.Add((BuffNames)2913570583726353694uL);
+				list.Add((BuffNames)2922268820215428064uL);
+				list.Add((BuffNames)3097843141287298166uL);
+				list.Add((BuffNames)8198323707617122614uL);
+				list.Add((BuffNames)8200297330989383022uL);
+				list.Add((BuffNames)2917472750494117670uL);
+				list.Add((BuffNames)16251613925768384549uL);
+				list.Add((BuffNames)14041574305464178967uL);
+				list.Add((BuffNames)13147589483235469726uL);
+				list.Add((BuffNames)2922253427052633003uL);
+				list.Add((BuffNames)11045112725886391962uL);
+				list.Add((BuffNames)1496533297302173594uL);
+				list.Add((BuffNames)8094910820078548906uL);
+				list.Add((BuffNames)3211971988725820758uL);
+				list.Add((BuffNames)18057862431175174090uL);
+				//end new stuff
 				list.Add((BuffNames)12465744095023444500uL);
 				list.Add((BuffNames)16328498947224254690uL);
 				list.Add((BuffNames)9183286871710270222uL);
@@ -143,15 +187,17 @@ namespace S3_Passion
 				list2.Add((BuffNames)9944098001884692765uL);
 				Woohoo = list2;
 				List<BuffNames> list3 = new List<BuffNames>();
-				list3.Add((BuffNames)8185339104921261200uL);
-				list3.Add((BuffNames)16512105510841219241uL);
-				list3.Add((BuffNames)10626820509964641423uL);
-				list3.Add((BuffNames)16341761339885008577uL);
-				list3.Add((BuffNames)16113274642161440716uL);
-				list3.Add((BuffNames)7244019685987188093uL);
-				list3.Add((BuffNames)13910300093031145699uL);
-				list3.Add((BuffNames)12415407305475427397uL);
-				list3.Add((BuffNames)1358929223039794148uL);
+				list3.Add((BuffNames)2248271455579464240uL);
+				list3.Add((BuffNames)2913570583726353694uL);
+				list3.Add((BuffNames)2922268820215428064uL);
+				list3.Add((BuffNames)3097843141287298166uL);
+				list3.Add((BuffNames)8198323707617122614uL);
+				list3.Add((BuffNames)8200297330989383022uL);
+				list3.Add((BuffNames)2917472750494117670uL);
+				list3.Add((BuffNames)16251613925768384549uL);
+				list3.Add((BuffNames)14041574305464178967uL);
+				list3.Add((BuffNames)13147589483235469726uL);
+				list3.Add((BuffNames)2922253427052633003uL);
 				Libido = list3;
 				List<BuffNames> list4 = new List<BuffNames>();
 				list4.Add((BuffNames)12465744095023444500uL);
@@ -165,6 +211,13 @@ namespace S3_Passion
 				list4.Add((BuffNames)14409719855781998876uL);
 				list4.Add((BuffNames)8648471817152268810uL);
 				STD = list4;
+				List<BuffNames> list5 = new List<BuffNames>();
+				list4.Add((BuffNames)11045112725886391962uL);
+				list4.Add((BuffNames)1496533297302173594uL);
+				list4.Add((BuffNames)8094910820078548906uL);
+				list4.Add((BuffNames)3211971988725820758uL);
+				list4.Add((BuffNames)18057862431175174090uL);
+				Satisfaction = list5;
 			}
 		}
 
@@ -263,112 +316,200 @@ namespace S3_Passion
 				defaultBuffData.mMoodletColor = MoodColor.ReallyGood;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
 				defaultBuffData.mTimeoutSimMinutes = 10080f;
-				defaultBuffData.mEffectValue = 100;
+				defaultBuffData.mEffectValue = 50;
 				break;
-			case (BuffNames)8185339104921261200uL:
-				defaultBuffData.mBuffName = "lLibidoSatisfied";
-				defaultBuffData.mDescription = "dLibidoSatisfied";
-				defaultBuffData.mHelpText = "hLibidoSatisfied";
-				defaultBuffData.mThumbString = "moodlet_libido_Satisfied";
-				defaultBuffData.mBuffCategory = BuffCategory.Social;
+
+		// start libido buffs (im scared)
+
+			case (BuffNames)2248271455579464240uL:
+				defaultBuffData.mBuffName = "lLibidoLevelZero";
+				defaultBuffData.mDescription = "dLibidoLevelZero";
+				defaultBuffData.mHelpText = "hLibidoLevelZero";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
-				defaultBuffData.mAxisEffected = MoodAxis.None;
-				defaultBuffData.mPolarityOverride = Polarity.Neutral;
-				defaultBuffData.mTimeoutSimMinutes = 4320f;
+				defaultBuffData.mAxisEffected = MoodAxis.Happy;
+				defaultBuffData.mTimeoutSimMinutes = -1f;
 				defaultBuffData.mEffectValue = 0;
 				break;
-			case (BuffNames)16512105510841219241uL:
-				defaultBuffData.mBuffName = "lLibidoSlightlyPositive";
-				defaultBuffData.mDescription = "dLibidoSlightlyPositive";
-				defaultBuffData.mHelpText = "hLibidoSlightlyPositive";
-				defaultBuffData.mThumbString = "moodlet_libido_SlightlyPositive";
-				defaultBuffData.mBuffCategory = BuffCategory.Social;
+			case (BuffNames)2913570583726353694uL:
+				defaultBuffData.mBuffName = "lLibidoLevelOne";
+				defaultBuffData.mDescription = "dLibidoLevelOne";
+				defaultBuffData.mHelpText = "hLibidoLevelOne";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
+				defaultBuffData.mMoodletColor = MoodColor.Fair;
+				defaultBuffData.mAxisEffected = MoodAxis.Happy;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mEffectValue = 0;
+				break;
+			case (BuffNames)2922268820215428064uL:
+				defaultBuffData.mBuffName = "lLibidoLevelTwo";
+				defaultBuffData.mDescription = "dLibidoLevelTwo";
+				defaultBuffData.mHelpText = "hLibidoLevelTwo";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
+				defaultBuffData.mMoodletColor = MoodColor.Fair;
+				defaultBuffData.mAxisEffected = MoodAxis.Happy;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mEffectValue = 0;
+				break;
+			case (BuffNames)3097843141287298166uL:
+				defaultBuffData.mBuffName = "lLibidoLevelThree";
+				defaultBuffData.mDescription = "dLibidoLevelThree";
+				defaultBuffData.mHelpText = "hLibidoLevelThree";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
 				defaultBuffData.mTimeoutSimMinutes = 1440f;
 				defaultBuffData.mEffectValue = 5;
 				break;
-			case (BuffNames)10626820509964641423uL:
-				defaultBuffData.mBuffName = "lLibidoModeratelyPositive";
-				defaultBuffData.mDescription = "dLibidoModeratelyPositive";
-				defaultBuffData.mHelpText = "hLibidoModeratelyPositive";
-				defaultBuffData.mThumbString = "moodlet_libido_ModeratelyPositive";
-				defaultBuffData.mBuffCategory = BuffCategory.Social;
+			case (BuffNames)8198323707617122614uL:
+				defaultBuffData.mBuffName = "lLibidoLevelFour";
+				defaultBuffData.mDescription = "dLibidoLevelFour";
+				defaultBuffData.mHelpText = "hLibidoLevelFour";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
 				defaultBuffData.mTimeoutSimMinutes = 1440f;
-				defaultBuffData.mEffectValue = 10;
+				defaultBuffData.mEffectValue = 5;
 				break;
-			case (BuffNames)16341761339885008577uL:
-				defaultBuffData.mBuffName = "lLibidoVeryPositive";
-				defaultBuffData.mDescription = "dLibidoVeryPositive";
-				defaultBuffData.mHelpText = "hLibidoVeryPositive";
-				defaultBuffData.mThumbString = "moodlet_libido_VeryPositive";
-				defaultBuffData.mBuffCategory = BuffCategory.Social;
-				defaultBuffData.mMoodletColor = MoodColor.ReallyGood;
-				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 2880f;
-				defaultBuffData.mEffectValue = 20;
-				break;
-			case (BuffNames)16113274642161440716uL:
-				defaultBuffData.mBuffName = "lLibidoExtremelyPositive";
-				defaultBuffData.mDescription = "dLibidoExtremelyPositive";
-				defaultBuffData.mHelpText = "hLibidoExtremelyPositive";
-				defaultBuffData.mThumbString = "moodlet_libido_Positive";
-				defaultBuffData.mBuffCategory = BuffCategory.Social;
+			case (BuffNames)8200297330989383022uL:
+				defaultBuffData.mBuffName = "lLibidoLevelFive";
+				defaultBuffData.mDescription = "dLibidoLevelFive";
+				defaultBuffData.mHelpText = "hLibidoLevelFive";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 4320f;
-				defaultBuffData.mEffectValue = 40;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mEffectValue = 15;
 				break;
-			case (BuffNames)7244019685987188093uL:
-				defaultBuffData.mBuffName = "lLibidoSlightlyNegative";
-				defaultBuffData.mDescription = "dLibidoSlightlyNegative";
-				defaultBuffData.mHelpText = "hLibidoSlightlyNegative";
-				defaultBuffData.mThumbString = "moodlet_libido_SlightlyNegative";
-				defaultBuffData.mBuffCategory = BuffCategory.Physical;
+			case (BuffNames)2917472750494117670uL:
+				defaultBuffData.mBuffName = "lLibidoLevelSix";
+				defaultBuffData.mDescription = "dLibidoLevelSix";
+				defaultBuffData.mHelpText = "hLibidoLevelSix";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
+				defaultBuffData.mMoodletColor = MoodColor.Good;
+				defaultBuffData.mAxisEffected = MoodAxis.Happy;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mEffectValue = 20;
+				break;
+			case (BuffNames)16251613925768384549uL:
+				defaultBuffData.mBuffName = "lLibidoLevelSeven";
+				defaultBuffData.mDescription = "dLibidoLevelSeven";
+				defaultBuffData.mHelpText = "hLibidoLevelSeven";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
+				defaultBuffData.mMoodletColor = MoodColor.Fair;
+				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mEffectValue = 0;
+				break;
+			case (BuffNames)14041574305464178967uL:
+				defaultBuffData.mBuffName = "lLibidoLevelEight";
+				defaultBuffData.mDescription = "dLibidoLevelEight";
+				defaultBuffData.mHelpText = "hLibidoLevelEight";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
+				defaultBuffData.mMoodletColor = MoodColor.Fair;
+				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
+				defaultBuffData.mPolarityOverride = Polarity.Negative;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mEffectValue = -5;
+				break;
+			case (BuffNames)13147589483235469726uL:
+				defaultBuffData.mBuffName = "lLibidoLevelNine";
+				defaultBuffData.mDescription = "dLibidoLevelNine";
+				defaultBuffData.mHelpText = "hLibidoLevelNine";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
 				defaultBuffData.mTimeoutSimMinutes = 1440f;
 				defaultBuffData.mEffectValue = -5;
 				break;
-			case (BuffNames)13910300093031145699uL:
-				defaultBuffData.mBuffName = "lLibidoModeratelyNegative";
-				defaultBuffData.mDescription = "dLibidoModeratelyNegative";
-				defaultBuffData.mHelpText = "hLibidoModeratelyNegative";
-				defaultBuffData.mThumbString = "moodlet_libido_ModeratelyNegative";
-				defaultBuffData.mBuffCategory = BuffCategory.Physical;
+			case (BuffNames)2922253427052633003uL:
+				defaultBuffData.mBuffName = "lLibidoLevelTen";
+				defaultBuffData.mDescription = "dLibidoLevelTen";
+				defaultBuffData.mHelpText = "hLibidoLevelTen";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Mental;
+				defaultBuffData.mMoodletColor = MoodColor.Bad;
+				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
+				defaultBuffData.mPolarityOverride = Polarity.Negative;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mEffectValue = -5;
+				break;
+
+		// end libido buffs
+
+		// start satisfaction buffs
+
+			case (BuffNames)11045112725886391962uL:
+				defaultBuffData.mBuffName = "lSatisfactionAmazing";
+				defaultBuffData.mDescription = "dSatisfactionAmazing";
+				defaultBuffData.mHelpText = "hSatisfactionAmazing";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Social;
+				defaultBuffData.mMoodletColor = MoodColor.ReallyGood;
+				defaultBuffData.mAxisEffected = MoodAxis.Happy;
+				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mEffectValue = 50;
+				break;
+			case (BuffNames)1496533297302173594uL:
+				defaultBuffData.mBuffName = "lSatisfactionGood";
+				defaultBuffData.mDescription = "dSatisfactionGood";
+				defaultBuffData.mHelpText = "hSatisfactionGood";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Social;
+				defaultBuffData.mMoodletColor = MoodColor.Good;
+				defaultBuffData.mAxisEffected = MoodAxis.Happy;
+				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mEffectValue = 25;
+				break;
+			case (BuffNames)8094910820078548906uL:
+				defaultBuffData.mBuffName = "lSatisfactionNeutral";
+				defaultBuffData.mDescription = "dSatisfactionNeutral";
+				defaultBuffData.mHelpText = "hSatisfactionNeutral";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Social;
+				defaultBuffData.mMoodletColor = MoodColor.Fair;
+				defaultBuffData.mAxisEffected = MoodAxis.Happy;
+				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mEffectValue = 5;
+				break;
+			case (BuffNames)3211971988725820758uL:
+				defaultBuffData.mBuffName = "lSatisfactionBad";
+				defaultBuffData.mDescription = "dSatisfactionBad";
+				defaultBuffData.mHelpText = "hSatisfactionBad";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
 				defaultBuffData.mTimeoutSimMinutes = 2880f;
-				defaultBuffData.mEffectValue = -10;
+				defaultBuffData.mEffectValue = -15;
 				break;
-			case (BuffNames)12415407305475427397uL:
-				defaultBuffData.mBuffName = "lLibidoVeryNegative";
-				defaultBuffData.mDescription = "dLibidoVeryNegative";
-				defaultBuffData.mHelpText = "hLibidoVeryNegative";
-				defaultBuffData.mThumbString = "moodlet_libido_VeryNegative";
-				defaultBuffData.mBuffCategory = BuffCategory.Physical;
+			case (BuffNames)18057862431175174090uL:
+				defaultBuffData.mBuffName = "lSatisfactionHorrible";
+				defaultBuffData.mDescription = "dSatisfactionHorrible";
+				defaultBuffData.mHelpText = "hSatisfactionHorrible";
+				defaultBuffData.mThumbString = "";
+				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.ReallyBad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
-				defaultBuffData.mTimeoutSimMinutes = 4320f;
-				defaultBuffData.mEffectValue = -20;
-				break;
-			case (BuffNames)1358929223039794148uL:
-				defaultBuffData.mBuffName = "lLibidoExtremelyNegative";
-				defaultBuffData.mDescription = "dLibidoExtremelyNegative";
-				defaultBuffData.mHelpText = "hLibidoExtremelyNegative";
-				defaultBuffData.mThumbString = "moodlet_libido_negative";
-				defaultBuffData.mBuffCategory = BuffCategory.Physical;
-				defaultBuffData.mMoodletColor = MoodColor.ReallyBad;
-				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
-				defaultBuffData.mPolarityOverride = Polarity.Negative;
-				defaultBuffData.mTimeoutSimMinutes = -1f;
+				defaultBuffData.mTimeoutSimMinutes = 2880f;
 				defaultBuffData.mEffectValue = -40;
 				break;
+
+		// end satisfaction buffs
+
 			case (BuffNames)12465744095023444500uL:
 				defaultBuffData.mBuffName = "lSTDSimydia";
 				defaultBuffData.mDescription = "dSTDSimydia";

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using BorderOfExtacy;
 using S3_Passion.PassionDance;
 using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
@@ -13915,6 +13914,10 @@ namespace S3_Passion
 
 		// INJECT MODSTUFF
 
+		private const string MOTIVES_SPREADSHEET = "Motives_Hypochondriasis";
+
+		
+
 		public static void AddInteractions(Terrain i)
 		{
 			i.AddInteraction(VampireTeleport.Singleton);
@@ -13922,6 +13925,10 @@ namespace S3_Passion
 			i.AddInteraction(VampireKillsThemAll.Singleton);
 		}
 
+
+
+
+		
 		// LOAD THE MOD
 
 		public static void Load(object sender, EventArgs e)
@@ -14023,7 +14030,6 @@ namespace S3_Passion
 			Position.Create(XMLFiles);
 			CustomBuff.AddInteractions();
 			CustomCareer.GetLocations();
-			BOECommon.InitMotive();
 			StartListening();
 			Modules.StartListeners();
 			InitialLoad = false;
