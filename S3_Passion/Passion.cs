@@ -2737,6 +2737,7 @@ namespace S3_Passion
 			{
 				try
 				{
+					// if jealousy is off or there are no witnesses
 					if (!Settings.Jealousy || witness == null || !(rb.BroadcastingObject is Sim))
 					{
 						return;
@@ -2829,9 +2830,13 @@ namespace S3_Passion
 			public PassionState State;
 
 			// ...rephrase this lmao
-			public bool IsShemale;
+			// previously: IsTransfem
+			// sorry for making this sex mod #woke
+			public bool IsTransfem;
 
 			// also add in bool for if a sim is a guy with a vagina
+			// EDIT: there it is lol
+			public bool IsTransmasc;
 
 			public bool IsActive;
 
@@ -3165,6 +3170,7 @@ namespace S3_Passion
 				}
 			}
 
+			// if youre dying you cant fuck :pensive:
 			public bool IsInMotiveDesperation
 			{
 				get
@@ -3177,6 +3183,7 @@ namespace S3_Passion
 				}
 			}
 
+			// i think this is the timeout in between autonomous passion allowances?
 			public bool IsTimedOut
 			{
 				get
@@ -3245,12 +3252,12 @@ namespace S3_Passion
 				}
 			}
 
-			// refactor?
+			// if a sim has a penis made of MEAT
 			public bool HasRealPenis
 			{
 				get
 				{
-					return IsValid && (IsShemale || Actor.IsMale);
+					return IsValid && (IsTransfem || Actor.IsMale && !IsTransmasc);
 				}
 			}
 
@@ -3295,7 +3302,7 @@ namespace S3_Passion
 				Player player = new Player();
 				player.Actor = sim;
 				player.RefreshHeightModifier(sim);
-				player.IsShemale = false;
+				player.IsTransfem = false;
 				player.PositionIndex = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
@@ -3572,7 +3579,7 @@ namespace S3_Passion
 						{
 							num2 += 30;
 						}
-						if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender) && !GetPlayer(sim2).IsShemale)
+						if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender) && !GetPlayer(sim2).IsTransfem)
 						{
 							num2 -= 60;
 						}
@@ -4741,9 +4748,14 @@ namespace S3_Passion
 					// if a female sim has a dick check
 					if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
 					{
-						GetPlayer(Actor).IsShemale = true;
+						GetPlayer(Actor).IsTransfem = true;
 					}
 					// add in similar check for dudes with a vag and pretend it doesn't mean i have to make my own fucking mesh
+					if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
+					{
+						GetPlayer(Actor).IsTransmasc = true;
+					}
+					// ...done! make sure to change the RK later
 					SimDescription simDescription2 = Actor.SimDescription;
 					SimDescription simDescription3 = Actor.SimDescription;
 					SimDescription simDescription4 = Actor.SimDescription;
@@ -4829,21 +4841,29 @@ namespace S3_Passion
 							{
 								// equip processing for if a sim is male
 								// refactor to include strapon lines for dudes with vags like the female tuning
-								if (Actor.IsMale)
+								if (Actor.IsMale && !GetPlayer(Actor).IsTransmasc)
 								{
 									SwitchToPeener(Actor, false);
 								}
-								else if (Partner.Actor.IsMale)
+								else if (Partner.Actor.IsMale && !GetPlayer(Partner.Actor).IsTransmasc)
 								{
 									SwitchToPeener(Partner.Actor, false);
 								}
-								if (Actor.IsMale)
+								if (Actor.IsMale && !GetPlayer(Actor).IsTransmasc)
 								{
 									WearCondom(Actor, false);
 								}
-								else if (Partner.Actor.IsMale)
+								else if (Partner.Actor.IsMale && !GetPlayer(Partner.Actor).IsTransmasc)
 								{
 									WearCondom(Partner.Actor, false);
+								}
+								if (Actor.IsMale && GetPlayer(Actor).IsTransmasc)
+								{
+									SwitchToStrapon(Actor, false);
+								}
+								else if (Partner.Actor.IsMale && GetPlayer(Partner.Actor).IsTransmasc)
+								{
+									SwitchToStrapon(Partner.Actor, false);
 								}
 							}
 							catch
@@ -4862,11 +4882,11 @@ namespace S3_Passion
 								{
 									SwitchToStrapon(Partner.Actor, false);
 								}
-								if (Actor.IsFemale && GetPlayer(Actor).IsShemale)
+								if (Actor.IsFemale && GetPlayer(Actor).IsTransfem)
 								{
 									WearCondom(Actor, false);
 								}
-								else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsShemale)
+								else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsTransfem)
 								{
 									WearCondom(Partner.Actor, false);
 								}
@@ -4999,7 +5019,7 @@ namespace S3_Passion
 									try
 									{
 										// if female, strap is enables, not transfem, not pregnant
-										if (Actor.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !Actor.SimDescription.IsPregnant && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (Actor.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !Actor.SimDescription.IsPregnant && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(Actor, true);
 										}
@@ -5067,11 +5087,11 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim2, false);
 										}
-										if (sim.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim.SimDescription.IsPregnant && sim.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim.SimDescription.IsPregnant && sim.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim, true);
 										}
-										if (sim2.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim2.SimDescription.IsPregnant && sim2.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim2.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim2.SimDescription.IsPregnant && sim2.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim2, true);
 										}
@@ -5112,22 +5132,22 @@ namespace S3_Passion
 									{
 										if (!Settings.UseCondom || Settings.CondomIsBroken)
 										{
-											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsShemale && Actor.SimDescription.YoungAdultOrAdult))
+											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsTransfem && Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Actor, false);
 											}
-											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsShemale && Partner.Actor.SimDescription.YoungAdultOrAdult))
+											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsTransfem && Partner.Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Partner.Actor, false);
 											}
 										}
 										if (Settings.UseCondom && !Settings.CondomIsBroken)
 										{
-											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsShemale && Actor.SimDescription.YoungAdultOrAdult))
+											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsTransfem && Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Actor, true);
 											}
-											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsShemale && Actor.SimDescription.YoungAdultOrAdult))
+											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsTransfem && Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Partner.Actor, true);
 											}
@@ -5196,15 +5216,15 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim5, false);
 										}
-										if (sim3.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim3.SimDescription.IsPregnant && sim3.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim3.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim3.SimDescription.IsPregnant && sim3.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim3, true);
 										}
-										if (sim4.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim4.SimDescription.IsPregnant && sim4.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim4.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim4.SimDescription.IsPregnant && sim4.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim4, true);
 										}
-										if (sim5.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim5.SimDescription.IsPregnant && sim5.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim5.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim5.SimDescription.IsPregnant && sim5.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim5, true);
 										}
@@ -5252,15 +5272,15 @@ namespace S3_Passion
 										}
 										if (Settings.UseCondom && !Settings.CondomIsBroken)
 										{
-											if ((sim3.IsMale && sim3.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim3).IsShemale && sim3.SimDescription.YoungAdultOrAdult))
+											if ((sim3.IsMale && sim3.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim3).IsTransfem && sim3.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(sim3, true);
 											}
-											if ((sim4.IsMale && sim4.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim4).IsShemale && sim4.SimDescription.YoungAdultOrAdult))
+											if ((sim4.IsMale && sim4.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim4).IsTransfem && sim4.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(sim4, true);
 											}
-											if ((sim5.IsMale && sim5.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim5).IsShemale && sim5.SimDescription.YoungAdultOrAdult))
+											if ((sim5.IsMale && sim5.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim5).IsTransfem && sim5.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(sim5, true);
 											}
@@ -5339,19 +5359,19 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim9, false);
 										}
-										if (sim6.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim6.SimDescription.IsPregnant && sim6.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim6.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim6.SimDescription.IsPregnant && sim6.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim6, true);
 										}
-										if (sim7.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim7.SimDescription.IsPregnant && sim7.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim7.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim7.SimDescription.IsPregnant && sim7.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim7, true);
 										}
-										if (sim8.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim8.SimDescription.IsPregnant && sim8.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim8.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim8.SimDescription.IsPregnant && sim8.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim8, true);
 										}
-										if (sim9.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim9.SimDescription.IsPregnant && sim9.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
+										if (sim9.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim9.SimDescription.IsPregnant && sim9.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
 										{
 											SwitchToStrapon(sim9, true);
 										}
@@ -5424,23 +5444,23 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim14, false);
 										}
-										if (sim10.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim10.SimDescription.IsPregnant && sim10.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim10.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim10.SimDescription.IsPregnant && sim10.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim10, true);
 										}
-										if (sim11.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim11.SimDescription.IsPregnant && sim11.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim11.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim11.SimDescription.IsPregnant && sim11.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim11, true);
 										}
-										if (sim12.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim12.SimDescription.IsPregnant && sim12.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim12.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim12.SimDescription.IsPregnant && sim12.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim12, true);
 										}
-										if (sim13.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim13.SimDescription.IsPregnant && sim13.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
+										if (sim13.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim13.SimDescription.IsPregnant && sim13.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
 										{
 											SwitchToStrapon(sim13, true);
 										}
-										if (sim14.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim14.SimDescription.IsPregnant && sim14.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
+										if (sim14.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim14.SimDescription.IsPregnant && sim14.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
 										{
 											SwitchToStrapon(sim14, true);
 										}
@@ -5523,27 +5543,27 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim20, false);
 										}
-										if (sim15.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim15.SimDescription.IsPregnant && sim15.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim15.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim15.SimDescription.IsPregnant && sim15.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim15, true);
 										}
-										if (sim16.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim16.SimDescription.IsPregnant && sim16.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim16.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim16.SimDescription.IsPregnant && sim16.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim16, true);
 										}
-										if (sim17.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim17.SimDescription.IsPregnant && sim17.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim17.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim17.SimDescription.IsPregnant && sim17.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim17, true);
 										}
-										if (sim18.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim18.SimDescription.IsPregnant && sim18.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
+										if (sim18.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim18.SimDescription.IsPregnant && sim18.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
 										{
 											SwitchToStrapon(sim18, true);
 										}
-										if (sim19.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim19.SimDescription.IsPregnant && sim19.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
+										if (sim19.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim19.SimDescription.IsPregnant && sim19.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
 										{
 											SwitchToStrapon(sim19, true);
 										}
-										if (sim20.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim20.SimDescription.IsPregnant && sim20.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[6])
+										if (sim20.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim20.SimDescription.IsPregnant && sim20.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[6])
 										{
 											SwitchToStrapon(sim20, true);
 										}
@@ -5624,7 +5644,7 @@ namespace S3_Passion
 							Partner.Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
 						}
 					}
-					if (Actor.IsFemale && GetPlayer(Actor).IsShemale && Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
+					if (Actor.IsFemale && GetPlayer(Actor).IsTransfem && Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
 					{
 						WearCondom(Actor, false);
 						if (previousOutfitCategory != OutfitCategories.Naked)
@@ -5632,7 +5652,7 @@ namespace S3_Passion
 							Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
 						}
 					}
-					else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsShemale && Partner.Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
+					else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsTransfem && Partner.Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
 					{
 						WearCondom(Partner.Actor, false);
 						if (previousOutfitCategory != OutfitCategories.Naked)
@@ -5803,10 +5823,12 @@ namespace S3_Passion
 				SimDescription simDescription = PlayerSim.SimDescription;
 				try
 				{
+					// if straps are disabled (aka for cowards)
 					if ((Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 					{
 						return false;
 					}
+					// if player doesnt have any straps
 					if (Settings.FemaleUseStrapOn && !World.ResourceExists(key) && AddRemove)
 					{
 						PassionCommon.SystemMessage("StrapOn Accessory was not found. Setting is now disabled!");
@@ -5818,6 +5840,7 @@ namespace S3_Passion
 						SimDescription simDescription2 = PlayerSim.SimDescription;
 						if (simDescription2.GetOutfitCount(OutfitCategories.Naked) == 1)
 						{
+							// generate new outfit
 							SimOutfit uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xCE17741BF55E817A"));
 							SimOutfit resultOutfit;
 							if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription2, "fAccessoryStrapon", out resultOutfit))
@@ -12773,10 +12796,12 @@ namespace S3_Passion
 				}
 			}
 
-			internal sealed class SetShemaleOn : ImmediateInteraction<Sim, Sim>
+
+		// start transfem control
+			internal sealed class SetTransfemOn : ImmediateInteraction<Sim, Sim>
 			{
 				[DoesntRequireTuning]
-				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetShemaleOn>
+				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransfemOn>
 				{
 					public override string[] GetPath(bool bPath)
 					{
@@ -12785,7 +12810,7 @@ namespace S3_Passion
 
 					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
-						return PassionCommon.Localize("S3_Passion.Terms.SetShemaleFlag");
+						return PassionCommon.Localize("S3_Passion.Terms.SetTransfemFlag");
 					}
 
 					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -12793,8 +12818,9 @@ namespace S3_Passion
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
 							Player player = GetPlayer(target);
-							if (!player.IsActive && !player.IsShemale)
+							if (!player.IsActive && !player.IsTransfem)
 							{
+								// if the sim has a dick on their nude outfit
 								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
 									return false;
@@ -12805,7 +12831,7 @@ namespace S3_Passion
 						else if (!IsAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
-							if (!player2.IsActive && !player2.IsShemale)
+							if (!player2.IsActive && !player2.IsTransfem)
 							{
 								return true;
 							}
@@ -12818,15 +12844,15 @@ namespace S3_Passion
 
 				public override bool Run()
 				{
-					GetPlayer(Target).IsShemale = true;
+					GetPlayer(Target).IsTransfem = true;
 					return true;
 				}
 			}
 
-			internal sealed class SetShemaleOff : ImmediateInteraction<Sim, Sim>
+			internal sealed class SetTransfemOff : ImmediateInteraction<Sim, Sim>
 			{
 				[DoesntRequireTuning]
-				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetShemaleOff>
+				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransfemOff>
 				{
 					public override string[] GetPath(bool bPath)
 					{
@@ -12835,17 +12861,15 @@ namespace S3_Passion
 
 					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
-						return PassionCommon.Localize("S3_Passion.Terms.RemoveShemaleFlag");
+						return PassionCommon.Localize("S3_Passion.Terms.RemoveTransfemFlag");
 					}
 
 					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						// basic 'can this sim do any passion ints' test
-						// refactor to make it so robots can fuck!!!!!!!!!!!!!!!!!!!!!
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
 							Player player = GetPlayer(target);
-							if (!player.IsActive && player.IsShemale)
+							if (!player.IsActive && player.IsTransfem)
 							{
 								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
@@ -12857,7 +12881,7 @@ namespace S3_Passion
 						else if (!IsAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
-							if (!player2.IsActive && player2.IsShemale)
+							if (!player2.IsActive && player2.IsTransfem)
 							{
 								return true;
 							}
@@ -12870,10 +12894,119 @@ namespace S3_Passion
 
 				public override bool Run()
 				{
-					GetPlayer(Target).IsShemale = false;
+					GetPlayer(Target).IsTransfem = false;
 					return true;
 				}
 			}
+
+		// end transfem control
+
+		// start transmasc control
+			internal sealed class SetTransmascOn : ImmediateInteraction<Sim, Sim>
+			{
+				[DoesntRequireTuning]
+				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransmascOn>
+				{
+					public override string[] GetPath(bool bPath)
+					{
+						return PassionPath;
+					}
+
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					{
+						return PassionCommon.Localize("S3_Passion.Terms.SetTransmascFlag");
+					}
+
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					{
+						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
+						{
+							Player player = GetPlayer(target);
+							if (!player.IsActive && !player.IsTransmasc)
+							{
+								// if the sim has a vag on their nude outfit
+								//TODO: change these resource keys...
+								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
+								{
+									return false;
+								}
+								return true;
+							}
+						}
+						else if (!IsAutonomous && IsValid(target))
+						{
+							Player player2 = GetPlayer(target);
+							if (!player2.IsActive && !player2.IsTransmasc)
+							{
+								return true;
+							}
+						}
+						return false;
+					}
+				}
+
+				public static readonly InteractionDefinition Singleton = new Definition();
+
+				public override bool Run()
+				{
+					GetPlayer(Target).IsTransmasc = true;
+					return true;
+				}
+			}
+
+			internal sealed class SetTransmascOff : ImmediateInteraction<Sim, Sim>
+			{
+				[DoesntRequireTuning]
+				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransmascOff>
+				{
+					public override string[] GetPath(bool bPath)
+					{
+						return PassionPath;
+					}
+
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					{
+						return PassionCommon.Localize("S3_Passion.Terms.RemoveTransmascFlag");
+					}
+
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					{
+						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
+						{
+							Player player = GetPlayer(target);
+							if (!player.IsActive && player.IsTransmasc)
+							{
+								// if the sim has a vag on their nude outfit
+								//TODO: change these resource keys...
+								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
+								{
+									return false;
+								}
+								return true;
+							}
+						}
+						else if (!IsAutonomous && IsValid(target))
+						{
+							Player player2 = GetPlayer(target);
+							if (!player2.IsActive && player2.IsTransmasc)
+							{
+								return true;
+							}
+						}
+						return false;
+					}
+				}
+
+				public static readonly InteractionDefinition Singleton = new Definition();
+
+				public override bool Run()
+				{
+					GetPlayer(Target).IsTransmasc = false;
+					return true;
+				}
+			}
+
+		// end transmasc control
 
 			internal sealed class SetPreferredOutfit : ImmediateInteraction<Sim, Sim>
 			{
