@@ -65,30 +65,51 @@ namespace S3_Passion
 			return Urgency(buffGuid);
 		}
 
+	// um. i think this is like. the list of the libibo buffs and what the 'next stage' is?
+	// scratch that. 'case' is the stage, 'return' is what it decreases into... i think?
 		public static BuffNames Urgency(BuffNames name)
 		{
 			switch (name)
 			{
-			case (BuffNames)16113274642161440716uL:
-				return (BuffNames)10626820509964641423uL;
-			case (BuffNames)16341761339885008577uL:
-				return (BuffNames)16512105510841219241uL;
-			case (BuffNames)10626820509964641423uL:
-			case (BuffNames)16512105510841219241uL:
-				return (BuffNames)8185339104921261200uL;
-			case (BuffNames)8185339104921261200uL:
-				return (BuffNames)7244019685987188093uL;
-			case (BuffNames)7244019685987188093uL:
-				return (BuffNames)13910300093031145699uL;
-			case (BuffNames)13910300093031145699uL:
-				return (BuffNames)12415407305475427397uL;
-			case (BuffNames)12415407305475427397uL:
-			case (BuffNames)1358929223039794148uL:
-				return (BuffNames)1358929223039794148uL;
+			// 100 to 90
+			case (BuffNames)2922253427052633003uL:
+				return (BuffNames)13147589483235469726uL;
+			// 90 to 80
+			case (BuffNames)13147589483235469726uL:
+				return (BuffNames)14041574305464178967uL;
+			// 80 to 70
+			case (BuffNames)14041574305464178967uL:
+				return (BuffNames)16251613925768384549uL;
+			// 70 to 60
+			case (BuffNames)16251613925768384549uL:
+				return (BuffNames)2917472750494117670uL;
+			// 60 to 50
+			case (BuffNames)2917472750494117670uL:
+				return (BuffNames)8200297330989383022uL;
+			// 50 to 40
+			case (BuffNames)8200297330989383022uL:
+				return (BuffNames)8198323707617122614uL;
+			// 40 to 30
+			case (BuffNames)8198323707617122614uL:
+				return (BuffNames)3097843141287298166uL;
+			// 30 to 20
+			case (BuffNames)3097843141287298166uL:
+				return (BuffNames)2922268820215428064uL;
+			// 20 to 10
+			case (BuffNames)2922268820215428064uL:
+				return (BuffNames)2913570583726353694uL;
+			// 10 to 0
+			case (BuffNames)2913570583726353694uL:
+				return (BuffNames)2248271455579464240uL;
+			// 0 to 0
+			case (BuffNames)2248271455579464240uL:
+				return (BuffNames)2248271455579464240uL;
 			default:
-				return (BuffNames)8185339104921261200uL;
+				return (BuffNames)2248271455579464240uL; // default, 0% libido
 			}
 		}
+
+		//TODO: refactor all the satisfaction stuff?
 
 		public static bool Satisfaction(Sim sim)
 		{
@@ -129,26 +150,68 @@ namespace S3_Passion
 			return false;
 		}
 
-		public static bool WatchUrgency(Sim sim)
+	// this seems to trigger the libido increase from watching stuff. im changing watchurgency to increaseurgency to make it a lil more broad
+	// starts at highest left and ifelses down to the lowest
+	// if this causes everything to explode? oops
+		public static bool IncreaseUrgency(Sim sim)
 		{
 			if (sim != null)
 			{
 				BuffManager buffManager = sim.BuffManager;
-				if (buffManager.HasElement((BuffNames)12415407305475427397uL))
+				// 100 to 100
+				if (buffManager.HasElement((BuffNames)2922253427052633003uL))
 				{
-					return Replace(buffManager, (BuffNames)1358929223039794148uL, Origin.None);
+					return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
 				}
-				if (buffManager.HasElement((BuffNames)13910300093031145699uL))
+				// 90 to 100
+				if (buffManager.HasElement((BuffNames)13147589483235469726uL))
 				{
-					return Replace(buffManager, (BuffNames)12415407305475427397uL, Origin.None);
+					return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
 				}
-				if (buffManager.HasElement((BuffNames)7244019685987188093uL))
+				//80 to 90
+				if (buffManager.HasElement((BuffNames)14041574305464178967uL))
 				{
-					return Replace(buffManager, (BuffNames)13910300093031145699uL, Origin.None);
+					return Replace(buffManager, (BuffNames)13147589483235469726uL, Origin.None);
 				}
-				if (buffManager.HasElement((BuffNames)8185339104921261200uL))
+				//70 to 80
+				if (buffManager.HasElement((BuffNames)16251613925768384549uL))
 				{
-					return Replace(buffManager, (BuffNames)7244019685987188093uL, Origin.None);
+					return Replace(buffManager, (BuffNames)14041574305464178967uL, Origin.None);
+				}
+				//60 to 70
+				if (buffManager.HasElement((BuffNames)2917472750494117670uL))
+				{
+					return Replace(buffManager, (BuffNames)16251613925768384549uL, Origin.None);
+				}
+				//50 to 60
+				if (buffManager.HasElement((BuffNames)8200297330989383022uL))
+				{
+					return Replace(buffManager, (BuffNames)2917472750494117670uL, Origin.None);
+				}
+				//40 to 50
+				if (buffManager.HasElement((BuffNames)8198323707617122614uL))
+				{
+					return Replace(buffManager, (BuffNames)8200297330989383022uL, Origin.None);
+				}
+				//30 to 40
+				if (buffManager.HasElement((BuffNames)3097843141287298166uL))
+				{
+					return Replace(buffManager, (BuffNames)8198323707617122614uL, Origin.None);
+				}
+				//20 to 30
+				if (buffManager.HasElement((BuffNames)2922268820215428064uL))
+				{
+					return Replace(buffManager, (BuffNames)3097843141287298166uL, Origin.None);
+				}
+				//10 to 20
+				if (buffManager.HasElement((BuffNames)2913570583726353694uL))
+				{
+					return Replace(buffManager, (BuffNames)2922268820215428064uL, Origin.None);
+				}
+				//0 to 10
+				if (buffManager.HasElement((BuffNames)2248271455579464240uL))
+				{
+					return Replace(buffManager, (BuffNames)2913570583726353694uL, Origin.None);
 				}
 				if (!buffManager.HasAnyElement(Names.Libido.ToArray()))
 				{
