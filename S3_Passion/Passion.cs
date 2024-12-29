@@ -290,9 +290,9 @@ namespace S3_Passion
 				PolyamorousJealousy = false;
 				LibidoBuff = true;
 				WoohooBuff = true;
-				Label = "Passion";
-				ActiveLabel = "Passioning";
-				SoloLabel = "Solo Passion";
+				Label = "Sex";
+				ActiveLabel = "having sex with";
+				SoloLabel = "Masturbation";
 				ObjectAnimation = null;
 				UseCondom = false;
 				RemoveCondom = false;
@@ -2418,6 +2418,7 @@ namespace S3_Passion
 				{
 					try
 					{
+					// if the autonomy chance is higher than the RNG number
 						if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
 						{
 							Sim sim = e.Actor as Sim;
@@ -2555,36 +2556,39 @@ namespace S3_Passion
 									player.IsAutonomous = true;
 									ObjectGuid objectId = player.Actor.CurrentInteraction.Target.ObjectId;
 									IGameObject target = player.Actor.CurrentInteraction.Target;
-									// replace this with 'if libido commodity is at x value'
-									if (player.Actor.BuffManager.HasElement((BuffNames)1358929223039794148uL) || player.Actor.BuffManager.HasElement((BuffNames)9944098001884692765uL))
+									// from what i can tell...
+									// this is effectively, if the sim is aroused, wait and then auto masturbate. the more aroused they are, the shorter the wait
+
+									//100%
+									if (player.Actor.BuffManager.HasElement((BuffNames)2922253427052633003uL))
 									{
 										PassionCommon.Wait(400);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// replace this with 'if libido commodity is at x value'
-									else if (player.Actor.BuffManager.HasElement((BuffNames)12415407305475427397uL))
+									// 90%
+									else if (player.Actor.BuffManager.HasElement((BuffNames)13147589483235469726uL))
 									{
 										PassionCommon.Wait(600);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// replace this with 'if libido commodity is at x value'
-									else if (player.Actor.BuffManager.HasElement((BuffNames)13910300093031145699uL))
+									// 80%
+									else if (player.Actor.BuffManager.HasElement((BuffNames)14041574305464178967uL))
 									{
 										PassionCommon.Wait(800);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// replace this with 'if libido commodity is at x value'
-									else if (player.Actor.BuffManager.HasElement((BuffNames)7244019685987188093uL))
+									// 70%
+									else if (player.Actor.BuffManager.HasElement((BuffNames)16251613925768384549uL))
 									{
 										PassionCommon.Wait(1000);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// replace this with 'if libido commodity is at x value'
-									else if (player.Actor.BuffManager.HasElement((BuffNames)8185339104921261200uL))
+									// 60%
+									else if (player.Actor.BuffManager.HasElement((BuffNames)2917472750494117670uL))
 									{
 										PassionCommon.Wait(1500);
 										player.Actor.InteractionQueue.CancelAllInteractions();
@@ -2602,13 +2606,13 @@ namespace S3_Passion
 				return ListenerAction.Remove;
 			}
 
-			// passioncheck -- check to initiate autonomous passion
+			// passioncheck -- check to **initiate** autonomous passion
 			public static ListenerAction PassionCheck(Event e)
 			{
 				try
 				{
 					// if autonomychance is higher than random, check continues.
-					// refactor this so it takes libido into account as well
+					// refactor this so it takes libido into account as well?
 					if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
 					{
 						Sim sim = e.Actor as Sim;
@@ -2619,6 +2623,65 @@ namespace S3_Passion
 							Player player2 = GetPlayer(sim2);
 							if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
 							{
+							// time for some rng bullshit
+
+							int PassionCheckRoll;
+
+							// if sim is 100% libido
+							if (sim.BuffManager.HasElement((BuffNames)2922253427052633003uL))
+							{
+								PassionCheckRoll = 90;
+							}
+							// 90%
+							else if (sim.BuffManager.HasElement((BuffNames)13147589483235469726uL))
+							{
+								PassionCheckRoll = 80;
+							}
+							// 80%
+							else if (sim.BuffManager.HasElement((BuffNames)14041574305464178967uL))
+							{
+								PassionCheckRoll = 70;
+							}
+							// 70%
+							else if (sim.BuffManager.HasElement((BuffNames)16251613925768384549uL))
+							{
+								PassionCheckRoll = 60;
+							}
+							// 60%
+							else if (sim.BuffManager.HasElement((BuffNames)2917472750494117670uL))
+							{
+								PassionCheckRoll = 50;
+							}
+							// 50%
+							else if (sim.BuffManager.HasElement((BuffNames)8200297330989383022uL))
+							{
+								PassionCheckRoll = 40;
+							}
+							// 40%
+							else if (sim.BuffManager.HasElement((BuffNames)8198323707617122614uL))
+							{
+								PassionCheckRoll = 30;
+							}
+							// 30%
+							else if (sim.BuffManager.HasElement((BuffNames)3097843141287298166uL))
+							{
+								PassionCheckRoll = 20;
+							}
+							// 20%
+							else if (sim.BuffManager.HasElement((BuffNames)2922268820215428064uL))
+							{
+								PassionCheckRoll = 10;
+							}
+							else 
+							{
+								PassionCheckRoll = 0;
+							}
+
+
+						if (PassionCheckRoll > 0 && RandomUtil.GetInt(0, 100) > PassionCheckRoll)
+						{
+
+							
 								Target target = player.GetNearbySupportedTarget();
 								if (target == null)
 								{
@@ -2658,6 +2721,7 @@ namespace S3_Passion
 								{
 									PassionCommon.SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
 								}
+						}
 							}
 						}
 					}
@@ -5892,6 +5956,7 @@ namespace S3_Passion
 			}
 
 			// watch passion interaction
+			// double check this to make sure that this action only runs for sims who'd be into it
 			public void Watch(Player target)
 			{
 				if (!IsValid || !target.IsValid || !target.IsActive || !Actor.RouteToObjectRadialRange(target.Actor, 1.5f, 3f) || !target.IsValid || !target.IsActive)
@@ -5904,7 +5969,7 @@ namespace S3_Passion
 				currentInteraction.StandardEntry();
 				currentInteraction.BeginCommodityUpdates();
 				currentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Fun, 100f, false, 100f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
-				Libido.WatchUrgency(Actor);
+				Libido.IncreaseUrgency(Actor);
 				long num = SimClock.CurrentTicks + RandomUtil.GetInt(600, 1200);
 				long num2 = SimClock.CurrentTicks + RandomUtil.GetInt(30, 50);
 				while (IsWatching && Actor.HasNoExitReason() && target.IsActive && (!currentInteraction.Autonomous || SimClock.CurrentTicks < num))
@@ -5912,6 +5977,7 @@ namespace S3_Passion
 					if (SimClock.CurrentTicks > num2)
 					{
 						// if a sim is a party animal or is the RNG check passes a sim who is watching may join
+						// ...rewrite this
 						if (Settings.AutonomyChance > 0 && (Actor.HasTrait(TraitNames.PartyAnimal) || RandomUtil.GetInt(0, 299) < Settings.AutonomyChance))
 						{
 							if (IsAutonomous && target.HasPart && target.Part.IsAutonomous && target.Part.HasRoom && WillPassion(target.Part) && Join(target.Part))

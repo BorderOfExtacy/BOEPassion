@@ -371,6 +371,7 @@ namespace S3_Passion
 						return num;
 					}
 
+					// I THINK THESE ARE CAS PARTS???????
 					static Penis()
 					{
 						List<ulong> list = new List<ulong>();
