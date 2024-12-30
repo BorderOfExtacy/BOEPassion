@@ -61,11 +61,11 @@ namespace S3_Passion
 
 		public override bool Run()
 		{
-			if (Actor.IsFemale && Target.IsFemale && !IsSheMale(Actor) && !IsSheMale(Target))
+			if (Actor.IsFemale && Target.IsFemale && !IsTransfem(Actor) && !IsTransfem(Target))
 			{
 				SimMessage(Localization.LocalizeString("Do I look like chick with dick, to you?"), Actor);
 			}
-			if ((Actor.IsMale && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (Actor.IsMale && !Passion.Settings.UseCondom) || (IsSheMale(Actor) && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (IsSheMale(Actor) && !Passion.Settings.UseCondom))
+			if ((Actor.IsMale && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (Actor.IsMale && !Passion.Settings.UseCondom) || (IsTransfem(Actor) && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (IsTransfem(Actor) && !Passion.Settings.UseCondom))
 			{
 				ResourceKey kInvalidResourceKey = ResourceKey.kInvalidResourceKey;
 				ResourceKey resourceKey = ResourceKey.FromString("0x034AEECB-0x00000000-0x0970A7D67C90A462");
@@ -215,7 +215,7 @@ namespace S3_Passion
 				}
 				return false;
 			}
-			if ((Actor.IsFemale && !IsSheMale(Actor) && Target.IsMale && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (Actor.IsFemale && !IsSheMale(Actor) && Target.IsMale && !Passion.Settings.UseCondom) || (Actor.IsFemale && !IsSheMale(Actor) && IsSheMale(Target) && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (Actor.IsFemale && !IsSheMale(Actor) && IsSheMale(Target) && !Passion.Settings.UseCondom))
+			if ((Actor.IsFemale && !IsTransfem(Actor) && Target.IsMale && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (Actor.IsFemale && !IsTransfem(Actor) && Target.IsMale && !Passion.Settings.UseCondom) || (Actor.IsFemale && !IsTransfem(Actor) && IsTransfem(Target) && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (Actor.IsFemale && !IsTransfem(Actor) && IsTransfem(Target) && !Passion.Settings.UseCondom))
 			{
 				ResourceKey kInvalidResourceKey2 = ResourceKey.kInvalidResourceKey;
 				ResourceKey resourceKey3 = ResourceKey.FromString("0x034AEECB-0x00000000-0x0970A7D67C90A462");
@@ -425,7 +425,7 @@ namespace S3_Passion
 			Message(message, StyledNotification.NotificationStyle.kSimTalking, speaker, null);
 		}
 
-		public static bool IsSheMale(Sim sim)
+		public static bool IsTransfem(Sim sim)
 		{
 			SimDescription simDescription = sim.SimDescription;
 			if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
