@@ -786,7 +786,9 @@ namespace S3_Passion
 
 		public static readonly List<string> DefaultXMLFiles;
 
-		public static readonly List<ReactionTypes> PassionReactions;
+		public static readonly List<ReactionTypes> ReactionsPositive;
+
+		public static readonly List<ReactionTypes> ReactionsNegative;
 
 		public static readonly List<Type> PreferredTypes;
 
@@ -796,11 +798,19 @@ namespace S3_Passion
 
 		protected static string mBufferedMessageChunk;
 
-		public static ReactionTypes RandomReaction
+		public static ReactionTypes RandomReactionPos
 		{
 			get
 			{
-				return RandomUtil.GetRandomObjectFromList(PassionReactions);
+				return RandomUtil.GetRandomObjectFromList(ReactionsPositive);
+			}
+		}
+
+		public static ReactionTypes RandomReactionNeg
+		{
+			get
+			{
+				return RandomUtil.GetRandomObjectFromList(ReactionsNegative);
 			}
 		}
 
@@ -1326,7 +1336,15 @@ namespace S3_Passion
 			list2.Add(ReactionTypes.ViewLove);
 			list2.Add(ReactionTypes.PumpFist);
 			list2.Add(ReactionTypes.Cheer);
-			PassionReactions = list2;
+			ReactionsPositive = list2;
+			List<ReactionTypes> list4 = new List<ReactionTypes>();
+			list2.Add(ReactionTypes.Awkward);
+			list2.Add(ReactionTypes.Embarrassed);
+			list2.Add(ReactionTypes.Boo);
+			list2.Add(ReactionTypes.Inappropriate);
+			list2.Add(ReactionTypes.FreakOut);
+			list2.Add(ReactionTypes.ThrowUp);
+			ReactionsNegative = list4;
 			List<Type> list3 = new List<Type>();
 			list3.Add(typeof(Altar));
 			list3.Add(typeof(Urnstone));
