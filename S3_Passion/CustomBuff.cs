@@ -296,6 +296,7 @@ namespace S3_Passion
 			defaultBuffData.mBuffGuid = buff;
 			switch (buff)
 			{
+				// replace this altogether with the satisfaction buff
 			case (BuffNames)2111502432315482727uL:
 				defaultBuffData.mBuffName = "lHadWoohoo";
 				defaultBuffData.mDescription = "dHadWoohoo";
@@ -307,6 +308,7 @@ namespace S3_Passion
 				defaultBuffData.mTimeoutSimMinutes = 720f;
 				defaultBuffData.mEffectValue = 15;
 				break;
+				// we can keep this though?
 			case (BuffNames)9944098001884692765uL:
 				defaultBuffData.mBuffName = "lHadFirstWoohoo";
 				defaultBuffData.mDescription = "dHadFirstWoohoo";
@@ -315,7 +317,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.ReallyGood;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 10080f;
+				defaultBuffData.mTimeoutSimMinutes = 1440f;
 				defaultBuffData.mEffectValue = 50;
 				break;
 
@@ -340,7 +342,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = 0;
 				break;
 			case (BuffNames)2922268820215428064uL:
@@ -351,7 +353,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = 0;
 				break;
 			case (BuffNames)3097843141287298166uL:
@@ -362,7 +364,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = 5;
 				break;
 			case (BuffNames)8198323707617122614uL:
@@ -373,7 +375,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = 5;
 				break;
 			case (BuffNames)8200297330989383022uL:
@@ -384,7 +386,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = 15;
 				break;
 			case (BuffNames)2917472750494117670uL:
@@ -395,7 +397,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = 20;
 				break;
 			case (BuffNames)16251613925768384549uL:
@@ -406,7 +408,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = 0;
 				break;
 			case (BuffNames)14041574305464178967uL:
@@ -418,7 +420,7 @@ namespace S3_Passion
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = -5;
 				break;
 			case (BuffNames)13147589483235469726uL:
@@ -430,7 +432,7 @@ namespace S3_Passion
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = -5;
 				break;
 			case (BuffNames)2922253427052633003uL:
@@ -442,7 +444,7 @@ namespace S3_Passion
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
-				defaultBuffData.mTimeoutSimMinutes = 1440f;
+				defaultBuffData.mTimeoutSimMinutes = 180f;
 				defaultBuffData.mEffectValue = -5;
 				break;
 
@@ -458,7 +460,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.ReallyGood;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mTimeoutSimMinutes = 300f;
 				defaultBuffData.mEffectValue = 50;
 				break;
 			case (BuffNames)1496533297302173594uL:
@@ -469,7 +471,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mTimeoutSimMinutes = 300f;
 				defaultBuffData.mEffectValue = 25;
 				break;
 			case (BuffNames)8094910820078548906uL:
@@ -480,7 +482,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
-				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mTimeoutSimMinutes = 300f;
 				defaultBuffData.mEffectValue = 5;
 				break;
 			case (BuffNames)3211971988725820758uL:
@@ -492,7 +494,7 @@ namespace S3_Passion
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
-				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mTimeoutSimMinutes = 300f;
 				defaultBuffData.mEffectValue = -15;
 				break;
 			case (BuffNames)18057862431175174090uL:
@@ -504,7 +506,7 @@ namespace S3_Passion
 				defaultBuffData.mMoodletColor = MoodColor.ReallyBad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
-				defaultBuffData.mTimeoutSimMinutes = 2880f;
+				defaultBuffData.mTimeoutSimMinutes = 300f;
 				defaultBuffData.mEffectValue = -40;
 				break;
 

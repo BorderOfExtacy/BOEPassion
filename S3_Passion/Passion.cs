@@ -3303,6 +3303,7 @@ namespace S3_Passion
 				player.Actor = sim;
 				player.RefreshHeightModifier(sim);
 				player.IsTransfem = false;
+				player.IsTransmasc = false;
 				player.PositionIndex = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
