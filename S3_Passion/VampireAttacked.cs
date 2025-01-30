@@ -24,7 +24,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return GameUtils.IsInstalled(ProductVersion.EP7) && Passion.Settings.VampireInteractions;
 			}
@@ -34,7 +34,7 @@ namespace S3_Passion
 
 		public static ResourceKey vampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Definition definition = base.InteractionDefinition as Definition;
 			Actor.SynchronizationLevel = Sim.SyncLevel.NotStarted;

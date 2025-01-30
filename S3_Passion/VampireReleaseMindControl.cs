@@ -24,7 +24,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString(target.IsFemale, "Release Mind Control", target.SimDescription, actor.SimDescription);
 			}
@@ -34,7 +34,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString("Vampire...") };
 			}
 
-			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (actor.SimDescription.IsVampire && actor.TraitManager.HasElement(TraitNames.SuperVampire) && target.BuffManager.HasElement(BuffNames.Ensorcelled) && GameUtils.IsInstalled(ProductVersion.EP7) && Passion.Settings.VampireInteractions && !actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null))
 				{
@@ -53,7 +53,7 @@ namespace S3_Passion
 			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
 		}
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Actor.RouteTurnToFace(Target.Position);
 			Target.BuffManager.RemoveElement(BuffNames.Ensorcelled);

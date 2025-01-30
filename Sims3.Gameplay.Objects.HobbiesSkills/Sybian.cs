@@ -16,12 +16,12 @@ namespace Sims3.Gameplay.Objects.HobbiesSkills
 		{
 			public sealed class PickupDefinition : Definition
 			{
-				public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair iop)
+				protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair iop)
 				{
 					return Localization.LocalizeString("Gameplay/Abstracts/ScriptObject/PutInInventory:InteractionName");
 				}
 
-				public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return actor != null && actor.IsHuman && !actor.SimDescription.ChildOrBelow && actor.Inventory != null && base.Test(actor, target, isAutonomous, ref greyedOutTooltipCallback);
 				}
@@ -30,7 +30,7 @@ namespace Sims3.Gameplay.Objects.HobbiesSkills
 			public static readonly PickupDefinition PickupSingleton = new PickupDefinition();
 		}
 
-		public static string sLocalizationKey = "Sims3.Gameplay.Objects.HobbiesSkills".Substring(6).Replace('.', '/') + "/Sybian";
+		public new static string sLocalizationKey = "Sims3.Gameplay.Objects.HobbiesSkills".Substring(6).Replace('.', '/') + "/Sybian";
 
 		public static float kEnvironmentToLookAtInterestingnessMultiplier = 0.2f;
 
@@ -52,7 +52,7 @@ namespace Sims3.Gameplay.Objects.HobbiesSkills
 			}
 		}
 
-		public static string LocalizeString(string name, params object[] parameters)
+		public new static string LocalizeString(string name, params object[] parameters)
 		{
 			return Localization.LocalizeString(sLocalizationKey + ":" + name, parameters);
 		}

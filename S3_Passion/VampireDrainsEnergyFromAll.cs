@@ -26,7 +26,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			public override string GetInteractionName(Sim actor, Terrain target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Terrain target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString("Drain All Sims Energy");
 			}
@@ -79,7 +79,7 @@ namespace S3_Passion
 				return InteractionTestResult.GenericFail;
 			}
 
-			public override bool Test(Sim actor, Terrain target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, Terrain target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (GameUtils.IsInstalled(ProductVersion.EP7) && actor.TraitManager.HasElement(TraitNames.SuperVampire) && Passion.Settings.VampireInteractions)
 				{
@@ -100,7 +100,7 @@ namespace S3_Passion
 			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
 		}
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Lot lotCurrent = Actor.LotCurrent;
 			List<Sim> list = new List<Sim>();

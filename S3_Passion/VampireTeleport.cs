@@ -24,7 +24,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			public override string GetInteractionName(Sim actor, Terrain target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Terrain target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString(actor.IsFemale, "Vampire Teleport", target, actor.SimDescription);
 			}
@@ -43,7 +43,7 @@ namespace S3_Passion
 				return Terrain.CanSimTeleport(parameters.Hit, parameters.Actor as Sim);
 			}
 
-			public override bool Test(Sim actor, Terrain target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, Terrain target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				actor.SimDescription.OccultManager.GetOccultType(OccultTypes.Vampire);
 				return actor.SimDescription.IsVampire && GameUtils.IsInstalled(ProductVersion.EP7) && Passion.Settings.VampireInteractions;
@@ -63,7 +63,7 @@ namespace S3_Passion
 			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
 		}
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Sim actor = Actor;
 			if (!actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !actor.Posture.Satisfies(CommodityKind.KeepSwimming, null))

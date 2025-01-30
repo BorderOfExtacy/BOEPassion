@@ -16,15 +16,15 @@ namespace S3_Passion
 		{
 			public override string[] GetPath(bool isFemale)
 			{
-				return new string[1] { MagicWand.LocalizeString(isFemale, "CastSpell", new object[0]) + Localization.Ellipsis };
+				return new string[1] { MagicWand.LocalizeString(isFemale, "CastSpell") + Localization.Ellipsis };
 			}
 
-			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString("Release Mind Control");
 			}
 
-			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (actor.SimDescription.IsWitch && target.BuffManager.HasElement(BuffNames.Ensorcelled))
 				{
@@ -36,7 +36,7 @@ namespace S3_Passion
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Actor.RouteTurnToFace(Target.Position);
 			Target.BuffManager.RemoveElement(BuffNames.Ensorcelled);

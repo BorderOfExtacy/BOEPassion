@@ -290,9 +290,9 @@ namespace S3_Passion
 				PolyamorousJealousy = false;
 				LibidoBuff = true;
 				WoohooBuff = true;
-				Label = "Sex";
-				ActiveLabel = "having sex with";
-				SoloLabel = "Masturbation";
+				Label = "Passion";
+				ActiveLabel = "Passioning";
+				SoloLabel = "Solo Passion";
 				ObjectAnimation = null;
 				UseCondom = false;
 				RemoveCondom = false;
@@ -317,7 +317,6 @@ namespace S3_Passion
 				list.Add(new ObjectPicker.HeaderInfo(PassionCommon.Localize("S3_Passion.Terms.Value"), null, 200));
 				while (flag)
 				{
-					// settings UI display
 					List<ObjectPicker.TabInfo> list2 = new List<ObjectPicker.TabInfo>();
 					List<ObjectPicker.RowInfo> list3 = new List<ObjectPicker.RowInfo>();
 					ObjectPicker.RowInfo rowInfo = null;
@@ -976,8 +975,6 @@ namespace S3_Passion
 						Settings.PregnancyMethod = GenericDialog.Ask(optionList17, PassionCommon.Localize("S3_Passion.Terms.Pregnancy"));
 						if (Settings.PregnancyMethod != 0)
 						{
-							// mpreg settings
-							// look into this later to add lesbian pregnancy too
 							Settings.PregnancyMale = PickBoolean.Show(PassionCommon.Localize("S3_Passion.Terms.MaleMale"), Settings.PregnancyMale, PassionCommon.Localize("S3_Passion.Terms.Enabled"), PassionCommon.Localize("S3_Passion.Terms.Disabled"));
 							text = PickString.Show(PassionCommon.Localize("S3_Passion.Terms.PregnancyRisk"), PassionCommon.Localize("S3_Passion.Terms.PregnancyRiskText"), Settings.PregnancyRisk.ToString());
 							if (text != null)
@@ -1424,7 +1421,6 @@ namespace S3_Passion
 				Export(null);
 			}
 
-			// settings export
 			public static void Export(string name)
 			{
 				try
@@ -1512,7 +1508,6 @@ namespace S3_Passion
 				Import(null);
 			}
 
-			// import settings
 			public static void Import(string name)
 			{
 				XML.File file = XML.ReadFromPackage(name);
@@ -2210,12 +2205,12 @@ namespace S3_Passion
 									return false;
 								}
 								name = "PassionSettingsExport_" + text2;
-								Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
-								foreach (IExportBinContents item in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+								BinModel.Singleton.PopulateExportBin();
+								foreach (IExportBinContents item in new List<IExportBinContents>(BinModel.Singleton.ExportBinContents))
 								{
 									if (item != null && !string.IsNullOrEmpty(item.HouseholdName) && item.HouseholdName.ToLower() == name.ToLower())
 									{
-										Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(item.ContentId);
+										BinModel.Singleton.DeleteFromExportBin(item.ContentId);
 										break;
 									}
 								}
@@ -2227,12 +2222,12 @@ namespace S3_Passion
 					}
 					else
 					{
-						Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
-						foreach (IExportBinContents item2 in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+						BinModel.Singleton.PopulateExportBin();
+						foreach (IExportBinContents item2 in new List<IExportBinContents>(BinModel.Singleton.ExportBinContents))
 						{
 							if (item2 != null && !string.IsNullOrEmpty(item2.HouseholdName) && item2.HouseholdName.ToLower() == name.ToLower())
 							{
-								Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(item2.ContentId);
+								BinModel.Singleton.DeleteFromExportBin(item2.ContentId);
 								break;
 							}
 						}
@@ -2240,7 +2235,7 @@ namespace S3_Passion
 					Household household = Household.Create();
 					household.SetName(name);
 					household.BioText = text;
-					Sims3.Gameplay.BinModel.Singleton.AddToExportBin(household);
+					BinModel.Singleton.AddToExportBin(household);
 					household.Destroy();
 					return true;
 				}
@@ -2260,9 +2255,9 @@ namespace S3_Passion
 					bool flag2 = false;
 					while (flag)
 					{
-						Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
+						BinModel.Singleton.PopulateExportBin();
 						GenericDialog.OptionList<IExportBinContents> optionList = new GenericDialog.OptionList<IExportBinContents>();
-						foreach (IExportBinContents item in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+						foreach (IExportBinContents item in new List<IExportBinContents>(BinModel.Singleton.ExportBinContents))
 						{
 							if (item != null && item.HouseholdName != null && item.HouseholdName.StartsWith("PassionSettingsExport_"))
 							{
@@ -2292,7 +2287,7 @@ namespace S3_Passion
 							}
 							else
 							{
-								Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(exportBinContents.ContentId);
+								BinModel.Singleton.DeleteFromExportBin(exportBinContents.ContentId);
 							}
 							continue;
 						}
@@ -2305,8 +2300,8 @@ namespace S3_Passion
 				}
 				else
 				{
-					Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
-					foreach (IExportBinContents item2 in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+					BinModel.Singleton.PopulateExportBin();
+					foreach (IExportBinContents item2 in new List<IExportBinContents>(BinModel.Singleton.ExportBinContents))
 					{
 						if (item2 != null && !string.IsNullOrEmpty(item2.HouseholdName) && item2.HouseholdName.ToLower() == name.ToLower())
 						{
@@ -2410,7 +2405,6 @@ namespace S3_Passion
 				return ListenerAction.Keep;
 			}
 
-			// nude/stripper dance autonomy
 			public static ListenerAction DanceNude2Music(Event e)
 			{
 				ResourceKey key = ResourceKey.FromString("0x02DC343F-0x08000000-0x475CA79579FF223E");
@@ -2418,7 +2412,6 @@ namespace S3_Passion
 				{
 					try
 					{
-					// if the autonomy chance is higher than the RNG number
 						if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
 						{
 							Sim sim = e.Actor as Sim;
@@ -2528,7 +2521,6 @@ namespace S3_Passion
 				return ListenerAction.Keep;
 			}
 
-			// masturbate while watching passion tv
 			public static ListenerAction WhenWatchTV(Event e)
 			{
 				ResourceKey key = ResourceKey.FromString("0xB1CC1AF6-0x00000000-0x8DC278D813275705");
@@ -2556,39 +2548,31 @@ namespace S3_Passion
 									player.IsAutonomous = true;
 									ObjectGuid objectId = player.Actor.CurrentInteraction.Target.ObjectId;
 									IGameObject target = player.Actor.CurrentInteraction.Target;
-									// from what i can tell...
-									// this is effectively, if the sim is aroused, wait and then auto masturbate. the more aroused they are, the shorter the wait
-
-									//100%
-									if (player.Actor.BuffManager.HasElement((BuffNames)2922253427052633003uL))
+									if (player.Actor.BuffManager.HasElement((BuffNames)1358929223039794148uL) || player.Actor.BuffManager.HasElement((BuffNames)9944098001884692765uL))
 									{
 										PassionCommon.Wait(400);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// 90%
-									else if (player.Actor.BuffManager.HasElement((BuffNames)13147589483235469726uL))
+									else if (player.Actor.BuffManager.HasElement((BuffNames)12415407305475427397uL))
 									{
 										PassionCommon.Wait(600);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// 80%
-									else if (player.Actor.BuffManager.HasElement((BuffNames)14041574305464178967uL))
+									else if (player.Actor.BuffManager.HasElement((BuffNames)13910300093031145699uL))
 									{
 										PassionCommon.Wait(800);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// 70%
-									else if (player.Actor.BuffManager.HasElement((BuffNames)16251613925768384549uL))
+									else if (player.Actor.BuffManager.HasElement((BuffNames)7244019685987188093uL))
 									{
 										PassionCommon.Wait(1000);
 										player.Actor.InteractionQueue.CancelAllInteractions();
 										player.Actor.InteractionQueue.AddNext(Interactions.AutoSoloPassion.Singleton.CreateInstance(player.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 									}
-									// 60%
-									else if (player.Actor.BuffManager.HasElement((BuffNames)2917472750494117670uL))
+									else if (player.Actor.BuffManager.HasElement((BuffNames)8185339104921261200uL))
 									{
 										PassionCommon.Wait(1500);
 										player.Actor.InteractionQueue.CancelAllInteractions();
@@ -2606,13 +2590,10 @@ namespace S3_Passion
 				return ListenerAction.Remove;
 			}
 
-			// passioncheck -- check to **initiate** autonomous passion
 			public static ListenerAction PassionCheck(Event e)
 			{
 				try
 				{
-					// if autonomychance is higher than random, check continues.
-					// refactor this so it takes libido into account as well?
 					if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
 					{
 						Sim sim = e.Actor as Sim;
@@ -2623,65 +2604,6 @@ namespace S3_Passion
 							Player player2 = GetPlayer(sim2);
 							if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
 							{
-							// time for some rng bullshit
-
-							int PassionCheckRoll;
-
-							// if sim is 100% libido
-							if (sim.BuffManager.HasElement((BuffNames)2922253427052633003uL))
-							{
-								PassionCheckRoll = 90;
-							}
-							// 90%
-							else if (sim.BuffManager.HasElement((BuffNames)13147589483235469726uL))
-							{
-								PassionCheckRoll = 80;
-							}
-							// 80%
-							else if (sim.BuffManager.HasElement((BuffNames)14041574305464178967uL))
-							{
-								PassionCheckRoll = 70;
-							}
-							// 70%
-							else if (sim.BuffManager.HasElement((BuffNames)16251613925768384549uL))
-							{
-								PassionCheckRoll = 60;
-							}
-							// 60%
-							else if (sim.BuffManager.HasElement((BuffNames)2917472750494117670uL))
-							{
-								PassionCheckRoll = 50;
-							}
-							// 50%
-							else if (sim.BuffManager.HasElement((BuffNames)8200297330989383022uL))
-							{
-								PassionCheckRoll = 40;
-							}
-							// 40%
-							else if (sim.BuffManager.HasElement((BuffNames)8198323707617122614uL))
-							{
-								PassionCheckRoll = 30;
-							}
-							// 30%
-							else if (sim.BuffManager.HasElement((BuffNames)3097843141287298166uL))
-							{
-								PassionCheckRoll = 20;
-							}
-							// 20%
-							else if (sim.BuffManager.HasElement((BuffNames)2922268820215428064uL))
-							{
-								PassionCheckRoll = 10;
-							}
-							else 
-							{
-								PassionCheckRoll = 0;
-							}
-
-
-						if (PassionCheckRoll > 0 && RandomUtil.GetInt(0, 100) > PassionCheckRoll)
-						{
-
-							
 								Target target = player.GetNearbySupportedTarget();
 								if (target == null)
 								{
@@ -2721,7 +2643,6 @@ namespace S3_Passion
 								{
 									PassionCommon.SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
 								}
-						}
 							}
 						}
 					}
@@ -2732,12 +2653,10 @@ namespace S3_Passion
 				return ListenerAction.Keep;
 			}
 
-			// jealousy/cheating check
 			public static void JealousyCheck(Sim witness, ReactionBroadcaster rb)
 			{
 				try
 				{
-					// if jealousy is off or there are no witnesses
 					if (!Settings.Jealousy || witness == null || !(rb.BroadcastingObject is Sim))
 					{
 						return;
@@ -2821,22 +2740,13 @@ namespace S3_Passion
 		}
 
 		[Persistable]
-
-		// sim stats
 		public class Player
 		{
 			public ulong ID;
 
 			public PassionState State;
 
-			// ...rephrase this lmao
-			// previously: IsTransfem
-			// sorry for making this sex mod #woke
-			public bool IsTransfem;
-
-			// also add in bool for if a sim is a guy with a vagina
-			// EDIT: there it is lol
-			public bool IsTransmasc;
+			public bool IsShemale;
 
 			public bool IsActive;
 
@@ -3170,7 +3080,6 @@ namespace S3_Passion
 				}
 			}
 
-			// if youre dying you cant fuck :pensive:
 			public bool IsInMotiveDesperation
 			{
 				get
@@ -3183,7 +3092,6 @@ namespace S3_Passion
 				}
 			}
 
-			// i think this is the timeout in between autonomous passion allowances?
 			public bool IsTimedOut
 			{
 				get
@@ -3252,12 +3160,11 @@ namespace S3_Passion
 				}
 			}
 
-			// if a sim has a penis made of MEAT
 			public bool HasRealPenis
 			{
 				get
 				{
-					return IsValid && (IsTransfem || Actor.IsMale && !IsTransmasc);
+					return IsValid && (IsShemale || Actor.IsMale);
 				}
 			}
 
@@ -3269,7 +3176,6 @@ namespace S3_Passion
 				}
 			}
 
-			// refactor eventually to include dudes with vaginas
 			public bool HasVagina
 			{
 				get
@@ -3302,8 +3208,7 @@ namespace S3_Passion
 				Player player = new Player();
 				player.Actor = sim;
 				player.RefreshHeightModifier(sim);
-				player.IsTransfem = false;
-				player.IsTransmasc = false;
+				player.IsShemale = false;
 				player.PositionIndex = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
@@ -3487,8 +3392,6 @@ namespace S3_Passion
 				return WillPassion(sim, new Sim[1] { target });
 			}
 
-			// tests if a sim will ACCEPT a passion request or not
-			// modify this to include multiplers for new libido system
 			public static bool WillPassion(Sim sim, Sim[] targets)
 			{
 				if (!Settings.CanReject)
@@ -3580,7 +3483,7 @@ namespace S3_Passion
 						{
 							num2 += 30;
 						}
-						if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender) && !GetPlayer(sim2).IsTransfem)
+						if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender) && !GetPlayer(sim2).IsShemale)
 						{
 							num2 -= 60;
 						}
@@ -4247,7 +4150,6 @@ namespace S3_Passion
 				}
 			}
 
-			// motive updates while passioning
 			public void BeginMotiveUpdates()
 			{
 				if (!IsValid || !HasPart)
@@ -4308,7 +4210,6 @@ namespace S3_Passion
 							num6 = 300f;
 						}
 					}
-					// refactor this maybe because idfk whats going on
 					if (num != 0f || flag)
 					{
 						currentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Fun, num, false, num, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
@@ -4358,8 +4259,6 @@ namespace S3_Passion
 				}
 			}
 
-			// broadcast when people start passion
-			// DONE -- REWRITE THE DIALOG FOR THE LOVE OF FUCKING GOD
 			public void BroadcastPassionStart()
 			{
 				try
@@ -4379,82 +4278,53 @@ namespace S3_Passion
 						{
 							continue;
 						}
-						// START REFACTOR
-
-						// if witness is party animal
-						if (player.Actor.HasTrait(TraitNames.PartyAnimal))
+						if (player.Actor.HasTrait(TraitNames.Shy))
 						{
-							player.Actor.PlayReaction(ReactionTypes.PumpFist, Actor, ReactionSpeed.Immediate);
+							player.Actor.PlayReaction(ReactionTypes.Embarrassed, Actor, ReactionSpeed.Immediate);
 							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
+							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman)
 							{
-								PassionCommon.SimMessage(PassionCommon.Localize("WOOOOOO YEAH!! You guys know how to PARTY HARD! LITERALLY!").ToString(), player.Actor);
+								PassionCommon.SimMessage(PassionCommon.Localize("So Embarrassed! Hey, What are you doing! There's people here!").ToString(), player.Actor);
 							}
 						}
-						// if witness is flirty
-						else if (player.Actor.HasTrait(TraitNames.Flirty))
+						else if (GameUtils.IsInstalled(ProductVersion.EP7) && player.Actor.HasTrait(TraitNames.Proper))
 						{
-							player.Actor.PlayReaction(ReactionTypes.Giggle, Actor, ReactionSpeed.Immediate);
+							player.Actor.PlayReaction(ReactionTypes.SnobbyReject, Actor, ReactionSpeed.Immediate);
 							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
+							if (Settings.AutonomyNotify)
 							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Ooh la la! Who could deny such a show?").ToString(), player.Actor);
+								PassionCommon.SimMessage(PassionCommon.Localize("So Embarrassed! Hey, What are you doing! There's people here!").ToString(), player.Actor);
 							}
 						}
-						// if witness is daredevil
-						else if (player.Actor.HasTrait(TraitNames.Daredevil))
-						{
-							player.Actor.PlayReaction(ReactionTypes.PumpFist, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Livin' it on the edge, huh? Cheers, bro!").ToString(), player.Actor);
-							}
-						}
-						// if witness is diva
-						else if (GameUtils.IsInstalled(ProductVersion.EP6) && player.Actor.HasTrait(TraitNames.Diva))
-						{
-							player.Actor.PlayReaction(ReactionTypes.Fascinated, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Wow, what a bold move...! I'm so intruiged...!").ToString(), player.Actor);
-							}
-						}
-						// general reactions
 						else if (Settings.AutonomyChance > 0 && (Settings.AutonomyActive || !player.Actor.LotHome.IsActive) && (Settings.AutonomyPublic || player.Actor.LotCurrent.LotType == LotType.Residential) && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
 						{
 							player.IsAutonomous = true;
 							player.Actor.InteractionQueue.AddNext(Interactions.WatchLoop.Singleton.CreateInstance(Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
-							// add coinflip to reduce spam in crowded areas
-							if (Settings.AutonomyNotify && RandomUtil.CoinFlip())
+							if (Settings.AutonomyNotify)
 							{
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Awkward)
+								if (PassionCommon.RandomReaction == ReactionTypes.Fascinated)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Um... could you people get a room?").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Ahhh! This can fascinate me for hours!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Embarrassed)
+								if (PassionCommon.RandomReaction == ReactionTypes.Giggle)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Stop it!! That's too freaky for here!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Going to a silly movie was always a giggle but this one is real").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Boo)
+								if (PassionCommon.RandomReaction == ReactionTypes.Oooh)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Boo! Boooooo!! Cut it out!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("I wish I could be part of that! Makes me soooh horny!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Inappropriate)
+								if (PassionCommon.RandomReaction == ReactionTypes.ViewLove)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Ergh, no thanks. Do that somewhere else.").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Wow! I cant stop looning at it. It makes me so horny! I want to be a part of it! Yeah!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.FreakOut)
+								if (PassionCommon.RandomReaction == ReactionTypes.PumpFist)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Is this seriously happening?! Here? In PUBLIC?!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Yeah! That's it! Harder baby!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.ThrowUp)
+								if (PassionCommon.RandomReaction == ReactionTypes.Cheer)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("What the hell?! I'm gonna be sick...").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("What are you doing? Cheer for your team? Hey, Wait for me! Don't stop!").ToString(), player.Actor);
 								}
 							}
 							if (player.Actor.InteractionQueue.Count > 1)
@@ -4462,8 +4332,24 @@ namespace S3_Passion
 								player.Actor.InteractionQueue.CancelInteraction(player.Actor.CurrentInteraction, false);
 							}
 						}
-
-						// END REFACTOR
+						else if (RandomUtil.CoinFlip() || player.Actor.TraitManager.HasAnyElement(PassionCommon.PassionFriendlyTraits))
+						{
+							player.Actor.RouteTurnToFace(Actor.Position);
+							player.Actor.PlayReaction(PassionCommon.RandomReaction, Actor, ReactionSpeed.Immediate);
+							if (Settings.AutonomyNotify && PassionCommon.RandomReaction == ReactionTypes.PumpFist)
+							{
+								PassionCommon.SimMessage(PassionCommon.Localize("Everybody gets laid here or I'm the only one see it?").ToString(), player.Actor);
+							}
+						}
+						else
+						{
+							player.Actor.RouteTurnToFace(Actor.Position);
+							player.Actor.PlayReaction(ReactionTypes.Embarrassed, Actor, ReactionSpeed.Immediate);
+							if (Settings.AutonomyNotify && PassionCommon.RandomReaction == ReactionTypes.Embarrassed)
+							{
+								PassionCommon.SimMessage(PassionCommon.Localize("So Embarrassed! Hey, What are you doing! There's people here!").ToString(), player.Actor);
+							}
+						}
 					}
 				}
 				catch
@@ -4471,7 +4357,6 @@ namespace S3_Passion
 				}
 			}
 
-			// ????? this is literally the same as above. whats going on here
 			public void BroadcastPassionResult()
 			{
 				try
@@ -4491,82 +4376,47 @@ namespace S3_Passion
 						{
 							continue;
 						}
-						// START REFACTOR
-
-						// if witness is party animal
-						if (player.Actor.HasTrait(TraitNames.PartyAnimal))
+						if (player.Actor.HasTrait(TraitNames.Shy) || player.Actor.SimDescription.ChildOrBelow || !player.Actor.SimDescription.IsHuman)
 						{
-							player.Actor.PlayReaction(ReactionTypes.PumpFist, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
+							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman)
 							{
-								PassionCommon.SimMessage(PassionCommon.Localize("WOOOOOO YEAH!! You guys know how to PARTY HARD! LITERALLY!").ToString(), player.Actor);
+								PassionCommon.SimMessage(PassionCommon.Localize("So Embarrassed! Hey, What are you doing! There's people here!").ToString(), player.Actor);
 							}
 						}
-						// if witness is flirty
-						else if (player.Actor.HasTrait(TraitNames.Flirty))
+						else if (GameUtils.IsInstalled(ProductVersion.EP7) && player.Actor.HasTrait(TraitNames.Proper))
 						{
-							player.Actor.PlayReaction(ReactionTypes.Giggle, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
+							if (Settings.AutonomyNotify)
 							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Ooh la la! Who could deny such a show?").ToString(), player.Actor);
+								PassionCommon.SimMessage(PassionCommon.Localize("So Embarrassed! Hey, What are you doing! There's people here!").ToString(), player.Actor);
 							}
 						}
-						// if witness is daredevil
-						else if (player.Actor.HasTrait(TraitNames.Daredevil))
-						{
-							player.Actor.PlayReaction(ReactionTypes.PumpFist, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Livin' it on the edge, huh? Cheers, bro!").ToString(), player.Actor);
-							}
-						}
-						// if witness is diva
-						else if (GameUtils.IsInstalled(ProductVersion.EP6) && player.Actor.HasTrait(TraitNames.Diva))
-						{
-							player.Actor.PlayReaction(ReactionTypes.Fascinated, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Wow, what a bold move...! I'm so intruiged...!").ToString(), player.Actor);
-							}
-						}
-						// general reactions
 						else if (Settings.AutonomyChance > 0 && (Settings.AutonomyActive || !player.Actor.LotHome.IsActive) && (Settings.AutonomyPublic || player.Actor.LotCurrent.LotType == LotType.Residential) && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
 						{
-							player.IsAutonomous = true;
-							player.Actor.InteractionQueue.AddNext(Interactions.WatchLoop.Singleton.CreateInstance(Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
-							// add coinflip to reduce spam in crowded areas
-							if (Settings.AutonomyNotify && RandomUtil.CoinFlip())
+							if (Settings.AutonomyNotify)
 							{
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Awkward)
+								if (PassionCommon.RandomReaction == ReactionTypes.Fascinated)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Um... could you people get a room?").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Ahhh! This can fascinate me for hours!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Embarrassed)
+								if (PassionCommon.RandomReaction == ReactionTypes.Giggle)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Stop it!! That's too freaky for here!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Going to a silly movie was always a giggle but this one is real").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Boo)
+								if (PassionCommon.RandomReaction == ReactionTypes.Oooh)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Boo! Boooooo!! Cut it out!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("I wish I could be part of that! Makes me soooh horny!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Inappropriate)
+								if (PassionCommon.RandomReaction == ReactionTypes.ViewLove)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Ergh, no thanks. Do that somewhere else...").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Wow! I cant stop looning at it. It makes me so horny! I want to be a part of it! Yeah!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.FreakOut)
+								if (PassionCommon.RandomReaction == ReactionTypes.PumpFist)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Is this seriously happening?! Here? In PUBLIC?!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Yeah! That's it! Harder baby!").ToString(), player.Actor);
 								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.ThrowUp)
+								if (PassionCommon.RandomReaction == ReactionTypes.Cheer)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("What the hell?! I'm gonna be sick...").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("What are you doing? Cheer for your team? Hey, Wait for me! Don't stop!").ToString(), player.Actor);
 								}
 							}
 							if (player.Actor.InteractionQueue.Count > 1)
@@ -4574,8 +4424,40 @@ namespace S3_Passion
 								player.Actor.InteractionQueue.CancelInteraction(player.Actor.CurrentInteraction, false);
 							}
 						}
-
-						// END REFACTOR
+						else if (RandomUtil.CoinFlip() || player.Actor.TraitManager.HasAnyElement(PassionCommon.PassionFriendlyTraits))
+						{
+							if (Settings.AutonomyNotify)
+							{
+								if (PassionCommon.RandomReaction == ReactionTypes.Fascinated)
+								{
+									PassionCommon.SimMessage(PassionCommon.Localize("Always been fascinated by sexshows! This one is live!").ToString(), player.Actor);
+								}
+								if (PassionCommon.RandomReaction == ReactionTypes.Giggle)
+								{
+									PassionCommon.SimMessage(PassionCommon.Localize("Hey! I don't believe it!").ToString(), player.Actor);
+								}
+								if (PassionCommon.RandomReaction == ReactionTypes.Oooh)
+								{
+									PassionCommon.SimMessage(PassionCommon.Localize("Wow! They started Woohoo in front of my eyes!").ToString(), player.Actor);
+								}
+								if (PassionCommon.RandomReaction == ReactionTypes.ViewLove)
+								{
+									PassionCommon.SimMessage(PassionCommon.Localize("That makes me horny! Do it hard! Yeah!").ToString(), player.Actor);
+								}
+								if (PassionCommon.RandomReaction == ReactionTypes.PumpFist)
+								{
+									PassionCommon.SimMessage(PassionCommon.Localize("Everybody gets laid here or I'm the only one see it?").ToString(), player.Actor);
+								}
+								if (PassionCommon.RandomReaction == ReactionTypes.Cheer)
+								{
+									PassionCommon.SimMessage(PassionCommon.Localize("Yeah! Do it hard!").ToString(), player.Actor);
+								}
+							}
+						}
+						else if (Settings.AutonomyNotify && PassionCommon.RandomReaction == ReactionTypes.Embarrassed)
+						{
+							PassionCommon.SimMessage(PassionCommon.Localize("So Embarrassed! Hey, What are you doing! There's people here!").ToString(), player.Actor);
+						}
 					}
 				}
 				catch
@@ -4681,7 +4563,6 @@ namespace S3_Passion
 				return false;
 			}
 
-			// animation logging
 			public string Animation2Obj(string anim)
 			{
 				Settings.ObjectAnimation = null;
@@ -4756,17 +4637,10 @@ namespace S3_Passion
 					{
 					}
 					SimDescription simDescription = Actor.SimDescription;
-					// if a female sim has a dick check
 					if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
 					{
-						GetPlayer(Actor).IsTransfem = true;
+						GetPlayer(Actor).IsShemale = true;
 					}
-					// add in similar check for dudes with a vag and pretend it doesn't mean i have to make my own fucking mesh
-					if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
-					{
-						GetPlayer(Actor).IsTransmasc = true;
-					}
-					// ...done! make sure to change the RK later
 					SimDescription simDescription2 = Actor.SimDescription;
 					SimDescription simDescription3 = Actor.SimDescription;
 					SimDescription simDescription4 = Actor.SimDescription;
@@ -4850,31 +4724,21 @@ namespace S3_Passion
 							Settings.RemoveCondom = true;
 							try
 							{
-								// equip processing for if a sim is male
-								// refactor to include strapon lines for dudes with vags like the female tuning
-								if (Actor.IsMale && !GetPlayer(Actor).IsTransmasc)
+								if (Actor.IsMale)
 								{
 									SwitchToPeener(Actor, false);
 								}
-								else if (Partner.Actor.IsMale && !GetPlayer(Partner.Actor).IsTransmasc)
+								else if (Partner.Actor.IsMale)
 								{
 									SwitchToPeener(Partner.Actor, false);
 								}
-								if (Actor.IsMale && !GetPlayer(Actor).IsTransmasc)
+								if (Actor.IsMale)
 								{
 									WearCondom(Actor, false);
 								}
-								else if (Partner.Actor.IsMale && !GetPlayer(Partner.Actor).IsTransmasc)
+								else if (Partner.Actor.IsMale)
 								{
 									WearCondom(Partner.Actor, false);
-								}
-								if (Actor.IsMale && GetPlayer(Actor).IsTransmasc)
-								{
-									SwitchToStrapon(Actor, false);
-								}
-								else if (Partner.Actor.IsMale && GetPlayer(Partner.Actor).IsTransmasc)
-								{
-									SwitchToStrapon(Partner.Actor, false);
 								}
 							}
 							catch
@@ -4884,7 +4748,6 @@ namespace S3_Passion
 							previousOutfitIndex = PreviousOutfitIndex;
 							try
 							{
-								// equip strap if female with vag, otherwise wear condom for gals with a dick
 								if (Actor.IsFemale)
 								{
 									SwitchToStrapon(Actor, false);
@@ -4893,11 +4756,11 @@ namespace S3_Passion
 								{
 									SwitchToStrapon(Partner.Actor, false);
 								}
-								if (Actor.IsFemale && GetPlayer(Actor).IsTransfem)
+								if (Actor.IsFemale && GetPlayer(Actor).IsShemale)
 								{
 									WearCondom(Actor, false);
 								}
-								else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsTransfem)
+								else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsShemale)
 								{
 									WearCondom(Partner.Actor, false);
 								}
@@ -5029,12 +4892,10 @@ namespace S3_Passion
 									Settings.PassionFuckSession = true;
 									try
 									{
-										// if female, strap is enables, not transfem, not pregnant
-										if (Actor.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !Actor.SimDescription.IsPregnant && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (Actor.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !Actor.SimDescription.IsPregnant && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(Actor, true);
 										}
-										// gonna be real idfk what this check is
 										else if (Actor.IsFemale && Settings.FemaleUseStrapOn && !Actor.SimDescription.IsPregnant && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) != null && !Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(Actor, false);
@@ -5047,7 +4908,6 @@ namespace S3_Passion
 										{
 											SwitchToPeener(Actor, false);
 										}
-										// bro im just lost and confused with this part so im probably gonna nuke all of it
 									}
 									catch
 									{
@@ -5081,7 +4941,6 @@ namespace S3_Passion
 									simDescription4 = sim2.SimDescription;
 									try
 									{
-										// WHERE AM I
 										if (Part.Position.Creator != "SM" && simDescription3.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883")) != null)
 										{
 											SwitchToPeener(sim, false);
@@ -5098,11 +4957,11 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim2, false);
 										}
-										if (sim.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim.SimDescription.IsPregnant && sim.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim.SimDescription.IsPregnant && sim.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim, true);
 										}
-										if (sim2.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim2.SimDescription.IsPregnant && sim2.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim2.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim2.SimDescription.IsPregnant && sim2.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim2, true);
 										}
@@ -5143,22 +5002,22 @@ namespace S3_Passion
 									{
 										if (!Settings.UseCondom || Settings.CondomIsBroken)
 										{
-											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsTransfem && Actor.SimDescription.YoungAdultOrAdult))
+											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsShemale && Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Actor, false);
 											}
-											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsTransfem && Partner.Actor.SimDescription.YoungAdultOrAdult))
+											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsShemale && Partner.Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Partner.Actor, false);
 											}
 										}
 										if (Settings.UseCondom && !Settings.CondomIsBroken)
 										{
-											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsTransfem && Actor.SimDescription.YoungAdultOrAdult))
+											if ((Actor.IsMale && Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Actor).IsShemale && Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Actor, true);
 											}
-											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsTransfem && Actor.SimDescription.YoungAdultOrAdult))
+											else if ((Partner.Actor.IsMale && Partner.Actor.SimDescription.YoungAdultOrAdult) || (GetPlayer(Partner.Actor).IsShemale && Actor.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(Partner.Actor, true);
 											}
@@ -5227,15 +5086,15 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim5, false);
 										}
-										if (sim3.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim3.SimDescription.IsPregnant && sim3.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim3.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim3.SimDescription.IsPregnant && sim3.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim3, true);
 										}
-										if (sim4.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim4.SimDescription.IsPregnant && sim4.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim4.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim4.SimDescription.IsPregnant && sim4.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim4, true);
 										}
-										if (sim5.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim5.SimDescription.IsPregnant && sim5.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim5.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim5.SimDescription.IsPregnant && sim5.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim5, true);
 										}
@@ -5283,15 +5142,15 @@ namespace S3_Passion
 										}
 										if (Settings.UseCondom && !Settings.CondomIsBroken)
 										{
-											if ((sim3.IsMale && sim3.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim3).IsTransfem && sim3.SimDescription.YoungAdultOrAdult))
+											if ((sim3.IsMale && sim3.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim3).IsShemale && sim3.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(sim3, true);
 											}
-											if ((sim4.IsMale && sim4.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim4).IsTransfem && sim4.SimDescription.YoungAdultOrAdult))
+											if ((sim4.IsMale && sim4.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim4).IsShemale && sim4.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(sim4, true);
 											}
-											if ((sim5.IsMale && sim5.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim5).IsTransfem && sim5.SimDescription.YoungAdultOrAdult))
+											if ((sim5.IsMale && sim5.SimDescription.YoungAdultOrAdult) || (GetPlayer(sim5).IsShemale && sim5.SimDescription.YoungAdultOrAdult))
 											{
 												WearCondom(sim5, true);
 											}
@@ -5370,19 +5229,19 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim9, false);
 										}
-										if (sim6.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim6.SimDescription.IsPregnant && sim6.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim6.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim6.SimDescription.IsPregnant && sim6.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim6, true);
 										}
-										if (sim7.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim7.SimDescription.IsPregnant && sim7.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim7.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim7.SimDescription.IsPregnant && sim7.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim7, true);
 										}
-										if (sim8.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim8.SimDescription.IsPregnant && sim8.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim8.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim8.SimDescription.IsPregnant && sim8.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim8, true);
 										}
-										if (sim9.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim9.SimDescription.IsPregnant && sim9.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
+										if (sim9.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim9.SimDescription.IsPregnant && sim9.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
 										{
 											SwitchToStrapon(sim9, true);
 										}
@@ -5455,23 +5314,23 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim14, false);
 										}
-										if (sim10.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim10.SimDescription.IsPregnant && sim10.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim10.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim10.SimDescription.IsPregnant && sim10.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim10, true);
 										}
-										if (sim11.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim11.SimDescription.IsPregnant && sim11.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim11.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim11.SimDescription.IsPregnant && sim11.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim11, true);
 										}
-										if (sim12.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim12.SimDescription.IsPregnant && sim12.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim12.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim12.SimDescription.IsPregnant && sim12.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim12, true);
 										}
-										if (sim13.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim13.SimDescription.IsPregnant && sim13.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
+										if (sim13.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim13.SimDescription.IsPregnant && sim13.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
 										{
 											SwitchToStrapon(sim13, true);
 										}
-										if (sim14.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim14.SimDescription.IsPregnant && sim14.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
+										if (sim14.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim14.SimDescription.IsPregnant && sim14.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
 										{
 											SwitchToStrapon(sim14, true);
 										}
@@ -5554,27 +5413,27 @@ namespace S3_Passion
 										{
 											SwitchToStrapon(sim20, false);
 										}
-										if (sim15.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim15.SimDescription.IsPregnant && sim15.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
+										if (sim15.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim15.SimDescription.IsPregnant && sim15.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(sim15, true);
 										}
-										if (sim16.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim16.SimDescription.IsPregnant && sim16.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
+										if (sim16.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim16.SimDescription.IsPregnant && sim16.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[2])
 										{
 											SwitchToStrapon(sim16, true);
 										}
-										if (sim17.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim17.SimDescription.IsPregnant && sim17.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
+										if (sim17.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim17.SimDescription.IsPregnant && sim17.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[3])
 										{
 											SwitchToStrapon(sim17, true);
 										}
-										if (sim18.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim18.SimDescription.IsPregnant && sim18.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
+										if (sim18.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim18.SimDescription.IsPregnant && sim18.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[4])
 										{
 											SwitchToStrapon(sim18, true);
 										}
-										if (sim19.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim19.SimDescription.IsPregnant && sim19.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
+										if (sim19.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim19.SimDescription.IsPregnant && sim19.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[5])
 										{
 											SwitchToStrapon(sim19, true);
 										}
-										if (sim20.IsFemale && Settings.FemaleUseStrapOn && !IsTransfem && !sim20.SimDescription.IsPregnant && sim20.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[6])
+										if (sim20.IsFemale && Settings.FemaleUseStrapOn && !IsShemale && !sim20.SimDescription.IsPregnant && sim20.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A")) == null && Part.Position.PutOnStraOn[6])
 										{
 											SwitchToStrapon(sim20, true);
 										}
@@ -5655,7 +5514,7 @@ namespace S3_Passion
 							Partner.Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
 						}
 					}
-					if (Actor.IsFemale && GetPlayer(Actor).IsTransfem && Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
+					if (Actor.IsFemale && GetPlayer(Actor).IsShemale && Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
 					{
 						WearCondom(Actor, false);
 						if (previousOutfitCategory != OutfitCategories.Naked)
@@ -5663,7 +5522,7 @@ namespace S3_Passion
 							Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
 						}
 					}
-					else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsTransfem && Partner.Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
+					else if (Partner.Actor.IsFemale && GetPlayer(Partner.Actor).IsShemale && Partner.Actor.SimDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
 					{
 						WearCondom(Partner.Actor, false);
 						if (previousOutfitCategory != OutfitCategories.Naked)
@@ -5717,7 +5576,6 @@ namespace S3_Passion
 				return false;
 			}
 
-			// apply condom to sim
 			public bool WearCondom(Sim PlayerSim, bool CondomOnDick)
 			{
 				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8");
@@ -5827,19 +5685,16 @@ namespace S3_Passion
 				return false;
 			}
 
-			// attach strapon to dickless sim
 			public bool SwitchToStrapon(Sim PlayerSim, bool AddRemove)
 			{
 				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A");
 				SimDescription simDescription = PlayerSim.SimDescription;
 				try
 				{
-					// if straps are disabled (aka for cowards)
 					if ((Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 					{
 						return false;
 					}
-					// if player doesnt have any straps
 					if (Settings.FemaleUseStrapOn && !World.ResourceExists(key) && AddRemove)
 					{
 						PassionCommon.SystemMessage("StrapOn Accessory was not found. Setting is now disabled!");
@@ -5851,7 +5706,6 @@ namespace S3_Passion
 						SimDescription simDescription2 = PlayerSim.SimDescription;
 						if (simDescription2.GetOutfitCount(OutfitCategories.Naked) == 1)
 						{
-							// generate new outfit
 							SimOutfit uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xCE17741BF55E817A"));
 							SimOutfit resultOutfit;
 							if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription2, "fAccessoryStrapon", out resultOutfit))
@@ -5897,8 +5751,6 @@ namespace S3_Passion
 				return false;
 			}
 
-			// add spaceman peener to sims with peens
-			//... so thats what that meant
 			public bool SwitchToPeener(Sim PlayerSim, bool AddIt)
 			{
 				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883");
@@ -5989,30 +5841,25 @@ namespace S3_Passion
 				Watch(GetPlayer(sim));
 			}
 
-			// watch passion interaction
-			// double check this to make sure that this action only runs for sims who'd be into it
 			public void Watch(Player target)
 			{
 				if (!IsValid || !target.IsValid || !target.IsActive || !Actor.RouteToObjectRadialRange(target.Actor, 1.5f, 3f) || !target.IsValid || !target.IsActive)
 				{
 					return;
 				}
-				// shitty math time
 				Actor.RouteTurnToFace(target.Actor.Position);
 				State = PassionState.Watching;
 				InteractionInstance currentInteraction = Actor.CurrentInteraction;
 				currentInteraction.StandardEntry();
 				currentInteraction.BeginCommodityUpdates();
 				currentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Fun, 100f, false, 100f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
-				Libido.IncreaseUrgency(Actor);
+				Libido.WatchUrgency(Actor);
 				long num = SimClock.CurrentTicks + RandomUtil.GetInt(600, 1200);
 				long num2 = SimClock.CurrentTicks + RandomUtil.GetInt(30, 50);
 				while (IsWatching && Actor.HasNoExitReason() && target.IsActive && (!currentInteraction.Autonomous || SimClock.CurrentTicks < num))
 				{
 					if (SimClock.CurrentTicks > num2)
 					{
-						// if a sim is a party animal or is the RNG check passes a sim who is watching may join
-						// ...rewrite this
 						if (Settings.AutonomyChance > 0 && (Actor.HasTrait(TraitNames.PartyAnimal) || RandomUtil.GetInt(0, 299) < Settings.AutonomyChance))
 						{
 							if (IsAutonomous && target.HasPart && target.Part.IsAutonomous && target.Part.HasRoom && WillPassion(target.Part) && Join(target.Part))
@@ -6028,7 +5875,7 @@ namespace S3_Passion
 								return;
 							}
 						}
-						Actor.PlayReaction(PassionCommon.RandomReactionPos, target.Actor, ReactionSpeed.ImmediateWithoutOverlay);
+						Actor.PlayReaction(PassionCommon.RandomReaction, target.Actor, ReactionSpeed.ImmediateWithoutOverlay);
 						num2 = SimClock.CurrentTicks + RandomUtil.GetInt(75, 125);
 					}
 					PassionCommon.Wait(10);
@@ -6041,7 +5888,6 @@ namespace S3_Passion
 				}
 			}
 
-			// switch position?
 			public void Switch(Player partner)
 			{
 				ClearBuffer();
@@ -6119,7 +5965,6 @@ namespace S3_Passion
 				State = PassionState.Stopping;
 			}
 
-			// leave the passion interaction
 			public bool Leave()
 			{
 				State = PassionState.Leaving;
@@ -6128,7 +5973,6 @@ namespace S3_Passion
 				{
 					Actor.LookAtManager.EnableLookAts();
 					ClearPosture();
-					// change this to use new libido system
 					if (Settings.LibidoBuff)
 					{
 						if (HadPartner)
@@ -6194,8 +6038,6 @@ namespace S3_Passion
 					EventTracker.SendEvent(new WooHooEvent(EventTypeId.kWooHooed, Actor, Partner.Actor, Partner.Actor));
 				}
 				if (Settings.WoohooBuff)
-				// add buffs for their satisfaction with the encounter.
-				// base it off relationship with partner, libido increase, etc
 				{
 					if (Actor.BuffManager.HasElement((BuffNames)2111502432315482727uL))
 					{
@@ -6207,7 +6049,6 @@ namespace S3_Passion
 				{
 					return;
 				}
-				// first time buff
 				Actor.SimDescription.SetFirstWooHoo();
 				if (Settings.WoohooBuff)
 				{
@@ -9770,7 +9611,7 @@ namespace S3_Passion
 										position2.AddSupportedType<Telescope>();
 										break;
 									case "Scarecrow":
-										position2.AddSupportedType<Sims3.Gameplay.Objects.Environment.Scarecrow>();
+										position2.AddSupportedType<Scarecrow>();
 										break;
 									case "HauntedHouse":
 										position2.AddSupportedType<HauntedHouse>();
@@ -11340,12 +11181,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor) && target != null)
 						{
@@ -11381,7 +11222,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11517,12 +11358,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return Settings.SoloLabel;
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor) && target != null && (!(target is Sim) || actor == target))
 						{
@@ -11539,7 +11380,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -11612,12 +11453,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return Settings.Label;
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -11642,7 +11483,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -11707,12 +11548,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, AskToPassion>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AskingTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11720,7 +11561,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11733,12 +11574,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, BeAskedToPassion>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.BeingAskedTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11746,7 +11587,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11759,12 +11600,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private class Definition : InteractionDefinition<Sim, Sim, RouteToPassion>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.HeadingTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11777,7 +11618,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					return GetPlayer(Actor).Route();
 				}
@@ -11788,12 +11629,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, BeginPassion>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize(PassionCommon.Localize("S3_Passion.Terms.Beginning") + " " + Settings.Label);
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11806,7 +11647,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					return GetPlayer(Actor).StartLoop();
 				}
@@ -11817,7 +11658,7 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, PassionLoop>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						if (actor != null)
 						{
@@ -11830,7 +11671,7 @@ namespace S3_Passion
 						return Settings.ActiveLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11843,7 +11684,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					return GetPlayer(Actor).DoLoop();
 				}
@@ -11859,12 +11700,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SwitchWith") + " " + target.Name;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && actor != target)
 						{
@@ -11881,7 +11722,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -11897,12 +11738,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, SwitchRoute>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SwitchingWith") + " " + ((target != null) ? target.Name : "?");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11915,7 +11756,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -11946,12 +11787,12 @@ namespace S3_Passion
 			{
 				private sealed class Definition : InteractionDefinition<Sim, Sim, Embarrassed>
 				{
-					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Embarrassed");
 					}
@@ -11965,7 +11806,7 @@ namespace S3_Passion
 					base.Init(ref parameters);
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					bool flag = PrivacySituation.RouteToAdjacentRoom(Actor);
 					if (!flag && Actor.InteractionQueue.GetNextInteraction() == null)
@@ -11987,12 +11828,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.MoveTo");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && !(target is Sim) && PassionType.IsSupported(target))
 						{
@@ -12009,7 +11850,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -12034,12 +11875,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.MoveGroupTo");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && !(target is Sim) && PassionType.IsSupported(target))
 						{
@@ -12056,7 +11897,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -12093,12 +11934,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, IGameObject, MoveRoute>
 				{
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Moving");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12111,7 +11952,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -12132,12 +11973,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, IGameObject, MoveGroupRoute>
 				{
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Moving");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12150,7 +11991,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -12177,12 +12018,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -12205,7 +12046,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -12228,12 +12069,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -12256,7 +12097,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -12275,12 +12116,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, DelayedJoinPassion>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12293,7 +12134,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					if (Actor != null && Target != null)
 					{
@@ -12327,12 +12168,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoJoin") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12355,7 +12196,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Target.InteractionQueue.CancelAllInteractions();
 					Target.InteractionQueue.AddNext(JoinPassion.Singleton.CreateInstance(Actor, Target, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
@@ -12373,12 +12214,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoPassionOther") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12420,7 +12261,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					Target target = player.GetNearbySupportedTarget();
@@ -12463,12 +12304,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Settings.SoloLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12497,7 +12338,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					Target target = player.GetNearbySupportedTarget();
@@ -12532,12 +12373,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Settings.SoloLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						try
 						{
@@ -12555,7 +12396,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					Target target = player.GetNearbySupportedTarget();
@@ -12590,12 +12431,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Stop");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12611,7 +12452,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					if (player != null)
@@ -12633,12 +12474,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.StopAll");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12654,7 +12495,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Target);
 					if (player.HasPart)
@@ -12675,12 +12516,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoWatch") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -12703,7 +12544,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Target.InteractionQueue.AddNext(WatchPassion.Singleton.CreateInstance(Actor, Target, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					return true;
@@ -12715,12 +12556,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, WatchPassion>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Watch") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						Player player = GetPlayer(a);
 						Player player2 = GetPlayer(target);
@@ -12734,7 +12575,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Actor.InteractionQueue.AddNext(WatchLoop.Singleton.CreateInstance(Target, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					return true;
@@ -12746,12 +12587,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, WatchLoop>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Watch") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12764,7 +12605,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					GetPlayer(Actor).Watch(Target);
 					return true;
@@ -12776,12 +12617,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, WatchMasturbate>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.SoloLabel;
 					}
 
-					public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						Player player = GetPlayer(a);
 						if (player.IsWatching && IsValid(a) && a == target && !player.Actor.SimDescription.ChildOrBelow && player.Actor.SimDescription.IsHuman)
@@ -12794,7 +12635,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Actor);
@@ -12808,80 +12649,27 @@ namespace S3_Passion
 				}
 			}
 
-
-		// start transfem control
-			internal sealed class SetTransfemOn : ImmediateInteraction<Sim, Sim>
+			internal sealed class SetShemaleOn : ImmediateInteraction<Sim, Sim>
 			{
 				[DoesntRequireTuning]
-				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransfemOn>
+				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetShemaleOn>
 				{
 					public override string[] GetPath(bool bPath)
 					{
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
-						return PassionCommon.Localize("S3_Passion.Terms.SetTransfemFlag");
+						return PassionCommon.Localize("S3_Passion.Terms.SetShemaleFlag");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
 							Player player = GetPlayer(target);
-							if (!player.IsActive && !player.IsTransfem)
-							{
-								// if the sim has a dick on their nude outfit
-								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
-								{
-									return false;
-								}
-								return true;
-							}
-						}
-						else if (!IsAutonomous && IsValid(target))
-						{
-							Player player2 = GetPlayer(target);
-							if (!player2.IsActive && !player2.IsTransfem)
-							{
-								return true;
-							}
-						}
-						return false;
-					}
-				}
-
-				public static readonly InteractionDefinition Singleton = new Definition();
-
-				public override bool Run()
-				{
-					GetPlayer(Target).IsTransfem = true;
-					return true;
-				}
-			}
-
-			internal sealed class SetTransfemOff : ImmediateInteraction<Sim, Sim>
-			{
-				[DoesntRequireTuning]
-				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransfemOff>
-				{
-					public override string[] GetPath(bool bPath)
-					{
-						return PassionPath;
-					}
-
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
-					{
-						return PassionCommon.Localize("S3_Passion.Terms.RemoveTransfemFlag");
-					}
-
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
-					{
-						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
-						{
-							Player player = GetPlayer(target);
-							if (!player.IsActive && player.IsTransfem)
+							if (!player.IsActive && !player.IsShemale)
 							{
 								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
@@ -12893,7 +12681,7 @@ namespace S3_Passion
 						else if (!IsAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
-							if (!player2.IsActive && player2.IsTransfem)
+							if (!player2.IsActive && !player2.IsShemale)
 							{
 								return true;
 							}
@@ -12904,40 +12692,35 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
-					GetPlayer(Target).IsTransfem = false;
+					GetPlayer(Target).IsShemale = true;
 					return true;
 				}
 			}
 
-		// end transfem control
-
-		// start transmasc control
-			internal sealed class SetTransmascOn : ImmediateInteraction<Sim, Sim>
+			internal sealed class SetShemaleOff : ImmediateInteraction<Sim, Sim>
 			{
 				[DoesntRequireTuning]
-				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransmascOn>
+				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetShemaleOff>
 				{
 					public override string[] GetPath(bool bPath)
 					{
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
-						return PassionCommon.Localize("S3_Passion.Terms.SetTransmascFlag");
+						return PassionCommon.Localize("S3_Passion.Terms.RemoveShemaleFlag");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
 							Player player = GetPlayer(target);
-							if (!player.IsActive && !player.IsTransmasc)
+							if (!player.IsActive && player.IsShemale)
 							{
-								// if the sim has a vag on their nude outfit
-								//TODO: change these resource keys...
 								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
 									return false;
@@ -12948,7 +12731,7 @@ namespace S3_Passion
 						else if (!IsAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
-							if (!player2.IsActive && !player2.IsTransmasc)
+							if (!player2.IsActive && player2.IsShemale)
 							{
 								return true;
 							}
@@ -12959,66 +12742,12 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
-					GetPlayer(Target).IsTransmasc = true;
+					GetPlayer(Target).IsShemale = false;
 					return true;
 				}
 			}
-
-			internal sealed class SetTransmascOff : ImmediateInteraction<Sim, Sim>
-			{
-				[DoesntRequireTuning]
-				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, SetTransmascOff>
-				{
-					public override string[] GetPath(bool bPath)
-					{
-						return PassionPath;
-					}
-
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
-					{
-						return PassionCommon.Localize("S3_Passion.Terms.RemoveTransmascFlag");
-					}
-
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
-					{
-						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
-						{
-							Player player = GetPlayer(target);
-							if (!player.IsActive && player.IsTransmasc)
-							{
-								// if the sim has a vag on their nude outfit
-								//TODO: change these resource keys...
-								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
-								{
-									return false;
-								}
-								return true;
-							}
-						}
-						else if (!IsAutonomous && IsValid(target))
-						{
-							Player player2 = GetPlayer(target);
-							if (!player2.IsActive && player2.IsTransmasc)
-							{
-								return true;
-							}
-						}
-						return false;
-					}
-				}
-
-				public static readonly InteractionDefinition Singleton = new Definition();
-
-				public override bool Run()
-				{
-					GetPlayer(Target).IsTransmasc = false;
-					return true;
-				}
-			}
-
-		// end transmasc control
 
 			internal sealed class SetPreferredOutfit : ImmediateInteraction<Sim, Sim>
 			{
@@ -13030,12 +12759,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SetPreferredOutfit");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -13051,7 +12780,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					GetPlayer(Target).PreferOutfit();
 					return true;
@@ -13068,12 +12797,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ClearPreferredOutfit");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -13089,7 +12818,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					GetPlayer(Target).ClearPreferredOutfit();
 					return true;
@@ -13106,12 +12835,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ChangePosition");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target))
 						{
@@ -13127,7 +12856,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					GetPlayer(Target).ChangePosition();
 					return true;
@@ -13144,12 +12873,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SettingsMenu");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target) && !GetPlayer(target).IsActive)
 						{
@@ -13161,7 +12890,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					PersistableSettings.Show();
 					return true;
@@ -13178,12 +12907,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.SettingsMenu");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(target) && GetPlayer(target).IsActive)
 						{
@@ -13195,7 +12924,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					PersistableSettings.Show();
 					return true;
@@ -13212,12 +12941,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.ActiveLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13225,7 +12954,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Actor.InteractionQueue.AddNext(PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					GetPlayer(Actor).GetHard();
@@ -13243,12 +12972,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return Settings.ActiveLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13256,7 +12985,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Actor.InteractionQueue.AddNext(PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 					GetPlayer(Actor).GetSoft();
@@ -13274,12 +13003,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ResetMe");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous)
 						{
@@ -13305,7 +13034,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					ResetMe(Target);
 					return true;
@@ -13322,12 +13051,12 @@ namespace S3_Passion
 						return NoPath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.ResetMe");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous)
 						{
@@ -13353,7 +13082,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					ResetMe(Target);
 					return true;
@@ -13370,12 +13099,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("Report");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13383,7 +13112,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					PassionCommon.DumpMessages();
 					PassionCommon.BufferClear();
@@ -13492,12 +13221,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("Buffer Position XML");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13507,7 +13236,7 @@ namespace S3_Passion
 
 				public static int Index = 0;
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Sim sim = Target as Sim;
 					if (Test2.Exporting && Test2.Root != null && sim != null)
@@ -13594,12 +13323,12 @@ namespace S3_Passion
 						return PassionPath;
 					}
 
-					public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("Toggle Export");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13611,7 +13340,7 @@ namespace S3_Passion
 
 				public static XML.Element Root = null;
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Exporting = !Exporting;
 					if (Exporting)
@@ -13645,12 +13374,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.Reassure");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return target != null && target.BuffManager.HasElement((BuffNames)5912255412026328145uL);
 					}
@@ -13658,7 +13387,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -13691,12 +13420,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private sealed class Definition : InteractionDefinition<Sim, Sim, BeReassured>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.BeReassured");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13704,7 +13433,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
@@ -13747,12 +13476,12 @@ namespace S3_Passion
 						return RomancePath;
 					}
 
-					public override string GetInteractionName(Sim actor, PoolLadder target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, PoolLadder target, InteractionObjectPair interaction)
 					{
 						return Settings.Label;
 					}
 
-					public override bool Test(Sim actor, PoolLadder target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, PoolLadder target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!IsAutonomous && IsValid(actor))
 						{
@@ -13777,7 +13506,7 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					Target target = GetTarget(Target);
@@ -13812,12 +13541,12 @@ namespace S3_Passion
 				[DoesntRequireTuning]
 				private class Definition : InteractionDefinition<Sim, Sim, RouteToPoolLadderPassion>
 				{
-					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 					{
 						return PassionCommon.Localize("S3_Passion.Terms.HeadingTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					protected override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13830,7 +13559,7 @@ namespace S3_Passion
 					return WoohooThumbnail;
 				}
 
-				public override bool Run()
+				protected override bool Run()
 				{
 					Player player = GetPlayer(Actor);
 					if (player.IsValid && player.HasPart)
@@ -14111,7 +13840,6 @@ namespace S3_Passion
 			}
 		}
 
-		// PRELOAD MODSTUFF
 		public static void Preload()
 		{
 			if (PassionCommon.Testing)
@@ -14123,24 +13851,12 @@ namespace S3_Passion
 			CustomCareer.Load();
 		}
 
-		// INJECT MODSTUFF
-
-		private const string MOTIVES_SPREADSHEET = "Motives_Hypochondriasis";
-
-		
-
 		public static void AddInteractions(Terrain i)
 		{
 			i.AddInteraction(VampireTeleport.Singleton);
 			i.AddInteraction(VampireDrainsEnergyFromAll.Singleton);
 			i.AddInteraction(VampireKillsThemAll.Singleton);
 		}
-
-
-
-
-		
-		// LOAD THE MOD
 
 		public static void Load(object sender, EventArgs e)
 		{
@@ -14326,7 +14042,6 @@ namespace S3_Passion
 			if (obj is Sim)
 			{
 				Sim sim = obj as Sim;
-				// add ints if sim is valid for passion
 				if (IsValid(sim, true))
 				{
 					RefreshPlayer(sim);
@@ -14381,7 +14096,7 @@ namespace S3_Passion
 				obj.AddInteraction(Interactions.ResetMe.Singleton, true);
 				obj.AddInteraction(Interactions.ResetMeActive.Singleton, true);
 				obj.AddInteraction(CastConvert2Toy.Singleton, true);
-				if (obj is Car || obj is FixerCar || obj is FixerCar.FixerCarFixed || obj is Boat || obj is BoatWaterScooter || obj is BoatSpeedBoat || obj is BoatSpeedFishingBoat || obj is Rug || obj is Desk || obj is TableEnd || obj is TableDining1x1 || obj is TableDining2x1 || obj is TableDining3x1 || obj is TableCoffee || obj is TableBar || obj is SaunaClassic || obj is CounterIsland || obj is Counter || obj is Fridge || obj is Loveseat || obj is Sofa || obj is Shower || obj is ShowerOutdoor || obj is ToiletStall || obj is ShowerPublic_Dance || obj is ShowerTub || obj is CornerBathtub || obj is Bathtub || obj is BedSingle || obj is BedDouble || obj is Altar || obj is ChairLiving || obj is ChairDining || obj is ChairLounge || obj is ChairSectional || obj is RockingChair || obj is Urinal || obj is Toilet || obj is BrainEnhancingMachine || obj is HotTub4Seated || obj is HotTubGrotto || obj is MassageTable || obj is Windows || obj is Bicycle || obj is DoorSingle || obj is CarSports || obj is CarExpensive1 || obj is CarExpensive2 || obj is CarHatchback || obj is CarUsed1 || obj is CarUsed2 || obj is CarNormal1 || obj is CarVan4door || obj is CarPickup2door || obj is CarSedan || obj is CarHighSocietyOpen || obj is CarHighSocietyVintage || obj is CarLuxuryExotic || obj is CarLuxurySport || obj is MotorcycleRacing || obj is MotorcycleChopper || obj is BoatRowBoat || obj is AdultMagicBroom || obj is ModerateAdultBroom || obj is ExpensiveAdultBroom || obj is SculptureFloorGunShow || obj is WashingMachine || obj is Dryer || obj is PoolTable || obj is PoolLadder || obj is WorkoutBench || obj is Stove || obj is Sybian || obj is FenceRedwood_Gate || obj is SinkCounter || obj is Sink || obj is Pot || obj is PicnicTable || obj is Urnstone || obj is KissingBooth || obj is Telescope || obj is Sims3.Gameplay.Objects.Environment.Scarecrow || obj is HauntedHouse || obj is ScienceResearchStation || obj is HotTubBase || obj is Podium || obj is MechanicalBull)
+				if (obj is Car || obj is FixerCar || obj is FixerCar.FixerCarFixed || obj is Boat || obj is BoatWaterScooter || obj is BoatSpeedBoat || obj is BoatSpeedFishingBoat || obj is Rug || obj is Desk || obj is TableEnd || obj is TableDining1x1 || obj is TableDining2x1 || obj is TableDining3x1 || obj is TableCoffee || obj is TableBar || obj is SaunaClassic || obj is CounterIsland || obj is Counter || obj is Fridge || obj is Loveseat || obj is Sofa || obj is Shower || obj is ShowerOutdoor || obj is ToiletStall || obj is ShowerPublic_Dance || obj is ShowerTub || obj is CornerBathtub || obj is Bathtub || obj is BedSingle || obj is BedDouble || obj is Altar || obj is ChairLiving || obj is ChairDining || obj is ChairLounge || obj is ChairSectional || obj is RockingChair || obj is Urinal || obj is Toilet || obj is BrainEnhancingMachine || obj is HotTub4Seated || obj is HotTubGrotto || obj is MassageTable || obj is Windows || obj is Bicycle || obj is DoorSingle || obj is CarSports || obj is CarExpensive1 || obj is CarExpensive2 || obj is CarHatchback || obj is CarUsed1 || obj is CarUsed2 || obj is CarNormal1 || obj is CarVan4door || obj is CarPickup2door || obj is CarSedan || obj is CarHighSocietyOpen || obj is CarHighSocietyVintage || obj is CarLuxuryExotic || obj is CarLuxurySport || obj is MotorcycleRacing || obj is MotorcycleChopper || obj is BoatRowBoat || obj is AdultMagicBroom || obj is ModerateAdultBroom || obj is ExpensiveAdultBroom || obj is SculptureFloorGunShow || obj is WashingMachine || obj is Dryer || obj is PoolTable || obj is PoolLadder || obj is WorkoutBench || obj is Stove || obj is Sybian || obj is FenceRedwood_Gate || obj is SinkCounter || obj is Sink || obj is Pot || obj is PicnicTable || obj is Urnstone || obj is KissingBooth || obj is Telescope || obj is Scarecrow || obj is HauntedHouse || obj is ScienceResearchStation || obj is HotTubBase || obj is Podium || obj is MechanicalBull)
 				{
 					try
 					{
@@ -14432,7 +14147,6 @@ namespace S3_Passion
 
 		public static void StartListening()
 		{
-			//start listening for new events
 			OnNewDay = EventTracker.AddListener(EventTypeId.kBecameDaytime, CheckForVamires);
 			OnNewSimAdded = EventTracker.AddListener(EventTypeId.kSimInstantiated, CheckForVamires);
 			OnNewSimAged = EventTracker.AddListener(EventTypeId.kSimAgeTransition, CheckForVamires);
@@ -14482,7 +14196,6 @@ namespace S3_Passion
 			return ListenerAction.Keep;
 		}
 
-		// vampire shit lmao
 		public static void CheckForVamires()
 		{
 			if (!Settings.VampireInteractions)

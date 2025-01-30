@@ -80,12 +80,12 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, FenceRedwood_Gate, ServiceStrangers>
 			{
-				public override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
 				{
 					return PassionCommon.Localize("S3_Passion.Terms.ServiceStrangers");
 				}
 
-				public override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (actor != null && target != null && !IsAutonomous)
 					{
@@ -102,7 +102,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				ActiveGloryHole activeGloryHole = Get(Target);
 				if (activeGloryHole != null && Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Rear) && !activeGloryHole.HasSlut)
@@ -110,7 +110,7 @@ namespace S3_Passion
 					activeGloryHole.Slut = Actor;
 					Actor.SetPosition(activeGloryHole.GloryHole.Position);
 					Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
-					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						activeGloryHole.SlutReady = true;
 						if (activeGloryHole.AnimationSwitch)
@@ -140,7 +140,7 @@ namespace S3_Passion
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, FenceRedwood_Gate, GetSucked>
 			{
-				public override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, FenceRedwood_Gate target, InteractionObjectPair interaction)
 				{
 					ActiveGloryHole activeGloryHole = Get(target);
 					if (activeGloryHole != null)
@@ -150,7 +150,7 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.UseGloryHole");
 				}
 
-				public override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (actor != null && target != null && !IsAutonomous)
 					{
@@ -167,7 +167,7 @@ namespace S3_Passion
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				ActiveGloryHole activeGloryHole = Get(Target);
 				if (activeGloryHole != null && Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Front) && !activeGloryHole.HasStud)
@@ -175,7 +175,7 @@ namespace S3_Passion
 					activeGloryHole.Stud = Actor;
 					Actor.SetPosition(activeGloryHole.GloryHole.Position);
 					Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
-					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						activeGloryHole.StudReady = true;
 						if (activeGloryHole.BothReady)

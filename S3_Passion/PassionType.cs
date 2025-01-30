@@ -202,7 +202,7 @@ namespace S3_Passion
 			Load<SculptureFloorGunShow>();
 			Load<WashingMachine>();
 			Load<Dryer>();
-			Load<Sims3.Gameplay.Objects.Environment.Scarecrow>();
+			Load<Scarecrow>();
 			Load<HauntedHouse>();
 			Load<ScienceResearchStation>();
 			Load<HotTubBase>();

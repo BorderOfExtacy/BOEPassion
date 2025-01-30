@@ -14,7 +14,7 @@ namespace S3_Passion
 		[DoesntRequireTuning]
 		private sealed class Definition : ImmediateInteractionDefinition<Sim, Sybian, AskToUseSybian>
 		{
-			public override string GetInteractionName(Sim actor, Sybian target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Sybian target, InteractionObjectPair interaction)
 			{
 				return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Passion.Settings.SoloLabel;
 			}
@@ -25,7 +25,7 @@ namespace S3_Passion
 				PopulateSimPicker(ref parameters, out listObjs, out headers, CollectPeople(parameters.Actor as Sim, parameters.Actor.LotCurrent), false);
 			}
 
-			public override bool Test(Sim actor, Sybian target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, Sybian target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman && target.UseCount == 0;
 			}
@@ -33,7 +33,7 @@ namespace S3_Passion
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Sim sim = GetSelectedObject() as Sim;
 			sim.InteractionQueue.AddNext(Passion.Interactions.UseObjectForPassion.Singleton.CreateInstance(Target, sim, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));

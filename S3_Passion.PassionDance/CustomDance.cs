@@ -18,7 +18,7 @@ namespace S3_Passion.PassionDance
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, DanceFloor, NightFeaver>
 			{
-				public override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
 				{
 					return Localization.LocalizeString("S3_Passion.Terms.NightFeaver");
 				}
@@ -28,7 +28,7 @@ namespace S3_Passion.PassionDance
 					return new string[1] { Localization.LocalizeString("CustomDance") };
 				}
 
-				public override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && actor.SimDescription.TeenOrAbove)
 					{
@@ -40,7 +40,7 @@ namespace S3_Passion.PassionDance
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -66,7 +66,7 @@ namespace S3_Passion.PassionDance
 						}
 						stereo = null;
 					}
-					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						foreach (Stereo item3 in list)
 						{
@@ -91,7 +91,7 @@ namespace S3_Passion.PassionDance
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, DanceFloor, DiscoDance>
 			{
-				public override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
 				{
 					return Localization.LocalizeString("S3_Passion.Terms.DiscoDance");
 				}
@@ -101,7 +101,7 @@ namespace S3_Passion.PassionDance
 					return new string[1] { Localization.LocalizeString("CustomDance") };
 				}
 
-				public override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && actor.SimDescription.TeenOrAbove)
 					{
@@ -113,7 +113,7 @@ namespace S3_Passion.PassionDance
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -139,7 +139,7 @@ namespace S3_Passion.PassionDance
 						}
 						stereo = null;
 					}
-					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						foreach (Stereo item3 in list)
 						{
@@ -164,7 +164,7 @@ namespace S3_Passion.PassionDance
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, DanceFloor, Hifiraver>
 			{
-				public override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
 				{
 					return Localization.LocalizeString("S3_Passion.Terms.Hifiraver");
 				}
@@ -174,7 +174,7 @@ namespace S3_Passion.PassionDance
 					return new string[1] { Localization.LocalizeString("CustomDance") };
 				}
 
-				public override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && actor.SimDescription.TeenOrAbove)
 					{
@@ -186,7 +186,7 @@ namespace S3_Passion.PassionDance
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -212,7 +212,7 @@ namespace S3_Passion.PassionDance
 						}
 						stereo = null;
 					}
-					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						foreach (Stereo item3 in list)
 						{
@@ -237,7 +237,7 @@ namespace S3_Passion.PassionDance
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, DanceFloor, JunjoufFighter>
 			{
-				public override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
 				{
 					return Localization.LocalizeString("S3_Passion.Terms.JunjoufFighter");
 				}
@@ -247,7 +247,7 @@ namespace S3_Passion.PassionDance
 					return new string[1] { Localization.LocalizeString("CustomDance") };
 				}
 
-				public override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && actor.SimDescription.TeenOrAbove)
 					{
@@ -259,7 +259,7 @@ namespace S3_Passion.PassionDance
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -285,7 +285,7 @@ namespace S3_Passion.PassionDance
 						}
 						stereo = null;
 					}
-					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						foreach (Stereo item3 in list)
 						{
@@ -310,7 +310,7 @@ namespace S3_Passion.PassionDance
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, DanceFloor, TiktTok>
 			{
-				public override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
 				{
 					return Localization.LocalizeString("S3_Passion.Terms.TiktTok");
 				}
@@ -320,7 +320,7 @@ namespace S3_Passion.PassionDance
 					return new string[1] { Localization.LocalizeString("CustomDance") };
 				}
 
-				public override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && actor.SimDescription.TeenOrAbove)
 					{
@@ -332,7 +332,7 @@ namespace S3_Passion.PassionDance
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -358,7 +358,7 @@ namespace S3_Passion.PassionDance
 						}
 						stereo = null;
 					}
-					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						foreach (Stereo item3 in list)
 						{
@@ -383,7 +383,7 @@ namespace S3_Passion.PassionDance
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, DanceFloor, Valenti>
 			{
-				public override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
+				protected override string GetInteractionName(Sim actor, DanceFloor target, InteractionObjectPair interaction)
 				{
 					return Localization.LocalizeString("S3_Passion.Terms.Valenti");
 				}
@@ -393,7 +393,7 @@ namespace S3_Passion.PassionDance
 					return new string[1] { Localization.LocalizeString("CustomDance") };
 				}
 
-				public override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, DanceFloor target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					if (!IsAutonomous && actor != null && target != null && actor.SimDescription.TeenOrAbove)
 					{
@@ -405,7 +405,7 @@ namespace S3_Passion.PassionDance
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
-			public override bool Run()
+			protected override bool Run()
 			{
 				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
@@ -431,7 +431,7 @@ namespace S3_Passion.PassionDance
 						}
 						stereo = null;
 					}
-					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (stereo != null && Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 					{
 						foreach (Stereo item3 in list)
 						{

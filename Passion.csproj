@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>BOE_Passion</AssemblyName>
+    <AssemblyName>Passion</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TargetFramework>net20</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
@@ -10,37 +10,23 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup />
-  <ItemGroup>
-    <Reference Include="mscorlib">
-      <HintPath>Deps\mscorlib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-</ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Reference Include="Sims3GameplaySystems">
-      <HintPath>Deps\Sims3GameplaySystems.dll</HintPath>
+      <HintPath>..\BOEPassion\Deps\Sims3GameplaySystems.dll</HintPath>
     </Reference>
     <Reference Include="SimIFace">
-      <HintPath>Deps\SimIFace.dll</HintPath>
+      <HintPath>..\BOEPassion\Deps\SimIFace.dll</HintPath>
     </Reference>
     <Reference Include="UI">
-      <HintPath>Deps\UI.dll</HintPath>
+      <HintPath>..\BOEPassion\Deps\UI.dll</HintPath>
     </Reference>
     <Reference Include="Sims3GameplayObjects">
-      <HintPath>Deps\Sims3GameplayObjects.dll</HintPath>
+      <HintPath>..\BOEPassion\Deps\Sims3GameplayObjects.dll</HintPath>
     </Reference>
     <Reference Include="Sims3StoreObjects">
-      <HintPath>Deps\Sims3StoreObjects.dll</HintPath>
+      <HintPath>..\BOEPassion\Deps\Sims3StoreObjects.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml">
-    <HintPath>Deps\System.Xml.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net20" Version="1.0.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
 </Project>

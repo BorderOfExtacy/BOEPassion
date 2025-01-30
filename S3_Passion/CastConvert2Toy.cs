@@ -33,15 +33,15 @@ namespace S3_Passion
 
 			public override string[] GetPath(bool isFemale)
 			{
-				return new string[1] { MagicWand.LocalizeString(isFemale, "CastSpell", new object[0]) + Localization.Ellipsis };
+				return new string[1] { MagicWand.LocalizeString(isFemale, "CastSpell") + Localization.Ellipsis };
 			}
 
-			public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString("Toy Spell");
 			}
 
-			public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return actor.HasTrait(TraitNames.WitchHiddenTrait) && MagicWand.HasWand(actor) && actor.SkillManager.GetSkillLevel(SkillNames.Spellcasting) >= MagicWand.kSpellLevels[10] && target.GetContainedObject(Slot.ContainmentSlot_0) == null;
 			}
@@ -84,12 +84,12 @@ namespace S3_Passion
 			return new ThumbnailKey(ResourceKey.CreatePNGKey("w_cast_spell", ResourceUtils.ProductVersionToGroupId(ProductVersion.EP7)), ThumbnailSize.Large);
 		}
 
-		public override bool RunFromInventory()
+		protected override bool RunFromInventory()
 		{
 			return Run();
 		}
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			bool flag = true;
 			Actor.SkillManager.AddElement(SkillNames.Spellcasting);

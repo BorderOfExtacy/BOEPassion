@@ -25,7 +25,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeSpeciesString(actor, target.IsFemale, "Look Deep Into My Eyes And Listen to my Voice", actor.SimDescription, target.SimDescription);
 			}
@@ -35,7 +35,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString("Vampire...") };
 			}
 
-			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (GameUtils.IsInstalled(ProductVersion.EP7) && target.SimDescription.IsVampire && !actor.SimDescription.IsRobot && !target.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && target != actor && !actor.BuffManager.HasElement(BuffNames.Dazed) && !actor.SimDescription.ChildOrBelow && !actor.SimDescription.IsPet && actor.InteractionQueue.GetCurrentInteraction() != Singleton && Passion.Settings.VampireInteractions)
 				{
@@ -54,7 +54,7 @@ namespace S3_Passion
 			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
 		}
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Definition definition = base.InteractionDefinition as Definition;
 			Actor.SynchronizationLevel = Sim.SyncLevel.NotStarted;

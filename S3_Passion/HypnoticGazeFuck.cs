@@ -26,7 +26,7 @@ namespace S3_Passion
 				return ResourceKey.CreatePNGKey("trait_nocturnal_s_ep7", 0u);
 			}
 
-			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeSpeciesString(actor, target.IsFemale, "Look Deep Into My Eyes", target.SimDescription, actor.SimDescription);
 			}
@@ -36,7 +36,7 @@ namespace S3_Passion
 				return new string[1] { Localization.LocalizeString("Vampire...") };
 			}
 
-			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (GameUtils.IsInstalled(ProductVersion.EP7) && actor.SimDescription.IsVampire && !target.SimDescription.IsRobot && !actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !target.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && target != actor && !target.BuffManager.HasElement(BuffNames.Dazed) && !target.SimDescription.ChildOrBelow && !target.SimDescription.IsBonehilda && !target.SimDescription.IsPet && Passion.Settings.VampireInteractions)
 				{
@@ -55,7 +55,7 @@ namespace S3_Passion
 			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
 		}
 
-		public override bool Run()
+		protected override bool Run()
 		{
 			Definition definition = base.InteractionDefinition as Definition;
 			Actor.SynchronizationLevel = Sim.SyncLevel.NotStarted;
@@ -80,7 +80,7 @@ namespace S3_Passion
 				FinishLinkedInteraction(true);
 				EndCommodityUpdates(true);
 				Target.BuffManager.AddElement(BuffNames.Dazed, Origin.FromVampire);
-				Actor.ShowTNSIfSelectable(SocialCallback.LocalizeString(Target.IsFemale, "HypnotizedTNS", new object[2] { Target, Actor }), StyledNotification.NotificationStyle.kGameMessagePositive);
+				Actor.ShowTNSIfSelectable(SocialCallback.LocalizeString(Target.IsFemale, "HypnotizedTNS", Target, Actor), StyledNotification.NotificationStyle.kGameMessagePositive);
 				Passion.Player player = Passion.GetPlayer(Target);
 				Passion.Player player2 = Passion.GetPlayer(Actor);
 				Passion.Settings.AutonomyNotify = true;

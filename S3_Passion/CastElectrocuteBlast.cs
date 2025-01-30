@@ -27,15 +27,15 @@ namespace S3_Passion
 
 			public override string[] GetPath(bool isFemale)
 			{
-				return new string[1] { MagicWand.LocalizeString(isFemale, "CastSpell", new object[0]) + Localization.Ellipsis };
+				return new string[1] { MagicWand.LocalizeString(isFemale, "CastSpell") + Localization.Ellipsis };
 			}
 
-			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+			protected override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 			{
 				return Localization.LocalizeString("Electrocution Blast");
 			}
 
-			public override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			protected override bool Test(Sim a, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				if (a == target || !a.SimDescription.IsWitch)
 				{
@@ -84,7 +84,7 @@ namespace S3_Passion
 
 		public override MagicWand.SpellType TypeOfSpell
 		{
-			get
+			protected get
 			{
 				return MagicWand.SpellType.GoodLuckCharm;
 			}
@@ -92,7 +92,7 @@ namespace S3_Passion
 
 		public override string JazzStateName
 		{
-			get
+			protected get
 			{
 				return "Good Luck";
 			}
@@ -100,7 +100,7 @@ namespace S3_Passion
 
 		public override string SuccessVfxName
 		{
-			get
+			protected get
 			{
 				return "ep7WandSpellLuckSelf_main";
 			}
@@ -108,7 +108,7 @@ namespace S3_Passion
 
 		public override string EpicFailVfxName
 		{
-			get
+			protected get
 			{
 				return "ep7WandSpellLuckFail_main";
 			}
@@ -116,18 +116,18 @@ namespace S3_Passion
 
 		public override string HitVfxName
 		{
-			get
+			protected get
 			{
 				return "ep7WandSpellLuckHit_main";
 			}
 		}
 
-		public override void DrainMotives()
+		protected override void DrainMotives()
 		{
 			mWand.DrainMotive(Actor, CommodityKind.MagicFatigue, 0f - MagicWand.CastGoodLuckCharm.kMotiveDrain);
 		}
 
-		public override void OnSpellSuccess()
+		protected override void OnSpellSuccess()
 		{
 			FireManager.SimShockedBy(Target, Actor);
 			Target.BuffManager.AddElement(BuffNames.BeingBioDrained, Origin.FromSpell);
@@ -152,11 +152,11 @@ namespace S3_Passion
 			EventTracker.SendEvent(EventTypeId.kSimFellAsleep, Target, null);
 		}
 
-		public override void OnSpellEpicFailure()
+		protected override void OnSpellEpicFailure()
 		{
 		}
 
-		public override void ShowEpicFailVfx(StateMachineClient sender, IEvent evt)
+		protected override void ShowEpicFailVfx(StateMachineClient sender, IEvent evt)
 		{
 			base.ShowEpicFailVfx(sender, evt);
 			Actor.BuffManager.AddElement(BuffNames.BeingBioDrained, Origin.FromSpell);

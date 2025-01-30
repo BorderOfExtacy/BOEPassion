@@ -14,7 +14,7 @@ namespace Sims3.Gameplay.Objects
 		{
 			public sealed class PickupDefinition : Definition
 			{
-				public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				protected override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return actor != null && actor.IsHuman && !actor.SimDescription.ChildOrBelow && actor.Inventory != null && base.Test(actor, target, isAutonomous, ref greyedOutTooltipCallback);
 				}
