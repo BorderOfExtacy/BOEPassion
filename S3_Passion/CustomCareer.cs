@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
-using Sims3.Gameplay;
 using Sims3.Gameplay.Careers;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Objects.RabbitHoles;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	[Persistable]
 	public class CustomCareer : PassionCommon
 	{
 		[Persistable]
-		public class School : Sims3.Gameplay.Careers.School, ICustomCareer
+		public class School : global::Sims3.Gameplay.Careers.School, ICustomCareer
 		{
-			public const OccupationNames ID = (OccupationNames)16696807201930100829uL;
+			public const OccupationNames Id = (OccupationNames)16696807201930100829uL;
 
 			public const string BaseLocalizationPrefix = "Gameplay/Excel/Careers/CareerList:";
 
@@ -165,7 +164,7 @@ namespace S3_Passion
 
 			public virtual void GetLocations()
 			{
-				CityHall[] objects = Sims3.Gameplay.Queries.GetObjects<CityHall>();
+				CityHall[] objects = global::Sims3.Gameplay.Queries.GetObjects<CityHall>();
 				foreach (CityHall rabbitHole in objects)
 				{
 					CareerLocation careerLocation = new CareerLocation(rabbitHole, this);

@@ -1,6 +1,6 @@
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
-	public enum STDImmunity
+	public enum StdImmunity
 	{
 		Immune,
 		Resistant,

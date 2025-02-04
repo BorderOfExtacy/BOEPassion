@@ -1,4 +1,4 @@
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal class PickBoolean : GenericDialog
 	{

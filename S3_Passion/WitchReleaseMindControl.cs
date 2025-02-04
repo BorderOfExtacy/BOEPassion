@@ -7,7 +7,7 @@ using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal sealed class WitchReleaseMindControl : SocialInteraction
 	{

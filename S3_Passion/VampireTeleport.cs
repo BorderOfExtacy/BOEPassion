@@ -8,7 +8,7 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI.Hud;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public sealed class VampireTeleport : TerrainInteraction
 	{
@@ -50,17 +50,17 @@ namespace S3_Passion
 			}
 		}
 
-		public ITeleporter mTeleporter;
+		public ITeleporter MTeleporter;
 
-		public static Vector3 destination;
+		public static Vector3 Destination;
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		public static ResourceKey vampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
+		public static ResourceKey VampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
 		public override ThumbnailKey GetIconKey()
 		{
-			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
+			return new ThumbnailKey(VampireiconResourceKey, ThumbnailSize.Large);
 		}
 
 		public override bool Run()
@@ -68,7 +68,7 @@ namespace S3_Passion
 			Sim actor = Actor;
 			if (!actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !actor.Posture.Satisfies(CommodityKind.KeepSwimming, null))
 			{
-				TeleportVamp(actor, Destination, null, true, true);
+				TeleportVamp(actor, base.Destination, null, true, true);
 				base.Cleanup();
 				return true;
 			}
@@ -78,7 +78,7 @@ namespace S3_Passion
 			actor.SimRoutingComponent.DisableDynamicFootprint();
 			VisualEffect visualEffect = VisualEffect.Create(effectName);
 			actor.FadeOut(true, false, 0.5f);
-			actor.SetPosition(Destination);
+			actor.SetPosition(base.Destination);
 			visualEffect.SetPosAndOrient(actor.Position, actor.ForwardVector, actor.UpVector);
 			visualEffect.SubmitOneShotEffect(VisualEffect.TransitionType.SoftTransition);
 			actor.FadeIn(true, 0.5f);
@@ -86,10 +86,10 @@ namespace S3_Passion
 			return false;
 		}
 
-		public static void TeleportVamp(Sim actor, Vector3 destination, ITeleporter teleporter, bool bPlayVFXvamp, bool fadeSim)
+		public static void TeleportVamp(Sim actor, Vector3 destination, ITeleporter teleporter, bool bPlayVfXvamp, bool fadeSim)
 		{
 			string effectName = null;
-			if (bPlayVFXvamp)
+			if (bPlayVfXvamp)
 			{
 				effectName = "ep3vampiretransition";
 				VisualEffect visualEffect = VisualEffect.Create(effectName);
@@ -110,7 +110,7 @@ namespace S3_Passion
 			}
 			actor.SimRoutingComponent.DisableDynamicFootprint();
 			actor.SetPosition(destination);
-			if (bPlayVFXvamp)
+			if (bPlayVfXvamp)
 			{
 				VisualEffect visualEffect2 = VisualEffect.Create(effectName);
 				visualEffect2.SetPosAndOrient(actor.Position, actor.ForwardVector, actor.UpVector);

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using S3_Passion.PassionDance;
+using Passion.S3_Passion.PassionDance;
+using Passion.Sims3.Gameplay.Objects;
+using Passion.Sims3.Gameplay.Objects.HobbiesSkills;
 using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
@@ -48,7 +50,7 @@ using Sims3.UI;
 using Sims3.UI.Controller;
 using Sims3.UI.GameEntry;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class Passion : PassionCommon
 	{
@@ -65,13 +67,13 @@ namespace S3_Passion
 				PregnancyRisk,
 				PregnancyMethod,
 				PregnancyMale,
-				STDSimmunity,
+				StdSimmunity,
 				ConsentPercentage,
 				StrapOnMode,
 				NakedShower,
 				GetSoft,
 				GetHard,
-				STD,
+				Std,
 				RelationshipGain,
 				RelationshipLoss,
 				Teen,
@@ -158,7 +160,7 @@ namespace S3_Passion
 
 			public bool PregnancyMale;
 
-			public STDImmunity STDSimmunity;
+			public StdImmunity StdSimmunity;
 
 			public long MaxLength;
 
@@ -186,7 +188,7 @@ namespace S3_Passion
 
 			public bool GetHard;
 
-			public bool STD;
+			public bool Std;
 
 			public bool CanReject;
 
@@ -270,14 +272,14 @@ namespace S3_Passion
 				MaxLength = 0L;
 				RandomizationLength = 60L;
 				RandomizationOptions = RandomizationOptions.PositionsAndSequences;
-				STDSimmunity = STDImmunity.Immune;
+				StdSimmunity = StdImmunity.Immune;
 				ConsentPercentage = 0.01f;
 				ConsentMinimum = 0.01f;
 				ConsentMaximum = 0.99f;
 				RelationshipGain = 15f;
 				RelationshipLoss = -8f;
 				ActiveAlwaysAccepts = true;
-				STD = false;
+				Std = false;
 				GetSoft = true;
 				GetHard = true;
 				StrapOnMode = true;
@@ -620,7 +622,7 @@ namespace S3_Passion
 					{
 						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Position") + " (" + Settings.PregnancyRisk + "%)"));
 					}
-					else if (Settings.PregnancyMethod == PregnancyMethod.KWSystem)
+					else if (Settings.PregnancyMethod == PregnancyMethod.KwSystem)
 					{
 						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.KWSystem") + " (" + Settings.PregnancyRisk + "%)"));
 					}
@@ -708,9 +710,9 @@ namespace S3_Passion
 						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
 					}
 					list3.Add(rowInfo);
-					rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.STD, Settings.STD), new List<ObjectPicker.ColumnInfo>());
+					rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.Std, Settings.Std), new List<ObjectPicker.ColumnInfo>());
 					rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.STDs")));
-					if (Settings.STD)
+					if (Settings.Std)
 					{
 						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Enabled")));
 					}
@@ -971,7 +973,7 @@ namespace S3_Passion
 						GenericDialog.OptionList<PregnancyMethod> optionList17 = new GenericDialog.OptionList<PregnancyMethod>();
 						optionList17.Add(PassionCommon.Localize("S3_Passion.Terms.Enabled") + " (" + PassionCommon.Localize("S3_Passion.Terms.Category") + ")", PregnancyMethod.ByCategory);
 						optionList17.Add(PassionCommon.Localize("S3_Passion.Terms.Enabled") + " (" + PassionCommon.Localize("S3_Passion.Terms.Position") + ")", PregnancyMethod.ByPosition);
-						optionList17.Add(PassionCommon.Localize("S3_Passion.Terms.Enabled") + " (" + PassionCommon.Localize("S3_Passion.Terms.KWSystem") + ")", PregnancyMethod.KWSystem);
+						optionList17.Add(PassionCommon.Localize("S3_Passion.Terms.Enabled") + " (" + PassionCommon.Localize("S3_Passion.Terms.KWSystem") + ")", PregnancyMethod.KwSystem);
 						optionList17.Add(PassionCommon.Localize("S3_Passion.Terms.Disabled"), PregnancyMethod.Disabled);
 						Settings.PregnancyMethod = GenericDialog.Ask(optionList17, PassionCommon.Localize("S3_Passion.Terms.Pregnancy"));
 						if (Settings.PregnancyMethod != 0)
@@ -1001,21 +1003,21 @@ namespace S3_Passion
 								}
 							}
 						}
-						else if (Settings.PregnancyMethod == PregnancyMethod.Disabled && !Settings.STD && Settings.UseCondom)
+						else if (Settings.PregnancyMethod == PregnancyMethod.Disabled && !Settings.Std && Settings.UseCondom)
 						{
 							Settings.PregnancyRisk = 0;
 							Settings.UseCondom = false;
 							Settings.CondomBrakeChance = 0;
 							Settings.CondomIsBroken = false;
 						}
-						else if (Settings.PregnancyMethod == PregnancyMethod.Disabled && Settings.STD && Settings.UseCondom)
+						else if (Settings.PregnancyMethod == PregnancyMethod.Disabled && Settings.Std && Settings.UseCondom)
 						{
 							Settings.PregnancyRisk = 0;
 						}
 						break;
 					}
 					case Setting.UseCondom:
-						if (Settings.PregnancyMethod != 0 || Settings.STD)
+						if (Settings.PregnancyMethod != 0 || Settings.Std)
 						{
 							Settings.UseCondom = PickBoolean.Show(PassionCommon.Localize("S3_Passion.Terms.UseCondom"), Settings.UseCondom, PassionCommon.Localize("S3_Passion.Terms.Enabled"), PassionCommon.Localize("S3_Passion.Terms.Disabled"));
 							if (!Settings.UseCondom)
@@ -1045,18 +1047,18 @@ namespace S3_Passion
 								Settings.CondomIsBroken = false;
 							}
 						}
-						else if (Settings.PregnancyMethod == PregnancyMethod.Disabled && !Settings.STD)
+						else if (Settings.PregnancyMethod == PregnancyMethod.Disabled && !Settings.Std)
 						{
 							Settings.UseCondom = false;
 							PassionCommon.SystemMessage(PassionCommon.Localize("Pregnancy and STDs settings are\r disabled! There's no need for condoms."));
 						}
-						else if (Settings.PregnancyMethod != PregnancyMethod.KWSystem && Settings.PregnancyMethod != 0)
+						else if (Settings.PregnancyMethod != PregnancyMethod.KwSystem && Settings.PregnancyMethod != 0)
 						{
 							Settings.UseCondom = false;
 							PassionCommon.SystemMessage(PassionCommon.Localize("Use Condoms Setting works only with \r -Passion Choice- Pregnancy Setting."));
 						}
 						break;
-					case Setting.STD:
+					case Setting.Std:
 					{
 						GenericDialog.OptionList<bool> optionList14 = new GenericDialog.OptionList<bool>();
 						optionList14.Add(PassionCommon.Localize("S3_Passion.Terms.Enabled"), true);
@@ -1064,22 +1066,22 @@ namespace S3_Passion
 						bool flag11 = GenericDialog.Ask(optionList14, PassionCommon.Localize("S3_Passion.Terms.STDs"));
 						if (flag11)
 						{
-							GenericDialog.OptionList<STDImmunity> optionList15 = new GenericDialog.OptionList<STDImmunity>();
-							optionList15.Add(PassionCommon.Localize("S3_Passion.Terms.Immunity"), STDImmunity.Immune);
-							optionList15.Add(PassionCommon.Localize("S3_Passion.Terms.Resistance"), STDImmunity.Resistant);
-							optionList15.Add(PassionCommon.Localize("S3_Passion.Terms.NoEffect"), STDImmunity.Vulnerable);
-							Settings.STDSimmunity = GenericDialog.Ask(optionList15, PassionCommon.Localize("S3_Passion.Terms.STDSimmunityEffect"));
+							GenericDialog.OptionList<StdImmunity> optionList15 = new GenericDialog.OptionList<StdImmunity>();
+							optionList15.Add(PassionCommon.Localize("S3_Passion.Terms.Immunity"), StdImmunity.Immune);
+							optionList15.Add(PassionCommon.Localize("S3_Passion.Terms.Resistance"), StdImmunity.Resistant);
+							optionList15.Add(PassionCommon.Localize("S3_Passion.Terms.NoEffect"), StdImmunity.Vulnerable);
+							Settings.StdSimmunity = GenericDialog.Ask(optionList15, PassionCommon.Localize("S3_Passion.Terms.STDSimmunityEffect"));
 						}
-						if (flag11 && !Settings.STD)
+						if (flag11 && !Settings.Std)
 						{
-							S3_Passion.STD.AddRandomToAll(PickBoolean.Show(PassionCommon.Localize("S3_Passion.Terms.STDSeedActiveFamily"), false, PassionCommon.Localize("S3_Passion.Terms.Yes"), PassionCommon.Localize("S3_Passion.Terms.No")), PickBoolean.Show(PassionCommon.Localize("S3_Passion.Terms.STDSeedMessages"), false, PassionCommon.Localize("S3_Passion.Terms.Yes"), PassionCommon.Localize("S3_Passion.Terms.No")));
+							S3_Passion.Std.AddRandomToAll(PickBoolean.Show(PassionCommon.Localize("S3_Passion.Terms.STDSeedActiveFamily"), false, PassionCommon.Localize("S3_Passion.Terms.Yes"), PassionCommon.Localize("S3_Passion.Terms.No")), PickBoolean.Show(PassionCommon.Localize("S3_Passion.Terms.STDSeedMessages"), false, PassionCommon.Localize("S3_Passion.Terms.Yes"), PassionCommon.Localize("S3_Passion.Terms.No")));
 						}
-						else if (!flag11 && Settings.STD)
+						else if (!flag11 && Settings.Std)
 						{
-							S3_Passion.STD.RemoveFromAll();
+							S3_Passion.Std.RemoveFromAll();
 						}
-						Settings.STD = flag11;
-						if (!Settings.STD && Settings.PregnancyMethod == PregnancyMethod.Disabled)
+						Settings.Std = flag11;
+						if (!Settings.Std && Settings.PregnancyMethod == PregnancyMethod.Disabled)
 						{
 							Settings.UseCondom = false;
 							Settings.CondomBrakeChance = 0;
@@ -1103,7 +1105,7 @@ namespace S3_Passion
 					case Setting.Motives:
 					{
 						GenericDialog.OptionList<PassionMotives> optionList11 = new GenericDialog.OptionList<PassionMotives>();
-						optionList11.Add(PassionCommon.Localize("S3_Passion.Terms.EADefault"), PassionMotives.EADefault);
+						optionList11.Add(PassionCommon.Localize("S3_Passion.Terms.EADefault"), PassionMotives.EaDefault);
 						optionList11.Add(PassionCommon.Localize("S3_Passion.Terms.PassionStandard"), PassionMotives.PassionStandard);
 						optionList11.Add(PassionCommon.Localize("S3_Passion.Terms.NoDecay"), PassionMotives.NoDecay);
 						optionList11.Add(PassionCommon.Localize("S3_Passion.Terms.Freeze"), PassionMotives.Freeze);
@@ -1130,10 +1132,10 @@ namespace S3_Passion
 							GenericDialog.OptionList<string> optionList9 = new GenericDialog.OptionList<string>();
 							optionList9.Add(PassionCommon.Localize("S3_Passion.Terms.AddPosition"), PassionCommon.Localize("S3_Passion.Terms.AddPosition"));
 							optionList9.Add(PassionCommon.Localize("S3_Passion.Terms.ReloadDefaults"), PassionCommon.Localize("S3_Passion.Terms.ReloadDefaults"));
-							foreach (string xMLFile in XMLFiles)
+							foreach (string xMlFile in XmlFiles)
 							{
-								int num8 = PositionsCounter(xMLFile);
-								int num9 = 38 - xMLFile.Length;
+								int num8 = PositionsCounter(xMlFile);
+								int num9 = 38 - xMlFile.Length;
 								string text10 = "";
 								if (num8 != 0)
 								{
@@ -1141,7 +1143,7 @@ namespace S3_Passion
 									{
 										text10 += "_";
 									}
-									optionList9.Add("\n" + xMLFile + " " + text10 + " " + num8.ToString().Trim() + "\r", xMLFile);
+									optionList9.Add("\n" + xMlFile + " " + text10 + " " + num8.ToString().Trim() + "\r", xMlFile);
 								}
 							}
 							string text11 = GenericDialog.Ask(optionList9, PassionCommon.Localize("Positions Found ") + ": " + Positions.Count, true);
@@ -1150,7 +1152,7 @@ namespace S3_Passion
 								string text12 = PickString.Show(PassionCommon.Localize("S3_Passion.Terms.AddPositionFile"), PassionCommon.Localize("S3_Passion.Terms.AddPositionFileText"), string.Empty);
 								if (!string.IsNullOrEmpty(text12))
 								{
-									XMLFiles.Add(text12);
+									XmlFiles.Add(text12);
 									ReloadPositions();
 								}
 								continue;
@@ -1164,7 +1166,7 @@ namespace S3_Passion
 							{
 								if (PickBoolean.Show(PassionCommon.Localize("S3_Passion.Terms.DeleteConfirm1") + text11 + PassionCommon.Localize("S3_Passion.Terms.DeleteConfirm2"), false, PassionCommon.Localize("S3_Passion.Terms.Yes"), PassionCommon.Localize("S3_Passion.Terms.No")))
 								{
-									XMLFiles.Remove(text11);
+									XmlFiles.Remove(text11);
 									ReloadPositions();
 								}
 								continue;
@@ -1429,8 +1431,8 @@ namespace S3_Passion
 			{
 				try
 				{
-					XML.Element element = XML.Element.Create("Passion");
-					XML.Element element2 = element.AddChild("Settings");
+					Xml.Element element = Xml.Element.Create("Passion");
+					Xml.Element element2 = element.AddChild("Settings");
 					element2.AddChild("ActiveLabel", Settings.ActiveLabel);
 					element2.AddChild("AutonomyActive", Settings.AutonomyActive.ToString());
 					element2.AddChild("AutonomyChance", Settings.AutonomyChance.ToString());
@@ -1460,21 +1462,21 @@ namespace S3_Passion
 					element2.AddChild("RelationshipGain", Settings.RelationshipGain.ToString());
 					element2.AddChild("RelationshipLoss", Settings.RelationshipLoss.ToString());
 					element2.AddChild("SoloLabel", Settings.SoloLabel.ToString());
-					element2.AddChild("STD", Settings.STD.ToString());
-					element2.AddChild("STDSimmunity", Settings.STDSimmunity.ToString());
+					element2.AddChild("STD", Settings.Std.ToString());
+					element2.AddChild("STDSimmunity", Settings.StdSimmunity.ToString());
 					element2.AddChild("StrapOnMode", Settings.StrapOnMode.ToString());
 					element2.AddChild("Teen", Settings.Teen.ToString());
-					XML.Element element3 = element.AddChild("Positions");
-					foreach (string xMLFile in XMLFiles)
+					Xml.Element element3 = element.AddChild("Positions");
+					foreach (string xMlFile in XmlFiles)
 					{
-						element3.AddChild("Position", xMLFile);
+						element3.AddChild("Position", xMlFile);
 					}
 					if (Sequences.Count > 0)
 					{
-						XML.Element element4 = element.AddChild("Sequences");
+						Xml.Element element4 = element.AddChild("Sequences");
 						foreach (Sequence sequence in Sequences)
 						{
-							XML.Element element5 = element4.AddChild("Sequence");
+							Xml.Element element5 = element4.AddChild("Sequence");
 							element5.AddChild("Name", sequence.Name);
 							element5.AddChild("Repeat", sequence.Repeat.ToString());
 							element5.AddChild("Continue", sequence.Continue.ToString());
@@ -1483,12 +1485,12 @@ namespace S3_Passion
 							{
 								continue;
 							}
-							XML.Element element6 = element5.AddChild("Items");
+							Xml.Element element6 = element5.AddChild("Items");
 							for (int i = 0; i < sequence.Items.Length; i++)
 							{
 								if (sequence.Items[i] != null)
 								{
-									XML.Element element7 = element6.AddChild("Item");
+									Xml.Element element7 = element6.AddChild("Item");
 									element7.AddChild("Name", PassionCommon.Localize(sequence.Items[i].Key));
 									element7.AddChild("Key", sequence.Items[i].Key);
 									element7.AddChild("Index", sequence.Items[i].Index.ToString());
@@ -1497,7 +1499,7 @@ namespace S3_Passion
 							}
 						}
 					}
-					if (XML.WriteToPackage(element, name) && string.IsNullOrEmpty(name))
+					if (Xml.WriteToPackage(element, name) && string.IsNullOrEmpty(name))
 					{
 						PassionCommon.SystemMessage(PassionCommon.Localize("S3_Passion.Terms.ExportSucceeded"));
 					}
@@ -1515,17 +1517,17 @@ namespace S3_Passion
 			// import settings
 			public static void Import(string name)
 			{
-				XML.File file = XML.ReadFromPackage(name);
+				Xml.File file = Xml.ReadFromPackage(name);
 				if (file == null)
 				{
 					return;
 				}
-				XML.Node node = file["Passion"];
+				Xml.Node node = file["Passion"];
 				if (node == null)
 				{
 					return;
 				}
-				XML.Node matchingNode = node.GetMatchingNode("Settings");
+				Xml.Node matchingNode = node.GetMatchingNode("Settings");
 				if (matchingNode != null)
 				{
 					Settings.ActiveLabel = matchingNode["ActiveLabel"];
@@ -1545,7 +1547,7 @@ namespace S3_Passion
 					switch (matchingNode["Motives"])
 					{
 					case "EADefault":
-						Settings.Motives = PassionMotives.EADefault;
+						Settings.Motives = PassionMotives.EaDefault;
 						break;
 					case "NoDecay":
 						Settings.Motives = PassionMotives.NoDecay;
@@ -1586,7 +1588,7 @@ namespace S3_Passion
 						Settings.PregnancyMethod = PregnancyMethod.ByPosition;
 						break;
 					case "KWSystem":
-						Settings.PregnancyMethod = PregnancyMethod.KWSystem;
+						Settings.PregnancyMethod = PregnancyMethod.KwSystem;
 						break;
 					default:
 						Settings.PregnancyMethod = PregnancyMethod.Disabled;
@@ -1598,46 +1600,46 @@ namespace S3_Passion
 					Settings.RelationshipGain = PassionCommon.Float(matchingNode["RelationshipGain"]);
 					Settings.RelationshipLoss = PassionCommon.Float(matchingNode["RelationshipLoss"]);
 					Settings.SoloLabel = matchingNode["SoloLabel"];
-					Settings.STD = PassionCommon.Bool(matchingNode["STD"]);
+					Settings.Std = PassionCommon.Bool(matchingNode["STD"]);
 					string text = matchingNode["STDSimmunity"];
 					if (!(text == "Resistant"))
 					{
 						if (text == "Vulnerable")
 						{
-							Settings.STDSimmunity = STDImmunity.Vulnerable;
+							Settings.StdSimmunity = StdImmunity.Vulnerable;
 						}
 						else
 						{
-							Settings.STDSimmunity = STDImmunity.Immune;
+							Settings.StdSimmunity = StdImmunity.Immune;
 						}
 					}
 					else
 					{
-						Settings.STDSimmunity = STDImmunity.Resistant;
+						Settings.StdSimmunity = StdImmunity.Resistant;
 					}
 					Settings.StrapOnMode = PassionCommon.Bool(matchingNode["StrapOnMode"]);
 					Settings.Teen = PassionCommon.Bool(matchingNode["Teen"]);
 				}
-				XML.Node matchingNode2 = node.GetMatchingNode("Positions");
+				Xml.Node matchingNode2 = node.GetMatchingNode("Positions");
 				if (matchingNode2 != null)
 				{
-					List<XML.Node> matchingNodes = matchingNode2.GetMatchingNodes("Position");
+					List<Xml.Node> matchingNodes = matchingNode2.GetMatchingNodes("Position");
 					if (matchingNodes != null && matchingNodes.Count > 0)
 					{
-						XMLFiles.Clear();
-						foreach (XML.Node item in matchingNodes)
+						XmlFiles.Clear();
+						foreach (Xml.Node item in matchingNodes)
 						{
-							XMLFiles.Add(item.Handle.InnerText);
+							XmlFiles.Add(item.Handle.InnerText);
 						}
 					}
 					ReloadPositions();
 				}
-				XML.Node matchingNode3 = node.GetMatchingNode("Sequences");
+				Xml.Node matchingNode3 = node.GetMatchingNode("Sequences");
 				if (matchingNode3 == null)
 				{
 					return;
 				}
-				foreach (XML.Node matchingNode5 in matchingNode3.GetMatchingNodes("Sequence"))
+				foreach (Xml.Node matchingNode5 in matchingNode3.GetMatchingNodes("Sequence"))
 				{
 					Sequence sequence = null;
 					foreach (Sequence sequence2 in Sequences)
@@ -1661,10 +1663,10 @@ namespace S3_Passion
 					sequence.Repeat = PassionCommon.Bool(matchingNode5["Repeat"]);
 					sequence.Continue = PassionCommon.Bool(matchingNode5["Continue"]);
 					sequence.Categories = PassionCommon.Int(matchingNode5["Categories"]);
-					XML.Node matchingNode4 = matchingNode5.GetMatchingNode("Items");
+					Xml.Node matchingNode4 = matchingNode5.GetMatchingNode("Items");
 					if (matchingNode4 != null)
 					{
-						List<XML.Node> matchingNodes2 = matchingNode4.GetMatchingNodes("Item");
+						List<Xml.Node> matchingNodes2 = matchingNode4.GetMatchingNodes("Item");
 						if (matchingNodes2 != null)
 						{
 							sequence.RestoreItems(matchingNodes2);
@@ -1680,22 +1682,22 @@ namespace S3_Passion
 
 			public static void ImportSequence(string name)
 			{
-				XML.File file = XML.ReadFromPackage(name);
+				Xml.File file = Xml.ReadFromPackage(name);
 				if (file == null)
 				{
 					return;
 				}
-				XML.Node node = file["PassionSequences"];
+				Xml.Node node = file["PassionSequences"];
 				if (node == null)
 				{
 					return;
 				}
-				XML.Node matchingNode = node.GetMatchingNode("Sequences");
+				Xml.Node matchingNode = node.GetMatchingNode("Sequences");
 				if (matchingNode == null)
 				{
 					return;
 				}
-				foreach (XML.Node matchingNode3 in matchingNode.GetMatchingNodes("Sequence"))
+				foreach (Xml.Node matchingNode3 in matchingNode.GetMatchingNodes("Sequence"))
 				{
 					Sequence sequence = null;
 					foreach (Sequence sequence2 in Sequences)
@@ -1719,10 +1721,10 @@ namespace S3_Passion
 					sequence.Repeat = PassionCommon.Bool(matchingNode3["Repeat"]);
 					sequence.Continue = PassionCommon.Bool(matchingNode3["Continue"]);
 					sequence.Categories = PassionCommon.Int(matchingNode3["Categories"]);
-					XML.Node matchingNode2 = matchingNode3.GetMatchingNode("Items");
+					Xml.Node matchingNode2 = matchingNode3.GetMatchingNode("Items");
 					if (matchingNode2 != null)
 					{
-						List<XML.Node> matchingNodes = matchingNode2.GetMatchingNodes("Item");
+						List<Xml.Node> matchingNodes = matchingNode2.GetMatchingNodes("Item");
 						if (matchingNodes != null)
 						{
 							sequence.RestoreItems(matchingNodes);
@@ -1740,13 +1742,13 @@ namespace S3_Passion
 			{
 				try
 				{
-					XML.Element element = XML.Element.Create("PassionSequences");
+					Xml.Element element = Xml.Element.Create("PassionSequences");
 					if (Sequences.Count > 0)
 					{
-						XML.Element element2 = element.AddChild("Sequences");
+						Xml.Element element2 = element.AddChild("Sequences");
 						foreach (Sequence sequence in Sequences)
 						{
-							XML.Element element3 = element2.AddChild("Sequence");
+							Xml.Element element3 = element2.AddChild("Sequence");
 							element3.AddChild("Name", sequence.Name);
 							element3.AddChild("Repeat", sequence.Repeat.ToString());
 							element3.AddChild("Continue", sequence.Continue.ToString());
@@ -1755,12 +1757,12 @@ namespace S3_Passion
 							{
 								continue;
 							}
-							XML.Element element4 = element3.AddChild("Items");
+							Xml.Element element4 = element3.AddChild("Items");
 							for (int i = 0; i < sequence.Items.Length; i++)
 							{
 								if (sequence.Items[i] != null)
 								{
-									XML.Element element5 = element4.AddChild("Item");
+									Xml.Element element5 = element4.AddChild("Item");
 									element5.AddChild("Name", PassionCommon.Localize(sequence.Items[i].Key));
 									element5.AddChild("Key", sequence.Items[i].Key);
 									element5.AddChild("Index", sequence.Items[i].Index.ToString());
@@ -1769,7 +1771,7 @@ namespace S3_Passion
 							}
 						}
 					}
-					if (XML.WriteToPackage(element, name) && string.IsNullOrEmpty(name))
+					if (Xml.WriteToPackage(element, name) && string.IsNullOrEmpty(name))
 					{
 						PassionCommon.SystemMessage(PassionCommon.Localize("S3_Passion.Terms.Sequence.ExportSucceeded"));
 					}
@@ -1801,11 +1803,11 @@ namespace S3_Passion
 				{
 					if (num == 0)
 					{
-						XML.File file2 = XML.Create(file);
-						XML.Node node = file2["WooHooStages"];
+						Xml.File file2 = Xml.Create(file);
+						Xml.Node node = file2["WooHooStages"];
 						if (node != null)
 						{
-							foreach (XML.Node matchingNode in node.GetMatchingNodes("WooHooStage"))
+							foreach (Xml.Node matchingNode in node.GetMatchingNodes("WooHooStage"))
 							{
 								num2++;
 								num = num2;
@@ -1820,21 +1822,21 @@ namespace S3_Passion
 			}
 		}
 
-		public class XML
+		public class Xml
 		{
 			public class File
 			{
-				protected XmlDocument mHandle;
+				protected XmlDocument MHandle;
 
 				public XmlDocument Handle
 				{
 					get
 					{
-						return mHandle;
+						return MHandle;
 					}
 					set
 					{
-						mHandle = value;
+						MHandle = value;
 					}
 				}
 
@@ -1892,35 +1894,35 @@ namespace S3_Passion
 
 			public class Node
 			{
-				protected XmlNode mHandle;
+				protected XmlNode MHandle;
 
-				protected Dictionary<string, string> mValues = new Dictionary<string, string>();
+				protected Dictionary<string, string> MValues = new Dictionary<string, string>();
 
 				public XmlNode Handle
 				{
 					get
 					{
-						return mHandle;
+						return MHandle;
 					}
 					set
 					{
-						mHandle = value;
-						if (mHandle == null)
+						MHandle = value;
+						if (MHandle == null)
 						{
 							return;
 						}
-						mValues.Clear();
-						foreach (XmlNode childNode in mHandle.ChildNodes)
+						MValues.Clear();
+						foreach (XmlNode childNode in MHandle.ChildNodes)
 						{
 							if (childNode.NodeType == XmlNodeType.Element)
 							{
-								if (mValues.ContainsKey(childNode.Name))
+								if (MValues.ContainsKey(childNode.Name))
 								{
-									mValues[childNode.Name] = childNode.InnerText;
+									MValues[childNode.Name] = childNode.InnerText;
 								}
 								else
 								{
-									mValues.Add(childNode.Name, childNode.InnerText);
+									MValues.Add(childNode.Name, childNode.InnerText);
 								}
 							}
 						}
@@ -1931,7 +1933,7 @@ namespace S3_Passion
 				{
 					get
 					{
-						return mHandle != null;
+						return MHandle != null;
 					}
 				}
 
@@ -1941,7 +1943,7 @@ namespace S3_Passion
 					{
 						if (IsValid)
 						{
-							return mHandle.InnerText;
+							return MHandle.InnerText;
 						}
 						return string.Empty;
 					}
@@ -1951,9 +1953,9 @@ namespace S3_Passion
 				{
 					get
 					{
-						if (!string.IsNullOrEmpty(key) && mValues.ContainsKey(key))
+						if (!string.IsNullOrEmpty(key) && MValues.ContainsKey(key))
 						{
-							return mValues[key];
+							return MValues[key];
 						}
 						return string.Empty;
 					}
@@ -1994,7 +1996,7 @@ namespace S3_Passion
 				{
 					if (IsValid && !string.IsNullOrEmpty(key))
 					{
-						foreach (XmlNode childNode in mHandle.ChildNodes)
+						foreach (XmlNode childNode in MHandle.ChildNodes)
 						{
 							if (childNode.NodeType == XmlNodeType.Element && childNode.Name == key)
 							{
@@ -2010,7 +2012,7 @@ namespace S3_Passion
 					List<Node> list = new List<Node>();
 					if (IsValid && !string.IsNullOrEmpty(key))
 					{
-						foreach (XmlNode childNode in mHandle.ChildNodes)
+						foreach (XmlNode childNode in MHandle.ChildNodes)
 						{
 							if (childNode.NodeType == XmlNodeType.Element && childNode.Name == key)
 							{
@@ -2024,19 +2026,19 @@ namespace S3_Passion
 
 			public class Attribute
 			{
-				private string Name = string.Empty;
+				private string _name = string.Empty;
 
-				private string Value = string.Empty;
+				private string _value = string.Empty;
 
 				public Attribute(string name, string value)
 				{
-					Name = name;
-					Value = value;
+					_name = name;
+					_value = value;
 				}
 
-				public string ToXML()
+				public string ToXml()
 				{
-					return Name + "=\"" + Value + "\"";
+					return _name + "=\"" + _value + "\"";
 				}
 			}
 
@@ -2048,19 +2050,19 @@ namespace S3_Passion
 
 				public bool IsComment = false;
 
-				protected List<Attribute> mAttributes = new List<Attribute>();
+				protected List<Attribute> MAttributes = new List<Attribute>();
 
-				protected List<Element> mElements = new List<Element>();
+				protected List<Element> MElements = new List<Element>();
 
 				public List<Attribute> Attributes
 				{
 					get
 					{
-						if (mAttributes == null)
+						if (MAttributes == null)
 						{
-							mAttributes = new List<Attribute>();
+							MAttributes = new List<Attribute>();
 						}
-						return mAttributes;
+						return MAttributes;
 					}
 				}
 
@@ -2068,11 +2070,11 @@ namespace S3_Passion
 				{
 					get
 					{
-						if (mElements == null)
+						if (MElements == null)
 						{
-							mElements = new List<Element>();
+							MElements = new List<Element>();
 						}
-						return mElements;
+						return MElements;
 					}
 				}
 
@@ -2140,12 +2142,12 @@ namespace S3_Passion
 					return attribute;
 				}
 
-				public string ToXML()
+				public string ToXml()
 				{
-					return ToXML(string.Empty);
+					return ToXml(string.Empty);
 				}
 
-				protected string ToXML(string depth)
+				protected string ToXml(string depth)
 				{
 					string empty = string.Empty;
 					string depth2 = depth + "  ";
@@ -2158,7 +2160,7 @@ namespace S3_Passion
 					{
 						foreach (Attribute attribute in Attributes)
 						{
-							empty = empty + " " + attribute.ToXML();
+							empty = empty + " " + attribute.ToXml();
 						}
 					}
 					empty += ">";
@@ -2167,7 +2169,7 @@ namespace S3_Passion
 						empty += PassionCommon.NewLine;
 						foreach (Element childElement in ChildElements)
 						{
-							empty += childElement.ToXML(depth2);
+							empty += childElement.ToXml(depth2);
 						}
 						empty += depth;
 					}
@@ -2179,7 +2181,7 @@ namespace S3_Passion
 				}
 			}
 
-			public const string XMLDeclaration = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+			public const string XmlDeclaration = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
 			public const string PassionPrefix = "PassionSettingsExport_";
 
@@ -2193,7 +2195,7 @@ namespace S3_Passion
 				if (root != null)
 				{
 					string text = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + PassionCommon.NewLine;
-					text += root.ToXML();
+					text += root.ToXml();
 					if (string.IsNullOrEmpty(name))
 					{
 						bool flag = true;
@@ -2210,12 +2212,12 @@ namespace S3_Passion
 									return false;
 								}
 								name = "PassionSettingsExport_" + text2;
-								Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
-								foreach (IExportBinContents item in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+								global::Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
+								foreach (IExportBinContents item in new List<IExportBinContents>(global::Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
 								{
 									if (item != null && !string.IsNullOrEmpty(item.HouseholdName) && item.HouseholdName.ToLower() == name.ToLower())
 									{
-										Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(item.ContentId);
+										global::Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(item.ContentId);
 										break;
 									}
 								}
@@ -2227,12 +2229,12 @@ namespace S3_Passion
 					}
 					else
 					{
-						Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
-						foreach (IExportBinContents item2 in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+						global::Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
+						foreach (IExportBinContents item2 in new List<IExportBinContents>(global::Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
 						{
 							if (item2 != null && !string.IsNullOrEmpty(item2.HouseholdName) && item2.HouseholdName.ToLower() == name.ToLower())
 							{
-								Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(item2.ContentId);
+								global::Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(item2.ContentId);
 								break;
 							}
 						}
@@ -2240,7 +2242,7 @@ namespace S3_Passion
 					Household household = Household.Create();
 					household.SetName(name);
 					household.BioText = text;
-					Sims3.Gameplay.BinModel.Singleton.AddToExportBin(household);
+					global::Sims3.Gameplay.BinModel.Singleton.AddToExportBin(household);
 					household.Destroy();
 					return true;
 				}
@@ -2260,9 +2262,9 @@ namespace S3_Passion
 					bool flag2 = false;
 					while (flag)
 					{
-						Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
+						global::Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
 						GenericDialog.OptionList<IExportBinContents> optionList = new GenericDialog.OptionList<IExportBinContents>();
-						foreach (IExportBinContents item in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+						foreach (IExportBinContents item in new List<IExportBinContents>(global::Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
 						{
 							if (item != null && item.HouseholdName != null && item.HouseholdName.StartsWith("PassionSettingsExport_"))
 							{
@@ -2292,7 +2294,7 @@ namespace S3_Passion
 							}
 							else
 							{
-								Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(exportBinContents.ContentId);
+								global::Sims3.Gameplay.BinModel.Singleton.DeleteFromExportBin(exportBinContents.ContentId);
 							}
 							continue;
 						}
@@ -2305,8 +2307,8 @@ namespace S3_Passion
 				}
 				else
 				{
-					Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
-					foreach (IExportBinContents item2 in new List<IExportBinContents>(Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
+					global::Sims3.Gameplay.BinModel.Singleton.PopulateExportBin();
+					foreach (IExportBinContents item2 in new List<IExportBinContents>(global::Sims3.Gameplay.BinModel.Singleton.ExportBinContents))
 					{
 						if (item2 != null && !string.IsNullOrEmpty(item2.HouseholdName) && item2.HouseholdName.ToLower() == name.ToLower())
 						{
@@ -2331,7 +2333,7 @@ namespace S3_Passion
 						{
 							CustomXmlWriter customXmlWriter = new CustomXmlWriter(fileHandle);
 							customXmlWriter.WriteToBuffer("<?xml version=\"1.0\" encoding=\"utf-8\"?>" + PassionCommon.NewLine);
-							customXmlWriter.WriteToBuffer(root.ToXML());
+							customXmlWriter.WriteToBuffer(root.ToXml());
 							customXmlWriter.WriteEndDocument();
 							return true;
 						}
@@ -2369,13 +2371,13 @@ namespace S3_Passion
 			{
 				try
 				{
-					ChairSectional[] objects = Sims3.Gameplay.Queries.GetObjects<ChairSectional>();
+					ChairSectional[] objects = global::Sims3.Gameplay.Queries.GetObjects<ChairSectional>();
 					if (objects != null)
 					{
 						ChairSectional[] array = objects;
 						foreach (ChairSectional chairSectional in array)
 						{
-							if (chairSectional.Section != Sims3.Gameplay.Objects.Seating.Section.CornerConcave)
+							if (chairSectional.Section != global::Sims3.Gameplay.Objects.Seating.Section.CornerConcave)
 							{
 								chairSectional.AddInteraction(Interactions.UseObjectForPassion.Singleton, true);
 								chairSectional.AddInteraction(Interactions.UseObjectForPassionWithSim.Singleton, true);
@@ -2494,7 +2496,7 @@ namespace S3_Passion
 										}
 									}
 									player2.IsAutonomous = true;
-									List<SculptureFloorGunShow> list2 = new List<SculptureFloorGunShow>(Sims3.Gameplay.Queries.GetObjects<SculptureFloorGunShow>(sim.LotCurrent, sim.RoomId));
+									List<SculptureFloorGunShow> list2 = new List<SculptureFloorGunShow>(global::Sims3.Gameplay.Queries.GetObjects<SculptureFloorGunShow>(sim.LotCurrent, sim.RoomId));
 									if (list2.Count > 0)
 									{
 										foreach (SculptureFloorGunShow item in list2)
@@ -2529,7 +2531,7 @@ namespace S3_Passion
 			}
 
 			// masturbate while watching passion tv
-			public static ListenerAction WhenWatchTV(Event e)
+			public static ListenerAction WhenWatchTv(Event e)
 			{
 				ResourceKey key = ResourceKey.FromString("0xB1CC1AF6-0x00000000-0x8DC278D813275705");
 				ResourceKey key2 = ResourceKey.FromString("0xB1CC1AF6-0x00000000-0xEFD91C1084B3E2DA");
@@ -2625,60 +2627,60 @@ namespace S3_Passion
 							{
 							// time for some rng bullshit
 
-							int PassionCheckRoll;
+							int passionCheckRoll;
 
 							// if sim is 100% libido
 							if (sim.BuffManager.HasElement((BuffNames)2922253427052633003uL))
 							{
-								PassionCheckRoll = 90;
+								passionCheckRoll = 90;
 							}
 							// 90%
 							else if (sim.BuffManager.HasElement((BuffNames)13147589483235469726uL))
 							{
-								PassionCheckRoll = 80;
+								passionCheckRoll = 80;
 							}
 							// 80%
 							else if (sim.BuffManager.HasElement((BuffNames)14041574305464178967uL))
 							{
-								PassionCheckRoll = 70;
+								passionCheckRoll = 70;
 							}
 							// 70%
 							else if (sim.BuffManager.HasElement((BuffNames)16251613925768384549uL))
 							{
-								PassionCheckRoll = 60;
+								passionCheckRoll = 60;
 							}
 							// 60%
 							else if (sim.BuffManager.HasElement((BuffNames)2917472750494117670uL))
 							{
-								PassionCheckRoll = 50;
+								passionCheckRoll = 50;
 							}
 							// 50%
 							else if (sim.BuffManager.HasElement((BuffNames)8200297330989383022uL))
 							{
-								PassionCheckRoll = 40;
+								passionCheckRoll = 40;
 							}
 							// 40%
 							else if (sim.BuffManager.HasElement((BuffNames)8198323707617122614uL))
 							{
-								PassionCheckRoll = 30;
+								passionCheckRoll = 30;
 							}
 							// 30%
 							else if (sim.BuffManager.HasElement((BuffNames)3097843141287298166uL))
 							{
-								PassionCheckRoll = 20;
+								passionCheckRoll = 20;
 							}
 							// 20%
 							else if (sim.BuffManager.HasElement((BuffNames)2922268820215428064uL))
 							{
-								PassionCheckRoll = 10;
+								passionCheckRoll = 10;
 							}
 							else 
 							{
-								PassionCheckRoll = 0;
+								passionCheckRoll = 0;
 							}
 
 
-						if (PassionCheckRoll > 0 && RandomUtil.GetInt(0, 100) > PassionCheckRoll)
+						if (passionCheckRoll > 0 && RandomUtil.GetInt(0, 100) > passionCheckRoll)
 						{
 
 							
@@ -2762,8 +2764,8 @@ namespace S3_Passion
 							Relationship relationship = Relationship.Get(witness, value.Actor, false);
 							if (relationship != null)
 							{
-								LTRData lTRData = LTRData.Get(relationship.LTR.CurrentLTR);
-								if (witness.Partner != value.Actor.SimDescription && !lTRData.IsRomantic)
+								LTRData lTrData = LTRData.Get(relationship.LTR.CurrentLTR);
+								if (witness.Partner != value.Actor.SimDescription && !lTrData.IsRomantic)
 								{
 									flag = false;
 								}
@@ -2796,8 +2798,8 @@ namespace S3_Passion
 						Relationship relationship2 = Relationship.Get(witness, item, false);
 						if (relationship2 != null)
 						{
-							LTRData lTRData2 = LTRData.Get(relationship2.LTR.CurrentLTR);
-							if (witness.Partner == item.SimDescription || lTRData2.IsRomantic)
+							LTRData lTrData2 = LTRData.Get(relationship2.LTR.CurrentLTR);
+							if (witness.Partner == item.SimDescription || lTrData2.IsRomantic)
 							{
 								SocialComponent.OnIWasCheatedOn(witness, item.SimDescription, player.Actor.SimDescription, JealousyLevel.High);
 								RomanceVisibilityState.PushAccuseSimOfBetrayal(witness, item);
@@ -2825,7 +2827,7 @@ namespace S3_Passion
 		// sim stats
 		public class Player
 		{
-			public ulong ID;
+			public ulong Id;
 
 			public PassionState State;
 
@@ -2900,36 +2902,36 @@ namespace S3_Passion
 
 			protected ReactionBroadcaster JealousyBroadcaster;
 
-			protected Sim mActor;
+			protected Sim MActor;
 
-			protected SimDescription mDescription;
+			protected SimDescription MDescription;
 
-			protected float mHeightModifier = 0f;
+			protected float MHeightModifier = 0f;
 
-			public Sim.SwitchOutfitHelper mSwitchOutfitHelper;
+			public Sim.SwitchOutfitHelper MSwitchOutfitHelper;
 
 			public Sim Actor
 			{
 				get
 				{
-					if (mActor == null && mDescription != null)
+					if (MActor == null && MDescription != null)
 					{
-						mActor = mDescription.CreatedSim;
+						MActor = MDescription.CreatedSim;
 					}
-					return mActor;
+					return MActor;
 				}
 				set
 				{
-					mActor = value;
-					if (mActor != null)
+					MActor = value;
+					if (MActor != null)
 					{
-						mDescription = mActor.SimDescription;
-						ID = mActor.ObjectId.Value;
+						MDescription = MActor.SimDescription;
+						Id = MActor.ObjectId.Value;
 					}
 					else
 					{
-						mDescription = null;
-						ID = 0uL;
+						MDescription = null;
+						Id = 0uL;
 					}
 				}
 			}
@@ -2938,24 +2940,24 @@ namespace S3_Passion
 			{
 				get
 				{
-					if (mDescription == null && mActor != null)
+					if (MDescription == null && MActor != null)
 					{
-						mDescription = mActor.SimDescription;
+						MDescription = MActor.SimDescription;
 					}
-					return mDescription;
+					return MDescription;
 				}
 				set
 				{
-					mDescription = value;
-					if (mDescription != null)
+					MDescription = value;
+					if (MDescription != null)
 					{
-						mActor = mDescription.CreatedSim;
-						ID = mActor.ObjectId.Value;
+						MActor = MDescription.CreatedSim;
+						Id = MActor.ObjectId.Value;
 					}
 					else
 					{
-						mActor = null;
-						ID = 0uL;
+						MActor = null;
+						Id = 0uL;
 					}
 				}
 			}
@@ -2964,7 +2966,7 @@ namespace S3_Passion
 			{
 				get
 				{
-					return mHeightModifier;
+					return MHeightModifier;
 				}
 			}
 
@@ -3175,7 +3177,7 @@ namespace S3_Passion
 			{
 				get
 				{
-					if (IsValid && Actor.Motives != null && Actor.Motives.InMotiveDistress && (Settings.Motives == PassionMotives.EADefault || Settings.Motives == PassionMotives.PassionStandard) && (Actor.Motives.GetValue(CommodityKind.Energy) < -90f || Actor.Motives.GetValue(CommodityKind.Bladder) < -90f || Actor.Motives.GetValue(CommodityKind.Hunger) < -90f || Actor.Motives.GetValue(CommodityKind.MermaidDermalHydration) < -90f || Actor.Motives.GetValue(CommodityKind.VampireThirst) < -90f || Actor.Motives.GetValue(CommodityKind.AlienBrainPower) < -90f))
+					if (IsValid && Actor.Motives != null && Actor.Motives.InMotiveDistress && (Settings.Motives == PassionMotives.EaDefault || Settings.Motives == PassionMotives.PassionStandard) && (Actor.Motives.GetValue(CommodityKind.Energy) < -90f || Actor.Motives.GetValue(CommodityKind.Bladder) < -90f || Actor.Motives.GetValue(CommodityKind.Hunger) < -90f || Actor.Motives.GetValue(CommodityKind.MermaidDermalHydration) < -90f || Actor.Motives.GetValue(CommodityKind.VampireThirst) < -90f || Actor.Motives.GetValue(CommodityKind.AlienBrainPower) < -90f))
 					{
 						return true;
 					}
@@ -3282,17 +3284,17 @@ namespace S3_Passion
 			{
 				get
 				{
-					return mSwitchOutfitHelper;
+					return MSwitchOutfitHelper;
 				}
 				set
 				{
-					if (mSwitchOutfitHelper != value)
+					if (MSwitchOutfitHelper != value)
 					{
-						if (mSwitchOutfitHelper != null)
+						if (MSwitchOutfitHelper != null)
 						{
-							mSwitchOutfitHelper.Dispose();
+							MSwitchOutfitHelper.Dispose();
 						}
-						mSwitchOutfitHelper = value;
+						MSwitchOutfitHelper = value;
 					}
 				}
 			}
@@ -3341,11 +3343,11 @@ namespace S3_Passion
 			{
 				if (IsValid && sim.SimDescription.Teen)
 				{
-					mHeightModifier = SimPart.Types.Height.TeenMorph(sim);
+					MHeightModifier = SimPart.Types.Height.TeenMorph(sim);
 				}
 				else
 				{
-					mHeightModifier = 0f;
+					MHeightModifier = 0f;
 				}
 			}
 
@@ -3743,7 +3745,7 @@ namespace S3_Passion
 					for (int i = 0; i < PassionCommon.PreferredTypes.Count; i++)
 					{
 						Type randomObjectFromList = RandomUtil.GetRandomObjectFromList(randomList);
-						GameObject[] array = Sims3.SimIFace.Queries.GetObjects(randomObjectFromList, Actor.LotCurrent.LotId, Actor.RoomId) as GameObject[];
+						GameObject[] array = global::Sims3.SimIFace.Queries.GetObjects(randomObjectFromList, Actor.LotCurrent.LotId, Actor.RoomId) as GameObject[];
 						if (array == null)
 						{
 							continue;
@@ -3757,7 +3759,7 @@ namespace S3_Passion
 							}
 						}
 					}
-					GameObject[] objects = Sims3.Gameplay.Queries.GetObjects<GameObject>(Actor.LotCurrent, Actor.RoomId);
+					GameObject[] objects = global::Sims3.Gameplay.Queries.GetObjects<GameObject>(Actor.LotCurrent, Actor.RoomId);
 					GameObject[] array3 = objects;
 					foreach (GameObject gameObject2 in array3)
 					{
@@ -4011,7 +4013,7 @@ namespace S3_Passion
 			{
 				if (partner != null && partner.IsValid)
 				{
-					Route.RouteOption[] additionalRouteOptions = new Route.RouteOption[1] { Sims3.SimIFace.Route.RouteOption.MakeDynamicObjectAdjustments };
+					Route.RouteOption[] additionalRouteOptions = new Route.RouteOption[1] { global::Sims3.SimIFace.Route.RouteOption.MakeDynamicObjectAdjustments };
 					try
 					{
 						if (Actor.RoutingComponent.RouteToObjectRadialRange(partner.Actor, 1.5f, range, additionalRouteOptions))
@@ -4069,7 +4071,7 @@ namespace S3_Passion
 								return true;
 							}
 						}
-						Route.RouteOption[] additionalRouteOptions = new Route.RouteOption[1] { Sims3.SimIFace.Route.RouteOption.MakeDynamicObjectAdjustments };
+						Route.RouteOption[] additionalRouteOptions = new Route.RouteOption[1] { global::Sims3.SimIFace.Route.RouteOption.MakeDynamicObjectAdjustments };
 						try
 						{
 							if (Actor.RoutingComponent.RouteToObjectRadialRange(Part.Target.Object, 0.5f, 2.5f, additionalRouteOptions))
@@ -4131,11 +4133,11 @@ namespace S3_Passion
 					radialRangeDestination.mfPreferredSpacing = spacing;
 					radialRangeDestination.ScoreFunctionWeights[(uint)(UIntPtr)2uL] = 1f;
 					Route route = Actor.CreateRoute();
-					route.SetOption(Sims3.SimIFace.Route.RouteOption.EnableWaterPlanning, true);
-					route.SetOption(Sims3.SimIFace.Route.RouteOption.DoNotEmitDegenerateRoutesForRadialRangeGoals, true);
-					route.SetOption(Sims3.SimIFace.Route.RouteOption.DoLineOfSightCheckUserOverride, false);
-					route.SetOption(Sims3.SimIFace.Route.RouteOption.CheckForFootprintsNearGoals, false);
-					route.SetOption2(Sims3.SimIFace.Route.RouteOption2.EnablePlanningAsBoat, false);
+					route.SetOption(global::Sims3.SimIFace.Route.RouteOption.EnableWaterPlanning, true);
+					route.SetOption(global::Sims3.SimIFace.Route.RouteOption.DoNotEmitDegenerateRoutesForRadialRangeGoals, true);
+					route.SetOption(global::Sims3.SimIFace.Route.RouteOption.DoLineOfSightCheckUserOverride, false);
+					route.SetOption(global::Sims3.SimIFace.Route.RouteOption.CheckForFootprintsNearGoals, false);
+					route.SetOption2(global::Sims3.SimIFace.Route.RouteOption2.EnablePlanningAsBoat, false);
 					route.AddDestination(radialRangeDestination);
 					if (route.Plan().Succeeded() && Actor.DoRoute(route))
 					{
@@ -4265,7 +4267,7 @@ namespace S3_Passion
 				}
 				else
 				{
-					if (Settings.Motives == PassionMotives.EADefault)
+					if (Settings.Motives == PassionMotives.EaDefault)
 					{
 						return;
 					}
@@ -5718,10 +5720,10 @@ namespace S3_Passion
 			}
 
 			// apply condom to sim
-			public bool WearCondom(Sim PlayerSim, bool CondomOnDick)
+			public bool WearCondom(Sim playerSim, bool condomOnDick)
 			{
 				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8");
-				SimDescription simDescription = PlayerSim.SimDescription;
+				SimDescription simDescription = playerSim.SimDescription;
 				if (Settings.UseCondom && !World.ResourceExists(key))
 				{
 					PassionCommon.SystemMessage("Condom Accessories not found. Setting is now disabled!");
@@ -5731,9 +5733,9 @@ namespace S3_Passion
 				}
 				try
 				{
-					if (CondomOnDick && !Settings.CondomIsBroken && Settings.UseCondom)
+					if (condomOnDick && !Settings.CondomIsBroken && Settings.UseCondom)
 					{
-						SimDescription simDescription2 = PlayerSim.SimDescription;
+						SimDescription simDescription2 = playerSim.SimDescription;
 						if (simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8")) == null)
 						{
 							if (!RandomUtil.CoinFlip())
@@ -5743,12 +5745,12 @@ namespace S3_Passion
 								if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription2, "RedCondom", out resultOutfit))
 								{
 									simDescription2.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
-									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(playerSim, OutfitCategories.Naked, 0);
 									SwitchOutfitHelper.Start();
 									SwitchOutfitHelper.Wait(false);
 									try
 									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+										playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
 									}
 									catch
 									{
@@ -5763,12 +5765,12 @@ namespace S3_Passion
 								if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform2, simDescription2, "GreenCondom", out resultOutfit2))
 								{
 									simDescription2.AddOutfit(resultOutfit2, OutfitCategories.Naked, true);
-									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(playerSim, OutfitCategories.Naked, 0);
 									SwitchOutfitHelper.Start();
 									SwitchOutfitHelper.Wait(false);
 									try
 									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit2, 0);
+										playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit2, 0);
 									}
 									catch
 									{
@@ -5783,12 +5785,12 @@ namespace S3_Passion
 								if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform3, simDescription2, "WhiteCondom", out resultOutfit3))
 								{
 									simDescription2.AddOutfit(resultOutfit3, OutfitCategories.Naked, true);
-									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(playerSim, OutfitCategories.Naked, 0);
 									SwitchOutfitHelper.Start();
 									SwitchOutfitHelper.Wait(false);
 									try
 									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit3, 0);
+										playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit3, 0);
 									}
 									catch
 									{
@@ -5798,9 +5800,9 @@ namespace S3_Passion
 							}
 						}
 					}
-					else if (!CondomOnDick)
+					else if (!condomOnDick)
 					{
-						SimDescription simDescription3 = PlayerSim.SimDescription;
+						SimDescription simDescription3 = playerSim.SimDescription;
 						if ((simDescription3.GetOutfitCount(OutfitCategories.Naked) != 1 && simDescription3.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8")) != null && Settings.CondomIsBroken) || (simDescription3.GetOutfitCount(OutfitCategories.Naked) != 1 && simDescription3.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8")) != null && !Settings.UseCondom) || (simDescription3.GetOutfitCount(OutfitCategories.Naked) != 1 && simDescription3.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8")) != null && Settings.RemoveCondom))
 						{
 							if (simDescription3.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883")) == null)
@@ -5811,7 +5813,7 @@ namespace S3_Passion
 								}
 								try
 								{
-									PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+									playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
 								}
 								catch
 								{
@@ -5828,10 +5830,10 @@ namespace S3_Passion
 			}
 
 			// attach strapon to dickless sim
-			public bool SwitchToStrapon(Sim PlayerSim, bool AddRemove)
+			public bool SwitchToStrapon(Sim playerSim, bool addRemove)
 			{
 				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A");
-				SimDescription simDescription = PlayerSim.SimDescription;
+				SimDescription simDescription = playerSim.SimDescription;
 				try
 				{
 					// if straps are disabled (aka for cowards)
@@ -5840,15 +5842,15 @@ namespace S3_Passion
 						return false;
 					}
 					// if player doesnt have any straps
-					if (Settings.FemaleUseStrapOn && !World.ResourceExists(key) && AddRemove)
+					if (Settings.FemaleUseStrapOn && !World.ResourceExists(key) && addRemove)
 					{
 						PassionCommon.SystemMessage("StrapOn Accessory was not found. Setting is now disabled!");
 						Settings.FemaleUseStrapOn = false;
 						return false;
 					}
-					if (AddRemove)
+					if (addRemove)
 					{
-						SimDescription simDescription2 = PlayerSim.SimDescription;
+						SimDescription simDescription2 = playerSim.SimDescription;
 						if (simDescription2.GetOutfitCount(OutfitCategories.Naked) == 1)
 						{
 							// generate new outfit
@@ -5857,12 +5859,12 @@ namespace S3_Passion
 							if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription2, "fAccessoryStrapon", out resultOutfit))
 							{
 								simDescription2.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
-								SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+								SwitchOutfitHelper = new Sim.SwitchOutfitHelper(playerSim, OutfitCategories.Naked, 0);
 								SwitchOutfitHelper.Start();
 								SwitchOutfitHelper.Wait(false);
 								try
 								{
-									PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+									playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
 								}
 								catch
 								{
@@ -5871,9 +5873,9 @@ namespace S3_Passion
 							}
 						}
 					}
-					else if (!AddRemove)
+					else if (!addRemove)
 					{
-						SimDescription simDescription3 = PlayerSim.SimDescription;
+						SimDescription simDescription3 = playerSim.SimDescription;
 						if (simDescription3.GetOutfitCount(OutfitCategories.Naked) != 1)
 						{
 							while (simDescription3.GetOutfitCount(OutfitCategories.Naked) > 1)
@@ -5882,7 +5884,7 @@ namespace S3_Passion
 							}
 							try
 							{
-								PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+								playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
 							}
 							catch
 							{
@@ -5899,10 +5901,10 @@ namespace S3_Passion
 
 			// add spaceman peener to sims with peens
 			//... so thats what that meant
-			public bool SwitchToPeener(Sim PlayerSim, bool AddIt)
+			public bool SwitchToPeener(Sim playerSim, bool addIt)
 			{
 				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883");
-				if (!World.ResourceExists(key) && AddIt)
+				if (!World.ResourceExists(key) && addIt)
 				{
 					PassionCommon.SystemMessage("SpaceMan Peener is not installed. SM animations will use the default penis.");
 					return false;
@@ -5911,9 +5913,9 @@ namespace S3_Passion
 				{
 					try
 					{
-						if (AddIt)
+						if (addIt)
 						{
-							SimDescription simDescription = PlayerSim.SimDescription;
+							SimDescription simDescription = playerSim.SimDescription;
 							if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883")) == null)
 							{
 								SimOutfit uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x5F49653E2405BBFB"));
@@ -5921,12 +5923,12 @@ namespace S3_Passion
 								if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "Spaceman_ Peener", out resultOutfit))
 								{
 									simDescription.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
-									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(playerSim, OutfitCategories.Naked, 0);
 									SwitchOutfitHelper.Start();
 									SwitchOutfitHelper.Wait(false);
 									try
 									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+										playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
 									}
 									catch
 									{
@@ -5935,9 +5937,9 @@ namespace S3_Passion
 								return true;
 							}
 						}
-						else if (!AddIt)
+						else if (!addIt)
 						{
-							SimDescription simDescription2 = PlayerSim.SimDescription;
+							SimDescription simDescription2 = playerSim.SimDescription;
 							if (simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883")) != null)
 							{
 								if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1 && simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8")) == null)
@@ -5948,7 +5950,7 @@ namespace S3_Passion
 									}
 									try
 									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+										playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
 									}
 									catch
 									{
@@ -5959,7 +5961,7 @@ namespace S3_Passion
 									simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
 									try
 									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+										playerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
 									}
 									catch
 									{
@@ -6073,12 +6075,12 @@ namespace S3_Passion
 					partner.IsInPlace = false;
 					Join(part2);
 					partner.Join(part);
-					part.Players.Remove(ID);
+					part.Players.Remove(Id);
 					if (part.Initiator == this)
 					{
 						part.SwapInitiator(partner);
 					}
-					part2.Players.Remove(partner.ID);
+					part2.Players.Remove(partner.Id);
 					if (part2.Initiator == partner)
 					{
 						part2.SwapInitiator(this);
@@ -6271,22 +6273,22 @@ namespace S3_Passion
 			public bool PassthroughDisabled = false;
 
 			[PersistableStatic]
-			private static Dictionary<PassionType, int> mMinSimsList;
+			private static Dictionary<PassionType, int> _mMinSimsList;
 
 			[PersistableStatic]
-			private static Dictionary<PassionType, int> mMaxSimsList;
+			private static Dictionary<PassionType, int> _mMaxSimsList;
 
-			protected Dictionary<PartArea, Part> mParts;
+			protected Dictionary<PartArea, Part> MParts;
 
 			public static Dictionary<PassionType, int> MinSimsList
 			{
 				get
 				{
-					if (mMinSimsList == null)
+					if (_mMinSimsList == null)
 					{
-						mMinSimsList = new Dictionary<PassionType, int>();
+						_mMinSimsList = new Dictionary<PassionType, int>();
 					}
-					return mMinSimsList;
+					return _mMinSimsList;
 				}
 			}
 
@@ -6302,11 +6304,11 @@ namespace S3_Passion
 			{
 				get
 				{
-					if (mMaxSimsList == null)
+					if (_mMaxSimsList == null)
 					{
-						mMaxSimsList = new Dictionary<PassionType, int>();
+						_mMaxSimsList = new Dictionary<PassionType, int>();
 					}
-					return mMaxSimsList;
+					return _mMaxSimsList;
 				}
 			}
 
@@ -6322,11 +6324,11 @@ namespace S3_Passion
 			{
 				get
 				{
-					if (mParts == null)
+					if (MParts == null)
 					{
-						mParts = new Dictionary<PartArea, Part>();
+						MParts = new Dictionary<PartArea, Part>();
 					}
-					return mParts;
+					return MParts;
 				}
 			}
 
@@ -6429,10 +6431,10 @@ namespace S3_Passion
 
 			public static void Unload()
 			{
-				mMinSimsList.Clear();
-				mMinSimsList = null;
-				mMaxSimsList.Clear();
-				mMaxSimsList = null;
+				_mMinSimsList.Clear();
+				_mMinSimsList = null;
+				_mMaxSimsList.Clear();
+				_mMaxSimsList = null;
 			}
 
 			public static int GetMinSims(PassionType type)
@@ -6478,10 +6480,10 @@ namespace S3_Passion
 
 			public static void ClearMinMaxSims()
 			{
-				mMinSimsList.Clear();
-				mMinSimsList = null;
-				mMaxSimsList.Clear();
-				mMaxSimsList = null;
+				_mMinSimsList.Clear();
+				_mMinSimsList = null;
+				_mMaxSimsList.Clear();
+				_mMaxSimsList = null;
 			}
 
 			public bool IsOccupiedByOtherSims(Sim exclude)
@@ -7087,12 +7089,12 @@ namespace S3_Passion
 				return null;
 			}
 
-			public static PartArea ChooseSectionDialog(PassionType PT)
+			public static PartArea ChooseSectionDialog(PassionType pt)
 			{
 				PartArea result = PartArea.Middle;
-				if (PT != null && PT.IsValid)
+				if (pt != null && pt.IsValid)
 				{
-					if (PT.Is<BedDouble>())
+					if (pt.Is<BedDouble>())
 					{
 						switch (ThreeButtonDialog.Show(PassionCommon.Localize("S3_Passion.Terms.WhatPartOfBed"), PassionCommon.Localize("S3_Passion.Terms.LeftSide"), PassionCommon.Localize("S3_Passion.Terms.Center"), PassionCommon.Localize("S3_Passion.Terms.RightSide")))
 						{
@@ -7104,7 +7106,7 @@ namespace S3_Passion
 							break;
 						}
 					}
-					else if (PT.Is<HotTubGrotto>())
+					else if (pt.Is<HotTubGrotto>())
 					{
 						switch (ThreeButtonDialog.Show(PassionCommon.Localize("S3_Passion.Terms.WhatPartOfHotTub"), PassionCommon.Localize("S3_Passion.Terms.LeftSide"), PassionCommon.Localize("S3_Passion.Terms.Center"), PassionCommon.Localize("S3_Passion.Terms.RightSide")))
 						{
@@ -7116,11 +7118,11 @@ namespace S3_Passion
 							break;
 						}
 					}
-					else if (PT.Is<HotTub4Seated>())
+					else if (pt.Is<HotTub4Seated>())
 					{
 						result = ((!TwoButtonDialog.Show(PassionCommon.Localize("S3_Passion.Terms.WhatPartOfHotTub"), PassionCommon.Localize("S3_Passion.Terms.Top"), PassionCommon.Localize("S3_Passion.Terms.Bottom"))) ? PartArea.Bottom : PartArea.Top);
 					}
-					else if (PT.Is<TableDining3x1>())
+					else if (pt.Is<TableDining3x1>())
 					{
 						result = ((!TwoButtonDialog.Show(PassionCommon.Localize("S3_Passion.Terms.WhatPartOfTable"), PassionCommon.Localize("S3_Passion.Terms.LeftSide"), PassionCommon.Localize("S3_Passion.Terms.RightSide"))) ? PartArea.Right : PartArea.Left);
 					}
@@ -7156,19 +7158,19 @@ namespace S3_Passion
 
 			public ObjectSound SoundEffect;
 
-			protected SafeDictionary<ulong, Player> mPlayers;
+			protected SafeDictionary<ulong, Player> MPlayers;
 
-			protected bool mPositionChanged = false;
+			protected bool MPositionChanged = false;
 
 			public SafeDictionary<ulong, Player> Players
 			{
 				get
 				{
-					if (mPlayers == null)
+					if (MPlayers == null)
 					{
-						mPlayers = new SafeDictionary<ulong, Player>();
+						MPlayers = new SafeDictionary<ulong, Player>();
 					}
-					return mPlayers;
+					return MPlayers;
 				}
 			}
 
@@ -7192,16 +7194,16 @@ namespace S3_Passion
 			{
 				get
 				{
-					if (mPositionChanged)
+					if (MPositionChanged)
 					{
-						mPositionChanged = false;
+						MPositionChanged = false;
 						return true;
 					}
 					return false;
 				}
 				set
 				{
-					mPositionChanged = value;
+					MPositionChanged = value;
 				}
 			}
 
@@ -7412,7 +7414,7 @@ namespace S3_Passion
 				}
 			}
 
-			public static void GetPartsForTarget(GameObject target, PartArea target_part, out PartData part1, out PartData part2)
+			public static void GetPartsForTarget(GameObject target, PartArea targetPart, out PartData part1, out PartData part2)
 			{
 				part1 = null;
 				part2 = null;
@@ -7439,7 +7441,7 @@ namespace S3_Passion
 					}
 					if (target is BedDouble)
 					{
-						if (part3.Area == PartArea.Left && target_part != PartArea.Right)
+						if (part3.Area == PartArea.Left && targetPart != PartArea.Right)
 						{
 							part1 = part3;
 							if (part2 != null)
@@ -7447,7 +7449,7 @@ namespace S3_Passion
 								break;
 							}
 						}
-						else if (part3.Area == PartArea.Right && target_part != 0)
+						else if (part3.Area == PartArea.Right && targetPart != 0)
 						{
 							part2 = part3;
 							if (part1 != null)
@@ -7515,7 +7517,7 @@ namespace S3_Passion
 					}
 					else if (target is HotTub4Seated)
 					{
-						if (target_part == PartArea.Top)
+						if (targetPart == PartArea.Top)
 						{
 							if (part3.Area == PartArea.Part_0)
 							{
@@ -7534,7 +7536,7 @@ namespace S3_Passion
 								}
 							}
 						}
-						if (target_part != PartArea.Bottom)
+						if (targetPart != PartArea.Bottom)
 						{
 							continue;
 						}
@@ -7561,7 +7563,7 @@ namespace S3_Passion
 						{
 							continue;
 						}
-						if (target_part == PartArea.Left)
+						if (targetPart == PartArea.Left)
 						{
 							if (part3.Area == PartArea.Part_0)
 							{
@@ -7580,7 +7582,7 @@ namespace S3_Passion
 								}
 							}
 						}
-						if (target_part == PartArea.Middle)
+						if (targetPart == PartArea.Middle)
 						{
 							if (part3.Area == PartArea.Part_2)
 							{
@@ -7599,7 +7601,7 @@ namespace S3_Passion
 								}
 							}
 						}
-						if (target_part != PartArea.Right)
+						if (targetPart != PartArea.Right)
 						{
 							continue;
 						}
@@ -7762,13 +7764,13 @@ namespace S3_Passion
 					{
 						Reserve(player);
 					}
-					if (Players.ContainsKey(player.ID))
+					if (Players.ContainsKey(player.Id))
 					{
-						Players[player.ID] = player;
+						Players[player.Id] = player;
 					}
 					else
 					{
-						Players.Add(player.ID, player);
+						Players.Add(player.Id, player);
 					}
 					player.Part = this;
 					return true;
@@ -7797,7 +7799,7 @@ namespace S3_Passion
 			{
 				if (sequence != null)
 				{
-					mPositionChanged = true;
+					MPositionChanged = true;
 					CurrentSequence = SequenceInstance.Create(sequence);
 					Position first = CurrentSequence.First;
 					if (first != null)
@@ -7822,7 +7824,7 @@ namespace S3_Passion
 			{
 				if ((position != null && position != Position) || HasSequence)
 				{
-					mPositionChanged = true;
+					MPositionChanged = true;
 					if (!keepsequence)
 					{
 						CurrentSequence = null;
@@ -8001,7 +8003,7 @@ namespace S3_Passion
 			public void CurrentPositionInvalidate()
 			{
 				CurrentPositionKey = string.Empty;
-				mPositionChanged = true;
+				MPositionChanged = true;
 			}
 
 			public bool CanAnimate(out List<Player> ready)
@@ -8080,9 +8082,9 @@ namespace S3_Passion
 				{
 					return;
 				}
-				if (Players.ContainsKey(player.ID))
+				if (Players.ContainsKey(player.Id))
 				{
-					Players.Remove(player.ID);
+					Players.Remove(player.Id);
 				}
 				if (player == Initiator && Players.Count > 0)
 				{
@@ -8105,7 +8107,7 @@ namespace S3_Passion
 					{
 						if (value != null && value.IsActive)
 						{
-							mPositionChanged = true;
+							MPositionChanged = true;
 							value.BufferedAnimation = Position.GetAnimation(value);
 						}
 					}
@@ -8369,7 +8371,7 @@ namespace S3_Passion
 						}
 						foreach (Player value2 in Players.Values)
 						{
-							if (!value2.IsActive || value2.Actor == value.Actor || (!value2.HasRealPenis && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossibleSameSexPregnancy) && Settings.PregnancyMethod != PregnancyMethod.KWSystem) || ((Settings.PregnancyMethod != PregnancyMethod.ByCategory || !PassionCommon.Match(Position.Categories, 12)) && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossiblePregnancy) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !value.Actor.IsFemale || !PassionCommon.Match(Position.Categories, 4)) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !value.Actor.IsMale || !PassionCommon.Match(Position.Categories, 8)) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !PassionCommon.Match(Position.Categories, 12))))
+							if (!value2.IsActive || value2.Actor == value.Actor || (!value2.HasRealPenis && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossibleSameSexPregnancy) && Settings.PregnancyMethod != PregnancyMethod.KwSystem) || ((Settings.PregnancyMethod != PregnancyMethod.ByCategory || !PassionCommon.Match(Position.Categories, 12)) && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossiblePregnancy) && (Settings.PregnancyMethod != PregnancyMethod.KwSystem || !value.Actor.IsFemale || !PassionCommon.Match(Position.Categories, 4)) && (Settings.PregnancyMethod != PregnancyMethod.KwSystem || !value.Actor.IsMale || !PassionCommon.Match(Position.Categories, 8)) && (Settings.PregnancyMethod != PregnancyMethod.KwSystem || !PassionCommon.Match(Position.Categories, 12))))
 							{
 								continue;
 							}
@@ -8446,13 +8448,13 @@ namespace S3_Passion
 					}
 					value.BufferedAnimation = ((clipData != null) ? clipData.Clip : string.Empty);
 					value.RecalculateMotiveUpdates();
-					if (!Settings.UseCondom && Settings.STD)
+					if (!Settings.UseCondom && Settings.Std)
 					{
-						STD.Process(value);
+						Std.Process(value);
 					}
-					else if (Settings.UseCondom && Settings.STD && Settings.CondomIsBroken)
+					else if (Settings.UseCondom && Settings.Std && Settings.CondomIsBroken)
 					{
-						STD.Process(value);
+						Std.Process(value);
 					}
 					if (Settings.Jealousy && value.IsInitiator)
 					{
@@ -8880,7 +8882,7 @@ namespace S3_Passion
 				[Persistable]
 				public class ClipData
 				{
-					public static readonly Dictionary<int, string> AWPosition;
+					public static readonly Dictionary<int, string> AwPosition;
 
 					public string Clip;
 
@@ -8904,16 +8906,16 @@ namespace S3_Passion
 
 					public static ClipData CreateFromAnimatedWoohoo(string clip1, string clip2, int position, int participants)
 					{
-						if (!AWPosition.ContainsKey(position))
+						if (!AwPosition.ContainsKey(position))
 						{
 							position = 1;
 						}
-						return new ClipData(clip1 + AWPosition[position] + clip2 + ((participants == 3) ? "o" : string.Empty), position == 1, false);
+						return new ClipData(clip1 + AwPosition[position] + clip2 + ((participants == 3) ? "o" : string.Empty), position == 1, false);
 					}
 
 					public static bool Exists(string clip)
 					{
-						return !string.IsNullOrEmpty(clip) && Sims3.SimIFace.Animation.ClipExists(clip, ProductVersion.BaseGame);
+						return !string.IsNullOrEmpty(clip) && global::Sims3.SimIFace.Animation.ClipExists(clip, ProductVersion.BaseGame);
 					}
 
 					public bool CompareFlags(uint flags)
@@ -8983,7 +8985,7 @@ namespace S3_Passion
 						dictionary.Add(24, "X");
 						dictionary.Add(25, "Y");
 						dictionary.Add(26, "Z");
-						AWPosition = dictionary;
+						AwPosition = dictionary;
 					}
 				}
 
@@ -8993,7 +8995,7 @@ namespace S3_Passion
 
 					public const int Female = 8192;
 
-					private static readonly Dictionary<int, string> mDictionary;
+					private static readonly Dictionary<int, string> MDictionary;
 
 					public static string AgeGender(Sim sim)
 					{
@@ -9041,9 +9043,9 @@ namespace S3_Passion
 
 					public static string Get(int i)
 					{
-						if (mDictionary.ContainsKey(i) && mDictionary[i] != null)
+						if (MDictionary.ContainsKey(i) && MDictionary[i] != null)
 						{
-							return mDictionary[i];
+							return MDictionary[i];
 						}
 						return "";
 					}
@@ -9058,7 +9060,7 @@ namespace S3_Passion
 						dictionary.Add(64, "a");
 						dictionary.Add(4096, "");
 						dictionary.Add(8192, "f");
-						mDictionary = dictionary;
+						MDictionary = dictionary;
 					}
 				}
 			}
@@ -9083,7 +9085,7 @@ namespace S3_Passion
 
 			public Dictionary<int, int> InteractsWith;
 
-			public Dictionary<int, string> SimID;
+			public Dictionary<int, string> SimId;
 
 			public Dictionary<int, string> HardCodedAnimationName;
 
@@ -9135,22 +9137,22 @@ namespace S3_Passion
 
 			public int Pumpkin;
 
-			protected int mMinSims;
+			protected int MMinSims;
 
-			protected int mMaxSims;
+			protected int MMaxSims;
 
 			public int MinSims
 			{
 				get
 				{
-					return mMinSims;
+					return MMinSims;
 				}
 				set
 				{
-					mMinSims = value;
-					if (mMinSims > mMaxSims)
+					MMinSims = value;
+					if (MMinSims > MMaxSims)
 					{
-						mMaxSims = mMinSims;
+						MMaxSims = MMinSims;
 					}
 				}
 			}
@@ -9159,14 +9161,14 @@ namespace S3_Passion
 			{
 				get
 				{
-					return mMaxSims;
+					return MMaxSims;
 				}
 				set
 				{
-					mMaxSims = value;
-					if (mMaxSims < mMinSims)
+					MMaxSims = value;
+					if (MMaxSims < MMinSims)
 					{
-						mMinSims = mMaxSims;
+						MMinSims = MMaxSims;
 					}
 				}
 			}
@@ -9186,13 +9188,13 @@ namespace S3_Passion
 				int num = 0;
 				if (!string.IsNullOrEmpty(filename))
 				{
-					XML.File file = XML.Create(filename);
+					Xml.File file = Xml.Create(filename);
 					if (file.IsValid)
 					{
-						XML.Node node = file["Passion"];
+						Xml.Node node = file["Passion"];
 						if (node != null)
 						{
-							foreach (XML.Node matchingNode7 in node.GetMatchingNodes("Position"))
+							foreach (Xml.Node matchingNode7 in node.GetMatchingNodes("Position"))
 							{
 								if (string.IsNullOrEmpty(matchingNode7["Name"]))
 								{
@@ -9238,10 +9240,10 @@ namespace S3_Passion
 										}
 									}
 								}
-								XML.Node matchingNode = matchingNode7.GetMatchingNode("AnimationSets");
+								Xml.Node matchingNode = matchingNode7.GetMatchingNode("AnimationSets");
 								if (matchingNode != null)
 								{
-									foreach (XML.Node matchingNode8 in matchingNode.GetMatchingNodes("Set"))
+									foreach (Xml.Node matchingNode8 in matchingNode.GetMatchingNodes("Set"))
 									{
 										if (matchingNode8 == null)
 										{
@@ -9270,7 +9272,7 @@ namespace S3_Passion
 											position.Sets.Add(num2, set);
 										}
 										set.TargetAnimation = matchingNode8["TargetAnimation"];
-										foreach (XML.Node matchingNode9 in matchingNode8.GetMatchingNodes("Player"))
+										foreach (Xml.Node matchingNode9 in matchingNode8.GetMatchingNodes("Player"))
 										{
 											int num3 = PassionCommon.Int(matchingNode9.GetAttribute("Index"));
 											if (num3 <= 0)
@@ -9278,12 +9280,12 @@ namespace S3_Passion
 												continue;
 											}
 											Animation.Slot slot = set.Add(num3);
-											XML.Node matchingNode2 = matchingNode9.GetMatchingNode("HeldItem");
+											Xml.Node matchingNode2 = matchingNode9.GetMatchingNode("HeldItem");
 											if (matchingNode2 != null)
 											{
-												XML.Node matchingNode3 = matchingNode2.GetMatchingNode("Location");
+												Xml.Node matchingNode3 = matchingNode2.GetMatchingNode("Location");
 												Vector3 location = ((matchingNode3 != null) ? new Vector3(PassionCommon.Float(matchingNode3.GetAttribute("X")), PassionCommon.Float(matchingNode3.GetAttribute("Y")), PassionCommon.Float(matchingNode3.GetAttribute("Z"))) : Vector3.Empty);
-												XML.Node matchingNode4 = matchingNode2.GetMatchingNode("Facing");
+												Xml.Node matchingNode4 = matchingNode2.GetMatchingNode("Facing");
 												Vector3 facing = ((matchingNode4 != null) ? new Vector3(PassionCommon.Float(matchingNode4.GetAttribute("X")), PassionCommon.Float(matchingNode4.GetAttribute("Y")), PassionCommon.Float(matchingNode4.GetAttribute("Z"))) : Vector3.Empty);
 												float angle = PassionCommon.Float(matchingNode2["Angle"]);
 												uint slot2 = 3703456078u;
@@ -9301,7 +9303,7 @@ namespace S3_Passion
 												slot.HeldItem = HeldItem.Create(matchingNode2["ObjectKey"], location, facing, angle, slot2);
 												slot.HeldItemAnimation = matchingNode2["Clip"];
 											}
-											foreach (XML.Node matchingNode10 in matchingNode9.GetMatchingNodes("Clip"))
+											foreach (Xml.Node matchingNode10 in matchingNode9.GetMatchingNodes("Clip"))
 											{
 												if (!Animation.ClipData.Exists(matchingNode10.Value))
 												{
@@ -9313,7 +9315,7 @@ namespace S3_Passion
 												float num6 = PassionCommon.Float(matchingNode10.GetAttribute("Z"));
 												bool penis = false;
 												bool vagina = false;
-												CASAgeGenderFlags cASAgeGenderFlags = CASAgeGenderFlags.None;
+												CASAgeGenderFlags cAsAgeGenderFlags = CASAgeGenderFlags.None;
 												if (!string.IsNullOrEmpty(attribute))
 												{
 													attribute = attribute.Replace(" ", string.Empty);
@@ -9330,15 +9332,15 @@ namespace S3_Passion
 															vagina = true;
 															break;
 														case "teen":
-															cASAgeGenderFlags |= CASAgeGenderFlags.Teen;
+															cAsAgeGenderFlags |= CASAgeGenderFlags.Teen;
 															break;
 														default:
-															cASAgeGenderFlags = (CASAgeGenderFlags)((uint)cASAgeGenderFlags | (uint)PassionCommon.Int(text4));
+															cAsAgeGenderFlags = (CASAgeGenderFlags)((uint)cAsAgeGenderFlags | (uint)PassionCommon.Int(text4));
 															break;
 														}
 													}
 												}
-												slot.Add(matchingNode10.Value, cASAgeGenderFlags, penis, vagina);
+												slot.Add(matchingNode10.Value, cAsAgeGenderFlags, penis, vagina);
 											}
 										}
 										set.Update();
@@ -9356,10 +9358,10 @@ namespace S3_Passion
 								num++;
 							}
 						}
-						XML.Node node2 = file["WooHooStages"];
+						Xml.Node node2 = file["WooHooStages"];
 						if (node2 != null)
 						{
-							foreach (XML.Node matchingNode11 in node2.GetMatchingNodes("WooHooStage"))
+							foreach (Xml.Node matchingNode11 in node2.GetMatchingNodes("WooHooStage"))
 							{
 								if (string.IsNullOrEmpty(matchingNode11["Key"]))
 								{
@@ -9375,7 +9377,7 @@ namespace S3_Passion
 								position2.AnimObject = matchingNode11["Objects"];
 								position2.ObjectAnimation = matchingNode11["ObjectAnimation"];
 								SimBuilder simBuilder = new SimBuilder();
-								List<XML.Node> matchingNodes = matchingNode11.GetMatchingNodes("WooHooActor");
+								List<Xml.Node> matchingNodes = matchingNode11.GetMatchingNodes("WooHooActor");
 								if (matchingNodes.Count > position2.MinSims)
 								{
 									position2.MaxSims = matchingNodes.Count;
@@ -9384,7 +9386,7 @@ namespace S3_Passion
 								{
 									position2.MaxSims = position2.MinSims;
 								}
-								foreach (XML.Node item in matchingNodes)
+								foreach (Xml.Node item in matchingNodes)
 								{
 									int num7 = PassionCommon.Int(item.GetAttribute("Id")) + 1;
 									position2.AddHardCodedAnimation(num7, item["Animation"]);
@@ -9437,7 +9439,7 @@ namespace S3_Passion
 										}
 										Animation.Slot slot3 = set2.Add(num7);
 										slot3.Add(item["Animation"], CASAgeGenderFlags.None, flag, vagina2);
-										XML.Node matchingNode5 = item.GetMatchingNode("Accessory");
+										Xml.Node matchingNode5 = item.GetMatchingNode("Accessory");
 										if (matchingNode5 != null)
 										{
 											string empty = string.Empty;
@@ -9601,7 +9603,7 @@ namespace S3_Passion
 											value2.Update();
 										}
 									}
-									XML.Node matchingNode6 = item.GetMatchingNode("Action");
+									Xml.Node matchingNode6 = item.GetMatchingNode("Action");
 									if (matchingNode6 == null)
 									{
 										continue;
@@ -9770,7 +9772,7 @@ namespace S3_Passion
 										position2.AddSupportedType<Telescope>();
 										break;
 									case "Scarecrow":
-										position2.AddSupportedType<Sims3.Gameplay.Objects.Environment.Scarecrow>();
+										position2.AddSupportedType<global::Sims3.Gameplay.Objects.Environment.Scarecrow>();
 										break;
 									case "HauntedHouse":
 										position2.AddSupportedType<HauntedHouse>();
@@ -9813,10 +9815,10 @@ namespace S3_Passion
 								num++;
 							}
 						}
-						XML.Node node3 = file["AnimatedWoohoo"];
+						Xml.Node node3 = file["AnimatedWoohoo"];
 						if (node3 != null)
 						{
-							foreach (XML.Node matchingNode12 in node3.GetMatchingNodes("Position"))
+							foreach (Xml.Node matchingNode12 in node3.GetMatchingNodes("Position"))
 							{
 								string text7 = matchingNode12["animName"];
 								if (string.IsNullOrEmpty(text7))
@@ -9884,13 +9886,13 @@ namespace S3_Passion
 										string value = matchingNode12["sim" + m + "IDOverwrite"];
 										if (!string.IsNullOrEmpty(value))
 										{
-											if (position3.SimID.ContainsKey(m))
+											if (position3.SimId.ContainsKey(m))
 											{
-												position3.SimID[m] = value;
+												position3.SimId[m] = value;
 											}
 											else
 											{
-												position3.SimID.Add(m, value);
+												position3.SimId.Add(m, value);
 											}
 										}
 										int num9 = PassionCommon.Int(matchingNode12["sim" + m + "InteractsWith"]);
@@ -10155,7 +10157,7 @@ namespace S3_Passion
 				return list;
 			}
 
-			public static void GetMinMaxSims(PassionType type, out int MinSims, out int MaxSims)
+			public static void GetMinMaxSims(PassionType type, out int minSims, out int maxSims)
 			{
 				int num = int.MaxValue;
 				int num2 = 0;
@@ -10181,8 +10183,8 @@ namespace S3_Passion
 				{
 					num2 = 1;
 				}
-				MinSims = num;
-				MaxSims = num2;
+				minSims = num;
+				maxSims = num2;
 			}
 
 			public Position()
@@ -10195,8 +10197,8 @@ namespace S3_Passion
 				SupportedTypes = new Dictionary<string, PassionType>();
 				Sets = new Dictionary<int, Animation.Set>();
 				Creator = string.Empty;
-				mMinSims = 0;
-				mMaxSims = 0;
+				MMinSims = 0;
+				MMaxSims = 0;
 				Clip = string.Empty;
 				TeenAnimations = false;
 				FemaleAnimations = false;
@@ -10233,7 +10235,7 @@ namespace S3_Passion
 				dictionary4.Add(4, "D");
 				dictionary4.Add(5, "E");
 				dictionary4.Add(6, "F");
-				SimID = dictionary4;
+				SimId = dictionary4;
 				Dictionary<int, bool> dictionary5 = new Dictionary<int, bool>();
 				dictionary5.Add(1, false);
 				dictionary5.Add(2, false);
@@ -10689,17 +10691,17 @@ namespace S3_Passion
 
 			public bool Continue;
 
-			protected SequenceItem[] mItems;
+			protected SequenceItem[] MItems;
 
 			public SequenceItem[] Items
 			{
 				get
 				{
-					if (mItems == null)
+					if (MItems == null)
 					{
-						mItems = new SequenceItem[0];
+						MItems = new SequenceItem[0];
 					}
-					return mItems;
+					return MItems;
 				}
 			}
 
@@ -10734,28 +10736,28 @@ namespace S3_Passion
 				Repeat = true;
 			}
 
-			public void RestoreItems(List<XML.Node> itemset)
+			public void RestoreItems(List<Xml.Node> itemset)
 			{
 				if (itemset == null || itemset.Count <= 0)
 				{
 					return;
 				}
-				mItems = new SequenceItem[itemset.Count];
+				MItems = new SequenceItem[itemset.Count];
 				MaxSims = int.MaxValue;
 				MinSims = 0;
-				foreach (XML.Node item in itemset)
+				foreach (Xml.Node item in itemset)
 				{
 					if (string.IsNullOrEmpty(item["Index"]))
 					{
 						continue;
 					}
 					int num = PassionCommon.Int(item["Index"]);
-					if (num < 0 || num >= mItems.Length)
+					if (num < 0 || num >= MItems.Length)
 					{
 						continue;
 					}
 					SequenceItem sequenceItem = new SequenceItem(item["Key"], PassionCommon.Long(item["Length"]), num);
-					mItems[num] = sequenceItem;
+					MItems[num] = sequenceItem;
 					if (sequenceItem.Position != null)
 					{
 						if (sequenceItem.Position.MaxSims < MaxSims)
@@ -10869,7 +10871,7 @@ namespace S3_Passion
 				}
 				item.Index = num;
 				array[num] = item;
-				mItems = array;
+				MItems = array;
 				CleanSupportedTypes();
 			}
 
@@ -10935,7 +10937,7 @@ namespace S3_Passion
 				SupportedTypes = new Dictionary<string, PassionType>(LoadedTypes);
 				MaxSims = int.MaxValue;
 				MinSims = 0;
-				mItems = null;
+				MItems = null;
 			}
 
 			public void Remove(int index)
@@ -10951,11 +10953,11 @@ namespace S3_Passion
 					{
 						SequenceItem[] destinationArray = new SequenceItem[num];
 						Array.Copy(Items, destinationArray, num);
-						mItems = destinationArray;
+						MItems = destinationArray;
 					}
 					else
 					{
-						mItems = new SequenceItem[0];
+						MItems = new SequenceItem[0];
 					}
 				}
 			}
@@ -10964,9 +10966,9 @@ namespace S3_Passion
 		[Persistable]
 		public class SequenceInstance
 		{
-			protected int mCurrent = 0;
+			protected int MCurrent = 0;
 
-			protected long mStart = 0L;
+			protected long MStart = 0L;
 
 			public string Name = string.Empty;
 
@@ -10974,15 +10976,15 @@ namespace S3_Passion
 
 			public bool Continue = false;
 
-			protected SequenceItem[] mItems;
+			protected SequenceItem[] MItems;
 
 			public Position First
 			{
 				get
 				{
-					if (mItems.Length != 0)
+					if (MItems.Length != 0)
 					{
-						return mItems[0].Position;
+						return MItems[0].Position;
 					}
 					return null;
 				}
@@ -10992,9 +10994,9 @@ namespace S3_Passion
 			{
 				get
 				{
-					if (mCurrent < mItems.Length)
+					if (MCurrent < MItems.Length)
 					{
-						return mItems[mCurrent].Position;
+						return MItems[MCurrent].Position;
 					}
 					return null;
 				}
@@ -11004,7 +11006,7 @@ namespace S3_Passion
 			{
 				get
 				{
-					return mStart > 0;
+					return MStart > 0;
 				}
 			}
 
@@ -11013,8 +11015,8 @@ namespace S3_Passion
 				SequenceInstance sequenceInstance = new SequenceInstance();
 				if (sequence != null)
 				{
-					sequenceInstance.mItems = new SequenceItem[sequence.Items.Length];
-					Array.Copy(sequence.Items, sequenceInstance.mItems, sequence.Items.Length);
+					sequenceInstance.MItems = new SequenceItem[sequence.Items.Length];
+					Array.Copy(sequence.Items, sequenceInstance.MItems, sequence.Items.Length);
 					sequenceInstance.Name = sequence.Name;
 					sequenceInstance.Repeat = sequence.Repeat;
 					sequenceInstance.Continue = sequence.Continue;
@@ -11024,32 +11026,32 @@ namespace S3_Passion
 
 			public Position Start()
 			{
-				mStart = SimClock.CurrentTicks;
+				MStart = SimClock.CurrentTicks;
 				return First;
 			}
 
 			public Position Next()
 			{
 				Position result = null;
-				if (mCurrent < mItems.Length && mItems[mCurrent] != null)
+				if (MCurrent < MItems.Length && MItems[MCurrent] != null)
 				{
-					if (SimClock.CurrentTicks > mStart + mItems[mCurrent].Length)
+					if (SimClock.CurrentTicks > MStart + MItems[MCurrent].Length)
 					{
-						mStart = SimClock.CurrentTicks;
-						mCurrent++;
+						MStart = SimClock.CurrentTicks;
+						MCurrent++;
 					}
-					if (Repeat && mCurrent >= mItems.Length)
+					if (Repeat && MCurrent >= MItems.Length)
 					{
-						mCurrent = 0;
+						MCurrent = 0;
 					}
-					if (mCurrent < mItems.Length && mItems[mCurrent] != null)
+					if (MCurrent < MItems.Length && MItems[MCurrent] != null)
 					{
-						result = mItems[mCurrent].Position;
+						result = MItems[MCurrent].Position;
 					}
 				}
 				else
 				{
-					mCurrent = 0;
+					MCurrent = 0;
 				}
 				return result;
 			}
@@ -11124,7 +11126,7 @@ namespace S3_Passion
 				RightPantsLeg = 3793686282u,
 				LeftRing = 3445785831u,
 				LeftCarry = 1318179674u,
-				L_Bracelet = 2669835805u,
+				LBracelet = 2669835805u,
 				RightCarry = 646490825u,
 				LeftShortSleeveOut = 4158665743u,
 				RightAnkle = 732601729u,
@@ -11152,21 +11154,21 @@ namespace S3_Passion
 
 			public uint Slot = 0u;
 
-			protected ObjectGuid mID = ObjectGuid.InvalidObjectGuid;
+			protected ObjectGuid MId = ObjectGuid.InvalidObjectGuid;
 
-			protected GameObject mObject = null;
+			protected GameObject MObject = null;
 
-			protected Player mHoldingPlayer = null;
+			protected Player MHoldingPlayer = null;
 
-			public ObjectGuid ID
+			public ObjectGuid Id
 			{
 				get
 				{
-					return mID;
+					return MId;
 				}
 				set
 				{
-					mID = value;
+					MId = value;
 				}
 			}
 
@@ -11174,19 +11176,19 @@ namespace S3_Passion
 			{
 				get
 				{
-					if (mObject == null && Key != ResourceKey.kInvalidResourceKey && HoldingPlayer != null && HoldingPlayer.IsValid)
+					if (MObject == null && Key != ResourceKey.kInvalidResourceKey && HoldingPlayer != null && HoldingPlayer.IsValid)
 					{
 						GenerateObject();
 					}
-					return mObject;
+					return MObject;
 				}
 				set
 				{
 					Destroy();
-					mObject = value;
-					if (mObject != null)
+					MObject = value;
+					if (MObject != null)
 					{
-						mID = mObject.ObjectId;
+						MId = MObject.ObjectId;
 					}
 				}
 			}
@@ -11195,14 +11197,14 @@ namespace S3_Passion
 			{
 				get
 				{
-					return mHoldingPlayer;
+					return MHoldingPlayer;
 				}
 				set
 				{
-					mHoldingPlayer = value;
-					if (mObject != null)
+					MHoldingPlayer = value;
+					if (MObject != null)
 					{
-						Slots.AttachToSlot(mID, HoldingPlayer.Actor.ObjectId, Slot, false, ref Location, ref Facing, Angle);
+						Slots.AttachToSlot(MId, HoldingPlayer.Actor.ObjectId, Slot, false, ref Location, ref Facing, Angle);
 					}
 					else
 					{
@@ -11265,7 +11267,7 @@ namespace S3_Passion
 
 			public void Grab()
 			{
-				if (mObject != null)
+				if (MObject != null)
 				{
 					Destroy();
 				}
@@ -11277,10 +11279,10 @@ namespace S3_Passion
 				try
 				{
 					Simulator.ObjectInitParameters initData = new Simulator.ObjectInitParameters(0uL, Location, 0, Facing, HiddenFlags.Nothing);
-					mID = Simulator.CreateObject(Key, null, initData);
-					IScriptProxy proxy = Simulator.GetProxy(mID);
-					mObject = ((proxy != null) ? (proxy.Target as GameObject) : null);
-					Slots.AttachToSlot(mID, HoldingPlayer.Actor.ObjectId, Slot, false, ref Location, ref Facing, Angle);
+					MId = Simulator.CreateObject(Key, null, initData);
+					IScriptProxy proxy = Simulator.GetProxy(MId);
+					MObject = ((proxy != null) ? (proxy.Target as GameObject) : null);
+					Slots.AttachToSlot(MId, HoldingPlayer.Actor.ObjectId, Slot, false, ref Location, ref Facing, Angle);
 				}
 				catch
 				{
@@ -11300,16 +11302,16 @@ namespace S3_Passion
 			{
 				try
 				{
-					ObjectGuid objectId = mID;
-					if (mObject != null)
+					ObjectGuid objectId = MId;
+					if (MObject != null)
 					{
-						objectId = mObject.ObjectId;
+						objectId = MObject.ObjectId;
 					}
 					if (objectId != ObjectGuid.InvalidObjectGuid)
 					{
 						World.RemoveObjectFromObjectManager(objectId);
 						Simulator.DestroyObject(objectId);
-						mObject = null;
+						MObject = null;
 					}
 				}
 				catch
@@ -11345,9 +11347,9 @@ namespace S3_Passion
 						return Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(actor) && target != null)
+						if (!isAutonomous && IsValid(actor) && target != null)
 						{
 							Player player = GetPlayer(actor);
 							Player player2 = GetPlayer(target);
@@ -11360,21 +11362,21 @@ namespace S3_Passion
 						return false;
 					}
 
-					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int NumSelectableRows)
+					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
 					{
 						Sim sim = parameters.Actor as Sim;
 						Sim sim2 = parameters.Target as Sim;
 						if (sim == sim2)
 						{
 							List<Sim> availablePartners = Player.GetAvailablePartners(parameters.Actor as Sim);
-							NumSelectableRows = availablePartners.Count;
+							numSelectableRows = availablePartners.Count;
 							PopulateSimPicker(ref parameters, out listObjs, out headers, availablePartners, false);
 						}
 						else
 						{
 							listObjs = null;
 							headers = null;
-							NumSelectableRows = 0;
+							numSelectableRows = 0;
 						}
 					}
 				}
@@ -11393,7 +11395,7 @@ namespace S3_Passion
 						{
 							try
 							{
-								GameObject[] objects = Sims3.Gameplay.Queries.GetObjects<GameObject>(player2.Location, 3f);
+								GameObject[] objects = global::Sims3.Gameplay.Queries.GetObjects<GameObject>(player2.Location, 3f);
 								if (objects != null && objects.Length != 0)
 								{
 									GameObject[] array = objects;
@@ -11522,9 +11524,9 @@ namespace S3_Passion
 						return Settings.SoloLabel;
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(actor) && target != null && (!(target is Sim) || actor == target))
+						if (!isAutonomous && IsValid(actor) && target != null && (!(target is Sim) || actor == target))
 						{
 							Player player = GetPlayer(actor);
 							Target target2 = GetTarget(target);
@@ -11546,7 +11548,7 @@ namespace S3_Passion
 					Target target2 = target;
 					if (target.ObjectType.Name.ToString() == "Rug")
 					{
-						GameObject[] objects = Sims3.Gameplay.Queries.GetObjects<GameObject>(target.Location, 1f);
+						GameObject[] objects = global::Sims3.Gameplay.Queries.GetObjects<GameObject>(target.Location, 1f);
 						if (objects != null && objects.Length != 0)
 						{
 							GameObject[] array = objects;
@@ -11617,9 +11619,9 @@ namespace S3_Passion
 						return Settings.Label;
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(actor))
+						if (!isAutonomous && IsValid(actor))
 						{
 							Player player = GetPlayer(actor);
 							Target target2 = GetTarget(target);
@@ -11632,10 +11634,10 @@ namespace S3_Passion
 						return false;
 					}
 
-					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int NumSelectableRows)
+					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
 					{
 						List<Sim> availablePartners = Player.GetAvailablePartners(parameters.Actor as Sim);
-						NumSelectableRows = availablePartners.Count;
+						numSelectableRows = availablePartners.Count;
 						PopulateSimPicker(ref parameters, out listObjs, out headers, availablePartners, false);
 					}
 				}
@@ -11649,7 +11651,7 @@ namespace S3_Passion
 					Target target2 = target;
 					if (target.ObjectType.Name.ToString() == "Rug")
 					{
-						GameObject[] objects = Sims3.Gameplay.Queries.GetObjects<GameObject>(target.Location, 1f);
+						GameObject[] objects = global::Sims3.Gameplay.Queries.GetObjects<GameObject>(target.Location, 1f);
 						if (objects != null && objects.Length != 0)
 						{
 							GameObject[] array = objects;
@@ -11712,7 +11714,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.AskingTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11738,7 +11740,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.BeingAskedTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11764,7 +11766,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.HeadingTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11793,7 +11795,7 @@ namespace S3_Passion
 						return PassionCommon.Localize(PassionCommon.Localize("S3_Passion.Terms.Beginning") + " " + Settings.Label);
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11830,7 +11832,7 @@ namespace S3_Passion
 						return Settings.ActiveLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11864,9 +11866,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.SwitchWith") + " " + target.Name;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && actor != target)
+						if (!isAutonomous && actor != target)
 						{
 							Player player = GetPlayer(actor);
 							Player player2 = GetPlayer(target);
@@ -11902,7 +11904,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.SwitchingWith") + " " + ((target != null) ? target.Name : "?");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -11992,9 +11994,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.MoveTo");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && !(target is Sim) && PassionType.IsSupported(target))
+						if (!isAutonomous && !(target is Sim) && PassionType.IsSupported(target))
 						{
 							Player player = GetPlayer(actor);
 							Target target2 = GetTarget(target);
@@ -12039,9 +12041,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.MoveGroupTo");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && !(target is Sim) && PassionType.IsSupported(target))
+						if (!isAutonomous && !(target is Sim) && PassionType.IsSupported(target))
 						{
 							Player player = GetPlayer(actor);
 							Target target2 = GetTarget(target);
@@ -12098,7 +12100,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Moving");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12137,7 +12139,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Moving");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12182,9 +12184,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(actor))
+						if (!isAutonomous && IsValid(actor))
 						{
 							try
 							{
@@ -12233,9 +12235,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(actor))
+						if (!isAutonomous && IsValid(actor))
 						{
 							try
 							{
@@ -12280,7 +12282,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Join") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -12332,9 +12334,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoJoin") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							try
 							{
@@ -12378,9 +12380,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoPassionOther") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							try
 							{
@@ -12404,7 +12406,7 @@ namespace S3_Passion
 						return false;
 					}
 
-					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int NumSelectableRows)
+					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
 					{
 						Sim item = parameters.Actor as Sim;
 						Sim sim = parameters.Target as Sim;
@@ -12413,7 +12415,7 @@ namespace S3_Passion
 						{
 							availablePartners.Remove(item);
 						}
-						NumSelectableRows = availablePartners.Count;
+						numSelectableRows = availablePartners.Count;
 						PopulateSimPicker(ref parameters, out listObjs, out headers, availablePartners, false);
 					}
 				}
@@ -12468,9 +12470,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Settings.SoloLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							try
 							{
@@ -12537,7 +12539,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Settings.SoloLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						try
 						{
@@ -12595,9 +12597,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Stop");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							Player player = GetPlayer(target);
 							if (player.IsActive)
@@ -12638,9 +12640,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.StopAll");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							Player player = GetPlayer(target);
 							if (player.IsActive)
@@ -12680,9 +12682,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.AsktoWatch") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							try
 							{
@@ -12825,7 +12827,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.SetTransfemFlag");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
@@ -12833,14 +12835,14 @@ namespace S3_Passion
 							if (!player.IsActive && !player.IsTransfem)
 							{
 								// if the sim has a dick on their nude outfit
-								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
+								if ((!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
 									return false;
 								}
 								return true;
 							}
 						}
-						else if (!IsAutonomous && IsValid(target))
+						else if (!isAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
 							if (!player2.IsActive && !player2.IsTransfem)
@@ -12876,21 +12878,21 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.RemoveTransfemFlag");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
 							Player player = GetPlayer(target);
 							if (!player.IsActive && player.IsTransfem)
 							{
-								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
+								if ((!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
 									return false;
 								}
 								return true;
 							}
 						}
-						else if (!IsAutonomous && IsValid(target))
+						else if (!isAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
 							if (!player2.IsActive && player2.IsTransfem)
@@ -12929,7 +12931,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.SetTransmascFlag");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
@@ -12938,14 +12940,14 @@ namespace S3_Passion
 							{
 								// if the sim has a vag on their nude outfit
 								//TODO: change these resource keys...
-								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
+								if ((!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
 									return false;
 								}
 								return true;
 							}
 						}
-						else if (!IsAutonomous && IsValid(target))
+						else if (!isAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
 							if (!player2.IsActive && !player2.IsTransmasc)
@@ -12981,7 +12983,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.RemoveTransmascFlag");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						if (!target.SimDescription.IsEP11Bot && !target.SimDescription.IsTimeTraveler && target.SimDescription.IsHuman && target.SimDescription.TeenOrAbove && !target.HasBeenDestroyed && !target.SimDescription.IsZombie && !target.SimDescription.Household.IsTravelHousehold && !target.SimDescription.Household.IsServiceNpcHousehold && !target.SimDescription.Household.IsServobotHousehold && !target.SimDescription.Household.IsTouristHousehold && !target.SimDescription.Household.IsAlienHousehold && !target.SimDescription.Household.IsFutureDescendantHousehold && !target.SimDescription.Household.IsMermaidHousehold && !target.SimDescription.Household.IsPetHousehold && !target.SimDescription.Household.IsPreviousTravelerHousehold && !target.SimDescription.Household.IsSpecialHousehold)
 						{
@@ -12990,14 +12992,14 @@ namespace S3_Passion
 							{
 								// if the sim has a vag on their nude outfit
 								//TODO: change these resource keys...
-								if ((!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!IsAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
+								if ((!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (!isAutonomous && IsValid(target) && target.SimDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
 								{
 									return false;
 								}
 								return true;
 							}
 						}
-						else if (!IsAutonomous && IsValid(target))
+						else if (!isAutonomous && IsValid(target))
 						{
 							Player player2 = GetPlayer(target);
 							if (!player2.IsActive && player2.IsTransmasc)
@@ -13035,9 +13037,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.SetPreferredOutfit");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							Player player = GetPlayer(target);
 							if (!player.IsActive)
@@ -13073,9 +13075,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.ClearPreferredOutfit");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							Player player = GetPlayer(target);
 							if (!player.IsActive && player.HasPreferredOutfit)
@@ -13111,9 +13113,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.ChangePosition");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target))
+						if (!isAutonomous && IsValid(target))
 						{
 							Player player = GetPlayer(target);
 							if (player.IsActive)
@@ -13149,9 +13151,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.SettingsMenu");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target) && !GetPlayer(target).IsActive)
+						if (!isAutonomous && IsValid(target) && !GetPlayer(target).IsActive)
 						{
 							return true;
 						}
@@ -13183,9 +13185,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.SettingsMenu");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(target) && GetPlayer(target).IsActive)
+						if (!isAutonomous && IsValid(target) && GetPlayer(target).IsActive)
 						{
 							return true;
 						}
@@ -13217,7 +13219,7 @@ namespace S3_Passion
 						return Settings.ActiveLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13248,7 +13250,7 @@ namespace S3_Passion
 						return Settings.ActiveLabel;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13279,9 +13281,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.ResetMe");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous)
+						if (!isAutonomous)
 						{
 							GameObject gameObject = target as GameObject;
 							ulong value = gameObject.ObjectId.Value;
@@ -13327,9 +13329,9 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.ResetMe");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous)
+						if (!isAutonomous)
 						{
 							GameObject gameObject = target as GameObject;
 							ulong value = gameObject.ObjectId.Value;
@@ -13375,7 +13377,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("Report");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13497,7 +13499,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("Buffer Position XML");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13517,7 +13519,7 @@ namespace S3_Passion
 						{
 							try
 							{
-								XML.Element element = Test2.Root.AddChild("Position");
+								Xml.Element element = Test2.Root.AddChild("Position");
 								Position position = player.Part.Position;
 								int count = player.Part.Count;
 								element.AddComment("Localized Name:  \"" + PickString.Show(PassionCommon.Localize("New Localized Name"), "", "") + "\"");
@@ -13538,22 +13540,22 @@ namespace S3_Passion
 								element.AddChild("Categories", PickString.Show(PassionCommon.Localize("Categories"), PassionCommon.Localize("Currently-valid Categories are:") + " None, Any, Foreplay, Oral, Anal, Vaginal, Hands, Feet, Breasts, Masturbate (Hands/Feet), Fuck (Vaginal/Anal)", "Any"));
 								element.AddChild("MinSims", position.MinSims.ToString());
 								element.AddChild("MaxSims", position.MaxSims.ToString());
-								XML.Element element2 = element.AddChild("AnimationSets");
-								XML.Element element3 = element2.AddChild("Set");
+								Xml.Element element2 = element.AddChild("AnimationSets");
+								Xml.Element element3 = element2.AddChild("Set");
 								element3.AddAttribute("Players", count.ToString());
 								foreach (Player value3 in player.Part.Players.Values)
 								{
-									XML.Element element4 = element3.AddChild("Player");
+									Xml.Element element4 = element3.AddChild("Player");
 									element4.AddAttribute("Index", value3.PositionIndex.ToString());
 									if (value3.HeldItem != null)
 									{
-										XML.Element element5 = element4.AddChild("HeldItem");
-										XML.Element element6 = element5.AddChild("ObjectKey", string.Format("{0:x8}-{1:x8}-{2:x16}", value3.HeldItem.Key.TypeId, value3.HeldItem.Key.GroupId, value3.HeldItem.Key.InstanceId));
-										XML.Element element7 = element5.AddChild("Location");
+										Xml.Element element5 = element4.AddChild("HeldItem");
+										Xml.Element element6 = element5.AddChild("ObjectKey", string.Format("{0:x8}-{1:x8}-{2:x16}", value3.HeldItem.Key.TypeId, value3.HeldItem.Key.GroupId, value3.HeldItem.Key.InstanceId));
+										Xml.Element element7 = element5.AddChild("Location");
 										element7.AddAttribute("X", value3.HeldItem.Location.x.ToString());
 										element7.AddAttribute("Y", value3.HeldItem.Location.y.ToString());
 										element7.AddAttribute("Z", value3.HeldItem.Location.z.ToString());
-										XML.Element element8 = element5.AddChild("Facing");
+										Xml.Element element8 = element5.AddChild("Facing");
 										element8.AddAttribute("X", value3.HeldItem.Facing.x.ToString());
 										element8.AddAttribute("Y", value3.HeldItem.Facing.y.ToString());
 										element8.AddAttribute("Z", value3.HeldItem.Facing.z.ToString());
@@ -13561,11 +13563,11 @@ namespace S3_Passion
 										HeldItem.ItemSlots slot = (HeldItem.ItemSlots)player.HeldItem.Slot;
 										element5.AddChild("Slot", slot.ToString());
 									}
-									XML.Element element9 = element4.AddChild("Clip", position.GetAnimation(value3));
+									Xml.Element element9 = element4.AddChild("Clip", position.GetAnimation(value3));
 									string value = PickString.Show(PassionCommon.Localize("Requirement"), PassionCommon.Localize("What clip requirements are there for ") + value3.Name + "?", "");
 									if (!string.IsNullOrEmpty(value))
 									{
-										element9.Attributes.Add(new XML.Attribute("Required", value));
+										element9.Attributes.Add(new Xml.Attribute("Required", value));
 									}
 								}
 								PassionCommon.SystemMessage("Position Buffered");
@@ -13599,7 +13601,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("Toggle Export");
 					}
 
-					public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, IGameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return PassionCommon.Testing;
 					}
@@ -13609,7 +13611,7 @@ namespace S3_Passion
 
 				public static bool Exporting = false;
 
-				public static XML.Element Root = null;
+				public static Xml.Element Root = null;
 
 				public override bool Run()
 				{
@@ -13617,11 +13619,11 @@ namespace S3_Passion
 					if (Exporting)
 					{
 						PassionCommon.SystemMessage("Buffering Export Data");
-						Root = XML.Element.Create("Passion");
+						Root = Xml.Element.Create("Passion");
 					}
 					else
 					{
-						if (XML.WriteToFile(Root, "PassionPosition"))
+						if (Xml.WriteToFile(Root, "PassionPosition"))
 						{
 							PassionCommon.SystemMessage("Successfully Exported Data");
 						}
@@ -13650,7 +13652,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.Reassure");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return target != null && target.BuffManager.HasElement((BuffNames)5912255412026328145uL);
 					}
@@ -13696,7 +13698,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.BeReassured");
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13752,9 +13754,9 @@ namespace S3_Passion
 						return Settings.Label;
 					}
 
-					public override bool Test(Sim actor, PoolLadder target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, PoolLadder target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
-						if (!IsAutonomous && IsValid(actor))
+						if (!isAutonomous && IsValid(actor))
 						{
 							Player player = GetPlayer(actor);
 							Target target2 = GetTarget(target);
@@ -13767,10 +13769,10 @@ namespace S3_Passion
 						return false;
 					}
 
-					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int NumSelectableRows)
+					public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
 					{
 						List<Sim> availablePartners = Player.GetAvailablePartners(parameters.Actor as Sim);
-						NumSelectableRows = availablePartners.Count;
+						numSelectableRows = availablePartners.Count;
 						PopulateSimPicker(ref parameters, out listObjs, out headers, availablePartners, false);
 					}
 				}
@@ -13817,7 +13819,7 @@ namespace S3_Passion
 						return PassionCommon.Localize("S3_Passion.Terms.HeadingTo") + " " + Settings.Label;
 					}
 
-					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 					{
 						return true;
 					}
@@ -13978,7 +13980,7 @@ namespace S3_Passion
 
 		public static EventListener OnGotMassage;
 
-		public static EventListener ONWatchedTv;
+		public static EventListener OnWatchedTv;
 
 		public static EventListener OnDance2Music;
 
@@ -13991,35 +13993,35 @@ namespace S3_Passion
 		public static bool CumInteractions = false;
 
 		[PersistableStatic]
-		protected static PersistableSettings mSettings;
+		protected static PersistableSettings MSettings;
 
 		public static PersistableSettings SettingsBackup = null;
 
 		[PersistableStatic]
-		protected static Dictionary<ulong, Player> mAllPlayers;
+		protected static Dictionary<ulong, Player> MAllPlayers;
 
 		public static Dictionary<ulong, Player> AllPlayersBackup = null;
 
 		[PersistableStatic]
-		protected static Dictionary<ulong, Target> mAllTargets;
+		protected static Dictionary<ulong, Target> MAllTargets;
 
 		[PersistableStatic]
-		protected static List<string> mXMLFiles;
+		protected static List<string> MXmlFiles;
 
-		public static List<string> XMLFilesBackup = null;
+		public static List<string> XmlFilesBackup = null;
 
 		[PersistableStatic]
-		protected static Dictionary<string, PassionType> mLoadedTypes;
+		protected static Dictionary<string, PassionType> MLoadedTypes;
 
 		public static Dictionary<string, PassionType> LoadedTypesBackup = null;
 
 		[PersistableStatic]
-		protected static Dictionary<string, Position> mPositions;
+		protected static Dictionary<string, Position> MPositions;
 
 		public static Dictionary<string, Position> PositionsBackup = null;
 
 		[PersistableStatic]
-		protected static List<Sequence> mSequences;
+		protected static List<Sequence> MSequences;
 
 		public static List<Sequence> SequencesBackup = null;
 
@@ -14031,11 +14033,11 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mSettings == null)
+				if (MSettings == null)
 				{
-					mSettings = new PersistableSettings();
+					MSettings = new PersistableSettings();
 				}
-				return mSettings;
+				return MSettings;
 			}
 		}
 
@@ -14043,11 +14045,11 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mAllPlayers == null)
+				if (MAllPlayers == null)
 				{
-					mAllPlayers = new Dictionary<ulong, Player>();
+					MAllPlayers = new Dictionary<ulong, Player>();
 				}
-				return mAllPlayers;
+				return MAllPlayers;
 			}
 		}
 
@@ -14055,23 +14057,23 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mAllTargets == null)
+				if (MAllTargets == null)
 				{
-					mAllTargets = new Dictionary<ulong, Target>();
+					MAllTargets = new Dictionary<ulong, Target>();
 				}
-				return mAllTargets;
+				return MAllTargets;
 			}
 		}
 
-		public static List<string> XMLFiles
+		public static List<string> XmlFiles
 		{
 			get
 			{
-				if (mXMLFiles == null)
+				if (MXmlFiles == null)
 				{
-					mXMLFiles = new List<string>(PassionCommon.DefaultXMLFiles);
+					MXmlFiles = new List<string>(PassionCommon.DefaultXmlFiles);
 				}
-				return mXMLFiles;
+				return MXmlFiles;
 			}
 		}
 
@@ -14079,11 +14081,11 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mLoadedTypes == null)
+				if (MLoadedTypes == null)
 				{
-					mLoadedTypes = new Dictionary<string, PassionType>();
+					MLoadedTypes = new Dictionary<string, PassionType>();
 				}
-				return mLoadedTypes;
+				return MLoadedTypes;
 			}
 		}
 
@@ -14091,11 +14093,11 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mPositions == null)
+				if (MPositions == null)
 				{
-					mPositions = new Dictionary<string, Position>();
+					MPositions = new Dictionary<string, Position>();
 				}
-				return mPositions;
+				return MPositions;
 			}
 		}
 
@@ -14103,11 +14105,11 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mSequences == null)
+				if (MSequences == null)
 				{
-					mSequences = new List<Sequence>();
+					MSequences = new List<Sequence>();
 				}
-				return mSequences;
+				return MSequences;
 			}
 		}
 
@@ -14125,7 +14127,7 @@ namespace S3_Passion
 
 		// INJECT MODSTUFF
 
-		private const string MOTIVES_SPREADSHEET = "Motives_Hypochondriasis";
+		private const string MotivesSpreadsheet = "Motives_Hypochondriasis";
 
 		
 
@@ -14154,19 +14156,19 @@ namespace S3_Passion
 				{
 					PassionType.Load();
 				}
-				Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
+				Load(global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
 				foreach (PassionType value in LoadedTypes.Values)
 				{
 					if (value != null && !value.IsSim && value.IsGameObject)
 					{
-						Array objects = Sims3.SimIFace.Queries.GetObjects(value.Type);
+						Array objects = global::Sims3.SimIFace.Queries.GetObjects(value.Type);
 						if (objects is GameObject[])
 						{
 							Load(objects as GameObject[]);
 						}
 					}
 				}
-				Terrain[] objects2 = Sims3.Gameplay.Queries.GetObjects<Terrain>();
+				Terrain[] objects2 = global::Sims3.Gameplay.Queries.GetObjects<Terrain>();
 				foreach (Terrain terrain in objects2)
 				{
 					if (terrain != null)
@@ -14174,16 +14176,16 @@ namespace S3_Passion
 						AddInteractions(terrain);
 					}
 				}
-				FenceRedwood_Gate[] objects3 = Sims3.Gameplay.Queries.GetObjects<FenceRedwood_Gate>();
-				foreach (FenceRedwood_Gate fenceRedwood_Gate in objects3)
+				FenceRedwood_Gate[] objects3 = global::Sims3.Gameplay.Queries.GetObjects<FenceRedwood_Gate>();
+				foreach (FenceRedwood_Gate fenceRedwoodGate in objects3)
 				{
-					if (fenceRedwood_Gate != null && fenceRedwood_Gate.GetNameKey() == 5329506766876672555L)
+					if (fenceRedwoodGate != null && fenceRedwoodGate.GetNameKey() == 5329506766876672555L)
 					{
-						fenceRedwood_Gate.AddInteraction(GloryHole.ServiceStrangers.Singleton, true);
-						fenceRedwood_Gate.AddInteraction(GloryHole.GetSucked.Singleton, true);
+						fenceRedwoodGate.AddInteraction(GloryHole.ServiceStrangers.Singleton, true);
+						fenceRedwoodGate.AddInteraction(GloryHole.GetSucked.Singleton, true);
 					}
 				}
-				SculptureFloorGunShow[] objects4 = Sims3.Gameplay.Queries.GetObjects<SculptureFloorGunShow>();
+				SculptureFloorGunShow[] objects4 = global::Sims3.Gameplay.Queries.GetObjects<SculptureFloorGunShow>();
 				foreach (SculptureFloorGunShow sculptureFloorGunShow in objects4)
 				{
 					if (sculptureFloorGunShow != null && sculptureFloorGunShow.GetNameKey() == 13788670039724095860uL)
@@ -14195,7 +14197,7 @@ namespace S3_Passion
 						sculptureFloorGunShow.AddInteraction(StripperPole.WatchStrip.Singleton, true);
 					}
 				}
-				DanceFloor[] objects5 = Sims3.Gameplay.Queries.GetObjects<DanceFloor>();
+				DanceFloor[] objects5 = global::Sims3.Gameplay.Queries.GetObjects<DanceFloor>();
 				foreach (DanceFloor danceFloor in objects5)
 				{
 					danceFloor.AddInteraction(CustomDance.NightFeaver.Singleton, true);
@@ -14205,7 +14207,7 @@ namespace S3_Passion
 					danceFloor.AddInteraction(CustomDance.TiktTok.Singleton, true);
 					danceFloor.AddInteraction(CustomDance.Valenti.Singleton, true);
 				}
-				Sybian[] objects6 = Sims3.Gameplay.Queries.GetObjects<Sybian>();
+				Sybian[] objects6 = global::Sims3.Gameplay.Queries.GetObjects<Sybian>();
 				foreach (Sybian sybian in objects6)
 				{
 					sybian.AddInteraction(AskToUseSybian.Singleton, true);
@@ -14236,9 +14238,9 @@ namespace S3_Passion
 			if (Settings.RandomizationOptions == RandomizationOptions.None)
 			{
 				Settings.RandomizationOptions = RandomizationOptions.PositionsAndSequences;
-				mPositions = new Dictionary<string, Position>();
+				MPositions = new Dictionary<string, Position>();
 			}
-			Position.Create(XMLFiles);
+			Position.Create(XmlFiles);
 			CustomBuff.AddInteractions();
 			CustomCareer.GetLocations();
 			StartListening();
@@ -14381,7 +14383,7 @@ namespace S3_Passion
 				obj.AddInteraction(Interactions.ResetMe.Singleton, true);
 				obj.AddInteraction(Interactions.ResetMeActive.Singleton, true);
 				obj.AddInteraction(CastConvert2Toy.Singleton, true);
-				if (obj is Car || obj is FixerCar || obj is FixerCar.FixerCarFixed || obj is Boat || obj is BoatWaterScooter || obj is BoatSpeedBoat || obj is BoatSpeedFishingBoat || obj is Rug || obj is Desk || obj is TableEnd || obj is TableDining1x1 || obj is TableDining2x1 || obj is TableDining3x1 || obj is TableCoffee || obj is TableBar || obj is SaunaClassic || obj is CounterIsland || obj is Counter || obj is Fridge || obj is Loveseat || obj is Sofa || obj is Shower || obj is ShowerOutdoor || obj is ToiletStall || obj is ShowerPublic_Dance || obj is ShowerTub || obj is CornerBathtub || obj is Bathtub || obj is BedSingle || obj is BedDouble || obj is Altar || obj is ChairLiving || obj is ChairDining || obj is ChairLounge || obj is ChairSectional || obj is RockingChair || obj is Urinal || obj is Toilet || obj is BrainEnhancingMachine || obj is HotTub4Seated || obj is HotTubGrotto || obj is MassageTable || obj is Windows || obj is Bicycle || obj is DoorSingle || obj is CarSports || obj is CarExpensive1 || obj is CarExpensive2 || obj is CarHatchback || obj is CarUsed1 || obj is CarUsed2 || obj is CarNormal1 || obj is CarVan4door || obj is CarPickup2door || obj is CarSedan || obj is CarHighSocietyOpen || obj is CarHighSocietyVintage || obj is CarLuxuryExotic || obj is CarLuxurySport || obj is MotorcycleRacing || obj is MotorcycleChopper || obj is BoatRowBoat || obj is AdultMagicBroom || obj is ModerateAdultBroom || obj is ExpensiveAdultBroom || obj is SculptureFloorGunShow || obj is WashingMachine || obj is Dryer || obj is PoolTable || obj is PoolLadder || obj is WorkoutBench || obj is Stove || obj is Sybian || obj is FenceRedwood_Gate || obj is SinkCounter || obj is Sink || obj is Pot || obj is PicnicTable || obj is Urnstone || obj is KissingBooth || obj is Telescope || obj is Sims3.Gameplay.Objects.Environment.Scarecrow || obj is HauntedHouse || obj is ScienceResearchStation || obj is HotTubBase || obj is Podium || obj is MechanicalBull)
+				if (obj is Car || obj is FixerCar || obj is FixerCar.FixerCarFixed || obj is Boat || obj is BoatWaterScooter || obj is BoatSpeedBoat || obj is BoatSpeedFishingBoat || obj is Rug || obj is Desk || obj is TableEnd || obj is TableDining1x1 || obj is TableDining2x1 || obj is TableDining3x1 || obj is TableCoffee || obj is TableBar || obj is SaunaClassic || obj is CounterIsland || obj is Counter || obj is Fridge || obj is Loveseat || obj is Sofa || obj is Shower || obj is ShowerOutdoor || obj is ToiletStall || obj is ShowerPublic_Dance || obj is ShowerTub || obj is CornerBathtub || obj is Bathtub || obj is BedSingle || obj is BedDouble || obj is Altar || obj is ChairLiving || obj is ChairDining || obj is ChairLounge || obj is ChairSectional || obj is RockingChair || obj is Urinal || obj is Toilet || obj is BrainEnhancingMachine || obj is HotTub4Seated || obj is HotTubGrotto || obj is MassageTable || obj is Windows || obj is Bicycle || obj is DoorSingle || obj is CarSports || obj is CarExpensive1 || obj is CarExpensive2 || obj is CarHatchback || obj is CarUsed1 || obj is CarUsed2 || obj is CarNormal1 || obj is CarVan4door || obj is CarPickup2door || obj is CarSedan || obj is CarHighSocietyOpen || obj is CarHighSocietyVintage || obj is CarLuxuryExotic || obj is CarLuxurySport || obj is MotorcycleRacing || obj is MotorcycleChopper || obj is BoatRowBoat || obj is AdultMagicBroom || obj is ModerateAdultBroom || obj is ExpensiveAdultBroom || obj is SculptureFloorGunShow || obj is WashingMachine || obj is Dryer || obj is PoolTable || obj is PoolLadder || obj is WorkoutBench || obj is Stove || obj is Sybian || obj is FenceRedwood_Gate || obj is SinkCounter || obj is Sink || obj is Pot || obj is PicnicTable || obj is Urnstone || obj is KissingBooth || obj is Telescope || obj is global::Sims3.Gameplay.Objects.Environment.Scarecrow || obj is HauntedHouse || obj is ScienceResearchStation || obj is HotTubBase || obj is Podium || obj is MechanicalBull)
 				{
 					try
 					{
@@ -14412,8 +14414,8 @@ namespace S3_Passion
 
 		public static void UnLoad(object sender, EventArgs e)
 		{
-			AllPlayersBackup = new Dictionary<ulong, Player>(mAllPlayers);
-			foreach (Player value in mAllPlayers.Values)
+			AllPlayersBackup = new Dictionary<ulong, Player>(MAllPlayers);
+			foreach (Player value in MAllPlayers.Values)
 			{
 				if (value != null)
 				{
@@ -14421,11 +14423,11 @@ namespace S3_Passion
 					value.Reset();
 				}
 			}
-			mAllPlayers.Clear();
-			mAllPlayers = null;
-			mAllTargets.Clear();
-			mAllTargets = null;
-			STD.ClearData();
+			MAllPlayers.Clear();
+			MAllPlayers = null;
+			MAllTargets.Clear();
+			MAllTargets = null;
+			Std.ClearData();
 			Target.ClearMinMaxSims();
 			PersistableSettings.Export("PassionSettingsBackup");
 		}
@@ -14451,7 +14453,7 @@ namespace S3_Passion
 			OnHighlyVisibleVirtuousRomance = EventTracker.AddListener(EventTypeId.kHighlyVisibleVirtuousRomance, Autonomy.PassionCheck);
 			OnMultipleVisibleRomances = EventTracker.AddListener(EventTypeId.kMultipleVisibleRomances, Autonomy.PassionCheck);
 			OnPerformedRomanticSingagram = EventTracker.AddListener(EventTypeId.kPerformedRomanticSingagram, Autonomy.PassionCheck);
-			ONWatchedTv = EventTracker.AddListener(EventTypeId.kWatchedSportsChannel, Autonomy.WhenWatchTV);
+			OnWatchedTv = EventTracker.AddListener(EventTypeId.kWatchedSportsChannel, Autonomy.WhenWatchTv);
 			OnDance2Music = EventTracker.AddListener(EventTypeId.kSimDanced, Autonomy.DanceNude2Music);
 			OnGotMassage = EventTracker.AddListener(EventTypeId.kGotMassage, Autonomy.HappendAtMassage);
 			OnSimInstantiated = EventTracker.AddListener(EventTypeId.kSimInstantiated, TerrainObj);
@@ -14472,7 +14474,7 @@ namespace S3_Passion
 			EventTracker.RemoveListener(OnMultipleVisibleRomances);
 			EventTracker.RemoveListener(OnPerformedRomanticSingagram);
 			EventTracker.RemoveListener(OnSimInstantiated);
-			EventTracker.RemoveListener(ONWatchedTv);
+			EventTracker.RemoveListener(OnWatchedTv);
 			EventTracker.RemoveListener(OnDance2Music);
 		}
 
@@ -14704,13 +14706,13 @@ namespace S3_Passion
 
 		public static void ReloadPositions()
 		{
-			mPositions = new Dictionary<string, Position>();
-			Position.Create(XMLFiles);
+			MPositions = new Dictionary<string, Position>();
+			Position.Create(XmlFiles);
 		}
 
 		public static void ReloadDefaultPositions()
 		{
-			mXMLFiles = new List<string>(PassionCommon.DefaultXMLFiles);
+			MXmlFiles = new List<string>(PassionCommon.DefaultXmlFiles);
 			ReloadPositions();
 		}
 
@@ -14943,9 +14945,9 @@ namespace S3_Passion
 					{
 						player.Leave();
 					}
-					if (AllPlayers.ContainsKey(player.ID))
+					if (AllPlayers.ContainsKey(player.Id))
 					{
-						AllPlayers.Remove(player.ID);
+						AllPlayers.Remove(player.Id);
 					}
 				}
 			}

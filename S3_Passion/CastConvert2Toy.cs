@@ -17,7 +17,7 @@ using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class CastConvert2Toy : Interaction<Sim, GameObject>
 	{
@@ -57,21 +57,21 @@ namespace S3_Passion
 			}
 		}
 
-		public const string kFishBowlMedatorName = "FishBowl";
+		public const string KFishBowlMedatorName = "FishBowl";
 
-		public MagicWand mWand;
+		public MagicWand MWand;
 
-		public VisualEffect mSpellEffect;
+		public VisualEffect MSpellEffect;
 
-		public VisualEffect mPoofEffect;
+		public VisualEffect MPoofEffect;
 
-		public static float kMotiveDrain = 5f;
+		public static float KMotiveDrain = 5f;
 
-		public static float kRoutingDistance = 1f;
+		public static float KRoutingDistance = 1f;
 
-		public static float kExtraChanceOfEP7Item = 20f;
+		public static float KExtraChanceOfEp7Item = 20f;
 
-		public static int[] kMaxConversionValue = new int[11]
+		public static int[] KMaxConversionValue = new int[11]
 		{
 			1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
 			2147483647
@@ -94,12 +94,12 @@ namespace S3_Passion
 			bool flag = true;
 			Actor.SkillManager.AddElement(SkillNames.Spellcasting);
 			SpellcastingSkill spellcastingSkill = Actor.SkillManager.GetElement(SkillNames.Spellcasting) as SpellcastingSkill;
-			mWand = MagicWand.GetWandToUse(Actor, spellcastingSkill);
-			if (mWand == null)
+			MWand = MagicWand.GetWandToUse(Actor, spellcastingSkill);
+			if (MWand == null)
 			{
 				return false;
 			}
-			mWand.PrepareForUse(Actor);
+			MWand.PrepareForUse(Actor);
 			if (Target.InInventory)
 			{
 				if (Target is Fish)
@@ -126,7 +126,7 @@ namespace S3_Passion
 			StandardEntry();
 			BeginCommodityUpdates();
 			EnterStateMachine("FireIceBlast", "Enter", "x");
-			if (mWand is MagicHands)
+			if (MWand is MagicHands)
 			{
 				SetParameter("noWand", true);
 			}
@@ -134,7 +134,7 @@ namespace S3_Passion
 			{
 				SetParameter("noWand", false);
 			}
-			SetActor("wand", mWand);
+			SetActor("wand", MWand);
 			SetParameter("isSkilled", spellcastingSkill.SkillLevel >= MagicWand.kExpertLevel);
 			AddOneShotScriptEventHandler(101u, ShowSuccessVfx);
 			AddOneShotScriptEventHandler(102u, ShowFailVfx);
@@ -161,14 +161,14 @@ namespace S3_Passion
 					flag2 = true;
 				}
 			}
-			if (!flag2 && RandomUtil.RandomChance(mWand.SuccessChance(Actor, MagicWand.SpellType.Convert, spellcastingSkill.SkillLevel)))
+			if (!flag2 && RandomUtil.RandomChance(MWand.SuccessChance(Actor, MagicWand.SpellType.Convert, spellcastingSkill.SkillLevel)))
 			{
 				flag = true;
 				AnimateSim("SuccessIdle");
 				AnimateSim("Success");
 				OnSpellSuccess(gameObject);
 			}
-			else if (RandomUtil.RandomChance(mWand.EpicFailChance(Actor)))
+			else if (RandomUtil.RandomChance(MWand.EpicFailChance(Actor)))
 			{
 				flag = false;
 				AnimateSim("EpicFail");
@@ -190,7 +190,7 @@ namespace S3_Passion
 
 		public void DrainMotives()
 		{
-			mWand.DrainMotive(Actor, CommodityKind.MagicFatigue, 0f - MagicWand.CastConvert.kMotiveDrain);
+			MWand.DrainMotive(Actor, CommodityKind.MagicFatigue, 0f - MagicWand.CastConvert.kMotiveDrain);
 		}
 
 		public void OnSpellSuccess(IGameObject conjuredObject)
@@ -204,9 +204,9 @@ namespace S3_Passion
 			{
 				surfaceSlot = surface.Surface.GetSurfaceSlotFromContainedObject(Target);
 			}
-			mPoofEffect = VisualEffect.Create("ep7WandRestorationLot_main");
-			mPoofEffect.SetPosAndOrient(position, forwardVector, Vector3.UnitY);
-			mPoofEffect.Start();
+			MPoofEffect = VisualEffect.Create("ep7WandRestorationLot_main");
+			MPoofEffect.SetPosAndOrient(position, forwardVector, Vector3.UnitY);
+			MPoofEffect.Start();
 			Fish.IFishBowl fishBowl = Target as Fish.IFishBowl;
 			string text = null;
 			Ingredient ingredient = Target as Ingredient;
@@ -283,51 +283,51 @@ namespace S3_Passion
 
 		public void OnSpellEpicFailure()
 		{
-			mPoofEffect = VisualEffect.Create("ep7WandRestorationLotNeg_main");
-			mPoofEffect.SetPosAndOrient(Target.Position, Target.ForwardVector, Vector3.UnitY);
-			mPoofEffect.Start();
+			MPoofEffect = VisualEffect.Create("ep7WandRestorationLotNeg_main");
+			MPoofEffect.SetPosAndOrient(Target.Position, Target.ForwardVector, Vector3.UnitY);
+			MPoofEffect.Start();
 			Target.FadeOut(true, true);
 		}
 
 		public void ShowSuccessVfx(StateMachineClient sender, IEvent evt)
 		{
-			mSpellEffect = VisualEffect.Create("ep7WandRestoration_main");
-			mSpellEffect.ParentTo(mWand, Slot.FXJoint_0);
-			mSpellEffect.Start();
+			MSpellEffect = VisualEffect.Create("ep7WandRestoration_main");
+			MSpellEffect.ParentTo(MWand, Slot.FXJoint_0);
+			MSpellEffect.Start();
 		}
 
 		public void ShowFailVfx(StateMachineClient sender, IEvent evt)
 		{
-			mSpellEffect = VisualEffect.Create("ep7WandFail_main");
-			mSpellEffect.ParentTo(mWand, Slot.FXJoint_0);
-			mSpellEffect.Start();
+			MSpellEffect = VisualEffect.Create("ep7WandFail_main");
+			MSpellEffect.ParentTo(MWand, Slot.FXJoint_0);
+			MSpellEffect.Start();
 		}
 
 		public void ShowEpicFailVfx(StateMachineClient sender, IEvent evt)
 		{
-			mSpellEffect = VisualEffect.Create("ep7WandRestorationCriticalFail_main");
-			mSpellEffect.ParentTo(mWand, Slot.FXJoint_0);
-			mSpellEffect.Start();
+			MSpellEffect = VisualEffect.Create("ep7WandRestorationCriticalFail_main");
+			MSpellEffect.ParentTo(MWand, Slot.FXJoint_0);
+			MSpellEffect.Start();
 			OnSpellEpicFailure();
 		}
 
 		public override void Cleanup()
 		{
-			if (mWand != null)
+			if (MWand != null)
 			{
-				mWand.FinishUsing(Actor);
+				MWand.FinishUsing(Actor);
 			}
-			if (mSpellEffect != null)
+			if (MSpellEffect != null)
 			{
-				mSpellEffect.Stop();
-				mSpellEffect.Dispose();
-				mSpellEffect = null;
+				MSpellEffect.Stop();
+				MSpellEffect.Dispose();
+				MSpellEffect = null;
 			}
-			if (mPoofEffect != null)
+			if (MPoofEffect != null)
 			{
-				mPoofEffect.Stop();
-				mPoofEffect.Dispose();
-				mPoofEffect = null;
+				MPoofEffect.Stop();
+				MPoofEffect.Dispose();
+				MPoofEffect = null;
 			}
 			base.Cleanup();
 		}

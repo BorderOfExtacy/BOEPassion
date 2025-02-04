@@ -8,7 +8,7 @@ using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal sealed class BeHypnoticGazeFuck : SocialInteraction
 	{
@@ -32,31 +32,27 @@ namespace S3_Passion
 
 			public override string[] GetPath(bool bPath)
 			{
-				return new string[1] { Localization.LocalizeString("Vampire...") };
+				return new string[] { Localization.LocalizeString("Vampire...") };
 			}
 
 			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
-				if (GameUtils.IsInstalled(ProductVersion.EP7) && target.SimDescription.IsVampire && !actor.SimDescription.IsRobot && !target.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && target != actor && !actor.BuffManager.HasElement(BuffNames.Dazed) && !actor.SimDescription.ChildOrBelow && !actor.SimDescription.IsPet && actor.InteractionQueue.GetCurrentInteraction() != Singleton && Passion.Settings.VampireInteractions)
-				{
-					return true;
-				}
-				return false;
+				return GameUtils.IsInstalled(ProductVersion.EP7) && target.SimDescription.IsVampire && !actor.SimDescription.IsRobot && !target.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !actor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && target != actor && !actor.BuffManager.HasElement(BuffNames.Dazed) && !actor.SimDescription.ChildOrBelow && !actor.SimDescription.IsPet && actor.InteractionQueue.GetCurrentInteraction() != Singleton && Passion.Settings.VampireInteractions;
 			}
 		}
 
-		public static readonly InteractionDefinition Singleton = new Definition();
+		private static readonly InteractionDefinition Singleton = new Definition();
 
-		public static ResourceKey vampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
+		private static readonly ResourceKey VampireIconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
 		public override ThumbnailKey GetIconKey()
 		{
-			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
+			return new ThumbnailKey(VampireIconResourceKey, ThumbnailSize.Large);
 		}
 
 		public override bool Run()
 		{
-			Definition definition = base.InteractionDefinition as Definition;
+			//Definition definition = base.InteractionDefinition as Definition;
 			Actor.SynchronizationLevel = Sim.SyncLevel.NotStarted;
 			Target.SynchronizationLevel = Sim.SyncLevel.NotStarted;
 			if (BeginSocialInteraction(new SocialInteractionB.Definition(), false, 1f, true))
@@ -101,6 +97,7 @@ namespace S3_Passion
 						}
 						catch
 						{
+							// ignored
 						}
 					}
 				}

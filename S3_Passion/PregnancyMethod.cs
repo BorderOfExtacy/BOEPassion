@@ -1,10 +1,10 @@
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public enum PregnancyMethod
 	{
 		Disabled,
 		ByCategory,
 		ByPosition,
-		KWSystem
+		KwSystem
 	}
 }

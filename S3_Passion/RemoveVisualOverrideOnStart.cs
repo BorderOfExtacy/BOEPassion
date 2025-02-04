@@ -4,7 +4,7 @@ using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class RemoveVisualOverrideOnStart : ImmediateInteraction<Sim, Sim>
 	{

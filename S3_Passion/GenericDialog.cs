@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal class GenericDialog
 	{
 		public class OptionList<T>
 		{
-			protected List<Option<T>> mOptions = new List<Option<T>>();
+			protected List<Option<T>> MOptions = new List<Option<T>>();
 
 			public List<Option<T>> Options
 			{
 				get
 				{
-					return mOptions;
+					return MOptions;
 				}
 			}
 

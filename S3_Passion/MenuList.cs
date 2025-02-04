@@ -3,43 +3,43 @@ using System.Collections.Generic;
 using Sims3.SimIFace;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class MenuList : ModalDialog
 	{
-		private const int CANCEL_BUTTON = 99576786;
+		private const int CancelButton = 99576786;
 
-		private const int ITEM_TABLE = 99576784;
+		private const int ItemTable = 99576784;
 
-		private const string kLayoutName = "UiObjectPicker";
+		private const string KLayoutName = "UiObjectPicker";
 
-		private const int kWinExportID = 1;
+		private const int KWinExportId = 1;
 
-		private const int OKAY_BUTTON = 99576785;
+		private const int OkayButton = 99576785;
 
-		private const int TABLE_BACKGROUND = 99576788;
+		private const int TableBackground = 99576788;
 
-		private const int TABLE_BEZEL = 99576789;
+		private const int TableBezel = 99576789;
 
-		private const int TITLE_TEXT = 99576787;
+		private const int TitleText = 99576787;
 
-		private Button mCloseButton;
+		private Button _mCloseButton;
 
-		private Button mOkayButton;
+		private Button _mOkayButton;
 
-		private List<ObjectPicker.RowInfo> mPreSelectedRows;
+		private List<ObjectPicker.RowInfo> _mPreSelectedRows;
 
-		private List<ObjectPicker.RowInfo> mResult;
+		private List<ObjectPicker.RowInfo> _mResult;
 
-		private ObjectPicker mTable;
+		private ObjectPicker _mTable;
 
-		private Vector2 mTableOffset;
+		private Vector2 _mTableOffset;
 
 		public List<ObjectPicker.RowInfo> Result
 		{
 			get
 			{
-				return mResult;
+				return _mResult;
 			}
 		}
 
@@ -50,45 +50,45 @@ namespace S3_Passion
 			{
 				Text text = mModalDialogWindow.GetChildByID(99576787u, false) as Text;
 				text.Caption = title;
-				mTable = mModalDialogWindow.GetChildByID(99576784u, false) as ObjectPicker;
-				mTable.ObjectTable.TableChanged += OnTableChanged;
-				mTable.SelectionChanged += OnSelectionChanged;
-				mTable.RowSelected += OnSelectionChanged;
-				mOkayButton = mModalDialogWindow.GetChildByID(99576785u, false) as Button;
-				mOkayButton.TooltipText = buttonTrue;
-				mOkayButton.Enabled = false;
-				mOkayButton.Click += OnOkayButtonClick;
-				base.OkayID = mOkayButton.ID;
-				base.SelectedID = mOkayButton.ID;
-				mCloseButton = mModalDialogWindow.GetChildByID(99576786u, false) as Button;
-				mCloseButton.TooltipText = buttonFalse;
-				mCloseButton.Click += OnCloseButtonClick;
+				_mTable = mModalDialogWindow.GetChildByID(99576784u, false) as ObjectPicker;
+				_mTable.ObjectTable.TableChanged += OnTableChanged;
+				_mTable.SelectionChanged += OnSelectionChanged;
+				_mTable.RowSelected += OnSelectionChanged;
+				_mOkayButton = mModalDialogWindow.GetChildByID(99576785u, false) as Button;
+				_mOkayButton.TooltipText = buttonTrue;
+				_mOkayButton.Enabled = false;
+				_mOkayButton.Click += OnOkayButtonClick;
+				base.OkayID = _mOkayButton.ID;
+				base.SelectedID = _mOkayButton.ID;
+				_mCloseButton = mModalDialogWindow.GetChildByID(99576786u, false) as Button;
+				_mCloseButton.TooltipText = buttonFalse;
+				_mCloseButton.Click += OnCloseButtonClick;
 				if (disableCloseButton)
 				{
-					mCloseButton.Enabled = false;
+					_mCloseButton.Enabled = false;
 				}
-				base.CancelID = mCloseButton.ID;
-				mTableOffset = mModalDialogWindow.Area.BottomRight - mModalDialogWindow.Area.TopLeft - (mTable.Area.BottomRight - mTable.Area.TopLeft);
-				mTable.ShowHeaders = showHeadersAndToggle;
-				mTable.ShowToggle = showHeadersAndToggle;
-				mTable.ObjectTable.NoAutoSizeGridResize = true;
-				mTable.Populate(listObjs, headers, numSelectableRows);
-				mTable.ViewTypeToggle = viewTypeToggle;
-				mPreSelectedRows = preSelectedRows;
-				mTable.TablePopulationComplete += OnPopulationCompleted;
-				if (!mTable.ShowToggle)
+				base.CancelID = _mCloseButton.ID;
+				_mTableOffset = mModalDialogWindow.Area.BottomRight - mModalDialogWindow.Area.TopLeft - (_mTable.Area.BottomRight - _mTable.Area.TopLeft);
+				_mTable.ShowHeaders = showHeadersAndToggle;
+				_mTable.ShowToggle = showHeadersAndToggle;
+				_mTable.ObjectTable.NoAutoSizeGridResize = true;
+				_mTable.Populate(listObjs, headers, numSelectableRows);
+				_mTable.ViewTypeToggle = viewTypeToggle;
+				_mPreSelectedRows = preSelectedRows;
+				_mTable.TablePopulationComplete += OnPopulationCompleted;
+				if (!_mTable.ShowToggle)
 				{
 					Window window = mModalDialogWindow.GetChildByID(99576788u, false) as Window;
 					Window window2 = mModalDialogWindow.GetChildByID(99576789u, false) as Window;
-					mTable.Area = new Rect(mTable.Area.TopLeft.x, mTable.Area.TopLeft.y - 64f, mTable.Area.BottomRight.x, mTable.Area.BottomRight.y);
+					_mTable.Area = new Rect(_mTable.Area.TopLeft.x, _mTable.Area.TopLeft.y - 64f, _mTable.Area.BottomRight.x, _mTable.Area.BottomRight.y);
 					window2.Area = new Rect(window2.Area.TopLeft.x, window2.Area.TopLeft.y - 64f, window2.Area.BottomRight.x, window2.Area.BottomRight.y);
 					window.Area = new Rect(window.Area.TopLeft.x, window.Area.TopLeft.y - 64f, window.Area.BottomRight.x, window.Area.BottomRight.y);
 				}
-				mModalDialogWindow.Area = new Rect(mModalDialogWindow.Area.TopLeft, mModalDialogWindow.Area.TopLeft + mTable.TableArea.BottomRight + mTableOffset);
+				mModalDialogWindow.Area = new Rect(mModalDialogWindow.Area.TopLeft, mModalDialogWindow.Area.TopLeft + _mTable.TableArea.BottomRight + _mTableOffset);
 				Rect area = mModalDialogWindow.Area;
 				float num = area.BottomRight.x - area.TopLeft.x;
 				float num2 = area.BottomRight.y - area.TopLeft.y;
-				if (!mTable.ShowToggle)
+				if (!_mTable.ShowToggle)
 				{
 					num2 -= 50f;
 				}
@@ -114,21 +114,21 @@ namespace S3_Passion
 			EndDialog(base.CancelID);
 		}
 
-		public override bool OnEnd(uint endID)
+		public override bool OnEnd(uint endId)
 		{
-			if (endID == base.OkayID)
+			if (endId == base.OkayID)
 			{
-				if (!mOkayButton.Enabled)
+				if (!_mOkayButton.Enabled)
 				{
 					return false;
 				}
-				mResult = mTable.Selected;
+				_mResult = _mTable.Selected;
 			}
 			else
 			{
-				mResult = null;
+				_mResult = null;
 			}
-			mTable.Populate(null, null, 0);
+			_mTable.Populate(null, null, 0);
 			return true;
 		}
 
@@ -140,7 +140,7 @@ namespace S3_Passion
 
 		private void OnPopulationCompleted()
 		{
-			mTable.Selected = mPreSelectedRows;
+			_mTable.Selected = _mPreSelectedRows;
 		}
 
 		private void OnSelectionChanged(List<ObjectPicker.RowInfo> selectedRows)
@@ -152,14 +152,14 @@ namespace S3_Passion
 
 		private void OnTableChanged()
 		{
-			List<ObjectPicker.RowInfo> selected = mTable.Selected;
+			List<ObjectPicker.RowInfo> selected = _mTable.Selected;
 			if (selected != null && selected.Count > 0)
 			{
-				mOkayButton.Enabled = true;
+				_mOkayButton.Enabled = true;
 			}
 			else
 			{
-				mOkayButton.Enabled = false;
+				_mOkayButton.Enabled = false;
 			}
 		}
 

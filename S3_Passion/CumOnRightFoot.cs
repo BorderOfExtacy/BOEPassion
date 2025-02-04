@@ -9,7 +9,7 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal sealed class CumOnRightFoot : ImmediateInteraction<Sim, Sim>
 	{
@@ -38,23 +38,23 @@ namespace S3_Passion
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		private Sim.SwitchOutfitHelper mSwitchOutfitHelper;
+		private Sim.SwitchOutfitHelper _mSwitchOutfitHelper;
 
 		public Sim.SwitchOutfitHelper SwitchOutfitHelper
 		{
 			get
 			{
-				return mSwitchOutfitHelper;
+				return _mSwitchOutfitHelper;
 			}
 			set
 			{
-				if (mSwitchOutfitHelper != value)
+				if (_mSwitchOutfitHelper != value)
 				{
-					if (mSwitchOutfitHelper != null)
+					if (_mSwitchOutfitHelper != null)
 					{
-						mSwitchOutfitHelper.Dispose();
+						_mSwitchOutfitHelper.Dispose();
 					}
-					mSwitchOutfitHelper = value;
+					_mSwitchOutfitHelper = value;
 				}
 			}
 		}
@@ -77,7 +77,7 @@ namespace S3_Passion
 				SimOutfit simOutfit = null;
 				if (resourceKey != kInvalidResourceKey)
 				{
-					if (!IsSMPeener(Actor))
+					if (!IsSmPeener(Actor))
 					{
 						try
 						{
@@ -227,7 +227,7 @@ namespace S3_Passion
 				SimOutfit simOutfit3 = null;
 				if (resourceKey3 != kInvalidResourceKey2)
 				{
-					if (!IsSMPeener(Target))
+					if (!IsSmPeener(Target))
 					{
 						try
 						{
@@ -447,7 +447,7 @@ namespace S3_Passion
 			return false;
 		}
 
-		public static bool IsSMPeener(Sim sim)
+		public static bool IsSmPeener(Sim sim)
 		{
 			SimDescription simDescription = sim.SimDescription;
 			if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883")) != null)

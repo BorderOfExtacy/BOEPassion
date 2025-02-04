@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -10,7 +9,7 @@ using Sims3.Gameplay.ThoughtBalloons;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public sealed class VampireDrainsEnergyFromAll : TerrainInteraction
 	{
@@ -50,7 +49,7 @@ namespace S3_Passion
 						return InteractionTestResult.GenericFail;
 					}
 					bool flag = false;
-					Sim[] objects = Sims3.Gameplay.Queries.GetObjects<Sim>(parameters.Hit.mPoint, 4f);
+					Sim[] objects = global::Sims3.Gameplay.Queries.GetObjects<Sim>(parameters.Hit.mPoint, 4f);
 					if (objects != null && objects.Length != 0)
 					{
 						Sim[] array = objects;
@@ -89,15 +88,15 @@ namespace S3_Passion
 			}
 		}
 
-		public static Vector3 destination;
+		public static Vector3 Destination;
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		public static ResourceKey vampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
+		public static ResourceKey VampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
 		public override ThumbnailKey GetIconKey()
 		{
-			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
+			return new ThumbnailKey(VampireiconResourceKey, ThumbnailSize.Large);
 		}
 
 		public override bool Run()

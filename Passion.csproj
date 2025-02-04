@@ -16,7 +16,6 @@
       <Private>False</Private>
     </Reference>
 </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Reference Include="Sims3GameplaySystems">
       <HintPath>Deps\Sims3GameplaySystems.dll</HintPath>

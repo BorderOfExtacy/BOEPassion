@@ -1,7 +1,7 @@
 using Sims3.SimIFace;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal class PickString
 	{

@@ -8,7 +8,7 @@ using Sims3.Gameplay.ThoughtBalloons;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal sealed class VampireDrainsEnergy : SocialInteraction
 	{
@@ -47,11 +47,11 @@ namespace S3_Passion
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		public static ResourceKey vampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
+		public static ResourceKey VampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
 		public override ThumbnailKey GetIconKey()
 		{
-			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
+			return new ThumbnailKey(VampireiconResourceKey, ThumbnailSize.Large);
 		}
 
 		public override bool Run()

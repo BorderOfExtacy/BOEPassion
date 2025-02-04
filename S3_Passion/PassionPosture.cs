@@ -1,7 +1,7 @@
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public static class PassionPosture
 	{

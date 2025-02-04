@@ -1,6 +1,6 @@
 using System;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class Floor
 	{

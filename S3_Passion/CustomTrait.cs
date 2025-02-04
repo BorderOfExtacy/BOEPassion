@@ -8,7 +8,7 @@ using Sims3.SimIFace.CAS;
 using Sims3.UI.CAS;
 using Sims3.UI.Hud;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class CustomTrait : Trait
 	{

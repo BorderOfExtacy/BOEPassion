@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Sims3.Gameplay;
+using Passion.Sims3.Gameplay.Objects.HobbiesSkills;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -30,19 +30,19 @@ using Sims3.Store.Objects;
 using Sims3.UI;
 using Sims3.UI.CAS;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class PassionCommon
 	{
 		public class Modules
 		{
-			protected static List<IPassionModule> mLoaded = new List<IPassionModule>();
+			protected static List<IPassionModule> MLoaded = new List<IPassionModule>();
 
 			public static List<IPassionModule> Loaded
 			{
 				get
 				{
-					return mLoaded;
+					return MLoaded;
 				}
 			}
 
@@ -64,7 +64,7 @@ namespace S3_Passion
 
 			public static void StartListeners()
 			{
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -87,7 +87,7 @@ namespace S3_Passion
 
 			public static void LoadSim(Sim sim)
 			{
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -98,7 +98,7 @@ namespace S3_Passion
 
 			public static void LoadObject(GameObject obj)
 			{
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -110,7 +110,7 @@ namespace S3_Passion
 			public static GameObject[] GetCustomObjects()
 			{
 				List<GameObject> list = new List<GameObject>();
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -123,7 +123,7 @@ namespace S3_Passion
 			public static Type[] GetCustomObjectTypes()
 			{
 				List<Type> list = new List<Type>();
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -135,7 +135,7 @@ namespace S3_Passion
 
 			public static void PreProcessing(Sim sim)
 			{
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -146,7 +146,7 @@ namespace S3_Passion
 
 			public static void LoopProcessing(Sim sim)
 			{
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -163,7 +163,7 @@ namespace S3_Passion
 				}
 				try
 				{
-					foreach (IPassionModule item in mLoaded)
+					foreach (IPassionModule item in MLoaded)
 					{
 						if (item != null)
 						{
@@ -184,7 +184,7 @@ namespace S3_Passion
 			public static int GetPassionScoringModifier(Sim sim, Sim[] partners)
 			{
 				int num = 0;
-				foreach (IPassionModule item in mLoaded)
+				foreach (IPassionModule item in MLoaded)
 				{
 					if (item != null)
 					{
@@ -222,29 +222,29 @@ namespace S3_Passion
 
 					public const ulong Accessory = 328910682824383521uL;
 
-					public static List<ulong> IDs;
+					public static List<ulong> Ds;
 
-					private static FacialBlendData mErectBlend;
+					private static FacialBlendData _mErectBlend;
 
-					private static FacialBlendData mFemaleErectBlend;
+					private static FacialBlendData _mFemaleErectBlend;
 
-					private static FacialBlendData mForeskinBlend;
+					private static FacialBlendData _mForeskinBlend;
 
 					public static FacialBlendData ErectBlend
 					{
 						get
 						{
-							if (mErectBlend == null)
+							if (_mErectBlend == null)
 							{
 								try
 								{
-									mErectBlend = new FacialBlendData(new BlendUnit(new ResourceKey(4287645100653294805uL, 3039776853u, 0u)));
+									_mErectBlend = new FacialBlendData(new BlendUnit(new ResourceKey(4287645100653294805uL, 3039776853u, 0u)));
 								}
 								catch
 								{
 								}
 							}
-							return mErectBlend;
+							return _mErectBlend;
 						}
 					}
 
@@ -252,17 +252,17 @@ namespace S3_Passion
 					{
 						get
 						{
-							if (mFemaleErectBlend == null)
+							if (_mFemaleErectBlend == null)
 							{
 								try
 								{
-									mFemaleErectBlend = new FacialBlendData(new BlendUnit(new ResourceKey(4029370978840255872uL, 3039776853u, 0u)));
+									_mFemaleErectBlend = new FacialBlendData(new BlendUnit(new ResourceKey(4029370978840255872uL, 3039776853u, 0u)));
 								}
 								catch
 								{
 								}
 							}
-							return mFemaleErectBlend;
+							return _mFemaleErectBlend;
 						}
 					}
 
@@ -270,17 +270,17 @@ namespace S3_Passion
 					{
 						get
 						{
-							if (mForeskinBlend == null)
+							if (_mForeskinBlend == null)
 							{
 								try
 								{
-									mForeskinBlend = new FacialBlendData(new BlendUnit(new ResourceKey(17118777923511104575uL, 3039776853u, 0u)));
+									_mForeskinBlend = new FacialBlendData(new BlendUnit(new ResourceKey(17118777923511104575uL, 3039776853u, 0u)));
 								}
 								catch
 								{
 								}
 							}
-							return mForeskinBlend;
+							return _mForeskinBlend;
 						}
 					}
 
@@ -386,10 +386,10 @@ namespace S3_Passion
 						list.Add(1906960305524283416uL);
 						list.Add(10829650939803730647uL);
 						list.Add(8828424442779924380uL);
-						IDs = list;
-						mErectBlend = null;
-						mFemaleErectBlend = null;
-						mForeskinBlend = null;
+						Ds = list;
+						_mErectBlend = null;
+						_mFemaleErectBlend = null;
+						_mForeskinBlend = null;
 					}
 				}
 
@@ -399,7 +399,7 @@ namespace S3_Passion
 
 					public const ulong Mouth = 4946428095644385211uL;
 
-					public static List<ulong> IDs;
+					public static List<ulong> Ds;
 
 					public static bool Has(Sim sim)
 					{
@@ -408,8 +408,8 @@ namespace S3_Passion
 							CASPart[] parts = sim.CurrentOutfit.Parts;
 							for (int i = 0; i < parts.Length; i++)
 							{
-								CASPart cASPart = parts[i];
-								if (IDs.Contains(cASPart.Key.InstanceId))
+								CASPart cAsPart = parts[i];
+								if (Ds.Contains(cAsPart.Key.InstanceId))
 								{
 									return true;
 								}
@@ -423,35 +423,35 @@ namespace S3_Passion
 						List<ulong> list = new List<ulong>();
 						list.Add(1113075501344031715uL);
 						list.Add(4946428095644385211uL);
-						IDs = list;
+						Ds = list;
 					}
 				}
 
 				public class Height
 				{
-					public const ulong ID = 18006099479972776143uL;
+					public const ulong Id = 18006099479972776143uL;
 
-					public static List<ulong> IDs;
+					public static List<ulong> Ds;
 
 					public static float HeightMultiplier;
 
-					protected static FacialBlendData mBlend;
+					protected static FacialBlendData MBlend;
 
 					public static FacialBlendData Blend
 					{
 						get
 						{
-							if (mBlend == null)
+							if (MBlend == null)
 							{
 								try
 								{
-									mBlend = new FacialBlendData(new BlendUnit(ResourceKey.FromString("FBLN 0xB52F5055-0x00000000-0xF9E284139E1F88CF")));
+									MBlend = new FacialBlendData(new BlendUnit(ResourceKey.FromString("FBLN 0xB52F5055-0x00000000-0xF9E284139E1F88CF")));
 								}
 								catch
 								{
 								}
 							}
-							return mBlend;
+							return MBlend;
 						}
 					}
 
@@ -652,19 +652,19 @@ namespace S3_Passion
 					{
 						List<ulong> list = new List<ulong>();
 						list.Add(18006099479972776143uL);
-						IDs = list;
+						Ds = list;
 						HeightMultiplier = 0.256f;
 					}
 				}
 			}
 
-			public const uint FBLN = 3039776853u;
+			public const uint Fbln = 3039776853u;
 
-			public static List<ulong> Height = Types.Height.IDs;
+			public static List<ulong> Height = Types.Height.Ds;
 
-			public static List<ulong> Penis = Types.Penis.IDs;
+			public static List<ulong> Penis = Types.Penis.Ds;
 
-			public static List<ulong> Cigarette = Types.Cigarette.IDs;
+			public static List<ulong> Cigarette = Types.Cigarette.Ds;
 
 			private static float Get(Sim sim, FacialBlendData blend, OutfitCategories cat, int ind)
 			{
@@ -784,7 +784,7 @@ namespace S3_Passion
 
 		public static readonly string X = "x";
 
-		public static readonly List<string> DefaultXMLFiles;
+		public static readonly List<string> DefaultXmlFiles;
 
 		public static readonly List<ReactionTypes> ReactionsPositive;
 
@@ -794,9 +794,9 @@ namespace S3_Passion
 
 		public static readonly TraitNames[] PassionFriendlyTraits;
 
-		protected static List<string> mBufferedMessages;
+		protected static List<string> MBufferedMessages;
 
-		protected static string mBufferedMessageChunk;
+		protected static string MBufferedMessageChunk;
 
 		public static ReactionTypes RandomReactionPos
 		{
@@ -818,11 +818,11 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mBufferedMessages == null)
+				if (MBufferedMessages == null)
 				{
-					mBufferedMessages = new List<string>();
+					MBufferedMessages = new List<string>();
 				}
-				return mBufferedMessages;
+				return MBufferedMessages;
 			}
 		}
 
@@ -830,7 +830,7 @@ namespace S3_Passion
 		{
 			get
 			{
-				return string.IsNullOrEmpty(mBufferedMessageChunk);
+				return string.IsNullOrEmpty(MBufferedMessageChunk);
 			}
 		}
 
@@ -1061,13 +1061,13 @@ namespace S3_Passion
 
 		public static void BufferLine(string line)
 		{
-			if (string.IsNullOrEmpty(mBufferedMessageChunk))
+			if (string.IsNullOrEmpty(MBufferedMessageChunk))
 			{
-				mBufferedMessageChunk = line;
+				MBufferedMessageChunk = line;
 			}
 			else
 			{
-				mBufferedMessageChunk = mBufferedMessageChunk + NewLine + line;
+				MBufferedMessageChunk = MBufferedMessageChunk + NewLine + line;
 			}
 		}
 
@@ -1078,43 +1078,43 @@ namespace S3_Passion
 
 		public static void BufferMessage()
 		{
-			BufferMessage(mBufferedMessageChunk);
+			BufferMessage(MBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void SimMessage(Sim speaker, Sim target)
 		{
-			SimMessage(mBufferedMessageChunk, speaker, target);
+			SimMessage(MBufferedMessageChunk, speaker, target);
 			BufferClear();
 		}
 
 		public static void SimMessage(Sim sim)
 		{
-			SimMessage(mBufferedMessageChunk, sim, null);
+			SimMessage(MBufferedMessageChunk, sim, null);
 			BufferClear();
 		}
 
 		public static void SystemMessage()
 		{
-			SystemMessage(mBufferedMessageChunk);
+			SystemMessage(MBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void NegativeMessage()
 		{
-			NegativeMessage(mBufferedMessageChunk);
+			NegativeMessage(MBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void Message()
 		{
-			Message(mBufferedMessageChunk);
+			Message(MBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void BufferClear()
 		{
-			mBufferedMessageChunk = string.Empty;
+			MBufferedMessageChunk = string.Empty;
 		}
 
 		public static void DumpMessages()
@@ -1130,15 +1130,15 @@ namespace S3_Passion
 			BufferedMessages.Clear();
 		}
 
-		public static bool HasPart(Sim sim, List<ulong> IDs)
+		public static bool HasPart(Sim sim, List<ulong> ds)
 		{
 			if (sim != null)
 			{
 				CASPart[] parts = sim.CurrentOutfit.Parts;
 				for (int i = 0; i < parts.Length; i++)
 				{
-					CASPart cASPart = parts[i];
-					if (IDs.Contains(cASPart.Key.InstanceId))
+					CASPart cAsPart = parts[i];
+					if (ds.Contains(cAsPart.Key.InstanceId))
 					{
 						return true;
 					}
@@ -1178,7 +1178,7 @@ namespace S3_Passion
 			{
 				max = min;
 			}
-			Sim[] globalObjects = Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
+			Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
 			foreach (Sim sim in globalObjects)
 			{
 				if (Passion.IsValid(sim))
@@ -1257,7 +1257,7 @@ namespace S3_Passion
 		{
 			if (buffs != null && buffs.Count > 0)
 			{
-				Sim[] globalObjects = Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
+				Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
 				foreach (Sim sim in globalObjects)
 				{
 					CleanMoodlets(sim, buffs);
@@ -1328,7 +1328,7 @@ namespace S3_Passion
 			list.Add("KW_Clydie_Anims");
 			list.Add("KW_OLLCity_Anims");
 			list.Add("KinkyLucasAnimations");
-			DefaultXMLFiles = list;
+			DefaultXmlFiles = list;
 			List<ReactionTypes> list2 = new List<ReactionTypes>();
 			list2.Add(ReactionTypes.Fascinated);
 			list2.Add(ReactionTypes.Giggle);
@@ -1404,7 +1404,7 @@ namespace S3_Passion
 			list3.Add(typeof(WorkoutBench));
 			list3.Add(typeof(KissingBooth));
 			list3.Add(typeof(Telescope));
-			list3.Add(typeof(Sims3.Gameplay.Objects.Environment.Scarecrow));
+			list3.Add(typeof(global::Sims3.Gameplay.Objects.Environment.Scarecrow));
 			list3.Add(typeof(HauntedHouse));
 			list3.Add(typeof(ScienceResearchStation));
 			list3.Add(typeof(HotTubBase));
@@ -1433,8 +1433,8 @@ namespace S3_Passion
 				TraitNames.MasterOfSeduction,
 				TraitNames.Inappropriate
 			};
-			mBufferedMessages = new List<string>();
-			mBufferedMessageChunk = string.Empty;
+			MBufferedMessages = new List<string>();
+			MBufferedMessageChunk = string.Empty;
 		}
 	}
 }

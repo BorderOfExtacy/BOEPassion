@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Zin\\Desktop\\MEME TEAM FOREVER\\!sims shit\\!ts3\\! BOE\\BOEPassion\\Passion.csproj": {}
+    "/home/user/GitHub/GalaxyLittlepaws/BOEPassion/Passion.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Zin\\Desktop\\MEME TEAM FOREVER\\!sims shit\\!ts3\\! BOE\\BOEPassion\\Passion.csproj": {
+    "/home/user/GitHub/GalaxyLittlepaws/BOEPassion/Passion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Zin\\Desktop\\MEME TEAM FOREVER\\!sims shit\\!ts3\\! BOE\\BOEPassion\\Passion.csproj",
+        "projectUniqueName": "/home/user/GitHub/GalaxyLittlepaws/BOEPassion/Passion.csproj",
         "projectName": "BOE_Passion",
-        "projectPath": "C:\\Users\\Zin\\Desktop\\MEME TEAM FOREVER\\!sims shit\\!ts3\\! BOE\\BOEPassion\\Passion.csproj",
-        "packagesPath": "C:\\Users\\Zin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Zin\\Desktop\\MEME TEAM FOREVER\\!sims shit\\!ts3\\! BOE\\BOEPassion\\obj\\",
+        "projectPath": "/home/user/GitHub/GalaxyLittlepaws/BOEPassion/Passion.csproj",
+        "packagesPath": "/home/user/.nuget/packages/",
+        "outputPath": "/home/user/GitHub/GalaxyLittlepaws/BOEPassion/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Zin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/user/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net20"
@@ -27,6 +24,7 @@
         },
         "frameworks": {
           "net20": {
+            "targetAlias": "net20",
             "projectReferences": {}
           }
         },
@@ -34,11 +32,24 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net20": {
+          "targetAlias": "net20",
           "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            },
             "Microsoft.NETFramework.ReferenceAssemblies.net20": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -46,7 +57,7 @@
               "version": "[1.0.3, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.102/RuntimeIdentifierGraph.json"
         }
       }
     }

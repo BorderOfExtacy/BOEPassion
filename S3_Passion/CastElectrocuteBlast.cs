@@ -11,11 +11,11 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI.Hud;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
-	public class CastElectrocuteBlast : MagicWand.CastSpell, IInteractionInstance
+	public class CastElectrocuteBlast : MagicWand.CastSpell
 	{
-		public class Definition : InteractionDefinition<Sim, Sim, CastElectrocuteBlast>, IOverridesVisualType, IHasTraitIcon, IHasMenuPathIcon
+		private class Definition : InteractionDefinition<Sim, Sim, CastElectrocuteBlast>, IOverridesVisualType, IHasTraitIcon, IHasMenuPathIcon
 		{
 			public InteractionVisualTypes GetVisualType
 			{
@@ -27,7 +27,7 @@ namespace S3_Passion
 
 			public override string[] GetPath(bool isFemale)
 			{
-				return new string[1] { MagicWand.LocalizeString(isFemale, "CastSpell", new object[0]) + Localization.Ellipsis };
+				return new string[] { MagicWand.LocalizeString(isFemale, "CastSpell", new object[0]) + Localization.Ellipsis };
 			}
 
 			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
@@ -74,11 +74,11 @@ namespace S3_Passion
 
 		[Tunable]
 		[TunableComment("Amount that this spell drains from motives.  Range: 0-200")]
-		public static float kMotiveDrain = 10f;
+		public static float KMotiveDrain = 10f;
 
 		[Tunable]
 		[TunableComment("Delay time for the sim to do put self out interaction")]
-		public static float kPutSelfOutDelay = 10f;
+		public static float KPutSelfOutDelay = 10f;
 
 		public static InteractionDefinition Singleton = new Definition();
 

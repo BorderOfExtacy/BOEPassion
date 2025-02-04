@@ -1,7 +1,7 @@
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class Libido : CustomBuff
 	{

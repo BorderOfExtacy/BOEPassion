@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -13,7 +12,7 @@ using Sims3.Gameplay.ThoughtBalloons;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public sealed class FemaleUseUrinal : Interaction<Sim, Urinal>
 	{
@@ -30,19 +29,19 @@ namespace S3_Passion
 			}
 		}
 
-		private const int mDrinkPopInHandEventID = 100;
+		private const int MDrinkPopInHandEventId = 100;
 
-		private const int mGrabDrinkStartEventID = 104;
+		private const int MGrabDrinkStartEventId = 104;
 
-		private const int mTurnOffCensorEventID = 120;
+		private const int MTurnOffCensorEventId = 120;
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		private Glass mDrinkInHand;
+		private Glass _mDrinkInHand;
 
-		private bool mHasFarted;
+		private bool _mHasFarted;
 
-		private float mFartTime;
+		private float _mFartTime;
 
 		public override bool Run()
 		{
@@ -70,17 +69,17 @@ namespace S3_Passion
 			Glass.CarryingGlassPosture carryingGlassPosture = Actor.Posture as Glass.CarryingGlassPosture;
 			if (carryingGlassPosture != null)
 			{
-				mDrinkInHand = carryingGlassPosture.ObjectBeingCarried as Glass;
+				_mDrinkInHand = carryingGlassPosture.ObjectBeingCarried as Glass;
 				CarrySystem.ExitCarry(Actor);
-				mDrinkInHand.FadeOut(true);
-				mDrinkInHand.UnParent();
+				_mDrinkInHand.FadeOut(true);
+				_mDrinkInHand.UnParent();
 				Actor.PopPosture();
 				SetParameter("hasDrink", true);
-				SetActor("drink", mDrinkInHand);
+				SetActor("drink", _mDrinkInHand);
 				if (Target.HasDrinkSlot && Target.GetContainedObject(Slot.ContainmentSlot_0) == null)
 				{
-					mDrinkInHand.ParentToSlot(Target, Slot.ContainmentSlot_0);
-					mDrinkInHand.FadeIn();
+					_mDrinkInHand.ParentToSlot(Target, Slot.ContainmentSlot_0);
+					_mDrinkInHand.FadeIn();
 				}
 			}
 			AddOneShotScriptEventHandler(120u, OnAnimationEvent);
@@ -89,7 +88,7 @@ namespace S3_Passion
 			{
 				element.mTimeoutPaused = true;
 			}
-			mFartTime = RandomUtil.RandomFloatGaussianDistribution(0.1f, 0.9f);
+			_mFartTime = RandomUtil.RandomFloatGaussianDistribution(0.1f, 0.9f);
 			BeginCommodityUpdate(CommodityKind.Bladder, 0f);
 			BeginCommodityUpdates();
 			Actor.Motives.LerpToFill(this, CommodityKind.Bladder, 10f);
@@ -117,11 +116,11 @@ namespace S3_Passion
 			AddOneShotScriptEventHandler(104u, OnAnimationEvent);
 			AddOneShotScriptEventHandler(100u, OnAnimationEvent);
 			AnimateSim("exit");
-			if (mDrinkInHand != null)
+			if (_mDrinkInHand != null)
 			{
-				CarrySystem.EnterWhileHolding(Actor, mDrinkInHand);
-				Actor.Posture = new Glass.CarryingGlassPosture(Actor, mDrinkInHand);
-				mDrinkInHand.FadeIn();
+				CarrySystem.EnterWhileHolding(Actor, _mDrinkInHand);
+				Actor.Posture = new Glass.CarryingGlassPosture(Actor, _mDrinkInHand);
+				_mDrinkInHand.FadeIn();
 			}
 			StandardExit();
 			if (interactionInstance != null)
@@ -153,12 +152,12 @@ namespace S3_Passion
 
 		private void LoopFunc(StateMachineClient smc, LoopData loopData)
 		{
-			if (!mHasFarted)
+			if (!_mHasFarted)
 			{
 				float num = base.ActiveStage.PortionComplete(this);
-				if (num >= mFartTime)
+				if (num >= _mFartTime)
 				{
-					mHasFarted = true;
+					_mHasFarted = true;
 					AnimateSim("fart");
 					ReactionBroadcaster.CreateOneShotPulse(Actor, new ReactionBroadcasterParams(), ReactToFartCallback);
 				}
@@ -169,7 +168,7 @@ namespace S3_Passion
 				return;
 			}
 			bool flag = true;
-			List<IToiletOrUrinal> list = new List<IToiletOrUrinal>(Sims3.Gameplay.Queries.GetObjects<IToiletOrUrinal>(Actor.LotCurrent, Actor.RoomId));
+			List<IToiletOrUrinal> list = new List<IToiletOrUrinal>(global::Sims3.Gameplay.Queries.GetObjects<IToiletOrUrinal>(Actor.LotCurrent, Actor.RoomId));
 			List<Sim> list2 = new List<Sim>();
 			foreach (IToiletOrUrinal item in list)
 			{
@@ -202,16 +201,16 @@ namespace S3_Passion
 				Actor.AutoEnableCensor();
 				break;
 			case 104u:
-				if (mDrinkInHand != null)
+				if (_mDrinkInHand != null)
 				{
-					mDrinkInHand.FadeOut();
-					mDrinkInHand.UnParent();
+					_mDrinkInHand.FadeOut();
+					_mDrinkInHand.UnParent();
 				}
 				break;
 			case 100u:
-				if (mDrinkInHand != null)
+				if (_mDrinkInHand != null)
 				{
-					mDrinkInHand.FadeIn();
+					_mDrinkInHand.FadeIn();
 				}
 				break;
 			}

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "l7FYJuUDeielnohHJtZgs0MTtCepZRMnwHtic39Qdyeu70cxpDOBV28yKxZNJzF89RevQ1Pp18W7NcAbjExPuQ==",
+  "dgSpecHash": "P1XYlbCepVI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Zin\\Desktop\\MEME TEAM FOREVER\\!sims shit\\!ts3\\! BOE\\BOEPassion\\Passion.csproj",
+  "projectFilePath": "/home/user/GitHub/GalaxyLittlepaws/BOEPassion/Passion.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Zin\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net20\\1.0.3\\microsoft.netframework.referenceassemblies.net20.1.0.3.nupkg.sha512"
+    "/home/user/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.3/microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "/home/user/.nuget/packages/microsoft.netframework.referenceassemblies.net20/1.0.3/microsoft.netframework.referenceassemblies.net20.1.0.3.nupkg.sha512"
   ],
   "logs": []
 }

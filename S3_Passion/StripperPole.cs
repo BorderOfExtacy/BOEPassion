@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -14,7 +13,7 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class StripperPole : PassionCommon
 	{
@@ -28,9 +27,9 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.Dance");
 				}
 
-				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (!IsAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove)
+					if (!isAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove)
 					{
 						return true;
 					}
@@ -42,7 +41,7 @@ namespace S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -120,9 +119,9 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.Dance2");
 				}
 
-				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (!IsAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove)
+					if (!isAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove)
 					{
 						return true;
 					}
@@ -134,7 +133,7 @@ namespace S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -213,9 +212,9 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.Dance");
 				}
 
-				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (!IsAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman)
+					if (!isAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman)
 					{
 						return true;
 					}
@@ -227,7 +226,7 @@ namespace S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -309,7 +308,7 @@ namespace S3_Passion
 				{
 					Sim sim = Actor;
 					GameObject gameObject = Target;
-					List<DanceFloor> list2 = new List<DanceFloor>(Sims3.Gameplay.Queries.GetObjects<DanceFloor>(sim.LotCurrent, sim.RoomId));
+					List<DanceFloor> list2 = new List<DanceFloor>(global::Sims3.Gameplay.Queries.GetObjects<DanceFloor>(sim.LotCurrent, sim.RoomId));
 					if (!sim.SimDescription.IsServicePerson || sim.Service is Butler || sim.Service is Maid)
 					{
 						foreach (Sim sim2 in sim.LotCurrent.GetSims())
@@ -344,13 +343,13 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.AskToDance");
 				}
 
-				public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int NumSelectableRows)
+				public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
 				{
-					NumSelectableRows = 1;
+					numSelectableRows = 1;
 					PopulateSimPicker(ref parameters, out listObjs, out headers, GetThePeople(parameters.Actor as Sim, parameters.Actor.LotCurrent), false);
 				}
 
-				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman && target.UseCount == 0;
 				}
@@ -376,13 +375,13 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.AskToDance2");
 				}
 
-				public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int NumSelectableRows)
+				public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
 				{
-					NumSelectableRows = 1;
+					numSelectableRows = 1;
 					PopulateSimPicker(ref parameters, out listObjs, out headers, GetThePeople(parameters.Actor as Sim, parameters.Actor.LotCurrent), false);
 				}
 
-				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman && target.UseCount == 0;
 				}
@@ -408,7 +407,7 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.StopDance");
 				}
 
-				public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					return target.InteractionQueue.GetCurrentInteraction() != null && (target.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Dance.Singleton || target.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Dance2.Singleton);
 				}
@@ -434,15 +433,15 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.Strip");
 				}
 
-				public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
 					try
 					{
-						if (!IsAutonomous && actor == target && actor.SimDescription.IsHuman && actor.CurrentInteraction != null && actor.CurrentInteraction.InteractionDefinition == Dance.Singleton)
+						if (!isAutonomous && actor == target && actor.SimDescription.IsHuman && actor.CurrentInteraction != null && actor.CurrentInteraction.InteractionDefinition == Dance.Singleton)
 						{
 							return true;
 						}
-						if (!IsAutonomous && actor == target && actor.SimDescription.IsHuman && actor.CurrentInteraction != null && actor.CurrentInteraction.InteractionDefinition == Dance2.Singleton)
+						if (!isAutonomous && actor == target && actor.SimDescription.IsHuman && actor.CurrentInteraction != null && actor.CurrentInteraction.InteractionDefinition == Dance2.Singleton)
 						{
 							return true;
 						}
@@ -473,9 +472,9 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.Watch") + " " + PassionCommon.Localize("S3_Passion.Terms.Strip");
 				}
 
-				public override bool Test(Sim actor, SculptureFloorGunShow target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (!IsAutonomous && actor != null && actor != Sim.ActiveActor && target != null && target.UseCount > 0 && !actor.SimDescription.IsServicePerson && actor.SimDescription.IsHuman)
+					if (!isAutonomous && actor != null && actor != Sim.ActiveActor && target != null && target.UseCount > 0 && !actor.SimDescription.IsServicePerson && actor.SimDescription.IsHuman)
 					{
 						return true;
 					}
@@ -483,22 +482,22 @@ namespace S3_Passion
 				}
 			}
 
-			public static float kMinRouteDistance = 1f;
+			public static float KMinRouteDistance = 1f;
 
-			public static float kMaxRouteDistance = 5f;
+			public static float KMaxRouteDistance = 5f;
 
-			public static float kMinTimeBetweenReaction = 4f;
+			public static float KMinTimeBetweenReaction = 4f;
 
-			public static float kMaxTimeBetweenReaction = 5f;
+			public static float KMaxTimeBetweenReaction = 5f;
 
-			public float mTimeSinceLastReaction = 1f;
+			public float MTimeSinceLastReaction = 1f;
 
-			public float mTimeBetweenReaction;
+			public float MTimeBetweenReaction;
 
-			public WatchStrip mWatchedInteraction;
+			public WatchStrip MWatchedInteraction;
 
 			[Persistable(false)]
-			public List<ReactionTypes> mReactions = new List<ReactionTypes>(new ReactionTypes[4]
+			public List<ReactionTypes> MReactions = new List<ReactionTypes>(new ReactionTypes[4]
 			{
 				ReactionTypes.Cheer,
 				ReactionTypes.PumpFist,
@@ -510,7 +509,7 @@ namespace S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -525,7 +524,7 @@ namespace S3_Passion
 				{
 					Passion.GetPlayer(Actor).Watch(sim);
 					Route route = Actor.CreateRoute();
-					route.PlanToPointRadialRange(Target.Position, kMinRouteDistance, kMaxRouteDistance, RouteDistancePreference.NoPreference, RouteOrientationPreference.TowardsObject, Target.LotCurrent.LotId, new int[1] { Target.RoomId });
+					route.PlanToPointRadialRange(Target.Position, KMinRouteDistance, KMaxRouteDistance, RouteDistancePreference.NoPreference, RouteOrientationPreference.TowardsObject, Target.LotCurrent.LotId, new int[1] { Target.RoomId });
 					if (!Actor.DoRoute(route) || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.UseObjectForPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.UseSimForPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.ActiveJoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.JoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToJoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToSoloPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToPassionOther.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToWatchPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.WatchPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.WatchMasturbate.Singleton)
 					{
 						return false;
@@ -546,13 +545,13 @@ namespace S3_Passion
 					Actor.AddExitReason(ExitReason.Finished);
 					return;
 				}
-				mTimeSinceLastReaction += ld.mDeltaTime;
-				if (mTimeBetweenReaction < mTimeSinceLastReaction)
+				MTimeSinceLastReaction += ld.mDeltaTime;
+				if (MTimeBetweenReaction < MTimeSinceLastReaction)
 				{
-					ReactionTypes randomObjectFromList = RandomUtil.GetRandomObjectFromList(mReactions);
+					ReactionTypes randomObjectFromList = RandomUtil.GetRandomObjectFromList(MReactions);
 					Actor.PlayReaction(randomObjectFromList, ReactionSpeed.ImmediateWithoutOverlay);
-					mTimeSinceLastReaction = 0f;
-					mTimeBetweenReaction = RandomUtil.GetFloat(kMinTimeBetweenReaction, kMaxTimeBetweenReaction);
+					MTimeSinceLastReaction = 0f;
+					MTimeBetweenReaction = RandomUtil.GetFloat(KMinTimeBetweenReaction, KMaxTimeBetweenReaction);
 				}
 			}
 		}

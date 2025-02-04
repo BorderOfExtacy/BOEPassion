@@ -8,7 +8,7 @@ using Sims3.Gameplay.Objects.Door;
 using Sims3.SimIFace;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class GloryHole : PassionCommon
 	{
@@ -85,9 +85,9 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.ServiceStrangers");
 				}
 
-				public override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, FenceRedwood_Gate target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (actor != null && target != null && !IsAutonomous)
+					if (actor != null && target != null && !isAutonomous)
 					{
 						ActiveGloryHole activeGloryHole = Get(target);
 						if (activeGloryHole != null && !activeGloryHole.HasSlut)
@@ -150,9 +150,9 @@ namespace S3_Passion
 					return PassionCommon.Localize("S3_Passion.Terms.UseGloryHole");
 				}
 
-				public override bool Test(Sim actor, FenceRedwood_Gate target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+				public override bool Test(Sim actor, FenceRedwood_Gate target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (actor != null && target != null && !IsAutonomous)
+					if (actor != null && target != null && !isAutonomous)
 					{
 						ActiveGloryHole activeGloryHole = Get(target);
 						if (activeGloryHole != null && !activeGloryHole.HasStud)
@@ -224,17 +224,17 @@ namespace S3_Passion
 		}
 
 		[PersistableStatic]
-		protected static Dictionary<ulong, ActiveGloryHole> mActiveGloryHoles;
+		protected static Dictionary<ulong, ActiveGloryHole> MActiveGloryHoles;
 
 		public static Dictionary<ulong, ActiveGloryHole> ActiveGloryHoles
 		{
 			get
 			{
-				if (mActiveGloryHoles == null)
+				if (MActiveGloryHoles == null)
 				{
-					mActiveGloryHoles = new Dictionary<ulong, ActiveGloryHole>();
+					MActiveGloryHoles = new Dictionary<ulong, ActiveGloryHole>();
 				}
-				return mActiveGloryHoles;
+				return MActiveGloryHoles;
 			}
 		}
 

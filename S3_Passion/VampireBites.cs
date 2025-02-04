@@ -10,7 +10,7 @@ using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class VampireBites : SocialInteraction
 	{
@@ -45,7 +45,7 @@ namespace S3_Passion
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		public static ResourceKey vampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
+		public static ResourceKey VampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
 		public override bool Run()
 		{
@@ -98,7 +98,7 @@ namespace S3_Passion
 
 		public override ThumbnailKey GetIconKey()
 		{
-			return new ThumbnailKey(vampireiconResourceKey, ThumbnailSize.Large);
+			return new ThumbnailKey(VampireiconResourceKey, ThumbnailSize.Large);
 		}
 
 		public static void VampVictBuffs(Sim vamp, Sim vic)
@@ -113,7 +113,7 @@ namespace S3_Passion
 			{
 				actor.BuffManager.AddElement(BuffNames.Stuffed, Origin.FromCarnivorousBehavior);
 			}
-			setMaxMotive(actor, CommodityKind.VampireThirst);
+			SetMaxMotive(actor, CommodityKind.VampireThirst);
 			if (actor.LotCurrent.IsCommunityLot)
 			{
 				DisgracefulActionEvent e = new DisgracefulActionEvent(EventTypeId.kSimCommittedDisgracefulAction, actor, DisgracefulActionType.BiteSomeoneInPublic);
@@ -129,7 +129,7 @@ namespace S3_Passion
 			}
 		}
 
-		public static void setMaxMotive(Sim actor, CommodityKind type)
+		public static void SetMaxMotive(Sim actor, CommodityKind type)
 		{
 			actor.Motives.SetValue(type, 200f);
 		}

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -11,9 +10,9 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
-	public class STD : CustomBuff
+	public class Std : CustomBuff
 	{
 		public class Infection
 		{
@@ -236,7 +235,7 @@ namespace S3_Passion
 			{
 				public override bool Test(Sim sim, RabbitHole target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (HasTreatableSTDs(sim))
+					if (HasTreatableStDs(sim))
 					{
 						return true;
 					}
@@ -245,20 +244,20 @@ namespace S3_Passion
 
 				public override string GetInteractionName(Sim actor, RabbitHole target, InteractionObjectPair iop)
 				{
-					return Localization.LocalizeString("STD.GetTreated:InteractionName") + "(" + UIUtils.FormatMoney(kCostOfTreatment) + ")";
+					return Localization.LocalizeString("STD.GetTreated:InteractionName") + "(" + UIUtils.FormatMoney(_kCostOfTreatment) + ")";
 				}
 			}
 
-			private static int kSimMinutesForTreatment = 120;
+			private static int _kSimMinutesForTreatment = 120;
 
-			private static int kCostOfTreatment = 500;
+			private static int _kCostOfTreatment = 500;
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
 			public override void ConfigureInteraction()
 			{
 				base.ConfigureInteraction();
-				TimedStage timedStage = new TimedStage(GetInteractionName(), kSimMinutesForTreatment, false, true, true);
+				TimedStage timedStage = new TimedStage(GetInteractionName(), _kSimMinutesForTreatment, false, true, true);
 				base.Stages = new List<Stage>(new Stage[1] { timedStage });
 				base.ActiveStage = timedStage;
 			}
@@ -270,13 +269,13 @@ namespace S3_Passion
 				bool flag = DoLoop(ExitReason.Default);
 				if (Actor.HasExitReason(ExitReason.StageComplete))
 				{
-					if (Actor.FamilyFunds >= kCostOfTreatment)
+					if (Actor.FamilyFunds >= _kCostOfTreatment)
 					{
-						Actor.ModifyFunds(-kCostOfTreatment);
+						Actor.ModifyFunds(-_kCostOfTreatment);
 					}
 					else if (!GameUtils.IsFutureWorld())
 					{
-						Actor.UnpaidBills += kCostOfTreatment;
+						Actor.UnpaidBills += _kCostOfTreatment;
 					}
 					Treatment(Actor);
 				}
@@ -290,12 +289,12 @@ namespace S3_Passion
 		}
 
 		[PersistableStatic]
-		private static List<Infection> mPendingInfections;
+		private static List<Infection> _mPendingInfections;
 
 		public static List<Infection> PendingInfectionsBackup = new List<Infection>();
 
 		[PersistableStatic]
-		private static List<Dethklok> mDethkloks;
+		private static List<Dethklok> _mDethkloks;
 
 		public static List<Dethklok> DethkloksBackup = new List<Dethklok>();
 
@@ -303,15 +302,15 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mPendingInfections == null)
+				if (_mPendingInfections == null)
 				{
-					mPendingInfections = new List<Infection>();
+					_mPendingInfections = new List<Infection>();
 				}
-				return mPendingInfections;
+				return _mPendingInfections;
 			}
 			set
 			{
-				mPendingInfections = value;
+				_mPendingInfections = value;
 			}
 		}
 
@@ -319,36 +318,36 @@ namespace S3_Passion
 		{
 			get
 			{
-				if (mDethkloks == null)
+				if (_mDethkloks == null)
 				{
-					mDethkloks = new List<Dethklok>();
+					_mDethkloks = new List<Dethklok>();
 				}
-				return mDethkloks;
+				return _mDethkloks;
 			}
 			set
 			{
-				mDethkloks = value;
+				_mDethkloks = value;
 			}
 		}
 
-		public STD(BuffData info)
+		public Std(BuffData info)
 			: base(info)
 		{
 		}
 
 		public static void ClearData()
 		{
-			if (mPendingInfections != null)
+			if (_mPendingInfections != null)
 			{
-				PendingInfectionsBackup = new List<Infection>(mPendingInfections);
-				mPendingInfections.Clear();
-				mPendingInfections = null;
+				PendingInfectionsBackup = new List<Infection>(_mPendingInfections);
+				_mPendingInfections.Clear();
+				_mPendingInfections = null;
 			}
-			if (mDethkloks != null)
+			if (_mDethkloks != null)
 			{
-				DethkloksBackup = new List<Dethklok>(mDethkloks);
-				mDethkloks.Clear();
-				mDethkloks = null;
+				DethkloksBackup = new List<Dethklok>(_mDethkloks);
+				_mDethkloks.Clear();
+				_mDethkloks = null;
 			}
 		}
 
@@ -382,12 +381,12 @@ namespace S3_Passion
 			return SimClock.CurrentTicks + num;
 		}
 
-		public static List<BuffNames> GetSTDs(Sim sim)
+		public static List<BuffNames> GetStDs(Sim sim)
 		{
 			List<BuffNames> list = new List<BuffNames>();
 			if (sim != null)
 			{
-				foreach (BuffNames item in Names.STD)
+				foreach (BuffNames item in Names.Std)
 				{
 					if (sim.BuffManager.HasElement(item))
 					{
@@ -398,9 +397,9 @@ namespace S3_Passion
 			return list;
 		}
 
-		public static bool HasTreatableSTDs(Sim sim)
+		public static bool HasTreatableStDs(Sim sim)
 		{
-			using (List<BuffNames>.Enumerator enumerator = GetSTDs(sim).GetEnumerator())
+			using (List<BuffNames>.Enumerator enumerator = GetStDs(sim).GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
@@ -421,11 +420,11 @@ namespace S3_Passion
 			return false;
 		}
 
-		public static bool HasSIV(Sim sim)
+		public static bool HasSiv(Sim sim)
 		{
-			foreach (BuffNames sTD in GetSTDs(sim))
+			foreach (BuffNames sTd in GetStDs(sim))
 			{
-				BuffNames buffNames = sTD;
+				BuffNames buffNames = sTd;
 				if (buffNames != (BuffNames)3802937897211410794uL && buffNames != (BuffNames)6514717556347855497uL && buffNames != (BuffNames)16680654480998469135uL)
 				{
 					continue;
@@ -446,7 +445,7 @@ namespace S3_Passion
 
 		public static bool HasSimphilis(Sim sim)
 		{
-			using (List<BuffNames>.Enumerator enumerator = GetSTDs(sim).GetEnumerator())
+			using (List<BuffNames>.Enumerator enumerator = GetStDs(sim).GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
@@ -476,9 +475,9 @@ namespace S3_Passion
 
 		public static bool HasSimerpes(Sim sim)
 		{
-			foreach (BuffNames sTD in GetSTDs(sim))
+			foreach (BuffNames sTd in GetStDs(sim))
 			{
-				BuffNames buffNames = sTD;
+				BuffNames buffNames = sTd;
 				if (buffNames != (BuffNames)8648471817152268810uL && buffNames != (BuffNames)14409719855781998876uL)
 				{
 					continue;
@@ -499,7 +498,7 @@ namespace S3_Passion
 
 		public static bool SimmunityPreventsInfection(Sim sim)
 		{
-			return sim == null || (Passion.Settings.STDSimmunity == STDImmunity.Immune && sim.HasTrait(TraitNames.Simmunity));
+			return sim == null || (Passion.Settings.StdSimmunity == StdImmunity.Immune && sim.HasTrait(TraitNames.Simmunity));
 		}
 
 		public static bool InfectionRandomization(Sim sim, BuffNames std)
@@ -507,7 +506,7 @@ namespace S3_Passion
 			bool result = false;
 			if (sim != null)
 			{
-				if (Passion.Settings.STDSimmunity == STDImmunity.Resistant && sim.HasTrait(TraitNames.Simmunity))
+				if (Passion.Settings.StdSimmunity == StdImmunity.Resistant && sim.HasTrait(TraitNames.Simmunity))
 				{
 					switch (std)
 					{
@@ -548,7 +547,7 @@ namespace S3_Passion
 
 		public static void Process(Passion.Player player)
 		{
-			if (player != null && player.IsValid && Passion.Settings.STD && !SimmunityPreventsInfection(player.Actor))
+			if (player != null && player.IsValid && Passion.Settings.Std && !SimmunityPreventsInfection(player.Actor))
 			{
 				try
 				{
@@ -564,20 +563,20 @@ namespace S3_Passion
 							}
 							try
 							{
-								foreach (BuffNames sTD in GetSTDs(value.Actor))
+								foreach (BuffNames sTd in GetStDs(value.Actor))
 								{
-									switch (sTD)
+									switch (sTd)
 									{
 									case (BuffNames)12465744095023444500uL:
 									case (BuffNames)16328498947224254690uL:
-										if (InfectionRandomization(actor, sTD) && !actor.BuffManager.HasElement(sTD))
+										if (InfectionRandomization(actor, sTd) && !actor.BuffManager.HasElement(sTd))
 										{
-											PendingInfections.Add(new Infection(actor, sTD, GetOnset(sTD)));
+											PendingInfections.Add(new Infection(actor, sTd, GetOnset(sTd)));
 										}
 										break;
 									case (BuffNames)4642255024717194076uL:
 									case (BuffNames)9183286871710270222uL:
-										if (InfectionRandomization(actor, sTD) && !HasSimphilis(actor))
+										if (InfectionRandomization(actor, sTd) && !HasSimphilis(actor))
 										{
 											PendingInfections.Add(new Infection(actor, (BuffNames)9183286871710270222uL, GetOnset((BuffNames)9183286871710270222uL)));
 										}
@@ -585,14 +584,14 @@ namespace S3_Passion
 									case (BuffNames)16680654480998469135uL:
 									case (BuffNames)3802937897211410794uL:
 									case (BuffNames)6514717556347855497uL:
-										if (InfectionRandomization(actor, sTD) && !HasSIV(actor))
+										if (InfectionRandomization(actor, sTd) && !HasSiv(actor))
 										{
 											PendingInfections.Add(new Infection(actor, (BuffNames)3802937897211410794uL, GetOnset((BuffNames)3802937897211410794uL)));
 										}
 										break;
 									case (BuffNames)14409719855781998876uL:
 									case (BuffNames)8648471817152268810uL:
-										if (InfectionRandomization(actor, sTD) && !HasSimerpes(actor))
+										if (InfectionRandomization(actor, sTd) && !HasSimerpes(actor))
 										{
 											PendingInfections.Add(new Infection(actor, (BuffNames)14409719855781998876uL, GetOnset((BuffNames)14409719855781998876uL)));
 										}
@@ -631,7 +630,7 @@ namespace S3_Passion
 									case (BuffNames)16680654480998469135uL:
 									case (BuffNames)3802937897211410794uL:
 									case (BuffNames)6514717556347855497uL:
-										if (InfectionRandomization(actor, pendingInfection.Disease) && !HasSIV(actor))
+										if (InfectionRandomization(actor, pendingInfection.Disease) && !HasSiv(actor))
 										{
 											PendingInfections.Add(new Infection(actor, (BuffNames)3802937897211410794uL, GetOnset((BuffNames)3802937897211410794uL)));
 										}
@@ -725,22 +724,22 @@ namespace S3_Passion
 			{
 				return;
 			}
-			foreach (BuffNames sTD in GetSTDs(sim))
+			foreach (BuffNames sTd in GetStDs(sim))
 			{
-				switch (sTD)
+				switch (sTd)
 				{
 				case (BuffNames)12465744095023444500uL:
 				case (BuffNames)16328498947224254690uL:
 				case (BuffNames)4642255024717194076uL:
 				case (BuffNames)9183286871710270222uL:
-					sim.BuffManager.RemoveElement(sTD);
+					sim.BuffManager.RemoveElement(sTd);
 					break;
 				case (BuffNames)3348796355468607868uL:
-					sim.BuffManager.RemoveElement(sTD);
+					sim.BuffManager.RemoveElement(sTd);
 					sim.BuffManager.AddElement((BuffNames)7014284627137684376uL, Origin.None);
 					break;
 				case (BuffNames)3802937897211410794uL:
-					sim.BuffManager.RemoveElement(sTD);
+					sim.BuffManager.RemoveElement(sTd);
 					sim.BuffManager.AddElement((BuffNames)6514717556347855497uL, Origin.None);
 					foreach (Dethklok dethklok in Dethkloks)
 					{
@@ -755,7 +754,7 @@ namespace S3_Passion
 					{
 						break;
 					}
-					sim.BuffManager.RemoveElement(sTD);
+					sim.BuffManager.RemoveElement(sTd);
 					sim.BuffManager.AddElement((BuffNames)6514717556347855497uL, Origin.None);
 					foreach (Dethklok dethklok2 in Dethkloks)
 					{
@@ -766,7 +765,7 @@ namespace S3_Passion
 					}
 					break;
 				case (BuffNames)14409719855781998876uL:
-					sim.BuffManager.RemoveElement(sTD);
+					sim.BuffManager.RemoveElement(sTd);
 					sim.BuffManager.AddElement((BuffNames)8648471817152268810uL, Origin.None);
 					break;
 				}
@@ -797,7 +796,7 @@ namespace S3_Passion
 
 		public static void AddRandomToAll(bool includeActive, bool messages)
 		{
-			Sim[] globalObjects = Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
+			Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
 			PendingInfections = new List<Infection>();
 			int num = 0;
 			int num2 = 0;
@@ -854,7 +853,7 @@ namespace S3_Passion
 					flag = true;
 					num2++;
 				}
-				if (RandomUtil.RandomChance(5f) && !HasSIV(sim))
+				if (RandomUtil.RandomChance(5f) && !HasSiv(sim))
 				{
 					if (messages)
 					{
@@ -879,7 +878,7 @@ namespace S3_Passion
 
 		public static void RemoveFromAll()
 		{
-			Sim[] globalObjects = Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
+			Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
 			int num = 0;
 			int num2 = 0;
 			int num3 = 0;
@@ -890,7 +889,7 @@ namespace S3_Passion
 				{
 					continue;
 				}
-				foreach (BuffNames item in Names.STD)
+				foreach (BuffNames item in Names.Std)
 				{
 					if (sim.BuffManager.HasElement(item))
 					{
@@ -920,7 +919,7 @@ namespace S3_Passion
 			{
 				return;
 			}
-			foreach (BuffNames item in Names.STD)
+			foreach (BuffNames item in Names.Std)
 			{
 				if (carrier.BuffManager.HasElement(item))
 				{

@@ -10,11 +10,11 @@ using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class CastSexCharm : MagicWand.CastSpell
 	{
-		public class Definition : InteractionDefinition<Sim, Sim, CastSexCharm>, IOverridesVisualType, IHasTraitIcon, IHasMenuPathIcon
+		private class Definition : InteractionDefinition<Sim, Sim, CastSexCharm>, IOverridesVisualType, IHasTraitIcon, IHasMenuPathIcon
 		{
 			public InteractionVisualTypes GetVisualType
 			{
@@ -26,7 +26,7 @@ namespace S3_Passion
 
 			public override string[] GetPath(bool isFemale)
 			{
-				return new string[1] { MagicWand.LocalizeString(isFemale, "CastCharm", new object[0]) + Localization.Ellipsis };
+				return new string[] { MagicWand.LocalizeString(isFemale, "CastCharm", new object[0]) + Localization.Ellipsis };
 			}
 
 			public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
@@ -76,7 +76,7 @@ namespace S3_Passion
 
 		[Tunable]
 		[TunableComment("Amount that this spell drains from motives.  Range: 0-200")]
-		public static float kMotiveDrain = 5f;
+		public static float KMotiveDrain = 5f;
 
 		public static InteractionDefinition Singleton = new Definition();
 
@@ -164,6 +164,7 @@ namespace S3_Passion
 				}
 				catch
 				{
+					// ignored
 				}
 			}
 		}

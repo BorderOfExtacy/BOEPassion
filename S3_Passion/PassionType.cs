@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Passion.Sims3.Gameplay.Objects.HobbiesSkills;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Interfaces;
@@ -26,7 +27,7 @@ using Sims3.SimIFace;
 using Sims3.Store.Objects;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	[Persistable]
 	public class PassionType
@@ -53,21 +54,21 @@ namespace S3_Passion
 
 		protected static Dictionary<ulong, PassionType> Overrides = new Dictionary<ulong, PassionType>();
 
-		protected Type mType = null;
+		protected Type MType = null;
 
-		protected bool mIsSim = false;
+		protected bool MIsSim = false;
 
-		protected bool mIsGameObject = false;
+		protected bool MIsGameObject = false;
 
-		protected bool mNeedsUseList = false;
+		protected bool MNeedsUseList = false;
 
-		protected bool mNeedsParts = false;
+		protected bool MNeedsParts = false;
 
 		public Type Type
 		{
 			get
 			{
-				return mType;
+				return MType;
 			}
 		}
 
@@ -83,7 +84,7 @@ namespace S3_Passion
 		{
 			get
 			{
-				return mIsGameObject;
+				return MIsGameObject;
 			}
 		}
 
@@ -91,7 +92,7 @@ namespace S3_Passion
 		{
 			get
 			{
-				return mIsSim;
+				return MIsSim;
 			}
 		}
 
@@ -99,7 +100,7 @@ namespace S3_Passion
 		{
 			get
 			{
-				return mNeedsUseList;
+				return MNeedsUseList;
 			}
 		}
 
@@ -107,7 +108,7 @@ namespace S3_Passion
 		{
 			get
 			{
-				return mNeedsParts;
+				return MNeedsParts;
 			}
 		}
 
@@ -125,7 +126,7 @@ namespace S3_Passion
 
 		public static void Load()
 		{
-			Unload<Sims3.Gameplay.Objects.Vehicles.Car>();
+			Unload<global::Sims3.Gameplay.Objects.Vehicles.Car>();
 			Unload<FixerCar>();
 			Unload<FixerCar.FixerCarFixed>();
 			Unload<BoatSpeedBoat>();
@@ -202,7 +203,7 @@ namespace S3_Passion
 			Load<SculptureFloorGunShow>();
 			Load<WashingMachine>();
 			Load<Dryer>();
-			Load<Sims3.Gameplay.Objects.Environment.Scarecrow>();
+			Load<global::Sims3.Gameplay.Objects.Environment.Scarecrow>();
 			Load<HauntedHouse>();
 			Load<ScienceResearchStation>();
 			Load<HotTubBase>();
@@ -421,18 +422,18 @@ namespace S3_Passion
 		public static PassionType Create(Type type, bool use, bool parts)
 		{
 			PassionType passionType = new PassionType();
-			passionType.mType = type;
-			passionType.mNeedsUseList = use;
-			passionType.mNeedsParts = parts;
+			passionType.MType = type;
+			passionType.MNeedsUseList = use;
+			passionType.MNeedsParts = parts;
 			if (type != null)
 			{
 				if (type.IsSubclassOf(GameObject))
 				{
-					passionType.mIsGameObject = true;
+					passionType.MIsGameObject = true;
 				}
 				if (type == Sim)
 				{
-					passionType.mIsSim = true;
+					passionType.MIsSim = true;
 				}
 			}
 			return passionType;

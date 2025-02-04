@@ -1,8 +1,8 @@
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public enum PassionMotives
 	{
-		EADefault,
+		EaDefault,
 		NoDecay,
 		PassionStandard,
 		MaxAll,

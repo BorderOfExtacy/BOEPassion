@@ -1,3 +1,4 @@
+using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -8,7 +9,7 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CustomContent;
 
-namespace Sims3.Gameplay.Objects.HobbiesSkills
+namespace Passion.Sims3.Gameplay.Objects.HobbiesSkills
 {
 	public class Sybian : GameObject, IHasRouteRadius, IGameObject, IScriptObject, IScriptLogic, IHasScriptProxy, IObjectUI, IExportableContent, INonPurgeableFromNPCInventory
 	{

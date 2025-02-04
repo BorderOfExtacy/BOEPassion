@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sims3.Gameplay;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Core;
@@ -9,7 +8,7 @@ using Sims3.Gameplay.Objects.Electronics;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
-namespace S3_Passion.PassionDance
+namespace Passion.S3_Passion.PassionDance
 {
 	public class CustomDance : Interaction<Sim, DanceFloor>
 	{
@@ -42,7 +41,7 @@ namespace S3_Passion.PassionDance
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -115,7 +114,7 @@ namespace S3_Passion.PassionDance
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -188,7 +187,7 @@ namespace S3_Passion.PassionDance
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -261,7 +260,7 @@ namespace S3_Passion.PassionDance
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -334,7 +333,7 @@ namespace S3_Passion.PassionDance
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
@@ -407,7 +406,7 @@ namespace S3_Passion.PassionDance
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{

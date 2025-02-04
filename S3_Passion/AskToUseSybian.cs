@@ -1,13 +1,13 @@
 using System.Collections.Generic;
+using Passion.Sims3.Gameplay.Objects.HobbiesSkills;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Objects.HobbiesSkills;
 using Sims3.SimIFace;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	internal sealed class AskToUseSybian : ImmediateInteraction<Sim, Sybian>
 	{
@@ -19,13 +19,13 @@ namespace S3_Passion
 				return PassionCommon.Localize("S3_Passion.Terms.Suggest") + " " + Passion.Settings.SoloLabel;
 			}
 
-			public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int NumSelectableRows)
+			public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
 			{
-				NumSelectableRows = 1;
+				numSelectableRows = 1;
 				PopulateSimPicker(ref parameters, out listObjs, out headers, CollectPeople(parameters.Actor as Sim, parameters.Actor.LotCurrent), false);
 			}
 
-			public override bool Test(Sim actor, Sybian target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+			public override bool Test(Sim actor, Sybian target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 			{
 				return actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman && target.UseCount == 0;
 			}
@@ -36,7 +36,9 @@ namespace S3_Passion
 		public override bool Run()
 		{
 			Sim sim = GetSelectedObject() as Sim;
-			sim.InteractionQueue.AddNext(Passion.Interactions.UseObjectForPassion.Singleton.CreateInstance(Target, sim, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
+			if (sim != null)
+				sim.InteractionQueue.AddNext(Passion.Interactions.UseObjectForPassion.Singleton.CreateInstance(Target,
+					sim, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 			return true;
 		}
 

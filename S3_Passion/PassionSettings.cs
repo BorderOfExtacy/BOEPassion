@@ -3,7 +3,7 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	[Persistable(false)]
 	public class PassionSettings : ModalDialog
@@ -46,21 +46,21 @@ namespace S3_Passion
 			}
 		}
 
-		public const uint OK_BUTTON = 2822726152u;
+		public const uint OkButton = 2822726152u;
 
-		public const uint CANCEL_BUTTON = 2822726153u;
+		public const uint CancelButton = 2822726153u;
 
-		public const uint GENERAL_TAB = 2822726224u;
+		public const uint GeneralTab = 2822726224u;
 
-		public const uint OUTFIT_COMBO = 2822726243u;
+		public const uint OutfitCombo = 2822726243u;
 
-		public const uint MOTIVES_COMBO = 2822726244u;
+		public const uint MotivesCombo = 2822726244u;
 
-		public const uint INITIAL_CATEGORY_COMBO = 2822726245u;
+		public const uint InitialCategoryCombo = 2822726245u;
 
-		public const uint NAKED_SHOWER_BUTTON = 2822726246u;
+		public const uint NakedShowerButton = 2822726246u;
 
-		public const uint RESTORE_DEFAULTS_BUTTON = 2822726247u;
+		public const uint RestoreDefaultsButton = 2822726247u;
 
 		public static PassionSettings Dialog;
 
@@ -103,7 +103,7 @@ namespace S3_Passion
 			GeneralComponents.Outfit.SelectionChange += OnStartingOutfitChange;
 			GeneralComponents.Motives = GeneralTab.GetChildByID(2822726244u, true) as ComboBox;
 			GeneralComponents.Motives.ValueList.Add("Standard", PassionMotives.PassionStandard);
-			GeneralComponents.Motives.ValueList.Add("No Change", PassionMotives.EADefault);
+			GeneralComponents.Motives.ValueList.Add("No Change", PassionMotives.EaDefault);
 			GeneralComponents.Motives.ValueList.Add("No Decay", PassionMotives.NoDecay);
 			GeneralComponents.Motives.ValueList.Add("Freeze", PassionMotives.Freeze);
 			GeneralComponents.Motives.ValueList.Add("Max All", PassionMotives.MaxAll);

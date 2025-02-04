@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
@@ -12,7 +11,7 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI.Hud;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class CustomBuff : Buff
 	{
@@ -69,27 +68,27 @@ namespace S3_Passion
 			// end satisfaction buffs
 
 
-			public const BuffNames STDSimydia = (BuffNames)12465744095023444500uL;
+			public const BuffNames StdSimydia = (BuffNames)12465744095023444500uL;
 
-			public const BuffNames STDSimnorrhea = (BuffNames)16328498947224254690uL;
+			public const BuffNames StdSimnorrhea = (BuffNames)16328498947224254690uL;
 
-			public const BuffNames STDSimphilis = (BuffNames)9183286871710270222uL;
+			public const BuffNames StdSimphilis = (BuffNames)9183286871710270222uL;
 
-			public const BuffNames STDSimphilisSecondary = (BuffNames)4642255024717194076uL;
+			public const BuffNames StdSimphilisSecondary = (BuffNames)4642255024717194076uL;
 
-			public const BuffNames STDSimphilisTertiary = (BuffNames)3348796355468607868uL;
+			public const BuffNames StdSimphilisTertiary = (BuffNames)3348796355468607868uL;
 
-			public const BuffNames STDSimphilisPermanent = (BuffNames)7014284627137684376uL;
+			public const BuffNames StdSimphilisPermanent = (BuffNames)7014284627137684376uL;
 
-			public const BuffNames STDSIV = (BuffNames)3802937897211410794uL;
+			public const BuffNames Stdsiv = (BuffNames)3802937897211410794uL;
 
-			public const BuffNames STDSIVManaged = (BuffNames)6514717556347855497uL;
+			public const BuffNames StdsivManaged = (BuffNames)6514717556347855497uL;
 
-			public const BuffNames STDSIVComplications = (BuffNames)16680654480998469135uL;
+			public const BuffNames StdsivComplications = (BuffNames)16680654480998469135uL;
 
-			public const BuffNames STDSimerpes = (BuffNames)14409719855781998876uL;
+			public const BuffNames StdSimerpes = (BuffNames)14409719855781998876uL;
 
-			public const BuffNames STDSimerpesMild = (BuffNames)8648471817152268810uL;
+			public const BuffNames StdSimerpesMild = (BuffNames)8648471817152268810uL;
 
 			public static readonly List<BuffNames> List;
 
@@ -97,7 +96,7 @@ namespace S3_Passion
 
 			public static readonly List<BuffNames> Libido;
 
-			public static readonly List<BuffNames> STD;
+			public static readonly List<BuffNames> Std;
 
 			public static readonly List<BuffNames> Satisfaction;
 
@@ -210,7 +209,7 @@ namespace S3_Passion
 				list4.Add((BuffNames)16680654480998469135uL);
 				list4.Add((BuffNames)14409719855781998876uL);
 				list4.Add((BuffNames)8648471817152268810uL);
-				STD = list4;
+				Std = list4;
 				List<BuffNames> list5 = new List<BuffNames>();
 				list4.Add((BuffNames)11045112725886391962uL);
 				list4.Add((BuffNames)1496533297302173594uL);
@@ -664,7 +663,7 @@ namespace S3_Passion
 					if (item != BuffNames.Undefined)
 					{
 						BuffData buffData = GetBuffData(item);
-						Buff buff = (Names.Libido.Contains(item) ? new Libido(buffData) : ((!Names.STD.Contains(item)) ? new CustomBuff(buffData) : new STD(buffData)));
+						Buff buff = (Names.Libido.Contains(item) ? new Libido(buffData) : ((!Names.Std.Contains(item)) ? new CustomBuff(buffData) : new Std(buffData)));
 						Load(buff, buffData);
 					}
 				}
@@ -676,23 +675,23 @@ namespace S3_Passion
 
 		public static void AddInteractions()
 		{
-			Hospital[] objects = Sims3.Gameplay.Queries.GetObjects<Hospital>();
+			Hospital[] objects = global::Sims3.Gameplay.Queries.GetObjects<Hospital>();
 			foreach (Hospital hospital in objects)
 			{
 				if (hospital != null)
 				{
-					hospital.AddInteraction(STD.GetTreated.Singleton, true);
+					hospital.AddInteraction(Std.GetTreated.Singleton, true);
 				}
 			}
-			ScienceLab[] objects2 = Sims3.Gameplay.Queries.GetObjects<ScienceLab>();
+			ScienceLab[] objects2 = global::Sims3.Gameplay.Queries.GetObjects<ScienceLab>();
 			foreach (ScienceLab scienceLab in objects2)
 			{
 				if (scienceLab != null)
 				{
-					scienceLab.AddInteraction(STD.GetTreated.Singleton, true);
+					scienceLab.AddInteraction(Std.GetTreated.Singleton, true);
 				}
 			}
-			ComboHospitalScienceLab[] objects3 = Sims3.Gameplay.Queries.GetObjects<ComboHospitalScienceLab>();
+			ComboHospitalScienceLab[] objects3 = global::Sims3.Gameplay.Queries.GetObjects<ComboHospitalScienceLab>();
 			foreach (ComboHospitalScienceLab comboHospitalScienceLab in objects3)
 			{
 				if (comboHospitalScienceLab == null)
@@ -703,7 +702,7 @@ namespace S3_Passion
 				{
 					if (containedRabbithole.Key is Hospital || containedRabbithole.Key is ScienceLab)
 					{
-						containedRabbithole.Key.AddInteraction(STD.GetTreated.Singleton, true);
+						containedRabbithole.Key.AddInteraction(Std.GetTreated.Singleton, true);
 					}
 				}
 			}

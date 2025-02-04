@@ -1,27 +1,27 @@
 using System.Collections.Generic;
 
-namespace S3_Passion
+namespace Passion.S3_Passion
 {
 	public class SafeDictionary<TKey, TValue>
 	{
-		private readonly object SafeDictionaryLock = new object();
+		private readonly object _safeDictionaryLock = new object();
 
-		private readonly Dictionary<TKey, TValue> Items = new Dictionary<TKey, TValue>();
+		private readonly Dictionary<TKey, TValue> _items = new Dictionary<TKey, TValue>();
 
 		public TValue this[TKey key]
 		{
 			get
 			{
-				lock (SafeDictionaryLock)
+				lock (_safeDictionaryLock)
 				{
-					return Items[key];
+					return _items[key];
 				}
 			}
 			set
 			{
-				lock (SafeDictionaryLock)
+				lock (_safeDictionaryLock)
 				{
-					Items[key] = value;
+					_items[key] = value;
 				}
 			}
 		}
@@ -30,9 +30,9 @@ namespace S3_Passion
 		{
 			get
 			{
-				lock (SafeDictionaryLock)
+				lock (_safeDictionaryLock)
 				{
-					return Items.Count;
+					return _items.Count;
 				}
 			}
 		}
@@ -41,9 +41,9 @@ namespace S3_Passion
 		{
 			get
 			{
-				lock (SafeDictionaryLock)
+				lock (_safeDictionaryLock)
 				{
-					return new List<TKey>(Items.Keys);
+					return new List<TKey>(_items.Keys);
 				}
 			}
 		}
@@ -52,18 +52,18 @@ namespace S3_Passion
 		{
 			get
 			{
-				lock (SafeDictionaryLock)
+				lock (_safeDictionaryLock)
 				{
-					return new List<TValue>(Items.Values);
+					return new List<TValue>(_items.Values);
 				}
 			}
 		}
 
 		public bool ContainsKey(TKey key)
 		{
-			lock (SafeDictionaryLock)
+			lock (_safeDictionaryLock)
 			{
-				return Items.ContainsKey(key);
+				return _items.ContainsKey(key);
 			}
 		}
 
@@ -74,33 +74,33 @@ namespace S3_Passion
 
 		public bool ContainsValue(TValue value)
 		{
-			lock (SafeDictionaryLock)
+			lock (_safeDictionaryLock)
 			{
-				return Items.ContainsValue(value);
+				return _items.ContainsValue(value);
 			}
 		}
 
 		public bool TryGetValue(TKey key, out TValue value)
 		{
-			lock (SafeDictionaryLock)
+			lock (_safeDictionaryLock)
 			{
-				return Items.TryGetValue(key, out value);
+				return _items.TryGetValue(key, out value);
 			}
 		}
 
 		public void Add(TKey key, TValue value)
 		{
-			lock (SafeDictionaryLock)
+			lock (_safeDictionaryLock)
 			{
-				Items.Add(key, value);
+				_items.Add(key, value);
 			}
 		}
 
 		public void Remove(TKey key)
 		{
-			lock (SafeDictionaryLock)
+			lock (_safeDictionaryLock)
 			{
-				Items.Remove(key);
+				_items.Remove(key);
 			}
 		}
 	}
