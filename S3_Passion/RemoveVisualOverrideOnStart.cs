@@ -18,7 +18,7 @@ namespace Passion.S3_Passion
 
 			public override string[] GetPath(bool isFemale)
 			{
-				return new string[1] { Localization.LocalizeString(isFemale, "Vampire...") };
+				return new string[] { Localization.LocalizeString(isFemale, "Vampire...") };
 			}
 
 			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -44,6 +44,7 @@ namespace Passion.S3_Passion
 			}
 			catch
 			{
+				// ignored
 			}
 			return true;
 		}

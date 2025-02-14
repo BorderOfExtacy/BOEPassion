@@ -23,7 +23,7 @@ namespace Passion.S3_Passion
 
 			public override string[] GetPath(bool isFemale)
 			{
-				return new string[1] { Localization.LocalizeString("Ejaculate") };
+				return new string[] { Localization.LocalizeString("Ejaculate") };
 			}
 
 			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -430,14 +430,9 @@ namespace Passion.S3_Passion
 		{
 			if (speaker != null)
 			{
-				if (target != null)
-				{
-					StyledNotification.Show(new StyledNotification.Format(message, speaker.ObjectId, target.ObjectId, style));
-				}
-				else
-				{
-					StyledNotification.Show(new StyledNotification.Format(message, speaker.ObjectId, style));
-				}
+				StyledNotification.Show(target != null
+					? new StyledNotification.Format(message, speaker.ObjectId, target.ObjectId, style)
+					: new StyledNotification.Format(message, speaker.ObjectId, style));
 			}
 			else
 			{

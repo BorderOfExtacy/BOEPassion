@@ -12,11 +12,11 @@ namespace Passion.S3_Passion
 {
 	public class CustomTrait : Trait
 	{
-		public static class Names
+		private static class Names
 		{
 			public const TraitNames Invalid = TraitNames.Unknown;
 
-			public static List<TraitNames> List = new List<TraitNames>();
+			public static readonly List<TraitNames> List = new List<TraitNames>();
 		}
 
 		public const OccultTypes AllOccultTypes = (OccultTypes)4294967295u;
@@ -30,16 +30,14 @@ namespace Passion.S3_Passion
 		{
 			foreach (TraitNames item in Names.List)
 			{
-				if (item != TraitNames.Unknown)
-				{
-					Trait trait = null;
-					TraitNames traitNames = item;
-					Load(trait);
-				}
+				if (item == TraitNames.Unknown) continue;
+				Trait trait = null;
+				TraitNames traitNames = item;
+				Load(trait);
 			}
 		}
 
-		public static void Load(Trait trait)
+		private static void Load(Trait trait)
 		{
 			if (trait == null)
 			{

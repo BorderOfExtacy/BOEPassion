@@ -72,7 +72,7 @@ namespace Passion.S3_Passion
 			return ContainsValue(value);
 		}
 
-		public bool ContainsValue(TValue value)
+		private bool ContainsValue(TValue value)
 		{
 			lock (_safeDictionaryLock)
 			{

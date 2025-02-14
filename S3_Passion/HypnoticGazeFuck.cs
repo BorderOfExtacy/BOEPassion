@@ -33,7 +33,7 @@ namespace Passion.S3_Passion
 
 			public override string[] GetPath(bool bPath)
 			{
-				return new string[1] { Localization.LocalizeString("Vampire...") };
+				return new string[] { Localization.LocalizeString("Vampire...") };
 			}
 
 			public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -48,16 +48,15 @@ namespace Passion.S3_Passion
 
 		public static readonly InteractionDefinition Singleton = new Definition();
 
-		public static ResourceKey VampireiconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
+		private static readonly ResourceKey VampireIconResourceKey = new ResourceKey(11874435978993716202uL, 796721156u, 0u);
 
 		public override ThumbnailKey GetIconKey()
 		{
-			return new ThumbnailKey(VampireiconResourceKey, ThumbnailSize.Large);
+			return new ThumbnailKey(VampireIconResourceKey, ThumbnailSize.Large);
 		}
 
 		public override bool Run()
 		{
-			Definition definition = base.InteractionDefinition as Definition;
 			Actor.SynchronizationLevel = Sim.SyncLevel.NotStarted;
 			Target.SynchronizationLevel = Sim.SyncLevel.NotStarted;
 			Target.InteractionQueue.CancelAllInteractions();
@@ -80,7 +79,7 @@ namespace Passion.S3_Passion
 				FinishLinkedInteraction(true);
 				EndCommodityUpdates(true);
 				Target.BuffManager.AddElement(BuffNames.Dazed, Origin.FromVampire);
-				Actor.ShowTNSIfSelectable(SocialCallback.LocalizeString(Target.IsFemale, "HypnotizedTNS", new object[2] { Target, Actor }), StyledNotification.NotificationStyle.kGameMessagePositive);
+				Actor.ShowTNSIfSelectable(SocialCallback.LocalizeString(Target.IsFemale, "HypnotizedTNS", Target, Actor), StyledNotification.NotificationStyle.kGameMessagePositive);
 				Passion.Player player = Passion.GetPlayer(Target);
 				Passion.Player player2 = Passion.GetPlayer(Actor);
 				Passion.Settings.AutonomyNotify = true;
@@ -104,6 +103,7 @@ namespace Passion.S3_Passion
 						}
 						catch
 						{
+							// ignored
 						}
 					}
 				}

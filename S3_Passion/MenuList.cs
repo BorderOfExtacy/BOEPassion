@@ -31,11 +31,11 @@ namespace Passion.S3_Passion
 
 		private List<ObjectPicker.RowInfo> _mResult;
 
-		private ObjectPicker _mTable;
+		private readonly ObjectPicker _mTable;
 
 		private Vector2 _mTableOffset;
 
-		public List<ObjectPicker.RowInfo> Result
+		private List<ObjectPicker.RowInfo> Result
 		{
 			get
 			{
@@ -43,32 +43,43 @@ namespace Passion.S3_Passion
 			}
 		}
 
-		public MenuList(bool modal, PauseMode pauseMode, string title, string buttonTrue, string buttonFalse, List<ObjectPicker.TabInfo> listObjs, List<ObjectPicker.HeaderInfo> headers, int numSelectableRows, Vector2 position, bool viewTypeToggle, List<ObjectPicker.RowInfo> preSelectedRows, bool showHeadersAndToggle, bool disableCloseButton)
+		private MenuList(bool modal, PauseMode pauseMode, string title, string buttonTrue, string buttonFalse, List<ObjectPicker.TabInfo> listObjs, List<ObjectPicker.HeaderInfo> headers, int numSelectableRows, Vector2 position, bool viewTypeToggle, List<ObjectPicker.RowInfo> preSelectedRows, bool showHeadersAndToggle, bool disableCloseButton)
 			: base("UiObjectPicker", 1, modal, pauseMode, null)
 		{
-			if (mModalDialogWindow != null)
+			if (mModalDialogWindow == null) return;
+			Text text = mModalDialogWindow.GetChildByID(99576787u, false) as Text;
+			if (text != null) text.Caption = title;
+			_mTable = mModalDialogWindow.GetChildByID(99576784u, false) as ObjectPicker;
+			if (_mTable != null)
 			{
-				Text text = mModalDialogWindow.GetChildByID(99576787u, false) as Text;
-				text.Caption = title;
-				_mTable = mModalDialogWindow.GetChildByID(99576784u, false) as ObjectPicker;
 				_mTable.ObjectTable.TableChanged += OnTableChanged;
 				_mTable.SelectionChanged += OnSelectionChanged;
 				_mTable.RowSelected += OnSelectionChanged;
 				_mOkayButton = mModalDialogWindow.GetChildByID(99576785u, false) as Button;
-				_mOkayButton.TooltipText = buttonTrue;
-				_mOkayButton.Enabled = false;
-				_mOkayButton.Click += OnOkayButtonClick;
-				base.OkayID = _mOkayButton.ID;
-				base.SelectedID = _mOkayButton.ID;
-				_mCloseButton = mModalDialogWindow.GetChildByID(99576786u, false) as Button;
-				_mCloseButton.TooltipText = buttonFalse;
-				_mCloseButton.Click += OnCloseButtonClick;
-				if (disableCloseButton)
+				if (_mOkayButton != null)
 				{
-					_mCloseButton.Enabled = false;
+					_mOkayButton.TooltipText = buttonTrue;
+					_mOkayButton.Enabled = false;
+					_mOkayButton.Click += OnOkayButtonClick;
+					OkayID = _mOkayButton.ID;
+					SelectedID = _mOkayButton.ID;
 				}
-				base.CancelID = _mCloseButton.ID;
-				_mTableOffset = mModalDialogWindow.Area.BottomRight - mModalDialogWindow.Area.TopLeft - (_mTable.Area.BottomRight - _mTable.Area.TopLeft);
+
+				_mCloseButton = mModalDialogWindow.GetChildByID(99576786u, false) as Button;
+				if (_mCloseButton != null)
+				{
+					_mCloseButton.TooltipText = buttonFalse;
+					_mCloseButton.Click += OnCloseButtonClick;
+					if (disableCloseButton)
+					{
+						_mCloseButton.Enabled = false;
+					}
+
+					CancelID = _mCloseButton.ID;
+				}
+
+				_mTableOffset = mModalDialogWindow.Area.BottomRight - mModalDialogWindow.Area.TopLeft -
+				                (_mTable.Area.BottomRight - _mTable.Area.TopLeft);
 				_mTable.ShowHeaders = showHeadersAndToggle;
 				_mTable.ShowToggle = showHeadersAndToggle;
 				_mTable.ObjectTable.NoAutoSizeGridResize = true;
@@ -80,11 +91,18 @@ namespace Passion.S3_Passion
 				{
 					Window window = mModalDialogWindow.GetChildByID(99576788u, false) as Window;
 					Window window2 = mModalDialogWindow.GetChildByID(99576789u, false) as Window;
-					_mTable.Area = new Rect(_mTable.Area.TopLeft.x, _mTable.Area.TopLeft.y - 64f, _mTable.Area.BottomRight.x, _mTable.Area.BottomRight.y);
-					window2.Area = new Rect(window2.Area.TopLeft.x, window2.Area.TopLeft.y - 64f, window2.Area.BottomRight.x, window2.Area.BottomRight.y);
-					window.Area = new Rect(window.Area.TopLeft.x, window.Area.TopLeft.y - 64f, window.Area.BottomRight.x, window.Area.BottomRight.y);
+					_mTable.Area = new Rect(_mTable.Area.TopLeft.x, _mTable.Area.TopLeft.y - 64f,
+						_mTable.Area.BottomRight.x, _mTable.Area.BottomRight.y);
+					if (window2 != null)
+						window2.Area = new Rect(window2.Area.TopLeft.x, window2.Area.TopLeft.y - 64f,
+							window2.Area.BottomRight.x, window2.Area.BottomRight.y);
+					if (window != null)
+						window.Area = new Rect(window.Area.TopLeft.x, window.Area.TopLeft.y - 64f,
+							window.Area.BottomRight.x, window.Area.BottomRight.y);
 				}
-				mModalDialogWindow.Area = new Rect(mModalDialogWindow.Area.TopLeft, mModalDialogWindow.Area.TopLeft + _mTable.TableArea.BottomRight + _mTableOffset);
+
+				mModalDialogWindow.Area = new Rect(mModalDialogWindow.Area.TopLeft,
+					mModalDialogWindow.Area.TopLeft + _mTable.TableArea.BottomRight + _mTableOffset);
 				Rect area = mModalDialogWindow.Area;
 				float num = area.BottomRight.x - area.TopLeft.x;
 				float num2 = area.BottomRight.y - area.TopLeft.y;
@@ -92,6 +110,7 @@ namespace Passion.S3_Passion
 				{
 					num2 -= 50f;
 				}
+
 				float num3 = position.x;
 				float num4 = position.y;
 				if (num3 < 0f && num4 < 0f)
@@ -102,21 +121,23 @@ namespace Passion.S3_Passion
 					num3 = (float)Math.Round((num5 - num) / 2f);
 					num4 = (float)Math.Round((num6 - num2) / 2f);
 				}
+
 				area.Set(num3, num4, num3 + num, num4 + num2);
 				mModalDialogWindow.Area = area;
-				mModalDialogWindow.Visible = true;
 			}
+
+			mModalDialogWindow.Visible = true;
 		}
 
 		private void OnCloseButtonClick(WindowBase sender, UIButtonClickEventArgs eventArgs)
 		{
 			eventArgs.Handled = true;
-			EndDialog(base.CancelID);
+			EndDialog(CancelID);
 		}
 
 		public override bool OnEnd(uint endId)
 		{
-			if (endId == base.OkayID)
+			if (endId == OkayID)
 			{
 				if (!_mOkayButton.Enabled)
 				{
@@ -135,7 +156,7 @@ namespace Passion.S3_Passion
 		private void OnOkayButtonClick(WindowBase sender, UIButtonClickEventArgs eventArgs)
 		{
 			eventArgs.Handled = true;
-			EndDialog(base.OkayID);
+			EndDialog(OkayID);
 		}
 
 		private void OnPopulationCompleted()
@@ -147,7 +168,7 @@ namespace Passion.S3_Passion
 		{
 			Audio.StartSound("ui_tertiary_button");
 			OnTableChanged();
-			EndDialog(base.OkayID);
+			EndDialog(OkayID);
 		}
 
 		private void OnTableChanged()
@@ -168,7 +189,7 @@ namespace Passion.S3_Passion
 			return Show(title, buttonTrue, buttonFalse, tabs, headers, 1, new Vector2(-1f, -1f), false, true, false);
 		}
 
-		public static List<ObjectPicker.RowInfo> Show(string title, string buttonTrue, string buttonFalse, List<ObjectPicker.TabInfo> tabs, List<ObjectPicker.HeaderInfo> headers, int numSelectableRows, Vector2 position, bool viewTypeToggle, bool showHeadersAndToggle, bool disableCloseButton)
+		private static List<ObjectPicker.RowInfo> Show(string title, string buttonTrue, string buttonFalse, List<ObjectPicker.TabInfo> tabs, List<ObjectPicker.HeaderInfo> headers, int numSelectableRows, Vector2 position, bool viewTypeToggle, bool showHeadersAndToggle, bool disableCloseButton)
 		{
 			using (MenuList menuList = new MenuList(false, PauseMode.PauseSimulator, title, buttonTrue, buttonFalse, tabs, headers, numSelectableRows, position, viewTypeToggle, null, showHeadersAndToggle, disableCloseButton))
 			{

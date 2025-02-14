@@ -63,7 +63,7 @@ namespace Passion.S3_Passion
 			{
 				return false;
 			}
-			base.CancellableByPlayer = false;
+			CancellableByPlayer = false;
 			StandardEntry();
 			mCurrentStateMachine = Target.GetStateMachine(Actor);
 			Glass.CarryingGlassPosture carryingGlassPosture = Actor.Posture as Glass.CarryingGlassPosture;
@@ -71,15 +71,18 @@ namespace Passion.S3_Passion
 			{
 				_mDrinkInHand = carryingGlassPosture.ObjectBeingCarried as Glass;
 				CarrySystem.ExitCarry(Actor);
-				_mDrinkInHand.FadeOut(true);
-				_mDrinkInHand.UnParent();
-				Actor.PopPosture();
-				SetParameter("hasDrink", true);
-				SetActor("drink", _mDrinkInHand);
-				if (Target.HasDrinkSlot && Target.GetContainedObject(Slot.ContainmentSlot_0) == null)
+				if (_mDrinkInHand != null)
 				{
-					_mDrinkInHand.ParentToSlot(Target, Slot.ContainmentSlot_0);
-					_mDrinkInHand.FadeIn();
+					_mDrinkInHand.FadeOut(true);
+					_mDrinkInHand.UnParent();
+					Actor.PopPosture();
+					SetParameter("hasDrink", true);
+					SetActor("drink", _mDrinkInHand);
+					if (Target.HasDrinkSlot && Target.GetContainedObject(Slot.ContainmentSlot_0) == null)
+					{
+						_mDrinkInHand.ParentToSlot(Target, Slot.ContainmentSlot_0);
+						_mDrinkInHand.FadeIn();
+					}
 				}
 			}
 			AddOneShotScriptEventHandler(120u, OnAnimationEvent);
@@ -112,7 +115,6 @@ namespace Passion.S3_Passion
 				Target.Cleanable.DirtyInc(Actor);
 			}
 			bool flag2 = Target.Line.MemberCount() > 1;
-			InteractionInstance interactionInstance = null;
 			AddOneShotScriptEventHandler(104u, OnAnimationEvent);
 			AddOneShotScriptEventHandler(100u, OnAnimationEvent);
 			AnimateSim("exit");
@@ -123,38 +125,26 @@ namespace Passion.S3_Passion
 				_mDrinkInHand.FadeIn();
 			}
 			StandardExit();
-			if (interactionInstance != null)
-			{
-				Actor.InteractionQueue.PushAsContinuation(interactionInstance, true);
-			}
-			if (!flag2 && interactionInstance == null)
+			if (!flag2)
 			{
 				Actor.RouteAway(2.5f, 2.5f, false, GetPriority(), true, true, true, RouteDistancePreference.NoPreference);
 			}
 			return flag;
 		}
 
-		private void ReactToFartCallback(Sim s, ReactionBroadcaster rb)
+		private static void ReactToFartCallback(Sim s, ReactionBroadcaster rb)
 		{
 			GameObject gameObject = rb.BroadcastingObject as GameObject;
-			if (gameObject != s)
-			{
-				if (s.HasTrait(TraitNames.Inappropriate))
-				{
-					s.PlayReaction(ReactionTypes.SmellYummy, gameObject, ReactionSpeed.NowOrLater);
-				}
-				else
-				{
-					s.PlayReaction(ReactionTypes.Smelly, gameObject, ReactionSpeed.NowOrLater);
-				}
-			}
+			if (gameObject == s) return;
+			s.PlayReaction(s.HasTrait(TraitNames.Inappropriate) ? ReactionTypes.SmellYummy : ReactionTypes.Smelly,
+				gameObject, ReactionSpeed.NowOrLater);
 		}
 
 		private void LoopFunc(StateMachineClient smc, LoopData loopData)
 		{
 			if (!_mHasFarted)
 			{
-				float num = base.ActiveStage.PortionComplete(this);
+				float num = ActiveStage.PortionComplete(this);
 				if (num >= _mFartTime)
 				{
 					_mHasFarted = true;
@@ -167,18 +157,16 @@ namespace Passion.S3_Passion
 			{
 				return;
 			}
-			bool flag = true;
+
 			List<IToiletOrUrinal> list = new List<IToiletOrUrinal>(global::Sims3.Gameplay.Queries.GetObjects<IToiletOrUrinal>(Actor.LotCurrent, Actor.RoomId));
 			List<Sim> list2 = new List<Sim>();
 			foreach (IToiletOrUrinal item in list)
 			{
-				if (item is Urinal && item.InUse)
+				Urinal urinal = item as Urinal;
+				if (urinal == null || !item.InUse) continue;
+				if (urinal.ActorsUsingMe[0] != Actor)
 				{
-					Urinal urinal = item as Urinal;
-					if (urinal.ActorsUsingMe[0] != Actor)
-					{
-						list2.Add(urinal.ActorsUsingMe[0]);
-					}
+					list2.Add(urinal.ActorsUsingMe[0]);
 				}
 			}
 			if (list2.Count > 0)
@@ -219,7 +207,7 @@ namespace Passion.S3_Passion
 		public override void ConfigureInteraction()
 		{
 			TimedStage timedStage = new TimedStage(GetInteractionName(), 10f, false, true, false);
-			base.Stages = new List<Stage>(new Stage[1] { timedStage });
+			Stages = new List<Stage>(new Stage[1] { timedStage });
 		}
 
 		public override void Cleanup()

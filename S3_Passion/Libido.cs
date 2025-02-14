@@ -10,56 +10,44 @@ namespace Passion.S3_Passion
 		{
 		}
 
-		public static bool Replace(BuffManager bm, BuffNames newBuff, Origin origin)
+		private static bool Replace(BuffManager bm, BuffNames newBuff, Origin origin)
 		{
-			if (bm.Actor != null && Names.Libido.Contains(newBuff))
+			if (bm.Actor == null || !Names.Libido.Contains(newBuff)) return false;
+			foreach (BuffNames item in Names.Libido)
 			{
-				foreach (BuffNames item in Names.Libido)
-				{
-					bm.RemoveElement(item);
-				}
-				bm.AddElement(newBuff, origin);
-				return true;
+				bm.RemoveElement(item);
 			}
-			return false;
+			bm.AddElement(newBuff, origin);
+			return true;
 		}
 
 		public static bool Urgency(Sim sim)
 		{
-			if (sim != null)
-			{
-				return Urgency(sim.BuffManager);
-			}
-			return false;
+			return sim != null && Urgency(sim.BuffManager);
 		}
 
-		public static bool Urgency(BuffManager bm)
+		private static bool Urgency(BuffManager bm)
 		{
-			if (bm != null)
+			if (bm == null) return false;
+			BuffNames name = BuffNames.Undefined;
+			BuffNames buffNames = BuffNames.Undefined;
+			foreach (BuffNames item in Names.Libido)
 			{
-				BuffNames name = BuffNames.Undefined;
-				BuffNames buffNames = BuffNames.Undefined;
-				foreach (BuffNames item in Names.Libido)
-				{
-					if (bm.HasElement(item))
-					{
-						name = item;
-						break;
-					}
-				}
-				buffNames = Urgency(name);
-				return Replace(bm, buffNames, Origin.None);
+				if (!bm.HasElement(item)) continue;
+				name = item;
+				break;
 			}
-			return false;
+			buffNames = Urgency(name);
+			return Replace(bm, buffNames, Origin.None);
 		}
 
-		public static bool Urgency(BuffManager bm, BuffInstance bi)
+		private static bool Urgency(BuffManager bm, BuffInstance bi)
 		{
 			BuffNames newBuff = Urgency(bi);
 			return Replace(bm, newBuff, Origin.None);
 		}
 
-		public static BuffNames Urgency(BuffInstance instance)
+		private static BuffNames Urgency(BuffInstance instance)
 		{
 			BuffNames buffGuid = (BuffNames)instance.BuffGuid;
 			return Urgency(buffGuid);
@@ -67,7 +55,7 @@ namespace Passion.S3_Passion
 
 	// um. i think this is like. the list of the libibo buffs and what the 'next stage' is?
 	// scratch that. 'case' is the stage, 'return' is what it decreases into... i think?
-		public static BuffNames Urgency(BuffNames name)
+	private static BuffNames Urgency(BuffNames name)
 		{
 			switch (name)
 			{
@@ -100,12 +88,9 @@ namespace Passion.S3_Passion
 				return (BuffNames)2913570583726353694uL;
 			// 10 to 0
 			case (BuffNames)2913570583726353694uL:
-				return (BuffNames)2248271455579464240uL;
-			// 0 to 0
 			case (BuffNames)2248271455579464240uL:
-				return (BuffNames)2248271455579464240uL;
 			default:
-				return (BuffNames)2248271455579464240uL; // default, 0% libido
+				return (BuffNames)2248271455579464240uL;
 			}
 		}
 
@@ -113,41 +98,32 @@ namespace Passion.S3_Passion
 
 		public static bool Satisfaction(Sim sim)
 		{
-			if (sim != null)
+			if (sim == null) return false;
+			BuffManager buffManager = sim.BuffManager;
+			BuffNames name = BuffNames.Undefined;
+			BuffNames buffNames = BuffNames.Undefined;
+			foreach (BuffNames item in Names.Libido)
 			{
-				BuffManager buffManager = sim.BuffManager;
-				BuffNames name = BuffNames.Undefined;
-				BuffNames buffNames = BuffNames.Undefined;
-				foreach (BuffNames item in Names.Libido)
-				{
-					if (buffManager.HasElement(item))
-					{
-						name = item;
-						break;
-					}
-				}
-				buffNames = Satisfaction(name);
-				return Replace(buffManager, buffNames, Origin.FromBeingNaked);
+				if (!buffManager.HasElement(item)) continue;
+				name = item;
+				break;
 			}
-			return false;
+			buffNames = Satisfaction(name);
+			return Replace(buffManager, buffNames, Origin.FromBeingNaked);
 		}
 
 		public static bool PartialSatisfaction(Sim sim)
 		{
-			if (sim != null)
+			if (sim == null) return false;
+			BuffManager buffManager = sim.BuffManager;
+			if (buffManager.HasAnyElement((BuffNames)1358929223039794148uL, (BuffNames)12415407305475427397uL, (BuffNames)13910300093031145699uL, (BuffNames)7244019685987188093uL, (BuffNames)8185339104921261200uL))
 			{
-				BuffManager buffManager = sim.BuffManager;
-				if (buffManager.HasAnyElement((BuffNames)1358929223039794148uL, (BuffNames)12415407305475427397uL, (BuffNames)13910300093031145699uL, (BuffNames)7244019685987188093uL, (BuffNames)8185339104921261200uL))
-				{
-					return Replace(buffManager, (BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
-				}
-				if (!buffManager.HasAnyElement(Names.Libido.ToArray()))
-				{
-					buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
-					return true;
-				}
+				return Replace(buffManager, (BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
 			}
-			return false;
+
+			if (buffManager.HasAnyElement(Names.Libido.ToArray())) return false;
+			buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
+			return true;
 		}
 
 	// this seems to trigger the libido increase from watching stuff. im changing watchurgency to increaseurgency to make it a lil more broad
@@ -155,71 +131,67 @@ namespace Passion.S3_Passion
 	// if this causes everything to explode? oops
 		public static bool IncreaseUrgency(Sim sim)
 		{
-			if (sim != null)
+			if (sim == null) return false;
+			BuffManager buffManager = sim.BuffManager;
+			// 100 to 100
+			if (buffManager.HasElement((BuffNames)2922253427052633003uL))
 			{
-				BuffManager buffManager = sim.BuffManager;
-				// 100 to 100
-				if (buffManager.HasElement((BuffNames)2922253427052633003uL))
-				{
-					return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
-				}
-				// 90 to 100
-				if (buffManager.HasElement((BuffNames)13147589483235469726uL))
-				{
-					return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
-				}
-				//80 to 90
-				if (buffManager.HasElement((BuffNames)14041574305464178967uL))
-				{
-					return Replace(buffManager, (BuffNames)13147589483235469726uL, Origin.None);
-				}
-				//70 to 80
-				if (buffManager.HasElement((BuffNames)16251613925768384549uL))
-				{
-					return Replace(buffManager, (BuffNames)14041574305464178967uL, Origin.None);
-				}
-				//60 to 70
-				if (buffManager.HasElement((BuffNames)2917472750494117670uL))
-				{
-					return Replace(buffManager, (BuffNames)16251613925768384549uL, Origin.None);
-				}
-				//50 to 60
-				if (buffManager.HasElement((BuffNames)8200297330989383022uL))
-				{
-					return Replace(buffManager, (BuffNames)2917472750494117670uL, Origin.None);
-				}
-				//40 to 50
-				if (buffManager.HasElement((BuffNames)8198323707617122614uL))
-				{
-					return Replace(buffManager, (BuffNames)8200297330989383022uL, Origin.None);
-				}
-				//30 to 40
-				if (buffManager.HasElement((BuffNames)3097843141287298166uL))
-				{
-					return Replace(buffManager, (BuffNames)8198323707617122614uL, Origin.None);
-				}
-				//20 to 30
-				if (buffManager.HasElement((BuffNames)2922268820215428064uL))
-				{
-					return Replace(buffManager, (BuffNames)3097843141287298166uL, Origin.None);
-				}
-				//10 to 20
-				if (buffManager.HasElement((BuffNames)2913570583726353694uL))
-				{
-					return Replace(buffManager, (BuffNames)2922268820215428064uL, Origin.None);
-				}
-				//0 to 10
-				if (buffManager.HasElement((BuffNames)2248271455579464240uL))
-				{
-					return Replace(buffManager, (BuffNames)2913570583726353694uL, Origin.None);
-				}
-				if (!buffManager.HasAnyElement(Names.Libido.ToArray()))
-				{
-					buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.None);
-					return true;
-				}
+				return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
 			}
-			return false;
+			// 90 to 100
+			if (buffManager.HasElement((BuffNames)13147589483235469726uL))
+			{
+				return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
+			}
+			//80 to 90
+			if (buffManager.HasElement((BuffNames)14041574305464178967uL))
+			{
+				return Replace(buffManager, (BuffNames)13147589483235469726uL, Origin.None);
+			}
+			//70 to 80
+			if (buffManager.HasElement((BuffNames)16251613925768384549uL))
+			{
+				return Replace(buffManager, (BuffNames)14041574305464178967uL, Origin.None);
+			}
+			//60 to 70
+			if (buffManager.HasElement((BuffNames)2917472750494117670uL))
+			{
+				return Replace(buffManager, (BuffNames)16251613925768384549uL, Origin.None);
+			}
+			//50 to 60
+			if (buffManager.HasElement((BuffNames)8200297330989383022uL))
+			{
+				return Replace(buffManager, (BuffNames)2917472750494117670uL, Origin.None);
+			}
+			//40 to 50
+			if (buffManager.HasElement((BuffNames)8198323707617122614uL))
+			{
+				return Replace(buffManager, (BuffNames)8200297330989383022uL, Origin.None);
+			}
+			//30 to 40
+			if (buffManager.HasElement((BuffNames)3097843141287298166uL))
+			{
+				return Replace(buffManager, (BuffNames)8198323707617122614uL, Origin.None);
+			}
+			//20 to 30
+			if (buffManager.HasElement((BuffNames)2922268820215428064uL))
+			{
+				return Replace(buffManager, (BuffNames)3097843141287298166uL, Origin.None);
+			}
+			//10 to 20
+			if (buffManager.HasElement((BuffNames)2913570583726353694uL))
+			{
+				return Replace(buffManager, (BuffNames)2922268820215428064uL, Origin.None);
+			}
+			//0 to 10
+			if (buffManager.HasElement((BuffNames)2248271455579464240uL))
+			{
+				return Replace(buffManager, (BuffNames)2913570583726353694uL, Origin.None);
+			}
+
+			if (buffManager.HasAnyElement(Names.Libido.ToArray())) return false;
+			buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.None);
+			return true;
 		}
 
 		public static BuffNames Satisfaction(BuffInstance instance)
@@ -228,7 +200,7 @@ namespace Passion.S3_Passion
 			return Satisfaction(buffGuid);
 		}
 
-		public static BuffNames Satisfaction(BuffNames name)
+		private static BuffNames Satisfaction(BuffNames name)
 		{
 			switch (name)
 			{

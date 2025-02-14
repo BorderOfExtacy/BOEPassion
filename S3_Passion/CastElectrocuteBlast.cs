@@ -54,11 +54,7 @@ namespace Passion.S3_Passion
 				{
 					return false;
 				}
-				if (target.SimDescription.IsServicePerson)
-				{
-					return true;
-				}
-				return MagicWand.CastSpell.CommonSpellTests(a, target, isAutonomous, ref greyedOutTooltipCallback);
+				return target.SimDescription.IsServicePerson || MagicWand.CastSpell.CommonSpellTests(a, target, isAutonomous, ref greyedOutTooltipCallback);
 			}
 
 			public ResourceKey GetTraitIcon(Sim actor, GameObject target)

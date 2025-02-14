@@ -29,7 +29,7 @@ namespace Passion.S3_Passion
 
 			public FenceRedwood_Gate GloryHole;
 
-			public int Cost = 10;
+			public const int Cost = 10;
 
 			public bool HasSlut
 			{
@@ -87,16 +87,9 @@ namespace Passion.S3_Passion
 
 				public override bool Test(Sim actor, FenceRedwood_Gate target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (actor != null && target != null && !isAutonomous)
-					{
-						ActiveGloryHole activeGloryHole = Get(target);
-						if (activeGloryHole != null && !activeGloryHole.HasSlut)
-						{
-							return true;
-						}
-						return false;
-					}
-					return false;
+					if (actor == null || target == null || isAutonomous) return false;
+					ActiveGloryHole activeGloryHole = Get(target);
+					return activeGloryHole != null && !activeGloryHole.HasSlut;
 				}
 			}
 
@@ -105,32 +98,31 @@ namespace Passion.S3_Passion
 			public override bool Run()
 			{
 				ActiveGloryHole activeGloryHole = Get(Target);
-				if (activeGloryHole != null && Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Rear) && !activeGloryHole.HasSlut)
+				if (activeGloryHole == null || !Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Rear) ||
+				    activeGloryHole.HasSlut) return true;
+				activeGloryHole.Slut = Actor;
+				Actor.SetPosition(activeGloryHole.GloryHole.Position);
+				Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
+				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 				{
-					activeGloryHole.Slut = Actor;
-					Actor.SetPosition(activeGloryHole.GloryHole.Position);
-					Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
-					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					activeGloryHole.SlutReady = true;
+					if (activeGloryHole.AnimationSwitch)
 					{
-						activeGloryHole.SlutReady = true;
-						if (activeGloryHole.AnimationSwitch)
-						{
-							activeGloryHole.SlutReady = false;
-							Actor.PlaySoloAnimation("a_gloryhole_blowjobB_01v");
-							activeGloryHole.AnimationSwitch = false;
-							Libido.PartialSatisfaction(Actor);
-						}
-						PassionCommon.Wait(2);
+						activeGloryHole.SlutReady = false;
+						Actor.PlaySoloAnimation("a_gloryhole_blowjobB_01v");
+						activeGloryHole.AnimationSwitch = false;
+						Libido.PartialSatisfaction(Actor);
 					}
-					if (activeGloryHole.HasStud)
-					{
-						activeGloryHole.Stud.CurrentInteraction.EndCommodityUpdates(false);
-					}
-					EndCommodityUpdates(true);
-					activeGloryHole.CommodityUpdates = false;
-					activeGloryHole.SlutReady = false;
-					activeGloryHole.Slut = null;
+					PassionCommon.Wait(2);
 				}
+				if (activeGloryHole.HasStud)
+				{
+					activeGloryHole.Stud.CurrentInteraction.EndCommodityUpdates(false);
+				}
+				EndCommodityUpdates(true);
+				activeGloryHole.CommodityUpdates = false;
+				activeGloryHole.SlutReady = false;
+				activeGloryHole.Slut = null;
 				return true;
 			}
 		}
@@ -145,23 +137,16 @@ namespace Passion.S3_Passion
 					ActiveGloryHole activeGloryHole = Get(target);
 					if (activeGloryHole != null)
 					{
-						return PassionCommon.Localize("S3_Passion.Terms.UseGloryHole") + ": " + UIUtils.FormatMoney(activeGloryHole.Cost);
+						return PassionCommon.Localize("S3_Passion.Terms.UseGloryHole") + ": " + UIUtils.FormatMoney(ActiveGloryHole.Cost);
 					}
 					return PassionCommon.Localize("S3_Passion.Terms.UseGloryHole");
 				}
 
 				public override bool Test(Sim actor, FenceRedwood_Gate target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (actor != null && target != null && !isAutonomous)
-					{
-						ActiveGloryHole activeGloryHole = Get(target);
-						if (activeGloryHole != null && !activeGloryHole.HasStud)
-						{
-							return true;
-						}
-						return false;
-					}
-					return false;
+					if (actor == null || target == null || isAutonomous) return false;
+					ActiveGloryHole activeGloryHole = Get(target);
+					return activeGloryHole != null && !activeGloryHole.HasStud;
 				}
 			}
 
@@ -170,97 +155,86 @@ namespace Passion.S3_Passion
 			public override bool Run()
 			{
 				ActiveGloryHole activeGloryHole = Get(Target);
-				if (activeGloryHole != null && Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Front) && !activeGloryHole.HasStud)
+				if (activeGloryHole == null || !Actor.RouteToSlot(Target, Door.RoutingSlots.Door0_Front) ||
+				    activeGloryHole.HasStud) return true;
+				activeGloryHole.Stud = Actor;
+				Actor.SetPosition(activeGloryHole.GloryHole.Position);
+				Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
+				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
 				{
-					activeGloryHole.Stud = Actor;
-					Actor.SetPosition(activeGloryHole.GloryHole.Position);
-					Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
-					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					activeGloryHole.StudReady = true;
+					if (activeGloryHole.BothReady)
 					{
-						activeGloryHole.StudReady = true;
-						if (activeGloryHole.BothReady)
+						if (!activeGloryHole.CommodityUpdates)
 						{
-							if (!activeGloryHole.CommodityUpdates)
+							BeginCommodityUpdate(new CommodityChange(CommodityKind.Fun, 300f, false, 300f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
+							activeGloryHole.Slut.CurrentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Social, 50f, false, 50f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
+							activeGloryHole.Slut.CurrentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Hygiene, -50f, false, -50f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
+							if (Actor.HasTrait(TraitNames.PartyAnimal) || Actor.HasTrait(TraitNames.Adventurous) || Actor.HasTrait(TraitNames.Slob))
 							{
-								BeginCommodityUpdate(new CommodityChange(CommodityKind.Fun, 300f, false, 300f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
-								activeGloryHole.Slut.CurrentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Social, 50f, false, 50f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
-								activeGloryHole.Slut.CurrentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Hygiene, -50f, false, -50f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
-								if (Actor.HasTrait(TraitNames.PartyAnimal) || Actor.HasTrait(TraitNames.Adventurous) || Actor.HasTrait(TraitNames.Slob))
-								{
-									activeGloryHole.Slut.CurrentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Fun, 150f, false, 150f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
-								}
-								activeGloryHole.CommodityUpdates = true;
+								activeGloryHole.Slut.CurrentInteraction.BeginCommodityUpdate(new CommodityChange(CommodityKind.Fun, 150f, false, 150f, OutputUpdateType.First, false, true, UpdateAboveAndBelowZeroType.Either), 1f);
 							}
-							activeGloryHole.AnimationSwitch = true;
+							activeGloryHole.CommodityUpdates = true;
 						}
-						if (activeGloryHole.AnimationSwitch)
-						{
-							activeGloryHole.StudReady = false;
-							Actor.PlaySoloAnimation("a_gloryhole_blowjobA_01v");
-							activeGloryHole.AnimationSwitch = false;
-							Libido.PartialSatisfaction(Actor);
-							if (activeGloryHole.HasSlut && Actor.Motives.GetMotiveValue(CommodityKind.Bladder) < -80f)
-							{
-								Actor.Motives.LerpToFill(this, CommodityKind.Bladder, 2f);
-								activeGloryHole.Slut.Motives.LerpToFill(activeGloryHole.Slut.CurrentInteraction, CommodityKind.Hunger, 2f);
-							}
-						}
-						PassionCommon.Wait(2);
+						activeGloryHole.AnimationSwitch = true;
 					}
-					int num = ((Actor.FamilyFunds >= activeGloryHole.Cost) ? activeGloryHole.Cost : Actor.FamilyFunds);
-					if (activeGloryHole.HasSlut)
+					if (activeGloryHole.AnimationSwitch)
 					{
-						Actor.ModifyFunds(-num);
-						activeGloryHole.Slut.ModifyFunds(num);
-						activeGloryHole.Slut.CurrentInteraction.EndCommodityUpdates(false);
+						activeGloryHole.StudReady = false;
+						Actor.PlaySoloAnimation("a_gloryhole_blowjobA_01v");
+						activeGloryHole.AnimationSwitch = false;
+						Libido.PartialSatisfaction(Actor);
+						if (activeGloryHole.HasSlut && Actor.Motives.GetMotiveValue(CommodityKind.Bladder) < -80f)
+						{
+							Actor.Motives.LerpToFill(this, CommodityKind.Bladder, 2f);
+							activeGloryHole.Slut.Motives.LerpToFill(activeGloryHole.Slut.CurrentInteraction, CommodityKind.Hunger, 2f);
+						}
 					}
-					EndCommodityUpdates(true);
-					activeGloryHole.CommodityUpdates = false;
-					activeGloryHole.StudReady = false;
-					activeGloryHole.Stud = null;
+					PassionCommon.Wait(2);
 				}
+				int num = ((Actor.FamilyFunds >= ActiveGloryHole.Cost) ? ActiveGloryHole.Cost : Actor.FamilyFunds);
+				if (activeGloryHole.HasSlut)
+				{
+					Actor.ModifyFunds(-num);
+					activeGloryHole.Slut.ModifyFunds(num);
+					activeGloryHole.Slut.CurrentInteraction.EndCommodityUpdates(false);
+				}
+				EndCommodityUpdates(true);
+				activeGloryHole.CommodityUpdates = false;
+				activeGloryHole.StudReady = false;
+				activeGloryHole.Stud = null;
 				return true;
 			}
 		}
 
-		[PersistableStatic]
-		protected static Dictionary<ulong, ActiveGloryHole> MActiveGloryHoles;
+		[PersistableStatic] private static Dictionary<ulong, ActiveGloryHole> _mActiveGloryHoles;
 
-		public static Dictionary<ulong, ActiveGloryHole> ActiveGloryHoles
+		private static Dictionary<ulong, ActiveGloryHole> ActiveGloryHoles
 		{
-			get
-			{
-				if (MActiveGloryHoles == null)
-				{
-					MActiveGloryHoles = new Dictionary<ulong, ActiveGloryHole>();
-				}
-				return MActiveGloryHoles;
-			}
+			get { return _mActiveGloryHoles ?? (_mActiveGloryHoles = new Dictionary<ulong, ActiveGloryHole>()); }
 		}
 
-		public static ActiveGloryHole Get(FenceRedwood_Gate hole)
+		private static ActiveGloryHole Get(FenceRedwood_Gate hole)
 		{
-			ActiveGloryHole activeGloryHole = null;
-			if (hole != null)
+			ActiveGloryHole activeGloryHole;
+			if (hole == null) return null;
+			ulong value = hole.ObjectId.Value;
+			if (ActiveGloryHoles.ContainsKey(value))
 			{
-				ulong value = hole.ObjectId.Value;
-				if (ActiveGloryHoles.ContainsKey(value))
+				if (ActiveGloryHoles[value] != null)
 				{
-					if (ActiveGloryHoles[value] != null)
-					{
-						activeGloryHole = ActiveGloryHoles[value];
-					}
-					else
-					{
-						activeGloryHole = ActiveGloryHole.Create(hole);
-						ActiveGloryHoles[value] = activeGloryHole;
-					}
+					activeGloryHole = ActiveGloryHoles[value];
 				}
 				else
 				{
 					activeGloryHole = ActiveGloryHole.Create(hole);
-					ActiveGloryHoles.Add(value, activeGloryHole);
+					ActiveGloryHoles[value] = activeGloryHole;
 				}
+			}
+			else
+			{
+				activeGloryHole = ActiveGloryHole.Create(hole);
+				ActiveGloryHoles.Add(value, activeGloryHole);
 			}
 			return activeGloryHole;
 		}

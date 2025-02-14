@@ -12,7 +12,7 @@ namespace Passion.S3_Passion
 	public class CustomCareer : PassionCommon
 	{
 		[Persistable]
-		public class School : global::Sims3.Gameplay.Careers.School, ICustomCareer
+		public sealed class School : global::Sims3.Gameplay.Careers.School, ICustomCareer
 		{
 			public const OccupationNames Id = (OccupationNames)16696807201930100829uL;
 
@@ -23,15 +23,11 @@ namespace Passion.S3_Passion
 				get
 				{
 					School school = ((OwnerDescription != null && !OwnerDescription.Child) ? (CareerManager.GetStaticCareer(OccupationNames.SchoolHigh) as School) : (CareerManager.GetStaticCareer(OccupationNames.SchoolElementary) as School));
-					if (school != null)
-					{
-						return school.SchoolTuning;
-					}
-					return null;
+					return school != null ? school.SchoolTuning : null;
 				}
 			}
 
-			public static School Create()
+			private static School Create()
 			{
 				return new School(null, null, null);
 			}
@@ -48,7 +44,7 @@ namespace Passion.S3_Passion
 				}
 				catch (Exception ex)
 				{
-					PassionCommon.BufferMessage(ex.Message);
+					BufferMessage(ex.Message);
 				}
 			}
 
@@ -61,9 +57,9 @@ namespace Passion.S3_Passion
 				Initialize();
 			}
 
-			public virtual void Initialize()
+			private void Initialize()
 			{
-				base.AvailableInFutureWorld = true;
+				AvailableInFutureWorld = true;
 				SharedData = new CareerSharedData();
 				mbIsValid = true;
 				mCareerGuid = (OccupationNames)16696807201930100829uL;
@@ -100,50 +96,50 @@ namespace Passion.S3_Passion
 				SharedData.CareerEventList = new List<EventDaily>();
 				SharedData.CareerLevels = new Dictionary<string, Dictionary<int, CareerLevel>>();
 				XmlDbData xmlDbData = XmlDbData.ReadData("CustomCareer.PrivateSchool");
-				if (xmlDbData == null || !xmlDbData.Tables.ContainsKey("PrivateSchool"))
+				XmlDbTable table;
+				if (xmlDbData == null || !xmlDbData.Tables.TryGetValue("PrivateSchool", out table))
 				{
 					return;
 				}
-				foreach (XmlDbRow row in xmlDbData.Tables["PrivateSchool"].Rows)
+				foreach (XmlDbRow row in table.Rows)
 				{
-					PassionCommon.BufferMessage("row populated");
+					BufferMessage("row populated");
 					try
 					{
 						CareerLevel careerLevel = new CareerLevel(row, "PrivateSchool", ProductVersion.BaseGame);
-						PassionCommon.BufferMessage("CareerLevel created, Level:" + careerLevel.Level);
-						if (base.CareerLevels.ContainsKey(careerLevel.BranchName))
+						BufferMessage("CareerLevel created, Level:" + careerLevel.Level);
+						if (CareerLevels.ContainsKey(careerLevel.BranchName))
 						{
-							PassionCommon.BufferMessage("Branch key already exists, setting the existing index)");
-							base.CareerLevels[careerLevel.BranchName].Add(careerLevel.Level, careerLevel);
-							base.CareerLevels[careerLevel.BranchName][careerLevel.Level - 1].NextLevels.Add(careerLevel);
-							careerLevel.LastLevel = base.CareerLevels[careerLevel.BranchName][careerLevel.Level - 1];
+							BufferMessage("Branch key already exists, setting the existing index)");
+							CareerLevels[careerLevel.BranchName].Add(careerLevel.Level, careerLevel);
+							CareerLevels[careerLevel.BranchName][careerLevel.Level - 1].NextLevels.Add(careerLevel);
+							careerLevel.LastLevel = CareerLevels[careerLevel.BranchName][careerLevel.Level - 1];
 						}
 						else
 						{
-							PassionCommon.BufferMessage("Branch key does not exist, creating");
+							BufferMessage("Branch key does not exist, creating");
 							try
 							{
 								Dictionary<int, CareerLevel> dictionary = new Dictionary<int, CareerLevel>();
 								dictionary.Add(careerLevel.Level, careerLevel);
-								base.CareerLevels.Add(careerLevel.BranchName, dictionary);
-								foreach (Dictionary<int, CareerLevel> value in base.CareerLevels.Values)
+								CareerLevels.Add(careerLevel.BranchName, dictionary);
+								foreach (Dictionary<int, CareerLevel> value in CareerLevels.Values)
 								{
 									int key = careerLevel.Level - 1;
-									if (value.ContainsKey(key) && careerLevel.BranchSource.Equals(value[key].BranchName))
-									{
-										value[key].NextLevels.Add(careerLevel);
-										careerLevel.LastLevel = value[key];
-										break;
-									}
+									if (!value.ContainsKey(key) ||
+									    !careerLevel.BranchSource.Equals(value[key].BranchName)) continue;
+									value[key].NextLevels.Add(careerLevel);
+									careerLevel.LastLevel = value[key];
+									break;
 								}
 							}
 							catch (Exception ex)
 							{
-								PassionCommon.BufferMessage("Unable to create CareerLevel tables.");
-								PassionCommon.BufferMessage("Error: " + ex.Message);
+								BufferMessage("Unable to create CareerLevel tables.");
+								BufferMessage("Error: " + ex.Message);
 							}
 						}
-						if (base.Level1 == null && careerLevel.Level == 1)
+						if (Level1 == null && careerLevel.Level == 1)
 						{
 							SharedData.Level1 = careerLevel;
 						}
@@ -154,15 +150,15 @@ namespace Passion.S3_Passion
 					}
 					catch (Exception ex2)
 					{
-						PassionCommon.BufferClear();
-						PassionCommon.BufferLine(ex2.Message);
-						PassionCommon.BufferLine(ex2.StackTrace);
-						PassionCommon.BufferMessage();
+						BufferClear();
+						BufferLine(ex2.Message);
+						BufferLine(ex2.StackTrace);
+						BufferMessage();
 					}
 				}
 			}
 
-			public virtual void GetLocations()
+			public void GetLocations()
 			{
 				CityHall[] objects = global::Sims3.Gameplay.Queries.GetObjects<CityHall>();
 				foreach (CityHall rabbitHole in objects)

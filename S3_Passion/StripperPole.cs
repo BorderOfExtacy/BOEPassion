@@ -12,19 +12,20 @@ using Sims3.Gameplay.Services;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
+using Queries = Sims3.Gameplay.Queries;
 
 namespace Passion.S3_Passion
 {
 	public class StripperPole : PassionCommon
 	{
-		public class Dance : Interaction<Sim, SculptureFloorGunShow>
+		private class Dance : Interaction<Sim, SculptureFloorGunShow>
 		{
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, Dance>
 			{
 				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.Dance");
+					return Localize("S3_Passion.Terms.Dance");
 				}
 
 				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -41,91 +42,86 @@ namespace Passion.S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
-					if (item.TurnedOn)
-					{
-						stereo = item;
-						break;
-					}
+					if (!item.TurnedOn) continue;
+					stereo = item;
+					break;
 				}
-				if (Actor.RouteToObjectRadius(Target, 1f) && Target.UseCount < 1 && stereo != null)
+
+				if (!Actor.RouteToObjectRadius(Target, 1f) || Target.UseCount >= 1 || stereo == null) return true;
+				Vector3 position = new Vector3(Actor.Position);
+				OutfitCategories currentOutfitCategory = Actor.CurrentOutfitCategory;
+				int currentOutfitIndex = Actor.CurrentOutfitIndex;
+				Target.ClearUseList();
+				Target.AddToUseList(Actor);
+				Actor.SetPosition(Target.Position);
+				Actor.SetForward(Target.ForwardVector);
+				int num = 2;
+				WatchersHaveRouteToStripper = true;
+				GetStripWatchers(Actor, Target);
+				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, Autonomous))
 				{
-					Vector3 position = new Vector3(Actor.Position);
-					OutfitCategories currentOutfitCategory = Actor.CurrentOutfitCategory;
-					int currentOutfitIndex = Actor.CurrentOutfitIndex;
-					Target.ClearUseList();
-					Target.AddToUseList(Actor);
-					Actor.SetPosition(Target.Position);
-					Actor.SetForward(Target.ForwardVector);
-					float x = Target.Position.x;
-					float z = Target.Position.z;
-					float y = Target.Position.y;
-					int num = 2;
-					WatchersHaveRouteToStripper = true;
-					GetStripWatchers(Actor, Target);
-					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					_stripperIsOnPole = true;
+					Actor.PlaySoloAnimation(RandomUtil.GetRandomObjectFromList(Animations));
+					if (num == 0)
 					{
-						StripperIsOnPole = true;
-						Actor.PlaySoloAnimation(RandomUtil.GetRandomObjectFromList(Animations));
-						if (num == 0)
+						switch (Actor.CurrentOutfitCategory)
 						{
-							if (Actor.CurrentOutfitCategory == OutfitCategories.Everyday)
-							{
+							case OutfitCategories.Everyday:
 								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Swimwear, 0);
 								num = 1;
-							}
-							else if (Actor.CurrentOutfitCategory == OutfitCategories.Swimwear)
-							{
+								break;
+							case OutfitCategories.Swimwear:
 								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Sleepwear, 0);
 								num = 0;
-							}
-							else if (Actor.CurrentOutfitCategory == OutfitCategories.Sleepwear)
-							{
+								break;
+							case OutfitCategories.Sleepwear:
 								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
-							}
-							else if (Actor.CurrentOutfitCategory != OutfitCategories.Naked)
+								break;
+							default:
 							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Swimwear, 0);
-								num = 2;
+								if (Actor.CurrentOutfitCategory != OutfitCategories.Naked)
+								{
+									Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Swimwear, 0);
+									num = 2;
+								}
+
+								break;
 							}
 						}
-						if (num > 0)
-						{
-							num--;
-						}
-						Libido.PartialSatisfaction(Actor);
-						PassionCommon.Wait(2);
 					}
-					Target.RemoveFromUseList(Actor);
-					Actor.SetPosition(position);
-					StripperIsOnPole = false;
-					WatchersHaveRouteToStripper = false;
-					Actor.SwitchToOutfitWithoutSpin(currentOutfitCategory, currentOutfitIndex);
+					if (num > 0)
+					{
+						num--;
+					}
+					Libido.PartialSatisfaction(Actor);
+					Wait(2);
 				}
+				Target.RemoveFromUseList(Actor);
+				Actor.SetPosition(position);
+				_stripperIsOnPole = false;
+				WatchersHaveRouteToStripper = false;
+				Actor.SwitchToOutfitWithoutSpin(currentOutfitCategory, currentOutfitIndex);
 				return true;
 			}
 		}
 
-		public class Dance2 : Interaction<Sim, SculptureFloorGunShow>
+		private class Dance2 : Interaction<Sim, SculptureFloorGunShow>
 		{
 			[DoesntRequireTuning]
 			private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, Dance2>
 			{
 				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.Dance2");
+					return Localize("S3_Passion.Terms.Dance2");
 				}
 
 				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (!isAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove)
-					{
-						return true;
-					}
-					return false;
+					return !isAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.IsHuman && actor.SimDescription.TeenOrAbove;
 				}
 			}
 
@@ -133,71 +129,73 @@ namespace Passion.S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
-					if (item.TurnedOn)
-					{
-						stereo = item;
-						break;
-					}
+					if (!item.TurnedOn) continue;
+					stereo = item;
+					break;
 				}
-				if (Actor.RouteToObjectRadius(Target, 1f) && Target.UseCount < 1 && stereo != null)
+
+				if (!Actor.RouteToObjectRadius(Target, 1f) || Target.UseCount >= 1 || stereo == null) return true;
+				Vector3 position = new Vector3(Actor.Position);
+				OutfitCategories currentOutfitCategory = Actor.CurrentOutfitCategory;
+				int currentOutfitIndex = Actor.CurrentOutfitIndex;
+				Target.ClearUseList();
+				Target.AddToUseList(Actor);
+				float x = Target.Position.x - (Target.ForwardVector.z * 0f + Target.ForwardVector.x * 0.795f);
+				float y = Target.Position.y;
+				float z = Target.Position.z - (Target.ForwardVector.z * 0f - Target.ForwardVector.z * -0.795f);
+				Actor.SetForward(Target.ForwardVector);
+				Vector3 position2 = new Vector3(x, y, z);
+				Actor.SetPosition(position2);
+				int num = 3;
+				WatchersHaveRouteToStripper = true;
+				GetStripWatchers(Actor, Target);
+				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, Autonomous))
 				{
-					Vector3 position = new Vector3(Actor.Position);
-					OutfitCategories currentOutfitCategory = Actor.CurrentOutfitCategory;
-					int currentOutfitIndex = Actor.CurrentOutfitIndex;
-					Target.ClearUseList();
-					Target.AddToUseList(Actor);
-					float x = Target.Position.x - (Target.ForwardVector.z * 0f + Target.ForwardVector.x * 0.795f);
-					float y = Target.Position.y;
-					float z = Target.Position.z - (Target.ForwardVector.z * 0f - Target.ForwardVector.z * -0.795f);
-					Actor.SetForward(Target.ForwardVector);
-					Vector3 position2 = new Vector3(x, y, z);
-					Actor.SetPosition(position2);
-					int num = 3;
-					WatchersHaveRouteToStripper = true;
-					GetStripWatchers(Actor, Target);
-					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					_stripperIsOnPole = true;
+					Actor.PlaySoloAnimation(RandomUtil.GetRandomObjectFromList(Animations2));
+					if (num == 0)
 					{
-						StripperIsOnPole = true;
-						Actor.PlaySoloAnimation(RandomUtil.GetRandomObjectFromList(Animations2));
-						if (num == 0)
+						switch (Actor.CurrentOutfitCategory)
 						{
-							if (Actor.CurrentOutfitCategory == OutfitCategories.Everyday)
-							{
+							case OutfitCategories.Everyday:
 								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Swimwear, 0);
 								num = 2;
-							}
-							else if (Actor.CurrentOutfitCategory == OutfitCategories.Swimwear)
-							{
+								break;
+							case OutfitCategories.Swimwear:
 								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Sleepwear, 0);
 								num = 1;
-							}
-							else if (Actor.CurrentOutfitCategory == OutfitCategories.Sleepwear)
-							{
+								break;
+							case OutfitCategories.Sleepwear:
 								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
-							}
-							else if (Actor.CurrentOutfitCategory != OutfitCategories.Naked)
+								break;
+							default:
 							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Swimwear, 0);
-								num = 3;
+								if (Actor.CurrentOutfitCategory != OutfitCategories.Naked)
+								{
+									Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Swimwear, 0);
+									num = 3;
+								}
+
+								break;
 							}
 						}
-						if (num > 0)
-						{
-							num--;
-						}
-						Libido.PartialSatisfaction(Actor);
-						PassionCommon.Wait(2);
 					}
-					Target.RemoveFromUseList(Actor);
-					Actor.SetPosition(position);
-					StripperIsOnPole = false;
-					WatchersHaveRouteToStripper = false;
-					Actor.SwitchToOutfitWithoutSpin(currentOutfitCategory, currentOutfitIndex);
+					if (num > 0)
+					{
+						num--;
+					}
+					Libido.PartialSatisfaction(Actor);
+					Wait(2);
 				}
+				Target.RemoveFromUseList(Actor);
+				Actor.SetPosition(position);
+				_stripperIsOnPole = false;
+				WatchersHaveRouteToStripper = false;
+				Actor.SwitchToOutfitWithoutSpin(currentOutfitCategory, currentOutfitIndex);
 				return true;
 			}
 		}
@@ -209,16 +207,12 @@ namespace Passion.S3_Passion
 			{
 				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.Dance");
+					return Localize("S3_Passion.Terms.Dance");
 				}
 
 				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (!isAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman)
-					{
-						return true;
-					}
-					return false;
+					return !isAutonomous && actor != null && target != null && target.UseCount < 1 && actor.SimDescription.TeenOrAbove && actor.SimDescription.IsHuman;
 				}
 			}
 
@@ -226,15 +220,13 @@ namespace Passion.S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
-					if (item.TurnedOn)
-					{
-						stereo = item;
-						break;
-					}
+					if (!item.TurnedOn) continue;
+					stereo = item;
+					break;
 				}
 				if (Actor.RouteToObjectRadius(Target, 1f) && Target.UseCount < 1 && stereo != null)
 				{
@@ -252,9 +244,9 @@ namespace Passion.S3_Passion
 					int num = 3;
 					WatchersHaveRouteToStripper = true;
 					GetStripWatchers(Actor, Target);
-					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, (InteractionInstance)this, false, base.Autonomous))
+					while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, Autonomous))
 					{
-						StripperIsOnPole = true;
+						_stripperIsOnPole = true;
 						Actor.PlaySoloAnimation(RandomUtil.GetRandomObjectFromList(Animations2));
 						if (num == 0)
 						{
@@ -278,7 +270,7 @@ namespace Passion.S3_Passion
 								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Swimwear, 0);
 								num = 3;
 							}
-							else if (Actor.CurrentOutfitCategory == OutfitCategories.Naked && num <= 0)
+							else if (Actor.CurrentOutfitCategory == OutfitCategories.Naked)
 							{
 								break;
 							}
@@ -288,11 +280,11 @@ namespace Passion.S3_Passion
 							num--;
 						}
 						Libido.PartialSatisfaction(Actor);
-						PassionCommon.Wait(2u);
+						Wait(2u);
 					}
 					Target.RemoveFromUseList(Actor);
 					Actor.SetPosition(position);
-					StripperIsOnPole = false;
+					_stripperIsOnPole = false;
 					WatchersHaveRouteToStripper = false;
 					if (Actor.SimDescription.IsServicePerson && !(Actor.Service is Butler) && !(Actor.Service is Maid))
 					{
@@ -308,7 +300,7 @@ namespace Passion.S3_Passion
 				{
 					Sim sim = Actor;
 					GameObject gameObject = Target;
-					List<DanceFloor> list2 = new List<DanceFloor>(global::Sims3.Gameplay.Queries.GetObjects<DanceFloor>(sim.LotCurrent, sim.RoomId));
+					List<DanceFloor> list2 = new List<DanceFloor>(Queries.GetObjects<DanceFloor>(sim.LotCurrent, sim.RoomId));
 					if (!sim.SimDescription.IsServicePerson || sim.Service is Butler || sim.Service is Maid)
 					{
 						foreach (Sim sim2 in sim.LotCurrent.GetSims())
@@ -340,7 +332,7 @@ namespace Passion.S3_Passion
 			{
 				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.AskToDance");
+					return Localize("S3_Passion.Terms.AskToDance");
 				}
 
 				public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
@@ -360,7 +352,10 @@ namespace Passion.S3_Passion
 			public override bool Run()
 			{
 				Sim sim = GetSelectedObject() as Sim;
-				sim.InteractionQueue.AddNextIfPossibleAfterCheckingForDuplicates(Dance.Singleton.CreateInstance(Target, sim, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
+				if (sim != null)
+					sim.InteractionQueue.AddNextIfPossibleAfterCheckingForDuplicates(
+						Dance.Singleton.CreateInstance(Target, sim,
+							new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 				return true;
 			}
 		}
@@ -372,7 +367,7 @@ namespace Passion.S3_Passion
 			{
 				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.AskToDance2");
+					return Localize("S3_Passion.Terms.AskToDance2");
 				}
 
 				public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> listObjs, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
@@ -392,7 +387,10 @@ namespace Passion.S3_Passion
 			public override bool Run()
 			{
 				Sim sim = GetSelectedObject() as Sim;
-				sim.InteractionQueue.AddNextIfPossibleAfterCheckingForDuplicates(Dance2.Singleton.CreateInstance(Target, sim, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
+				if (sim != null)
+					sim.InteractionQueue.AddNextIfPossibleAfterCheckingForDuplicates(
+						Dance2.Singleton.CreateInstance(Target, sim,
+							new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
 				return true;
 			}
 		}
@@ -404,7 +402,7 @@ namespace Passion.S3_Passion
 			{
 				public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.StopDance");
+					return Localize("S3_Passion.Terms.StopDance");
 				}
 
 				public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -418,7 +416,7 @@ namespace Passion.S3_Passion
 			public override bool Run()
 			{
 				Target.InteractionQueue.CancelInteraction(Target.InteractionQueue.GetCurrentInteraction().Id, ExitReason.UserCanceled);
-				StripperIsOnPole = false;
+				_stripperIsOnPole = false;
 				return true;
 			}
 		}
@@ -430,7 +428,7 @@ namespace Passion.S3_Passion
 			{
 				public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.Strip");
+					return Localize("S3_Passion.Terms.Strip");
 				}
 
 				public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -448,7 +446,9 @@ namespace Passion.S3_Passion
 					}
 					catch
 					{
+						// ignored
 					}
+
 					return false;
 				}
 			}
@@ -469,35 +469,30 @@ namespace Passion.S3_Passion
 			{
 				public override string GetInteractionName(Sim actor, SculptureFloorGunShow target, InteractionObjectPair interaction)
 				{
-					return PassionCommon.Localize("S3_Passion.Terms.Watch") + " " + PassionCommon.Localize("S3_Passion.Terms.Strip");
+					return Localize("S3_Passion.Terms.Watch") + " " + Localize("S3_Passion.Terms.Strip");
 				}
 
 				public override bool Test(Sim actor, SculptureFloorGunShow target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (!isAutonomous && actor != null && actor != Sim.ActiveActor && target != null && target.UseCount > 0 && !actor.SimDescription.IsServicePerson && actor.SimDescription.IsHuman)
-					{
-						return true;
-					}
-					return false;
+					return !isAutonomous && actor != null && actor != Sim.ActiveActor && target != null && target.UseCount > 0 && !actor.SimDescription.IsServicePerson && actor.SimDescription.IsHuman;
 				}
 			}
 
-			public static float KMinRouteDistance = 1f;
+			private const float KMinRouteDistance = 1f;
 
-			public static float KMaxRouteDistance = 5f;
+			private const float KMaxRouteDistance = 5f;
 
-			public static float KMinTimeBetweenReaction = 4f;
+			private const float KMinTimeBetweenReaction = 4f;
 
-			public static float KMaxTimeBetweenReaction = 5f;
+			private const float KMaxTimeBetweenReaction = 5f;
 
-			public float MTimeSinceLastReaction = 1f;
+			private float _mTimeSinceLastReaction = 1f;
 
-			public float MTimeBetweenReaction;
+			private float _mTimeBetweenReaction;
 
 			public WatchStrip MWatchedInteraction;
 
-			[Persistable(false)]
-			public List<ReactionTypes> MReactions = new List<ReactionTypes>(new ReactionTypes[4]
+			[Persistable(false)] private readonly List<ReactionTypes> _mReactions = new List<ReactionTypes>(new ReactionTypes[]
 			{
 				ReactionTypes.Cheer,
 				ReactionTypes.PumpFist,
@@ -509,60 +504,53 @@ namespace Passion.S3_Passion
 
 			public override bool Run()
 			{
-				List<Stereo> list = new List<Stereo>(global::Sims3.Gameplay.Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
+				List<Stereo> list = new List<Stereo>(Queries.GetObjects<Stereo>(Actor.LotCurrent, Actor.RoomId));
 				Stereo stereo = null;
 				foreach (Stereo item in list)
 				{
-					if (item.TurnedOn)
-					{
-						stereo = item;
-						break;
-					}
+					if (!item.TurnedOn) continue;
+					stereo = item;
+					break;
 				}
 				Sim sim = ((Target.ActorsUsingMe.Count > 0) ? Target.ActorsUsingMe[0] : null);
-				if (sim != null && stereo != null)
+				if (sim == null || stereo == null) return false;
+				Passion.GetPlayer(Actor).Watch(sim);
+				Route route = Actor.CreateRoute();
+				route.PlanToPointRadialRange(Target.Position, KMinRouteDistance, KMaxRouteDistance, RouteDistancePreference.NoPreference, RouteOrientationPreference.TowardsObject, Target.LotCurrent.LotId, new int[1] { Target.RoomId });
+				if (!Actor.DoRoute(route) || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.UseObjectForPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.UseSimForPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.ActiveJoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.JoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToJoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToSoloPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToPassionOther.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToWatchPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.WatchPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.WatchMasturbate.Singleton)
 				{
-					Passion.GetPlayer(Actor).Watch(sim);
-					Route route = Actor.CreateRoute();
-					route.PlanToPointRadialRange(Target.Position, KMinRouteDistance, KMaxRouteDistance, RouteDistancePreference.NoPreference, RouteOrientationPreference.TowardsObject, Target.LotCurrent.LotId, new int[1] { Target.RoomId });
-					if (!Actor.DoRoute(route) || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.UseObjectForPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.UseSimForPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.ActiveJoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.JoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToJoinPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToSoloPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToPassionOther.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.AskToWatchPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.WatchPassion.Singleton || Actor.InteractionQueue.GetCurrentInteraction().InteractionDefinition == Passion.Interactions.WatchMasturbate.Singleton)
-					{
-						return false;
-					}
-					BeginCommodityUpdates();
-					Actor.LoopIdle();
-					bool flag = DoLoop(ExitReason.Default, WatchLoop, mCurrentStateMachine);
-					EndCommodityUpdates(flag);
-					return flag;
+					return false;
 				}
-				return false;
+				BeginCommodityUpdates();
+				Actor.LoopIdle();
+				bool flag = DoLoop(ExitReason.Default, WatchLoop, mCurrentStateMachine);
+				EndCommodityUpdates(flag);
+				return flag;
 			}
 
-			public void WatchLoop(StateMachineClient smc, LoopData ld)
+			private void WatchLoop(StateMachineClient smc, LoopData ld)
 			{
-				if (Actor.HasExitReason(ExitReason.Canceled) || !StripperIsOnPole)
+				if (Actor.HasExitReason(ExitReason.Canceled) || !_stripperIsOnPole)
 				{
 					Actor.AddExitReason(ExitReason.Finished);
 					return;
 				}
-				MTimeSinceLastReaction += ld.mDeltaTime;
-				if (MTimeBetweenReaction < MTimeSinceLastReaction)
-				{
-					ReactionTypes randomObjectFromList = RandomUtil.GetRandomObjectFromList(MReactions);
-					Actor.PlayReaction(randomObjectFromList, ReactionSpeed.ImmediateWithoutOverlay);
-					MTimeSinceLastReaction = 0f;
-					MTimeBetweenReaction = RandomUtil.GetFloat(KMinTimeBetweenReaction, KMaxTimeBetweenReaction);
-				}
+				_mTimeSinceLastReaction += ld.mDeltaTime;
+				if (!(_mTimeBetweenReaction < _mTimeSinceLastReaction)) return;
+				ReactionTypes randomObjectFromList = RandomUtil.GetRandomObjectFromList(_mReactions);
+				Actor.PlayReaction(randomObjectFromList, ReactionSpeed.ImmediateWithoutOverlay);
+				_mTimeSinceLastReaction = 0f;
+				_mTimeBetweenReaction = RandomUtil.GetFloat(KMinTimeBetweenReaction, KMaxTimeBetweenReaction);
 			}
 		}
 
-		protected static bool StripperIsOnPole = false;
+		private static bool _stripperIsOnPole;
 
-		protected static bool WatchersHaveRouteToStripper = false;
+		protected static bool WatchersHaveRouteToStripper;
 
-		public static List<string> Animations;
+		private static readonly List<string> Animations;
 
-		public static List<string> Animations2;
+		private static readonly List<string> Animations2;
 
 		private static List<Sim> GetThePeople(Sim actor, Lot targetLot)
 		{
@@ -577,7 +565,7 @@ namespace Passion.S3_Passion
 			return list;
 		}
 
-		public static void GetStripWatchers(Sim actor, GameObject pole)
+		private static void GetStripWatchers(Sim actor, GameObject pole)
 		{
 			foreach (Sim sim in actor.LotCurrent.GetSims())
 			{

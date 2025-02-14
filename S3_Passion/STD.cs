@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
@@ -16,15 +17,15 @@ namespace Passion.S3_Passion
 	{
 		public class Infection
 		{
-			public SimDescription CarrierDescription;
+			private SimDescription _carrierDescription;
 
 			public BuffNames Disease;
 
-			public long Onset;
+			private long _onset;
 
-			public AlarmHandle IncubationAlarm;
+			private AlarmHandle _incubationAlarm;
 
-			public bool Reinfection;
+			private bool _reinfection;
 
 			public bool IsValid;
 
@@ -32,23 +33,9 @@ namespace Passion.S3_Passion
 			{
 				get
 				{
-					if (CarrierDescription != null)
-					{
-						return CarrierDescription.CreatedSim;
-					}
-					return null;
+					return _carrierDescription != null ? _carrierDescription.CreatedSim : null;
 				}
-				set
-				{
-					if (value != null)
-					{
-						CarrierDescription = value.SimDescription;
-					}
-					else
-					{
-						CarrierDescription = null;
-					}
-				}
+				private set { _carrierDescription = value != null ? value.SimDescription : null; }
 			}
 
 			public Infection(Sim carrier, BuffNames disease, long onset)
@@ -65,10 +52,10 @@ namespace Passion.S3_Passion
 			{
 				Carrier = carrier;
 				Disease = disease;
-				Onset = onset;
-				Reinfection = reinfection;
+				_onset = onset;
+				_reinfection = reinfection;
 				IsValid = true;
-				IncubationAlarm = Carrier.AddAlarmRepeating(5f, TimeUnit.Minutes, Callback, 7f, TimeUnit.Hours, "Periodic STD Check", AlarmType.AlwaysPersisted);
+				_incubationAlarm = Carrier.AddAlarmRepeating(5f, TimeUnit.Minutes, Callback, 7f, TimeUnit.Hours, "Periodic STD Check", AlarmType.AlwaysPersisted);
 			}
 
 			public void Invalidate()
@@ -76,37 +63,35 @@ namespace Passion.S3_Passion
 				IsValid = false;
 				if (Carrier != null)
 				{
-					Carrier.RemoveAlarm(IncubationAlarm);
+					Carrier.RemoveAlarm(_incubationAlarm);
 				}
 			}
 
-			public void Callback()
+			private void Callback()
 			{
-				if (SimClock.CurrentTicks >= Onset)
+				if (SimClock.CurrentTicks < _onset) return;
+				if (_reinfection)
 				{
-					if (Reinfection)
-					{
-						Carrier.BuffManager.AddElement(Disease, Origin.None);
-					}
-					Invalidate();
-					BuffNames disease = Disease;
-					if (disease == (BuffNames)3348796355468607868uL || disease == (BuffNames)3802937897211410794uL || disease == (BuffNames)16680654480998469135uL)
-					{
-						Dethkloks.Add(new Dethklok(Carrier, Disease));
-					}
+					Carrier.BuffManager.AddElement(Disease, Origin.None);
+				}
+				Invalidate();
+				BuffNames disease = Disease;
+				if (disease == (BuffNames)3348796355468607868uL || disease == (BuffNames)3802937897211410794uL || disease == (BuffNames)16680654480998469135uL)
+				{
+					DeathClocks.Add(new DeathClock(Carrier, Disease));
 				}
 			}
 		}
 
-		public class Dethklok
+		public class DeathClock
 		{
-			public SimDescription CarrierDescription;
+			private SimDescription _carrierDescription;
 
 			public BuffNames Disease;
 
 			public long NextCheck;
 
-			public AlarmHandle DethklokAlarm;
+			private readonly AlarmHandle _deathClockAlarm;
 
 			public bool IsValid;
 
@@ -114,32 +99,18 @@ namespace Passion.S3_Passion
 			{
 				get
 				{
-					if (CarrierDescription != null)
-					{
-						return CarrierDescription.CreatedSim;
-					}
-					return null;
+					return _carrierDescription != null ? _carrierDescription.CreatedSim : null;
 				}
-				set
-				{
-					if (value != null)
-					{
-						CarrierDescription = value.SimDescription;
-					}
-					else
-					{
-						CarrierDescription = null;
-					}
-				}
+				private set { _carrierDescription = value != null ? value.SimDescription : null; }
 			}
 
-			public Dethklok(Sim carrier, BuffNames disease)
+			public DeathClock(Sim carrier, BuffNames disease)
 			{
 				Carrier = carrier;
 				Disease = disease;
 				SetNextCheck();
 				IsValid = true;
-				DethklokAlarm = Carrier.AddAlarmRepeating(1f, TimeUnit.Days, Callback, 5f, TimeUnit.Hours, "Dethklok Alarm", AlarmType.AlwaysPersisted);
+				_deathClockAlarm = Carrier.AddAlarmRepeating(1f, TimeUnit.Days, Callback, 5f, TimeUnit.Hours, "DeathClock Alarm", AlarmType.AlwaysPersisted);
 			}
 
 			public void Invalidate()
@@ -147,27 +118,29 @@ namespace Passion.S3_Passion
 				IsValid = false;
 				if (Carrier != null)
 				{
-					Carrier.RemoveAlarm(DethklokAlarm);
+					Carrier.RemoveAlarm(_deathClockAlarm);
 				}
 			}
 
-			public void SetNextCheck()
+			private void SetNextCheck()
 			{
 				switch (Disease)
 				{
 				case (BuffNames)3802937897211410794uL:
-					NextCheck = SimClock.CurrentTicks + (long)((float)CustomBuff.DayTicks * RandomUtil.GetFloat(1f, 20f));
+					NextCheck = SimClock.CurrentTicks + (long)((float)DayTicks * RandomUtil.GetFloat(1f, 20f));
 					break;
 				case (BuffNames)16680654480998469135uL:
-					NextCheck = SimClock.CurrentTicks + (long)((float)CustomBuff.DayTicks * RandomUtil.GetFloat(2f, 7f));
+					NextCheck = SimClock.CurrentTicks + (long)((float)DayTicks * RandomUtil.GetFloat(2f, 7f));
 					break;
 				case (BuffNames)3348796355468607868uL:
-					NextCheck = SimClock.CurrentTicks + (long)((float)CustomBuff.DayTicks * RandomUtil.GetFloat(5f, 16f));
+					NextCheck = SimClock.CurrentTicks + (long)((float)DayTicks * RandomUtil.GetFloat(5f, 16f));
 					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 				}
 			}
 
-			public void Callback()
+			private void Callback()
 			{
 				if (Carrier == null || !Carrier.BuffManager.HasElement(Disease))
 				{
@@ -180,7 +153,7 @@ namespace Passion.S3_Passion
 				switch (Disease)
 				{
 				case (BuffNames)3348796355468607868uL:
-					if (!Carrier.TraitManager.HasElement(TraitNames.Insane) && RandomUtil.RandomChance(20f))
+					if (Carrier != null && !Carrier.TraitManager.HasElement(TraitNames.Insane) && RandomUtil.RandomChance(20f))
 					{
 						try
 						{
@@ -208,8 +181,11 @@ namespace Passion.S3_Passion
 					if (RandomUtil.RandomChance(15f))
 					{
 						Disease = (BuffNames)16680654480998469135uL;
-						Carrier.BuffManager.RemoveElement((BuffNames)3802937897211410794uL);
-						Carrier.BuffManager.AddElement((BuffNames)16680654480998469135uL, Origin.None);
+						if (Carrier != null)
+						{
+							Carrier.BuffManager.RemoveElement((BuffNames)3802937897211410794uL);
+							Carrier.BuffManager.AddElement((BuffNames)16680654480998469135uL, Origin.None);
+						}
 					}
 					SetNextCheck();
 					break;
@@ -217,29 +193,30 @@ namespace Passion.S3_Passion
 					if (RandomUtil.RandomChance(30f))
 					{
 						Invalidate();
-						Carrier.InteractionQueue.CancelAllInteractions();
-						Carrier.Kill(SimDescription.DeathType.OldAge);
+						if (Carrier != null)
+						{
+							Carrier.InteractionQueue.CancelAllInteractions();
+							Carrier.Kill(SimDescription.DeathType.OldAge);
+						}
 					}
 					else
 					{
 						SetNextCheck();
 					}
 					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 				}
 			}
 		}
 
 		public class GetTreated : RabbitHole.RabbitHoleInteraction<Sim, RabbitHole>
 		{
-			protected sealed class Definition : InteractionDefinition<Sim, RabbitHole, GetTreated>
+			private sealed class Definition : InteractionDefinition<Sim, RabbitHole, GetTreated>
 			{
 				public override bool Test(Sim sim, RabbitHole target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
 				{
-					if (HasTreatableStDs(sim))
-					{
-						return true;
-					}
-					return false;
+					return HasTreatableStDs(sim);
 				}
 
 				public override string GetInteractionName(Sim actor, RabbitHole target, InteractionObjectPair iop)
@@ -248,9 +225,9 @@ namespace Passion.S3_Passion
 				}
 			}
 
-			private static int _kSimMinutesForTreatment = 120;
+			private static readonly int _kSimMinutesForTreatment = 120;
 
-			private static int _kCostOfTreatment = 500;
+			private static readonly int _kCostOfTreatment = 500;
 
 			public static readonly InteractionDefinition Singleton = new Definition();
 
@@ -258,8 +235,8 @@ namespace Passion.S3_Passion
 			{
 				base.ConfigureInteraction();
 				TimedStage timedStage = new TimedStage(GetInteractionName(), _kSimMinutesForTreatment, false, true, true);
-				base.Stages = new List<Stage>(new Stage[1] { timedStage });
-				base.ActiveStage = timedStage;
+				Stages = new List<Stage>(new Stage[1] { timedStage });
+				ActiveStage = timedStage;
 			}
 
 			public override bool InRabbitHole()
@@ -294,39 +271,25 @@ namespace Passion.S3_Passion
 		public static List<Infection> PendingInfectionsBackup = new List<Infection>();
 
 		[PersistableStatic]
-		private static List<Dethklok> _mDethkloks;
+		private static List<DeathClock> _mDeathClocks;
 
-		public static List<Dethklok> DethkloksBackup = new List<Dethklok>();
+		public static List<DeathClock> DeathClocksBackup = new List<DeathClock>();
 
-		public static List<Infection> PendingInfections
+		private static List<Infection> PendingInfections
 		{
-			get
-			{
-				if (_mPendingInfections == null)
-				{
-					_mPendingInfections = new List<Infection>();
-				}
-				return _mPendingInfections;
-			}
+			get { return _mPendingInfections ?? (_mPendingInfections = new List<Infection>()); }
 			set
 			{
 				_mPendingInfections = value;
 			}
 		}
 
-		public static List<Dethklok> Dethkloks
+		private static List<DeathClock> DeathClocks
 		{
-			get
-			{
-				if (_mDethkloks == null)
-				{
-					_mDethkloks = new List<Dethklok>();
-				}
-				return _mDethkloks;
-			}
+			get { return _mDeathClocks ?? (_mDeathClocks = new List<DeathClock>()); }
 			set
 			{
-				_mDethkloks = value;
+				_mDeathClocks = value;
 			}
 		}
 
@@ -343,15 +306,14 @@ namespace Passion.S3_Passion
 				_mPendingInfections.Clear();
 				_mPendingInfections = null;
 			}
-			if (_mDethkloks != null)
-			{
-				DethkloksBackup = new List<Dethklok>(_mDethkloks);
-				_mDethkloks.Clear();
-				_mDethkloks = null;
-			}
+
+			if (_mDeathClocks == null) return;
+			DeathClocksBackup = new List<DeathClock>(_mDeathClocks);
+			_mDeathClocks.Clear();
+			_mDeathClocks = null;
 		}
 
-		public static long GetOnset(BuffNames std)
+		private static long GetOnset(BuffNames std)
 		{
 			long num = 0L;
 			switch (std)
@@ -360,44 +322,42 @@ namespace Passion.S3_Passion
 			case (BuffNames)14409719855781998876uL:
 			case (BuffNames)16328498947224254690uL:
 			case (BuffNames)9183286871710270222uL:
-				num = CustomBuff.DayTicks * RandomUtil.GetInt(2, 4);
+				num = DayTicks * RandomUtil.GetInt(2, 4);
 				break;
 			case (BuffNames)4642255024717194076uL:
-				num = CustomBuff.DayTicks * RandomUtil.GetInt(20, 30);
+				num = DayTicks * RandomUtil.GetInt(20, 30);
 				break;
 			case (BuffNames)3348796355468607868uL:
-				num = CustomBuff.DayTicks * RandomUtil.GetInt(40, 80);
+				num = DayTicks * RandomUtil.GetInt(40, 80);
 				break;
 			case (BuffNames)8648471817152268810uL:
-				num = CustomBuff.DayTicks * RandomUtil.GetInt(21, 35);
+				num = DayTicks * RandomUtil.GetInt(21, 35);
 				break;
 			case (BuffNames)3802937897211410794uL:
-				num = CustomBuff.DayTicks * RandomUtil.GetInt(20, 60);
+				num = DayTicks * RandomUtil.GetInt(20, 60);
 				break;
 			default:
-				num = CustomBuff.DayTicks;
+				num = DayTicks;
 				break;
 			}
 			return SimClock.CurrentTicks + num;
 		}
 
-		public static List<BuffNames> GetStDs(Sim sim)
+		private static List<BuffNames> GetStDs(Sim sim)
 		{
 			List<BuffNames> list = new List<BuffNames>();
-			if (sim != null)
+			if (sim == null) return list;
+			foreach (BuffNames item in Names.Std)
 			{
-				foreach (BuffNames item in Names.Std)
+				if (sim.BuffManager.HasElement(item))
 				{
-					if (sim.BuffManager.HasElement(item))
-					{
-						list.Add(item);
-					}
+					list.Add(item);
 				}
 			}
 			return list;
 		}
 
-		public static bool HasTreatableStDs(Sim sim)
+		private static bool HasTreatableStDs(Sim sim)
 		{
 			using (List<BuffNames>.Enumerator enumerator = GetStDs(sim).GetEnumerator())
 			{
@@ -420,7 +380,7 @@ namespace Passion.S3_Passion
 			return false;
 		}
 
-		public static bool HasSiv(Sim sim)
+		private static bool HasSiv(Sim sim)
 		{
 			foreach (BuffNames sTd in GetStDs(sim))
 			{
@@ -443,7 +403,7 @@ namespace Passion.S3_Passion
 			return false;
 		}
 
-		public static bool HasSimphilis(Sim sim)
+		private static bool HasSimphilis(Sim sim)
 		{
 			using (List<BuffNames>.Enumerator enumerator = GetStDs(sim).GetEnumerator())
 			{
@@ -456,6 +416,8 @@ namespace Passion.S3_Passion
 					case (BuffNames)7014284627137684376uL:
 					case (BuffNames)9183286871710270222uL:
 						return true;
+					default:
+						throw new ArgumentOutOfRangeException();
 					}
 				}
 			}
@@ -468,12 +430,14 @@ namespace Passion.S3_Passion
 				case (BuffNames)7014284627137684376uL:
 				case (BuffNames)9183286871710270222uL:
 					return true;
+				default:
+					throw new ArgumentOutOfRangeException();
 				}
 			}
 			return false;
 		}
 
-		public static bool HasSimerpes(Sim sim)
+		private static bool HasSimerpes(Sim sim)
 		{
 			foreach (BuffNames sTd in GetStDs(sim))
 			{
@@ -496,20 +460,19 @@ namespace Passion.S3_Passion
 			return false;
 		}
 
-		public static bool SimmunityPreventsInfection(Sim sim)
+		private static bool SimmunityPreventsInfection(Sim sim)
 		{
 			return sim == null || (Passion.Settings.StdSimmunity == StdImmunity.Immune && sim.HasTrait(TraitNames.Simmunity));
 		}
 
-		public static bool InfectionRandomization(Sim sim, BuffNames std)
+		private static bool InfectionRandomization(Sim sim, BuffNames std)
 		{
 			bool result = false;
-			if (sim != null)
+			if (sim == null) return result;
+			if (Passion.Settings.StdSimmunity == StdImmunity.Resistant && sim.HasTrait(TraitNames.Simmunity))
 			{
-				if (Passion.Settings.StdSimmunity == StdImmunity.Resistant && sim.HasTrait(TraitNames.Simmunity))
+				switch (std)
 				{
-					switch (std)
-					{
 					case (BuffNames)14409719855781998876uL:
 						result = RandomUtil.RandomChance(12f);
 						break;
@@ -519,12 +482,12 @@ namespace Passion.S3_Passion
 					default:
 						result = RandomUtil.RandomChance(20f);
 						break;
-					}
 				}
-				else
+			}
+			else
+			{
+				switch (std)
 				{
-					switch (std)
-					{
 					case (BuffNames)14409719855781998876uL:
 						result = RandomUtil.RandomChance(30f);
 						break;
@@ -534,7 +497,6 @@ namespace Passion.S3_Passion
 					default:
 						result = RandomUtil.CoinFlip();
 						break;
-					}
 				}
 			}
 			return result;
@@ -545,7 +507,7 @@ namespace Passion.S3_Passion
 			Process(Passion.GetPlayer(sim));
 		}
 
-		public static void Process(Passion.Player player)
+		private static void Process(Passion.Player player)
 		{
 			if (player != null && player.IsValid && Passion.Settings.Std && !SimmunityPreventsInfection(player.Actor))
 			{
@@ -596,12 +558,16 @@ namespace Passion.S3_Passion
 											PendingInfections.Add(new Infection(actor, (BuffNames)14409719855781998876uL, GetOnset((BuffNames)14409719855781998876uL)));
 										}
 										break;
+									default:
+										throw new ArgumentOutOfRangeException();
 									}
 								}
 							}
 							catch
 							{
+								// ignored
 							}
+
 							try
 							{
 								foreach (Infection pendingInfection in PendingInfections)
@@ -647,17 +613,21 @@ namespace Passion.S3_Passion
 											PendingInfections.Add(new Infection(actor, (BuffNames)14409719855781998876uL, GetOnset((BuffNames)14409719855781998876uL)));
 										}
 										break;
+									default:
+										throw new ArgumentOutOfRangeException();
 									}
 								}
 							}
 							catch
 							{
+								// ignored
 							}
 						}
 					}
 				}
 				catch
 				{
+					// ignored
 				}
 			}
 			List<Infection> list = new List<Infection>();
@@ -668,19 +638,18 @@ namespace Passion.S3_Passion
 					list.Add(pendingInfection2);
 				}
 			}
-			if (list.Count != PendingInfections.Count)
-			{
-				PendingInfections.Clear();
-				PendingInfections = list;
-			}
+
+			if (list.Count == PendingInfections.Count) return;
+			PendingInfections.Clear();
+			PendingInfections = list;
 		}
 
-		public static void Progression(BuffManager bm, BuffInstance bi)
+		private static void Progression(BuffManager bm, BuffInstance bi)
 		{
 			switch (bi.Guid)
 			{
 			case (BuffNames)12465744095023444500uL:
-				PendingInfections.Add(new Infection(bm.Actor, (BuffNames)12465744095023444500uL, SimClock.CurrentTicks + CustomBuff.DayTicks * RandomUtil.GetInt(30, 45), false));
+				PendingInfections.Add(new Infection(bm.Actor, (BuffNames)12465744095023444500uL, SimClock.CurrentTicks + DayTicks * RandomUtil.GetInt(30, 45), false));
 				break;
 			case (BuffNames)9183286871710270222uL:
 				PendingInfections.Add(new Infection(bm.Actor, (BuffNames)4642255024717194076uL, GetOnset((BuffNames)4642255024717194076uL)));
@@ -690,7 +659,7 @@ namespace Passion.S3_Passion
 				break;
 			case (BuffNames)6514717556347855497uL:
 				bm.AddElement((BuffNames)3802937897211410794uL, Origin.None);
-				Dethkloks.Add(new Dethklok(bm.Actor, (BuffNames)3802937897211410794uL));
+				DeathClocks.Add(new DeathClock(bm.Actor, (BuffNames)3802937897211410794uL));
 				break;
 			case (BuffNames)14409719855781998876uL:
 			case (BuffNames)8648471817152268810uL:
@@ -703,22 +672,21 @@ namespace Passion.S3_Passion
 				}
 				break;
 			}
-			List<Dethklok> list = new List<Dethklok>();
-			foreach (Dethklok dethklok in Dethkloks)
+			List<DeathClock> list = new List<DeathClock>();
+			foreach (DeathClock dethklok in DeathClocks)
 			{
 				if (dethklok.IsValid)
 				{
 					list.Add(dethklok);
 				}
 			}
-			if (list.Count != Dethkloks.Count)
-			{
-				Dethkloks.Clear();
-				Dethkloks = list;
-			}
+
+			if (list.Count == DeathClocks.Count) return;
+			DeathClocks.Clear();
+			DeathClocks = list;
 		}
 
-		public static void Treatment(Sim sim)
+		private static void Treatment(Sim sim)
 		{
 			if (sim == null)
 			{
@@ -741,7 +709,7 @@ namespace Passion.S3_Passion
 				case (BuffNames)3802937897211410794uL:
 					sim.BuffManager.RemoveElement(sTd);
 					sim.BuffManager.AddElement((BuffNames)6514717556347855497uL, Origin.None);
-					foreach (Dethklok dethklok in Dethkloks)
+					foreach (DeathClock dethklok in DeathClocks)
 					{
 						if (dethklok.Carrier == sim && dethklok.Disease == (BuffNames)3802937897211410794uL)
 						{
@@ -756,7 +724,7 @@ namespace Passion.S3_Passion
 					}
 					sim.BuffManager.RemoveElement(sTd);
 					sim.BuffManager.AddElement((BuffNames)6514717556347855497uL, Origin.None);
-					foreach (Dethklok dethklok2 in Dethkloks)
+					foreach (DeathClock dethklok2 in DeathClocks)
 					{
 						if (dethklok2.Carrier == sim && dethklok2.Disease == (BuffNames)16680654480998469135uL)
 						{
@@ -768,6 +736,8 @@ namespace Passion.S3_Passion
 					sim.BuffManager.RemoveElement(sTd);
 					sim.BuffManager.AddElement((BuffNames)8648471817152268810uL, Origin.None);
 					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 				}
 			}
 			List<Infection> list = new List<Infection>();
@@ -784,6 +754,8 @@ namespace Passion.S3_Passion
 					case (BuffNames)9183286871710270222uL:
 						pendingInfection.Invalidate();
 						break;
+					default:
+						throw new ArgumentOutOfRangeException();
 					}
 				}
 			}
@@ -794,7 +766,7 @@ namespace Passion.S3_Passion
 			AddRandomToAll(false, true);
 		}
 
-		public static void AddRandomToAll(bool includeActive, bool messages)
+		private static void AddRandomToAll(bool includeActive, bool messages)
 		{
 			Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
 			PendingInfections = new List<Infection>();
@@ -860,18 +832,17 @@ namespace Passion.S3_Passion
 						PassionCommon.BufferLine("  " + PassionCommon.Localize("Gameplay/Excel/buffs/BuffList:lSTDSIV"));
 					}
 					sim.BuffManager.AddElement((BuffNames)3802937897211410794uL, Origin.None);
-					Dethkloks.Add(new Dethklok(sim, (BuffNames)3802937897211410794uL));
+					DeathClocks.Add(new DeathClock(sim, (BuffNames)3802937897211410794uL));
 					flag = true;
 					num2++;
 				}
-				if (flag)
+
+				if (!flag) continue;
+				if (messages)
 				{
-					if (messages)
-					{
-						PassionCommon.SimMessage(sim);
-					}
-					num++;
+					PassionCommon.SimMessage(sim);
 				}
+				num++;
 			}
 			PassionCommon.SystemMessage("Randomly added " + num2 + " STD's to " + num + " Sims.");
 		}
@@ -891,11 +862,9 @@ namespace Passion.S3_Passion
 				}
 				foreach (BuffNames item in Names.Std)
 				{
-					if (sim.BuffManager.HasElement(item))
-					{
-						sim.BuffManager.RemoveElement(item);
-						num++;
-					}
+					if (!sim.BuffManager.HasElement(item)) continue;
+					sim.BuffManager.RemoveElement(item);
+					num++;
 				}
 			}
 			foreach (Infection pendingInfection in PendingInfections)
@@ -904,12 +873,12 @@ namespace Passion.S3_Passion
 				num2++;
 			}
 			PendingInfections.Clear();
-			foreach (Dethklok dethklok in Dethkloks)
+			foreach (DeathClock dethklok in DeathClocks)
 			{
 				dethklok.Invalidate();
 				num3++;
 			}
-			Dethkloks.Clear();
+			DeathClocks.Clear();
 			PassionCommon.SystemMessage("Removed " + num + " diseases, " + num2 + " incubating infections, and " + num3 + " active death clocks.");
 		}
 
@@ -933,7 +902,7 @@ namespace Passion.S3_Passion
 					pendingInfection.Invalidate();
 				}
 			}
-			foreach (Dethklok dethklok in Dethkloks)
+			foreach (DeathClock dethklok in DeathClocks)
 			{
 				if (dethklok.Carrier == carrier)
 				{

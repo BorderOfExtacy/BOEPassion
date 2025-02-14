@@ -68,163 +68,159 @@ namespace Passion.S3_Passion
 				ResourceKey kInvalidResourceKey = ResourceKey.kInvalidResourceKey;
 				ResourceKey resourceKey = ResourceKey.FromString("0x034AEECB-0x00000000-0x0970A7D67C90A462");
 				SimDescription simDescription = Actor.SimDescription;
-				SimOutfit simOutfit = null;
-				if (resourceKey != kInvalidResourceKey)
+				if (resourceKey == kInvalidResourceKey) return false;
+				if (!IsSmPeener(Actor))
 				{
-					if (!IsSmPeener(Actor))
+					try
 					{
+						SimOutfit simOutfit = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x5DA2AF30FC4A0425"));
+						SimOutfit resultOutfit;
+						if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), simOutfit, simDescription, "CumShot", out resultOutfit))
+						{
+							simDescription.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
+						}
+						SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
+						SwitchOutfitHelper.Start();
+						SwitchOutfitHelper.Wait(false);
 						try
 						{
-							simOutfit = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x5DA2AF30FC4A0425"));
-							SimOutfit resultOutfit;
-							if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), simOutfit, simDescription, "CumShot", out resultOutfit))
-							{
-								simDescription.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
-							}
-							SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
-							SwitchOutfitHelper.Start();
-							SwitchOutfitHelper.Wait(false);
-							try
-							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
-							}
-							catch
-							{
-								// ignored
-							}
-
-							SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 1);
-							SwitchOutfitHelper.Start();
-							SwitchOutfitHelper.Wait(false);
-							Wait(3u);
-							try
-							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 1);
-							}
-							catch
-							{
-								// ignored
-							}
-
-							SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
-							SwitchOutfitHelper.Start();
-							SwitchOutfitHelper.Wait(false);
-							Wait(13u);
-							try
-							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
-							}
-							catch
-							{
-								// ignored
-							}
-
-							SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 1);
-							SwitchOutfitHelper.Start();
-							SwitchOutfitHelper.Wait(false);
-							Wait(3u);
-							try
-							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 1);
-							}
-							catch
-							{
-								// ignored
-							}
-
-							SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
-							SwitchOutfitHelper.Start();
-							SwitchOutfitHelper.Wait(false);
-							Wait(5u);
-							try
-							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
-							}
-							catch
-							{
-								// ignored
-							}
-
-							SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 1);
-							SwitchOutfitHelper.Start();
-							SwitchOutfitHelper.Wait(false);
-							Wait(3u);
-							try
-							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 1);
-							}
-							catch
-							{
-								// ignored
-							}
-
-							SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
-							SwitchOutfitHelper.Start();
-							SwitchOutfitHelper.Wait(false);
-							Wait(5u);
-							try
-							{
-								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
-							}
-							catch
-							{
-								// ignored
-							}
-
-							Wait(2u);
-							if (simDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
-							{
-								while (simDescription.GetOutfitCount(OutfitCategories.Naked) > 1)
-								{
-									simDescription.RemoveOutfit(OutfitCategories.Naked, 0, true);
-								}
-								try
-								{
-									Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
-								}
-								catch
-								{
-									// ignored
-								}
-							}
-						}
-						catch
-						{
-							// ignored
-						}
-					}
-					ResourceKey resourceKey2 = ResourceKey.FromString("0x034AEECB-0x00000000-0x448E28850CC102D6");
-					SimDescription simDescription2 = Target.SimDescription;
-					SimOutfit simOutfit2 = null;
-					if (resourceKey2 != kInvalidResourceKey)
-					{
-						simOutfit2 = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x4C25D388A71924C7"));
-					}
-					if (simOutfit2 != null && Target.CurrentOutfitCategory == OutfitCategories.Naked)
-					{
-						SimOutfit resultOutfit2;
-						if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), simOutfit2, simDescription2, "CumMask", out resultOutfit2))
-						{
-							simDescription2.AddOutfit(resultOutfit2, OutfitCategories.Naked, true);
-						}
-						try
-						{
-							Target.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit2, 0);
+							Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
 						}
 						catch
 						{
 							// ignored
 						}
 
-						if (simDescription2.GetOutfitCount(OutfitCategories.Naked) <= 2) return true;
-						while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 2)
+						SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 1);
+						SwitchOutfitHelper.Start();
+						SwitchOutfitHelper.Wait(false);
+						Wait(3u);
+						try
 						{
-							simDescription2.RemoveOutfit(OutfitCategories.Naked, 1, true);
+							Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 1);
+						}
+						catch
+						{
+							// ignored
+						}
+
+						SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
+						SwitchOutfitHelper.Start();
+						SwitchOutfitHelper.Wait(false);
+						Wait(13u);
+						try
+						{
+							Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+						}
+						catch
+						{
+							// ignored
+						}
+
+						SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 1);
+						SwitchOutfitHelper.Start();
+						SwitchOutfitHelper.Wait(false);
+						Wait(3u);
+						try
+						{
+							Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 1);
+						}
+						catch
+						{
+							// ignored
+						}
+
+						SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
+						SwitchOutfitHelper.Start();
+						SwitchOutfitHelper.Wait(false);
+						Wait(5u);
+						try
+						{
+							Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+						}
+						catch
+						{
+							// ignored
+						}
+
+						SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 1);
+						SwitchOutfitHelper.Start();
+						SwitchOutfitHelper.Wait(false);
+						Wait(3u);
+						try
+						{
+							Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 1);
+						}
+						catch
+						{
+							// ignored
+						}
+
+						SwitchOutfitHelper = new Sim.SwitchOutfitHelper(Actor, OutfitCategories.Naked, 0);
+						SwitchOutfitHelper.Start();
+						SwitchOutfitHelper.Wait(false);
+						Wait(5u);
+						try
+						{
+							Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+						}
+						catch
+						{
+							// ignored
+						}
+
+						Wait(2u);
+						if (simDescription.GetOutfitCount(OutfitCategories.Naked) != 1)
+						{
+							while (simDescription.GetOutfitCount(OutfitCategories.Naked) > 1)
+							{
+								simDescription.RemoveOutfit(OutfitCategories.Naked, 0, true);
+							}
+							try
+							{
+								Actor.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+							}
+							catch
+							{
+								// ignored
+							}
 						}
 					}
-					return true;
+					catch
+					{
+						// ignored
+					}
 				}
-				return false;
+				ResourceKey resourceKey2 = ResourceKey.FromString("0x034AEECB-0x00000000-0x448E28850CC102D6");
+				SimDescription simDescription2 = Target.SimDescription;
+				SimOutfit simOutfit2 = null;
+				if (resourceKey2 != kInvalidResourceKey)
+				{
+					simOutfit2 = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x4C25D388A71924C7"));
+				}
+				if (simOutfit2 != null && Target.CurrentOutfitCategory == OutfitCategories.Naked)
+				{
+					SimOutfit resultOutfit2;
+					if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), simOutfit2, simDescription2, "CumMask", out resultOutfit2))
+					{
+						simDescription2.AddOutfit(resultOutfit2, OutfitCategories.Naked, true);
+					}
+					try
+					{
+						Target.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit2, 0);
+					}
+					catch
+					{
+						// ignored
+					}
+
+					if (simDescription2.GetOutfitCount(OutfitCategories.Naked) <= 2) return true;
+					while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 2)
+					{
+						simDescription2.RemoveOutfit(OutfitCategories.Naked, 1, true);
+					}
+				}
+				return true;
 			}
 
 			if ((!Actor.IsFemale || IsTransfem(Actor) || !Target.IsMale || !Passion.Settings.UseCondom ||
@@ -237,13 +233,12 @@ namespace Passion.S3_Passion
 			ResourceKey kInvalidResourceKey2 = ResourceKey.kInvalidResourceKey;
 			ResourceKey resourceKey3 = ResourceKey.FromString("0x034AEECB-0x00000000-0x0970A7D67C90A462");
 			SimDescription simDescription3 = Target.SimDescription;
-			SimOutfit simOutfit3 = null;
 			if (resourceKey3 == kInvalidResourceKey2) return false;
 			if (!IsSmPeener(Target))
 			{
 				try
 				{
-					simOutfit3 = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x5DA2AF30FC4A0425"));
+					SimOutfit simOutfit3 = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x5DA2AF30FC4A0425"));
 					SimOutfit resultOutfit3;
 					if (OutfitUtils.TryApplyUniformToOutfit(simDescription3.GetOutfit(OutfitCategories.Naked, 0), simOutfit3, simDescription3, "CumShot", out resultOutfit3))
 					{

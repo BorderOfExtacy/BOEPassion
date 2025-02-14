@@ -15,7 +15,7 @@ namespace Passion.S3_Passion
 {
 	public class CustomBuff : Buff
 	{
-		public static class Names
+		protected static class Names
 		{
 			public const BuffNames Invalid = BuffNames.Undefined;
 
@@ -228,7 +228,7 @@ namespace Passion.S3_Passion
 			}
 		}
 
-		protected static float LifespanModifier
+		private static float LifespanModifier
 		{
 			get
 			{
@@ -239,7 +239,9 @@ namespace Passion.S3_Passion
 				}
 				catch
 				{
+					// ignored
 				}
+
 				switch (value)
 				{
 				case 0u:
@@ -256,12 +258,12 @@ namespace Passion.S3_Passion
 			}
 		}
 
-		public CustomBuff(BuffData info)
+		protected CustomBuff(BuffData info)
 			: base(info)
 		{
 		}
 
-		public static BuffData GetDefaultBuffData()
+		private static BuffData GetDefaultBuffData()
 		{
 			BuffData buffData = new BuffData();
 			buffData.mBuffName = "";
@@ -289,7 +291,7 @@ namespace Passion.S3_Passion
 			return buffData;
 		}
 
-		public static BuffData GetBuffData(BuffNames buff)
+		private static BuffData GetBuffData(BuffNames buff)
 		{
 			BuffData defaultBuffData = GetDefaultBuffData();
 			defaultBuffData.mBuffGuid = buff;
@@ -643,6 +645,8 @@ namespace Passion.S3_Passion
 				defaultBuffData.mTimeoutSimMinutes = 4320f;
 				defaultBuffData.mEffectValue = -5;
 				break;
+				default:
+					throw new ArgumentOutOfRangeException("buff", buff, null);
 			}
 			defaultBuffData.mThumbKey = ResourceKey.CreatePNGKey(defaultBuffData.mThumbString, 0u);
 			defaultBuffData.mJazzStateSuffix = defaultBuffData.mBuffName;
@@ -654,22 +658,21 @@ namespace Passion.S3_Passion
 			Load();
 		}
 
-		public static void Load()
+		private static void Load()
 		{
 			try
 			{
 				foreach (BuffNames item in Names.List)
 				{
-					if (item != BuffNames.Undefined)
-					{
-						BuffData buffData = GetBuffData(item);
-						Buff buff = (Names.Libido.Contains(item) ? new Libido(buffData) : ((!Names.Std.Contains(item)) ? new CustomBuff(buffData) : new Std(buffData)));
-						Load(buff, buffData);
-					}
+					if (item == BuffNames.Undefined) continue;
+					BuffData buffData = GetBuffData(item);
+					Buff buff = (Names.Libido.Contains(item) ? new Libido(buffData) : ((!Names.Std.Contains(item)) ? new CustomBuff(buffData) : new Std(buffData)));
+					Load(buff, buffData);
 				}
 			}
 			catch
 			{
+				// ignored
 			}
 		}
 
@@ -708,7 +711,7 @@ namespace Passion.S3_Passion
 			}
 		}
 
-		public static void Load(Buff buff, BuffData info)
+		private static void Load(Buff buff, BuffData info)
 		{
 			BuffInstance value = new BuffInstance(buff, info.mBuffGuid, info.mEffectValue, info.mTimeoutSimMinutes);
 			if (GenericManager<BuffNames, BuffInstance, BuffInstance>.sDictionary.ContainsKey((ulong)info.mBuffGuid))
