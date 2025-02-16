@@ -40,7 +40,7 @@ namespace Passion.S3_Passion
 		{
 			public string Text = string.Empty;
 
-			public bool Selected = false;
+			public bool Selected;
 
 			public T Value;
 

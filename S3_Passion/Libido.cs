@@ -1,226 +1,178 @@
+using System.Collections.Generic;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 
 namespace Passion.S3_Passion
 {
-	public class Libido : CustomBuff
-	{
-		public Libido(BuffData info)
-			: base(info)
-		{
-		}
+    public class Libido : CustomBuff
+    {
+        public Libido(BuffData info)
+            : base(info)
+        {
+        }
 
-		private static bool Replace(BuffManager bm, BuffNames newBuff, Origin origin)
-		{
-			if (bm.Actor == null || !Names.Libido.Contains(newBuff)) return false;
-			foreach (BuffNames item in Names.Libido)
-			{
-				bm.RemoveElement(item);
-			}
-			bm.AddElement(newBuff, origin);
-			return true;
-		}
+        private static class BuffNameConstants
+        {
+            public const BuffNames Libido100 = (BuffNames)2922253427052633003uL;
+            public const BuffNames Libido90 = (BuffNames)13147589483235469726uL;
+            public const BuffNames Libido80 = (BuffNames)14041574305464178967uL;
+            public const BuffNames Libido70 = (BuffNames)16251613925768384549uL;
+            public const BuffNames Libido60 = (BuffNames)2917472750494117670uL;
+            public const BuffNames Libido50 = (BuffNames)8200297330989383022uL;
+            public const BuffNames Libido40 = (BuffNames)8198323707617122614uL;
+            public const BuffNames Libido30 = (BuffNames)3097843141287298166uL;
+            public const BuffNames Libido20 = (BuffNames)2922268820215428064uL;
+            public const BuffNames Libido10 = (BuffNames)2913570583726353694uL;
+            public const BuffNames Libido0 = (BuffNames)2248271455579464240uL;
 
-		public static bool Urgency(Sim sim)
-		{
-			return sim != null && Urgency(sim.BuffManager);
-		}
+            public const BuffNames PartialSatisfaction1 = (BuffNames)1358929223039794148uL;
+            public const BuffNames PartialSatisfaction2 = (BuffNames)12415407305475427397uL;
+            public const BuffNames PartialSatisfaction3 = (BuffNames)13910300093031145699uL;
+            public const BuffNames PartialSatisfaction4 = (BuffNames)7244019685987188093uL;
+            public const BuffNames PartialSatisfaction5 = (BuffNames)8185339104921261200uL;
+        }
 
-		private static bool Urgency(BuffManager bm)
-		{
-			if (bm == null) return false;
-			BuffNames name = BuffNames.Undefined;
-			BuffNames buffNames = BuffNames.Undefined;
-			foreach (BuffNames item in Names.Libido)
-			{
-				if (!bm.HasElement(item)) continue;
-				name = item;
-				break;
-			}
-			buffNames = Urgency(name);
-			return Replace(bm, buffNames, Origin.None);
-		}
+        private static readonly Dictionary<BuffNames, BuffNames> UrgencyMap = new Dictionary<BuffNames, BuffNames>();
 
-		private static bool Urgency(BuffManager bm, BuffInstance bi)
-		{
-			BuffNames newBuff = Urgency(bi);
-			return Replace(bm, newBuff, Origin.None);
-		}
+        static Libido()
+        {
+            UrgencyMap.Add(BuffNameConstants.Libido100, BuffNameConstants.Libido90);
+            UrgencyMap.Add(BuffNameConstants.Libido90, BuffNameConstants.Libido80);
+            UrgencyMap.Add(BuffNameConstants.Libido80, BuffNameConstants.Libido70);
+            UrgencyMap.Add(BuffNameConstants.Libido70, BuffNameConstants.Libido60);
+            UrgencyMap.Add(BuffNameConstants.Libido60, BuffNameConstants.Libido50);
+            UrgencyMap.Add(BuffNameConstants.Libido50, BuffNameConstants.Libido40);
+            UrgencyMap.Add(BuffNameConstants.Libido40, BuffNameConstants.Libido30);
+            UrgencyMap.Add(BuffNameConstants.Libido30, BuffNameConstants.Libido20);
+            UrgencyMap.Add(BuffNameConstants.Libido20, BuffNameConstants.Libido10);
+            UrgencyMap.Add(BuffNameConstants.Libido10, BuffNameConstants.Libido0);
+            UrgencyMap.Add(BuffNameConstants.Libido0, BuffNameConstants.Libido0);
+        }
 
-		private static BuffNames Urgency(BuffInstance instance)
-		{
-			BuffNames buffGuid = (BuffNames)instance.BuffGuid;
-			return Urgency(buffGuid);
-		}
+        private static bool Replace(BuffManager bm, BuffNames newBuff, Origin origin)
+        {
+            if (bm.Actor == null || !Names.Libido.Contains(newBuff)) return false;
+            foreach (BuffNames item in Names.Libido)
+            {
+                bm.RemoveElement(item);
+            }
 
-	// um. i think this is like. the list of the libibo buffs and what the 'next stage' is?
-	// scratch that. 'case' is the stage, 'return' is what it decreases into... i think?
-	private static BuffNames Urgency(BuffNames name)
-		{
-			switch (name)
-			{
-			// 100 to 90
-			case (BuffNames)2922253427052633003uL:
-				return (BuffNames)13147589483235469726uL;
-			// 90 to 80
-			case (BuffNames)13147589483235469726uL:
-				return (BuffNames)14041574305464178967uL;
-			// 80 to 70
-			case (BuffNames)14041574305464178967uL:
-				return (BuffNames)16251613925768384549uL;
-			// 70 to 60
-			case (BuffNames)16251613925768384549uL:
-				return (BuffNames)2917472750494117670uL;
-			// 60 to 50
-			case (BuffNames)2917472750494117670uL:
-				return (BuffNames)8200297330989383022uL;
-			// 50 to 40
-			case (BuffNames)8200297330989383022uL:
-				return (BuffNames)8198323707617122614uL;
-			// 40 to 30
-			case (BuffNames)8198323707617122614uL:
-				return (BuffNames)3097843141287298166uL;
-			// 30 to 20
-			case (BuffNames)3097843141287298166uL:
-				return (BuffNames)2922268820215428064uL;
-			// 20 to 10
-			case (BuffNames)2922268820215428064uL:
-				return (BuffNames)2913570583726353694uL;
-			// 10 to 0
-			case (BuffNames)2913570583726353694uL:
-			case (BuffNames)2248271455579464240uL:
-			default:
-				return (BuffNames)2248271455579464240uL;
-			}
-		}
+            bm.AddElement(newBuff, origin);
+            return true;
+        }
 
-		//TODO: refactor all the satisfaction stuff?
+        public static bool Urgency(Sim sim)
+        {
+            return sim != null && Urgency(sim.BuffManager);
+        }
 
-		public static bool Satisfaction(Sim sim)
-		{
-			if (sim == null) return false;
-			BuffManager buffManager = sim.BuffManager;
-			BuffNames name = BuffNames.Undefined;
-			BuffNames buffNames = BuffNames.Undefined;
-			foreach (BuffNames item in Names.Libido)
-			{
-				if (!buffManager.HasElement(item)) continue;
-				name = item;
-				break;
-			}
-			buffNames = Satisfaction(name);
-			return Replace(buffManager, buffNames, Origin.FromBeingNaked);
-		}
+        private static bool Urgency(BuffManager bm)
+        {
+            if (bm == null) return false;
+            BuffNames name = GetCurrentLibidoBuff(bm);
+            BuffNames value;
+            BuffNames nextBuff = UrgencyMap.TryGetValue(name, out value) ? value : BuffNameConstants.Libido0;
+            return Replace(bm, nextBuff, Origin.None);
+        }
 
-		public static bool PartialSatisfaction(Sim sim)
-		{
-			if (sim == null) return false;
-			BuffManager buffManager = sim.BuffManager;
-			if (buffManager.HasAnyElement((BuffNames)1358929223039794148uL, (BuffNames)12415407305475427397uL, (BuffNames)13910300093031145699uL, (BuffNames)7244019685987188093uL, (BuffNames)8185339104921261200uL))
-			{
-				return Replace(buffManager, (BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
-			}
+        private static bool Urgency(BuffManager bm, BuffInstance bi)
+        {
+            BuffNames newBuff = Urgency(bi);
+            return Replace(bm, newBuff, Origin.None);
+        }
 
-			if (buffManager.HasAnyElement(Names.Libido.ToArray())) return false;
-			buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
-			return true;
-		}
+        private static BuffNames Urgency(BuffInstance instance)
+        {
+            BuffNames buffGuid = (BuffNames)instance.BuffGuid;
+            BuffNames value;
+            return UrgencyMap.TryGetValue(buffGuid, out value) ? value : BuffNameConstants.Libido0;
+        }
 
-	// this seems to trigger the libido increase from watching stuff. im changing watchurgency to increaseurgency to make it a lil more broad
-	// starts at highest left and ifelses down to the lowest
-	// if this causes everything to explode? oops
-		public static bool IncreaseUrgency(Sim sim)
-		{
-			if (sim == null) return false;
-			BuffManager buffManager = sim.BuffManager;
-			// 100 to 100
-			if (buffManager.HasElement((BuffNames)2922253427052633003uL))
-			{
-				return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
-			}
-			// 90 to 100
-			if (buffManager.HasElement((BuffNames)13147589483235469726uL))
-			{
-				return Replace(buffManager, (BuffNames)2922253427052633003uL, Origin.None);
-			}
-			//80 to 90
-			if (buffManager.HasElement((BuffNames)14041574305464178967uL))
-			{
-				return Replace(buffManager, (BuffNames)13147589483235469726uL, Origin.None);
-			}
-			//70 to 80
-			if (buffManager.HasElement((BuffNames)16251613925768384549uL))
-			{
-				return Replace(buffManager, (BuffNames)14041574305464178967uL, Origin.None);
-			}
-			//60 to 70
-			if (buffManager.HasElement((BuffNames)2917472750494117670uL))
-			{
-				return Replace(buffManager, (BuffNames)16251613925768384549uL, Origin.None);
-			}
-			//50 to 60
-			if (buffManager.HasElement((BuffNames)8200297330989383022uL))
-			{
-				return Replace(buffManager, (BuffNames)2917472750494117670uL, Origin.None);
-			}
-			//40 to 50
-			if (buffManager.HasElement((BuffNames)8198323707617122614uL))
-			{
-				return Replace(buffManager, (BuffNames)8200297330989383022uL, Origin.None);
-			}
-			//30 to 40
-			if (buffManager.HasElement((BuffNames)3097843141287298166uL))
-			{
-				return Replace(buffManager, (BuffNames)8198323707617122614uL, Origin.None);
-			}
-			//20 to 30
-			if (buffManager.HasElement((BuffNames)2922268820215428064uL))
-			{
-				return Replace(buffManager, (BuffNames)3097843141287298166uL, Origin.None);
-			}
-			//10 to 20
-			if (buffManager.HasElement((BuffNames)2913570583726353694uL))
-			{
-				return Replace(buffManager, (BuffNames)2922268820215428064uL, Origin.None);
-			}
-			//0 to 10
-			if (buffManager.HasElement((BuffNames)2248271455579464240uL))
-			{
-				return Replace(buffManager, (BuffNames)2913570583726353694uL, Origin.None);
-			}
+        public static bool Satisfaction(Sim sim)
+        {
+            if (sim == null) return false;
+            BuffManager buffManager = sim.BuffManager;
+            BuffNames currentBuff = GetCurrentLibidoBuff(buffManager);
+            BuffNames value;
+            BuffNames nextBuff = UrgencyMap.TryGetValue(currentBuff, out value)
+                ? value
+                : BuffNameConstants.Libido0;
+            return Replace(buffManager, nextBuff, Origin.FromBeingNaked);
+        }
 
-			if (buffManager.HasAnyElement(Names.Libido.ToArray())) return false;
-			buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.None);
-			return true;
-		}
+        public static bool PartialSatisfaction(Sim sim)
+        {
+            if (sim == null) return false;
+            BuffManager buffManager = sim.BuffManager;
+            BuffNames[] partialSatisfactionBuffs =
+            {
+                BuffNameConstants.PartialSatisfaction1,
+                BuffNameConstants.PartialSatisfaction2,
+                BuffNameConstants.PartialSatisfaction3,
+                BuffNameConstants.PartialSatisfaction4,
+                BuffNameConstants.PartialSatisfaction5
+            };
 
-		public static BuffNames Satisfaction(BuffInstance instance)
-		{
-			BuffNames buffGuid = (BuffNames)instance.BuffGuid;
-			return Satisfaction(buffGuid);
-		}
+            if (buffManager.HasAnyElement(partialSatisfactionBuffs))
+            {
+                return Replace(buffManager, BuffNameConstants.PartialSatisfaction5, Origin.FromBeingNaked);
+            }
 
-		private static BuffNames Satisfaction(BuffNames name)
-		{
-			switch (name)
-			{
-			case (BuffNames)16113274642161440716uL:
-			case (BuffNames)16341761339885008577uL:
-				return (BuffNames)16113274642161440716uL;
-			case (BuffNames)10626820509964641423uL:
-				return (BuffNames)16341761339885008577uL;
-			case (BuffNames)16512105510841219241uL:
-				return (BuffNames)10626820509964641423uL;
-			case (BuffNames)8185339104921261200uL:
-				return (BuffNames)16512105510841219241uL;
-			default:
-				return (BuffNames)8185339104921261200uL;
-			}
-		}
+            if (buffManager.HasAnyElement(Names.Libido.ToArray())) return false;
+            buffManager.AddElement(BuffNameConstants.PartialSatisfaction5, Origin.FromBeingNaked);
+            return true;
+        }
 
-		public override void OnTimeout(BuffManager bm, BuffInstance bi, OnTimeoutReasons reason)
-		{
-			Urgency(bm, bi);
-		}
-	}
+        public static bool IncreaseUrgency(Sim sim)
+        {
+            if (sim == null) return false;
+            BuffManager buffManager = sim.BuffManager;
+            BuffNames[] libidoBuffs =
+            {
+                BuffNameConstants.Libido100,
+                BuffNameConstants.Libido90,
+                BuffNameConstants.Libido80,
+                BuffNameConstants.Libido70,
+                BuffNameConstants.Libido60,
+                BuffNameConstants.Libido50,
+                BuffNameConstants.Libido40,
+                BuffNameConstants.Libido30,
+                BuffNameConstants.Libido20,
+                BuffNameConstants.Libido10,
+                BuffNameConstants.Libido0
+            };
+
+            foreach (BuffNames buff in libidoBuffs)
+            {
+                if (buffManager.HasElement(buff))
+                {
+                    BuffNames value;
+                    BuffNames nextBuff = UrgencyMap.TryGetValue(buff, out value) ? value : BuffNameConstants.Libido0;
+                    return Replace(buffManager, nextBuff, Origin.None);
+                }
+            }
+
+            if (buffManager.HasAnyElement(Names.Libido.ToArray())) return false;
+            buffManager.AddElement(BuffNameConstants.PartialSatisfaction5, Origin.None);
+            return true;
+        }
+
+        private static BuffNames GetCurrentLibidoBuff(BuffManager buffManager)
+        {
+            foreach (BuffNames item in Names.Libido)
+            {
+                if (buffManager.HasElement(item))
+                {
+                    return item;
+                }
+            }
+
+            return BuffNameConstants.Libido0;
+        }
+
+        public override void OnTimeout(BuffManager bm, BuffInstance bi, OnTimeoutReasons reason)
+        {
+            Urgency(bm, bi);
+        }
+    }
 }

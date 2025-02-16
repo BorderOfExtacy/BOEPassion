@@ -207,12 +207,7 @@ namespace Passion.S3_Passion
 		public override void ConfigureInteraction()
 		{
 			TimedStage timedStage = new TimedStage(GetInteractionName(), 10f, false, true, false);
-			Stages = new List<Stage>(new Stage[1] { timedStage });
-		}
-
-		public override void Cleanup()
-		{
-			base.Cleanup();
+			Stages = new List<Stage>(new Stage[] { timedStage });
 		}
 	}
 }

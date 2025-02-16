@@ -103,7 +103,7 @@ namespace Passion.S3_Passion
 				activeGloryHole.Slut = Actor;
 				Actor.SetPosition(activeGloryHole.GloryHole.Position);
 				Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
-				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
+				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, Autonomous))
 				{
 					activeGloryHole.SlutReady = true;
 					if (activeGloryHole.AnimationSwitch)
@@ -160,7 +160,7 @@ namespace Passion.S3_Passion
 				activeGloryHole.Stud = Actor;
 				Actor.SetPosition(activeGloryHole.GloryHole.Position);
 				Actor.SetForward(activeGloryHole.GloryHole.ForwardVector);
-				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, base.Autonomous))
+				while (Actor.HasNoExitReason() && !Actor.Motives.CheckMotivesForTimeToLeave(Actor.Motives, this, false, Autonomous))
 				{
 					activeGloryHole.StudReady = true;
 					if (activeGloryHole.BothReady)

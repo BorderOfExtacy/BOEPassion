@@ -33,7 +33,7 @@ namespace Passion.S3_Passion
 				if (item == TraitNames.Unknown) continue;
 				Trait trait = null;
 				TraitNames traitNames = item;
-				Load(trait);
+				Load(trait); // TODO: Find out why always null
 			}
 		}
 
