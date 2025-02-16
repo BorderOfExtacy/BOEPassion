@@ -4423,7 +4423,7 @@ namespace Passion.S3_Passion
 							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
 							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
 							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Wow, what a bold move...! I'm so intruiged...!").ToString(), player.Actor);
+								PassionCommon.SimMessage(PassionCommon.Localize("Wow, what a bold move...! I'm so intrigued...!").ToString(), player.Actor);
 							}
 						}
 						// general reactions
@@ -4440,11 +4440,11 @@ namespace Passion.S3_Passion
 								}
 								if (PassionCommon.RandomReactionNeg == ReactionTypes.Embarrassed)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Stop it!! That's too freaky for here!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Stop that right now! That's too freaky for here!").ToString(), player.Actor);
 								}
 								if (PassionCommon.RandomReactionNeg == ReactionTypes.Boo)
 								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Boo! Boooooo!! Cut it out!").ToString(), player.Actor);
+									PassionCommon.SimMessage(PassionCommon.Localize("Boo! Boooooo! Cut it out!").ToString(), player.Actor);
 								}
 								if (PassionCommon.RandomReactionNeg == ReactionTypes.Inappropriate)
 								{
@@ -4503,7 +4503,7 @@ namespace Passion.S3_Passion
 							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
 							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
 							{
-								PassionCommon.SimMessage(PassionCommon.Localize("WOOOOOO YEAH!! You guys know how to PARTY HARD! LITERALLY!").ToString(), player.Actor);
+								PassionCommon.SimMessage(PassionCommon.Localize("WOOOOOO YEAH! You guys know how to PARTY HARD! LITERALLY!").ToString(), player.Actor);
 							}
 						}
 						// if witness is flirty
@@ -8309,7 +8309,7 @@ namespace Passion.S3_Passion
 									{
 										try
 										{
-											PassionCommon.SimMessage(PassionCommon.Localize("Shit! Condom broke!").ToString(), value2.Actor);
+											PassionCommon.SimMessage(PassionCommon.Localize("Shit! The condom broke!").ToString(), value2.Actor);
 											PassionCommon.Wait();
 										}
 										catch
@@ -8328,7 +8328,7 @@ namespace Passion.S3_Passion
 									{
 										try
 										{
-											PassionCommon.SimMessage(PassionCommon.Localize("Shit! Condom broke!").ToString(), value.Actor);
+											PassionCommon.SimMessage(PassionCommon.Localize("Shit! The condom broke!").ToString(), value.Actor);
 											PassionCommon.Wait();
 										}
 										catch

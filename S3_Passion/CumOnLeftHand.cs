@@ -59,7 +59,7 @@ namespace Passion.S3_Passion
 		{
 			if (Actor.IsFemale && Target.IsFemale && !IsTransfem(Actor))
 			{
-				SimMessage(Localization.LocalizeString("Do I look like chick with dick, to you?"), Actor);
+				SimMessage(Localization.LocalizeString("I don't have the ability to do that..."), Actor);
 			}
 			if ((Actor.IsMale && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (Actor.IsMale && !Passion.Settings.UseCondom) || (IsTransfem(Actor) && Passion.Settings.UseCondom && Passion.Settings.CondomIsBroken) || (IsTransfem(Actor) && !Passion.Settings.UseCondom))
 			{
