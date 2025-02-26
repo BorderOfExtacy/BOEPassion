@@ -29,8 +29,9 @@ using Sims3.SimIFace.CAS;
 using Sims3.Store.Objects;
 using Sims3.UI;
 using Sims3.UI.CAS;
+using PassionCore = Passion.S3_Passion.Core.Passion;
 
-namespace Passion.S3_Passion
+namespace Passion.S3_Passion.Utilities
 {
 	public class PassionCommon
 	{
@@ -85,7 +86,7 @@ namespace Passion.S3_Passion
 				}
 			}
 
-			public static void LoadSim(Sim sim)
+			private static void LoadSim(Sim sim)
 			{
 				foreach (IPassionModule item in MLoaded)
 				{
@@ -96,7 +97,7 @@ namespace Passion.S3_Passion
 				}
 			}
 
-			public static void LoadObject(GameObject obj)
+			private static void LoadObject(GameObject obj)
 			{
 				foreach (IPassionModule item in MLoaded)
 				{
@@ -173,15 +174,16 @@ namespace Passion.S3_Passion
 				}
 				catch
 				{
+					// ignored
 				}
 			}
 
 			public static int GetPassionScoringModifier(Sim sim, Sim partner)
 			{
-				return GetPassionScoringModifier(sim, new Sim[1] { partner });
+				return GetPassionScoringModifier(sim, new Sim[] { partner });
 			}
 
-			public static int GetPassionScoringModifier(Sim sim, Sim[] partners)
+			private static int GetPassionScoringModifier(Sim sim, Sim[] partners)
 			{
 				int num = 0;
 				foreach (IPassionModule item in MLoaded)
@@ -210,11 +212,11 @@ namespace Passion.S3_Passion
 				}
 			}
 
-			public class Types
+			public abstract class Types
 			{
-				public class Penis
+				public abstract class Penis
 				{
-					public static readonly BlendValue[] BlankBlends = new BlendValue[2]
+					private static readonly BlendValue[] BlankBlends = new BlendValue[]
 					{
 						new BlendValue(ErectBlend, 0f),
 						new BlendValue(FemaleErectBlend, 0f)
@@ -242,6 +244,7 @@ namespace Passion.S3_Passion
 								}
 								catch
 								{
+									// ignored
 								}
 							}
 							return _mErectBlend;
@@ -260,6 +263,7 @@ namespace Passion.S3_Passion
 								}
 								catch
 								{
+									// ignored
 								}
 							}
 							return _mFemaleErectBlend;
@@ -278,6 +282,7 @@ namespace Passion.S3_Passion
 								}
 								catch
 								{
+									// ignored
 								}
 							}
 							return _mForeskinBlend;
@@ -305,7 +310,7 @@ namespace Passion.S3_Passion
 							{
 								num = Get(sim, ForeskinBlend, sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
 							}
-							Set(sim, new BlendValue[2]
+							Set(sim, new BlendValue[]
 							{
 								new BlendValue(ErectBlend, 1f - num),
 								new BlendValue(FemaleErectBlend, num)
@@ -313,7 +318,9 @@ namespace Passion.S3_Passion
 						}
 						catch
 						{
+							// ignored
 						}
+
 						return sim.RefreshCurrentOutfit(false);
 					}
 
@@ -329,7 +336,9 @@ namespace Passion.S3_Passion
 						}
 						catch
 						{
+							// ignored
 						}
+
 						return sim.RefreshCurrentOutfit(false);
 					}
 
@@ -367,7 +376,9 @@ namespace Passion.S3_Passion
 						}
 						catch
 						{
+							// ignored
 						}
+
 						return num;
 					}
 
@@ -449,6 +460,7 @@ namespace Passion.S3_Passion
 								}
 								catch
 								{
+									// ignored
 								}
 							}
 							return MBlend;
@@ -558,9 +570,10 @@ namespace Passion.S3_Passion
 							}
 							catch
 							{
+								// ignored
 							}
 						}
-						if (sim.SimDescription.Teen)
+						if (sim != null && sim.SimDescription.Teen)
 						{
 							num2 = HeightMultiplier;
 						}
@@ -571,55 +584,54 @@ namespace Passion.S3_Passion
 						return num2;
 					}
 
-					public static float GetMultiplier(Sim sim)
+					private static float GetMultiplier(Sim sim)
 					{
 						float num = 0f;
-						float num2 = 0.1f;
-						if (sim != null && Blend != null)
+						const float num2 = 0.1f;
+						if (sim == null || Blend == null) return num2 + num * (0f - HeightMultiplier);
+						try
 						{
-							try
+							SimOutfit outfit = sim.SimDescription.GetOutfit(OutfitCategories.Naked, 0);
+							if (outfit != null && outfit.Blends != null)
 							{
-								SimOutfit outfit = sim.SimDescription.GetOutfit(OutfitCategories.Naked, 0);
+								SimOutfit.BlendInfo[] blends = outfit.Blends;
+								for (int i = 0; i < blends.Length; i++)
+								{
+									SimOutfit.BlendInfo blendInfo = blends[i];
+									if (blendInfo.key == Blend.mBlend1.GetKey())
+									{
+										num += blendInfo.amount;
+									}
+									else if (Blend.mBidirectional && blendInfo.key == Blend.mBlend2.GetKey())
+									{
+										num -= blendInfo.amount;
+									}
+								}
+							}
+							else
+							{
+								outfit = sim.SimDescription.GetOutfit(sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
 								if (outfit != null && outfit.Blends != null)
 								{
-									SimOutfit.BlendInfo[] blends = outfit.Blends;
-									for (int i = 0; i < blends.Length; i++)
+									SimOutfit.BlendInfo[] blends2 = outfit.Blends;
+									for (int j = 0; j < blends2.Length; j++)
 									{
-										SimOutfit.BlendInfo blendInfo = blends[i];
-										if (blendInfo.key == Blend.mBlend1.GetKey())
+										SimOutfit.BlendInfo blendInfo2 = blends2[j];
+										if (blendInfo2.key == Blend.mBlend1.GetKey())
 										{
-											num += blendInfo.amount;
+											num += blendInfo2.amount;
 										}
-										else if (Blend.mBidirectional && blendInfo.key == Blend.mBlend2.GetKey())
+										else if (Blend.mBidirectional && blendInfo2.key == Blend.mBlend2.GetKey())
 										{
-											num -= blendInfo.amount;
-										}
-									}
-								}
-								else
-								{
-									outfit = sim.SimDescription.GetOutfit(sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
-									if (outfit != null && outfit.Blends != null)
-									{
-										SimOutfit.BlendInfo[] blends2 = outfit.Blends;
-										for (int j = 0; j < blends2.Length; j++)
-										{
-											SimOutfit.BlendInfo blendInfo2 = blends2[j];
-											if (blendInfo2.key == Blend.mBlend1.GetKey())
-											{
-												num += blendInfo2.amount;
-											}
-											else if (Blend.mBidirectional && blendInfo2.key == Blend.mBlend2.GetKey())
-											{
-												num -= blendInfo2.amount;
-											}
+											num -= blendInfo2.amount;
 										}
 									}
 								}
 							}
-							catch
-							{
-							}
+						}
+						catch
+						{
+							// ignored
 						}
 						return num2 + num * (0f - HeightMultiplier);
 					}
@@ -629,7 +641,7 @@ namespace Passion.S3_Passion
 						return ApplyMultipliers(sim, variance, false, true, false);
 					}
 
-					public static Vector3 ApplyMultipliers(Sim sim, Vector3 variance, bool applyX, bool applyY, bool applyZ)
+					private static Vector3 ApplyMultipliers(Sim sim, Vector3 variance, bool applyX, bool applyY, bool applyZ)
 					{
 						float multiplier = GetMultiplier(sim);
 						Vector3 vector = variance;
@@ -700,13 +712,15 @@ namespace Passion.S3_Passion
 				}
 				catch
 				{
+					// ignored
 				}
+
 				return num;
 			}
 
 			private static void Set(Sim sim, FacialBlendData blend, float value, OutfitCategories category, int index)
 			{
-				Set(sim, new BlendValue[1]
+				Set(sim, new BlendValue[]
 				{
 					new BlendValue(blend, value)
 				}, category, index);
@@ -744,6 +758,7 @@ namespace Passion.S3_Passion
 				}
 				catch
 				{
+					// ignored
 				}
 			}
 		}
@@ -780,23 +795,23 @@ namespace Passion.S3_Passion
 
 		public const ulong AltaraCoffeeTableNameKey = 2598734301466468606uL;
 
-		public static readonly string NewLine = System.Environment.NewLine;
+		private static readonly string NewLine = System.Environment.NewLine;
 
 		public static readonly string X = "x";
 
 		public static readonly List<string> DefaultXmlFiles;
 
-		public static readonly List<ReactionTypes> ReactionsPositive;
+		private static readonly List<ReactionTypes> ReactionsPositive;
 
-		public static readonly List<ReactionTypes> ReactionsNegative;
+		private static readonly List<ReactionTypes> ReactionsNegative;
 
 		public static readonly List<Type> PreferredTypes;
 
 		public static readonly TraitNames[] PassionFriendlyTraits;
 
-		protected static List<string> MBufferedMessages;
+		private static List<string> _mBufferedMessages;
 
-		protected static string MBufferedMessageChunk;
+		private static string _mBufferedMessageChunk;
 
 		public static ReactionTypes RandomReactionPos
 		{
@@ -818,11 +833,11 @@ namespace Passion.S3_Passion
 		{
 			get
 			{
-				if (MBufferedMessages == null)
+				if (_mBufferedMessages == null)
 				{
-					MBufferedMessages = new List<string>();
+					_mBufferedMessages = new List<string>();
 				}
-				return MBufferedMessages;
+				return _mBufferedMessages;
 			}
 		}
 
@@ -830,7 +845,7 @@ namespace Passion.S3_Passion
 		{
 			get
 			{
-				return string.IsNullOrEmpty(MBufferedMessageChunk);
+				return string.IsNullOrEmpty(_mBufferedMessageChunk);
 			}
 		}
 
@@ -864,6 +879,7 @@ namespace Passion.S3_Passion
 			}
 			catch
 			{
+				// ignored
 			}
 		}
 
@@ -872,7 +888,7 @@ namespace Passion.S3_Passion
 			return Match((int)x, (int)y);
 		}
 
-		public static bool Match(int x, int y)
+		private static bool Match(int x, int y)
 		{
 			return (x & y) > 0;
 		}
@@ -894,10 +910,9 @@ namespace Passion.S3_Passion
 
 		public static bool Bool(string text)
 		{
-			if (!string.IsNullOrEmpty(text))
+			if (string.IsNullOrEmpty(text)) return false;
+			switch (text.ToLower())
 			{
-				switch (text.ToLower())
-				{
 				case "enabled":
 				case "true":
 				case "yes":
@@ -905,9 +920,7 @@ namespace Passion.S3_Passion
 					return true;
 				default:
 					return false;
-				}
 			}
-			return false;
 		}
 
 		public static int Int(string text)
@@ -950,7 +963,7 @@ namespace Passion.S3_Passion
 			return (obj != null) ? GetDistanceBetween(obj.Position, point) : float.PositiveInfinity;
 		}
 
-		public static float GetDistanceBetween(Vector3 a, Vector3 b)
+		private static float GetDistanceBetween(Vector3 a, Vector3 b)
 		{
 			return (a - b).Length();
 		}
@@ -969,11 +982,7 @@ namespace Passion.S3_Passion
 			{
 				return key;
 			}
-			if (!string.IsNullOrEmpty(text))
-			{
-				return text;
-			}
-			return key;
+			return !string.IsNullOrEmpty(text) ? text : key;
 		}
 
 		public static string Localize(string key, Dictionary<string, string> replacers)
@@ -981,23 +990,17 @@ namespace Passion.S3_Passion
 			try
 			{
 				string text = Localize(key);
-				if (!string.IsNullOrEmpty(text))
+				if (string.IsNullOrEmpty(text)) return key;
+				if (replacers.Count <= 0) return text;
+				StringBuilder stringBuilder = new StringBuilder(text);
+				foreach (KeyValuePair<string, string> replacer in replacers)
 				{
-					if (replacers.Count > 0)
+					if (!string.IsNullOrEmpty(replacer.Key) && replacer.Value != null)
 					{
-						StringBuilder stringBuilder = new StringBuilder(text);
-						foreach (KeyValuePair<string, string> replacer in replacers)
-						{
-							if (!string.IsNullOrEmpty(replacer.Key) && replacer.Value != null)
-							{
-								stringBuilder.Replace(replacer.Key, replacer.Value);
-							}
-						}
-						return stringBuilder.ToString();
+						stringBuilder.Replace(replacer.Key, replacer.Value);
 					}
-					return text;
 				}
-				return key;
+				return stringBuilder.ToString();
 			}
 			catch
 			{
@@ -1061,13 +1064,13 @@ namespace Passion.S3_Passion
 
 		public static void BufferLine(string line)
 		{
-			if (string.IsNullOrEmpty(MBufferedMessageChunk))
+			if (string.IsNullOrEmpty(_mBufferedMessageChunk))
 			{
-				MBufferedMessageChunk = line;
+				_mBufferedMessageChunk = line;
 			}
 			else
 			{
-				MBufferedMessageChunk = MBufferedMessageChunk + NewLine + line;
+				_mBufferedMessageChunk = _mBufferedMessageChunk + NewLine + line;
 			}
 		}
 
@@ -1078,43 +1081,43 @@ namespace Passion.S3_Passion
 
 		public static void BufferMessage()
 		{
-			BufferMessage(MBufferedMessageChunk);
+			BufferMessage(_mBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void SimMessage(Sim speaker, Sim target)
 		{
-			SimMessage(MBufferedMessageChunk, speaker, target);
+			SimMessage(_mBufferedMessageChunk, speaker, target);
 			BufferClear();
 		}
 
 		public static void SimMessage(Sim sim)
 		{
-			SimMessage(MBufferedMessageChunk, sim, null);
+			SimMessage(_mBufferedMessageChunk, sim, null);
 			BufferClear();
 		}
 
 		public static void SystemMessage()
 		{
-			SystemMessage(MBufferedMessageChunk);
+			SystemMessage(_mBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void NegativeMessage()
 		{
-			NegativeMessage(MBufferedMessageChunk);
+			NegativeMessage(_mBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void Message()
 		{
-			Message(MBufferedMessageChunk);
+			Message(_mBufferedMessageChunk);
 			BufferClear();
 		}
 
 		public static void BufferClear()
 		{
-			MBufferedMessageChunk = string.Empty;
+			_mBufferedMessageChunk = string.Empty;
 		}
 
 		public static void DumpMessages()
@@ -1132,16 +1135,14 @@ namespace Passion.S3_Passion
 
 		public static bool HasPart(Sim sim, List<ulong> ds)
 		{
-			if (sim != null)
+			if (sim == null) return false;
+			CASPart[] parts = sim.CurrentOutfit.Parts;
+			for (int i = 0; i < parts.Length; i++)
 			{
-				CASPart[] parts = sim.CurrentOutfit.Parts;
-				for (int i = 0; i < parts.Length; i++)
+				CASPart cAsPart = parts[i];
+				if (ds.Contains(cAsPart.Key.InstanceId))
 				{
-					CASPart cAsPart = parts[i];
-					if (ds.Contains(cAsPart.Key.InstanceId))
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 			return false;
@@ -1149,14 +1150,24 @@ namespace Passion.S3_Passion
 
 		public static void Impregnate(Sim mom, Sim dad)
 		{
-			if (mom.SimDescription.Household.LotHome != null && !mom.SimDescription.Household.IsTravelHousehold && !mom.SimDescription.Household.IsServobotHousehold && !mom.SimDescription.Household.IsServiceNpcHousehold && !mom.SimDescription.Household.IsMermaidHousehold && !mom.SimDescription.Household.IsPreviousTravelerHousehold && !mom.SimDescription.Household.IsAlienHousehold && !mom.SimDescription.Household.IsSpecialHousehold && !mom.SimDescription.Household.IsFutureDescendantHousehold && !mom.SimDescription.Household.IsTouristHousehold && !mom.SimDescription.IsBonehilda && !mom.SimDescription.IsZombie && !mom.SimDescription.IsRobot && !mom.SimDescription.IsEP11Bot && !mom.SimDescription.IsFrankenstein && !mom.SimDescription.IsGhost && !mom.SimDescription.IsImaginaryFriend && !mom.SimDescription.IsMummy && !mom.SimDescription.IsPlantSim && !mom.SimDescription.IsTimeTraveler && !mom.SimDescription.IsSupernaturalForm && !mom.SimDescription.IsPregnant && (mom.SimDescription.Teen || mom.SimDescription.YoungAdult || mom.SimDescription.Adult))
-			{
-				Pregnancy pregnancy = new Pregnancy(mom, dad.SimDescription);
-				pregnancy.PreggersAlarm = mom.AddAlarmRepeating(1f, TimeUnit.Hours, pregnancy.HourlyCallback, 1f, TimeUnit.Hours, "Hourly Pregnancy Update Alarm", AlarmType.AlwaysPersisted);
-				mom.SimDescription.Pregnancy = pregnancy;
-				EventTracker.SendEvent(new PregnancyEvent(EventTypeId.kGotPregnant, mom, dad, pregnancy, null));
-				Audio.StartSound("sting_baby_conception");
-			}
+			if (mom.SimDescription.Household.LotHome == null || mom.SimDescription.Household.IsTravelHousehold ||
+			    mom.SimDescription.Household.IsServobotHousehold ||
+			    mom.SimDescription.Household.IsServiceNpcHousehold || mom.SimDescription.Household.IsMermaidHousehold ||
+			    mom.SimDescription.Household.IsPreviousTravelerHousehold ||
+			    mom.SimDescription.Household.IsAlienHousehold || mom.SimDescription.Household.IsSpecialHousehold ||
+			    mom.SimDescription.Household.IsFutureDescendantHousehold ||
+			    mom.SimDescription.Household.IsTouristHousehold || mom.SimDescription.IsBonehilda ||
+			    mom.SimDescription.IsZombie || mom.SimDescription.IsRobot || mom.SimDescription.IsEP11Bot ||
+			    mom.SimDescription.IsFrankenstein || mom.SimDescription.IsGhost ||
+			    mom.SimDescription.IsImaginaryFriend || mom.SimDescription.IsMummy || mom.SimDescription.IsPlantSim ||
+			    mom.SimDescription.IsTimeTraveler || mom.SimDescription.IsSupernaturalForm ||
+			    mom.SimDescription.IsPregnant ||
+			    (!mom.SimDescription.Teen && !mom.SimDescription.YoungAdult && !mom.SimDescription.Adult)) return;
+			Pregnancy pregnancy = new Pregnancy(mom, dad.SimDescription);
+			pregnancy.PreggersAlarm = mom.AddAlarmRepeating(1f, TimeUnit.Hours, pregnancy.HourlyCallback, 1f, TimeUnit.Hours, "Hourly Pregnancy Update Alarm", AlarmType.AlwaysPersisted);
+			mom.SimDescription.Pregnancy = pregnancy;
+			EventTracker.SendEvent(new PregnancyEvent(EventTypeId.kGotPregnant, mom, dad, pregnancy, null));
+			Audio.StartSound("sting_baby_conception");
 		}
 
 		public static void ApplyRandomMoodlet(List<BuffNames> buffs)
@@ -1181,7 +1192,7 @@ namespace Passion.S3_Passion
 			Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
 			foreach (Sim sim in globalObjects)
 			{
-				if (Passion.IsValid(sim))
+				if (PassionCore.IsValid(sim))
 				{
 					ApplyRandomMoodlets(sim, buffs, min, max);
 				}
@@ -1250,22 +1261,21 @@ namespace Passion.S3_Passion
 			}
 			catch
 			{
+				// ignored
 			}
 		}
 
 		public static void CleanMoodlets(List<BuffNames> buffs)
 		{
-			if (buffs != null && buffs.Count > 0)
+			if (buffs == null || buffs.Count <= 0) return;
+			Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
+			foreach (Sim sim in globalObjects)
 			{
-				Sim[] globalObjects = global::Sims3.Gameplay.Queries.GetGlobalObjects<Sim>();
-				foreach (Sim sim in globalObjects)
-				{
-					CleanMoodlets(sim, buffs);
-				}
+				CleanMoodlets(sim, buffs);
 			}
 		}
 
-		public static void CleanMoodlets(Sim sim, List<BuffNames> buffs)
+		private static void CleanMoodlets(Sim sim, List<BuffNames> buffs)
 		{
 			try
 			{
@@ -1280,6 +1290,7 @@ namespace Passion.S3_Passion
 			}
 			catch
 			{
+				// ignored
 			}
 		}
 
@@ -1433,8 +1444,8 @@ namespace Passion.S3_Passion
 				TraitNames.MasterOfSeduction,
 				TraitNames.Inappropriate
 			};
-			MBufferedMessages = new List<string>();
-			MBufferedMessageChunk = string.Empty;
+			_mBufferedMessages = new List<string>();
+			_mBufferedMessageChunk = string.Empty;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PassionCore = Passion.S3_Passion.Core.Passion;
 using Passion.Sims3.Gameplay.Objects.HobbiesSkills;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
@@ -32,9 +33,9 @@ namespace Passion.S3_Passion
 	[Persistable]
 	public class PassionType
 	{
-		public static readonly Type Sim = typeof(Sim);
+		private static readonly Type Sim = typeof(Sim);
 
-		public static readonly Type GameObject = typeof(GameObject);
+		private static readonly Type GameObject = typeof(GameObject);
 
 		public const string BdsmFurniture = "Sims3.Gameplay.Objects.Decorations.StockadeFurniture,ClassStockadeFurniture";
 
@@ -52,23 +53,23 @@ namespace Passion.S3_Passion
 
 		public const ulong AltaraCoffeeTableNameKey = 2598734301466468606uL;
 
-		protected static Dictionary<ulong, PassionType> Overrides = new Dictionary<ulong, PassionType>();
+		private static readonly Dictionary<ulong, PassionType> Overrides = new Dictionary<ulong, PassionType>();
 
-		protected Type MType = null;
+		private Type _mType;
 
-		protected bool MIsSim = false;
+		private bool _mIsSim;
 
-		protected bool MIsGameObject = false;
+		private bool _mIsGameObject;
 
-		protected bool MNeedsUseList = false;
+		private bool _mNeedsUseList;
 
-		protected bool MNeedsParts = false;
+		private bool _mNeedsParts;
 
 		public Type Type
 		{
 			get
 			{
-				return MType;
+				return _mType;
 			}
 		}
 
@@ -84,7 +85,7 @@ namespace Passion.S3_Passion
 		{
 			get
 			{
-				return MIsGameObject;
+				return _mIsGameObject;
 			}
 		}
 
@@ -92,7 +93,7 @@ namespace Passion.S3_Passion
 		{
 			get
 			{
-				return MIsSim;
+				return _mIsSim;
 			}
 		}
 
@@ -100,7 +101,7 @@ namespace Passion.S3_Passion
 		{
 			get
 			{
-				return MNeedsUseList;
+				return _mNeedsUseList;
 			}
 		}
 
@@ -108,7 +109,7 @@ namespace Passion.S3_Passion
 		{
 			get
 			{
-				return MNeedsParts;
+				return _mNeedsParts;
 			}
 		}
 
@@ -203,7 +204,7 @@ namespace Passion.S3_Passion
 			Load<SculptureFloorGunShow>();
 			Load<WashingMachine>();
 			Load<Dryer>();
-			Load<global::Sims3.Gameplay.Objects.Environment.Scarecrow>();
+			Load<Scarecrow>();
 			Load<HauntedHouse>();
 			Load<ScienceResearchStation>();
 			Load<HotTubBase>();
@@ -240,7 +241,7 @@ namespace Passion.S3_Passion
 			Overrides.Add(2598734301466468606uL, GetSupportedType<TableCoffee>());
 		}
 
-		public static void Load(string name)
+		private static void Load(string name)
 		{
 			Load(name, false, false);
 		}
@@ -250,7 +251,7 @@ namespace Passion.S3_Passion
 			Load(name, use, false);
 		}
 
-		public static void Load(string name, bool use, bool parts)
+		private static void Load(string name, bool use, bool parts)
 		{
 			try
 			{
@@ -262,20 +263,21 @@ namespace Passion.S3_Passion
 			}
 			catch
 			{
+				// ignored
 			}
 		}
 
-		public static void Load<T>()
+		private static void Load<T>()
 		{
 			Load<T>(false, false);
 		}
 
-		public static void Load<T>(bool use)
+		private static void Load<T>(bool use)
 		{
 			Load<T>(use, false);
 		}
 
-		public static void Load<T>(bool use, bool parts)
+		private static void Load<T>(bool use, bool parts)
 		{
 			Load(typeof(T), use, parts);
 		}
@@ -290,71 +292,60 @@ namespace Passion.S3_Passion
 			Load(type, use, false);
 		}
 
-		public static void Load(Type type, bool use, bool parts)
+		private static void Load(Type type, bool use, bool parts)
 		{
 			if (type == null)
 			{
 				return;
 			}
-			if (Passion.LoadedTypes.ContainsKey(type.Name))
+			if (PassionCore.LoadedTypes.ContainsKey(type.Name))
 			{
-				if (Passion.LoadedTypes[type.Name] == null)
+				if (PassionCore.LoadedTypes[type.Name] == null)
 				{
-					Passion.LoadedTypes[type.Name] = Create(type, use, parts);
+					PassionCore.LoadedTypes[type.Name] = Create(type, use, parts);
 				}
 			}
 			else
 			{
-				Passion.LoadedTypes.Add(type.Name, Create(type, use, parts));
+				PassionCore.LoadedTypes.Add(type.Name, Create(type, use, parts));
 			}
 		}
 
-		public static void Unload<T>()
+		private static void Unload<T>()
 		{
 			Unload(typeof(T));
 		}
 
-		public static void Unload(Type type)
+		private static void Unload(Type type)
 		{
-			if (type == null)
-			{
-				Unload("null");
-			}
-			else
-			{
-				Unload(type.Name);
-			}
+			Unload(type == null ? "null" : type.Name);
 		}
 
-		public static void Unload(string name)
+		private static void Unload(string name)
 		{
-			if (Passion.LoadedTypes.ContainsKey(name))
+			if (PassionCore.LoadedTypes.ContainsKey(name))
 			{
-				Passion.LoadedTypes.Remove(name);
+				PassionCore.LoadedTypes.Remove(name);
 			}
 		}
 
 		public static void Unload()
 		{
-			Passion.LoadedTypes.Clear();
+			PassionCore.LoadedTypes.Clear();
 		}
 
 		public static bool IsLoaded(string name)
 		{
 			if (!string.IsNullOrEmpty(name))
 			{
-				return Passion.LoadedTypes.ContainsKey(name) && Passion.LoadedTypes[name] != null;
+				return PassionCore.LoadedTypes.ContainsKey(name) && PassionCore.LoadedTypes[name] != null;
 			}
 			return false;
 		}
 
 		public static bool IsLoaded(Type type)
 		{
-			if (type != null)
-			{
-				return IsLoaded(type.Name);
-			}
-			return false;
+			return type != null && IsLoaded(type.Name);
 		}
 
 		public static bool IsSupported(IGameObject obj)
@@ -369,72 +360,65 @@ namespace Passion.S3_Passion
 
 		public static PassionType GetSupportedType(GameObject obj)
 		{
-			PassionType passionType = null;
-			if (obj != null)
+			PassionType passionType;
+			if (obj == null) return null;
+			ulong nameKey = obj.GetNameKey();
+			PassionType @override;
+			if (Overrides.TryGetValue(nameKey, out @override))
 			{
-				ulong nameKey = obj.GetNameKey();
-				if (Overrides.ContainsKey(nameKey))
+				passionType = @override;
+			}
+			else
+			{
+				passionType = GetSupportedType(obj.GetType());
+				if (passionType != null) return passionType;
+				foreach (PassionType value in PassionCore.LoadedTypes.Values)
 				{
-					passionType = Overrides[nameKey];
-				}
-				else
-				{
-					passionType = GetSupportedType(obj.GetType());
-					if (passionType == null)
-					{
-						foreach (PassionType value in Passion.LoadedTypes.Values)
-						{
-							if (value.IsValid && value.Type.IsInstanceOfType(obj))
-							{
-								passionType = value;
-								break;
-							}
-						}
-					}
+					if (!value.IsValid || !value.Type.IsInstanceOfType(obj)) continue;
+					passionType = value;
+					break;
 				}
 			}
 			return passionType;
 		}
 
-		public static PassionType GetSupportedType<T>()
+		private static PassionType GetSupportedType<T>()
 		{
 			return GetSupportedType(typeof(T));
 		}
 
 		public static PassionType GetSupportedType(Type type)
 		{
-			if (type != null && Passion.LoadedTypes.ContainsKey(type.Name))
+			if (type != null && PassionCore.LoadedTypes.ContainsKey(type.Name))
 			{
-				return Passion.LoadedTypes[type.Name];
+				return PassionCore.LoadedTypes[type.Name];
 			}
 			return null;
 		}
 
 		public static PassionType GetSupportedType(string name)
 		{
-			if (!string.IsNullOrEmpty(name) && Passion.LoadedTypes.ContainsKey(name))
+			if (!string.IsNullOrEmpty(name) && PassionCore.LoadedTypes.ContainsKey(name))
 			{
-				return Passion.LoadedTypes[name];
+				return PassionCore.LoadedTypes[name];
 			}
 			return null;
 		}
 
-		public static PassionType Create(Type type, bool use, bool parts)
+		private static PassionType Create(Type type, bool use, bool parts)
 		{
 			PassionType passionType = new PassionType();
-			passionType.MType = type;
-			passionType.MNeedsUseList = use;
-			passionType.MNeedsParts = parts;
-			if (type != null)
+			passionType._mType = type;
+			passionType._mNeedsUseList = use;
+			passionType._mNeedsParts = parts;
+			if (type == null) return passionType;
+			if (type.IsSubclassOf(GameObject))
 			{
-				if (type.IsSubclassOf(GameObject))
-				{
-					passionType.MIsGameObject = true;
-				}
-				if (type == Sim)
-				{
-					passionType.MIsSim = true;
-				}
+				passionType._mIsGameObject = true;
+			}
+			if (type == Sim)
+			{
+				passionType._mIsSim = true;
 			}
 			return passionType;
 		}
@@ -470,21 +454,13 @@ namespace Passion.S3_Passion
 			return Is(type, true);
 		}
 
-		public bool Is(Type type, bool recursion)
+		private bool Is(Type type, bool recursion)
 		{
 			if (IsValid && type != null)
 			{
-				if (Type == type || Type.IsSubclassOf(type) || (recursion && type.IsSubclassOf(Type)))
-				{
-					return true;
-				}
-				return false;
+				return Type == type || Type.IsSubclassOf(type) || (recursion && type.IsSubclassOf(Type));
 			}
-			if (!IsValid && type == null)
-			{
-				return true;
-			}
-			return false;
+			return !IsValid && type == null;
 		}
 	}
 }

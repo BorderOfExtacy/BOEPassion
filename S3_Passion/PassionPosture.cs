@@ -1,5 +1,6 @@
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
+using PassionCore = Passion.S3_Passion.Core.Passion;
 
 namespace Passion.S3_Passion
 {
@@ -11,7 +12,7 @@ namespace Passion.S3_Passion
 			{
 				get
 				{
-					return Passion.Settings.Label;
+					return PassionCore.Settings.Label;
 				}
 			}
 

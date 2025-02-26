@@ -1,4 +1,5 @@
 using Sims3.SimIFace;
+using PassionCore = Passion.S3_Passion.Core.Passion;
 
 namespace Passion.S3_Passion
 {
@@ -10,9 +11,9 @@ namespace Passion.S3_Passion
 		static PassionLoader()
 		{
 			LoadPassion = false;
-			LoadSaveManager.ObjectGroupsPreLoad += Passion.Preload;
-			World.sOnWorldLoadFinishedEventHandler += Passion.Load;
-			World.sOnWorldQuitEventHandler += Passion.UnLoad;
+			LoadSaveManager.ObjectGroupsPreLoad += PassionCore.Preload;
+			World.sOnWorldLoadFinishedEventHandler += PassionCore.Load;
+			World.sOnWorldQuitEventHandler += PassionCore.UnLoad;
 		}
 	}
 }

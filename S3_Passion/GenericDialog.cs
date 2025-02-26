@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Passion.S3_Passion.UI;
 using Sims3.UI;
 
 namespace Passion.S3_Passion
@@ -91,23 +92,18 @@ namespace Passion.S3_Passion
 			return list2;
 		}
 
-		public static T Ask<T>(OptionList<T> list)
-		{
-			return Ask(list, string.Empty);
-		}
-
 		protected static T Ask<T>(OptionList<T> list, string prompt)
 		{
 			return Ask(list, prompt, false);
 		}
 
-		private static T Ask<T>(OptionList<T> list, string prompt, bool alwayslist)
+		private static T Ask<T>(OptionList<T> list, string prompt, bool alwaysList)
 		{
 			T result = default(T);
 			if (list == null || list.Count <= 0) return result;
 			try
 			{
-				if (!alwayslist && list.Count < 4)
+				if (!alwaysList && list.Count < 4)
 				{
 					switch (list.Count)
 					{

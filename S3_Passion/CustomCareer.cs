@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Passion.S3_Passion.Utilities;
 using Sims3.Gameplay.Careers;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Objects.RabbitHoles;

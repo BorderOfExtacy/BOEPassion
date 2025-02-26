@@ -15,7 +15,7 @@ namespace Passion.S3_Passion
 {
 	public class CustomBuff : Buff
 	{
-		protected static class Names
+		public static class Names
 		{
 			public const BuffNames Invalid = BuffNames.Undefined;
 
