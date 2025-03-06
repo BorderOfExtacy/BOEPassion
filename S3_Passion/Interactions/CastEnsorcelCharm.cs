@@ -153,13 +153,11 @@ namespace Passion.S3_Passion.Interactions
 			Target.BuffManager.AddElement(BuffNames.Excited, Origin.FromSpell);
 			EventTracker.SendEvent(EventTypeId.kCastCharm, Actor, Target);
 			SpellcastingSkill spellcastingSkill = Actor.SkillManager.GetElement(SkillNames.Spellcasting) as SpellcastingSkill;
-			if (spellcastingSkill != null)
-			{
-				spellcastingSkill.UsedLightMagicSpell(Actor, Target);
-				EventTracker.SendEvent(EventTypeId.kEnsorcelSim, Actor, Target);
-				EndCommodityUpdates(true);
-				Target.BuffManager.AddElement(BuffNames.Ensorcelled, Origin.None);
-			}
+			if (spellcastingSkill == null) return;
+			spellcastingSkill.UsedLightMagicSpell(Actor, Target);
+			EventTracker.SendEvent(EventTypeId.kEnsorcelSim, Actor, Target);
+			EndCommodityUpdates(true);
+			Target.BuffManager.AddElement(BuffNames.Ensorcelled, Origin.None);
 		}
 
 		public override void OnSpellEpicFailure()

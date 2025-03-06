@@ -92,18 +92,23 @@ namespace Passion.S3_Passion
 			return list2;
 		}
 
-		protected static T Ask<T>(OptionList<T> list, string prompt)
+		public static T Ask<T>(OptionList<T> list)
+		{
+			return Ask(list, string.Empty);
+		}
+
+		public static T Ask<T>(OptionList<T> list, string prompt)
 		{
 			return Ask(list, prompt, false);
 		}
 
-		private static T Ask<T>(OptionList<T> list, string prompt, bool alwaysList)
+		public static T Ask<T>(OptionList<T> list, string prompt, bool alwayslist)
 		{
 			T result = default(T);
 			if (list == null || list.Count <= 0) return result;
 			try
 			{
-				if (!alwaysList && list.Count < 4)
+				if (!alwayslist && list.Count < 4)
 				{
 					switch (list.Count)
 					{
@@ -127,7 +132,6 @@ namespace Passion.S3_Passion
 								case ThreeButtonDialog.ButtonPressed.ThirdButton:
 									result = list.Options[2].Value;
 									return result;
-								case ThreeButtonDialog.ButtonPressed.FirstButton:
 								default:
 									result = list.Options[0].Value;
 									return result;

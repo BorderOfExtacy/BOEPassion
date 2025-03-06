@@ -20,7 +20,7 @@ namespace Passion.S3_Passion.Interactions
 {
     public class StripperPole : PassionCommon
     {
-        private class Dance : Interaction<Sim, SculptureFloorGunShow>
+        internal class Dance : Interaction<Sim, SculptureFloorGunShow>
         {
             [DoesntRequireTuning]
             private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, Dance>
@@ -119,7 +119,7 @@ namespace Passion.S3_Passion.Interactions
             }
         }
 
-        private class Dance2 : Interaction<Sim, SculptureFloorGunShow>
+        internal class Dance2 : Interaction<Sim, SculptureFloorGunShow>
         {
             [DoesntRequireTuning]
             private sealed class Definition : InteractionDefinition<Sim, SculptureFloorGunShow, Dance2>

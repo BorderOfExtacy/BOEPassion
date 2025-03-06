@@ -526,7 +526,7 @@ namespace Passion.S3_Passion
             return result;
         }
 
-        public static void Process(Sim sim)
+        public static void Process(PassionCore.Player sim)
         {
             Process(PassionCore.GetPlayer(sim));
         }

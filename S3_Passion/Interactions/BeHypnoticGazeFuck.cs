@@ -51,7 +51,7 @@ namespace Passion.S3_Passion.Interactions
             }
         }
 
-        private static readonly InteractionDefinition Singleton = new Definition();
+        internal static readonly InteractionDefinition Singleton = new Definition();
 
         private static readonly ResourceKey VampireIconResourceKey =
             new ResourceKey(11874435978993716202uL, 796721156u, 0u);
@@ -61,61 +61,75 @@ namespace Passion.S3_Passion.Interactions
             return new ThumbnailKey(VampireIconResourceKey, ThumbnailSize.Large);
         }
 
-        public override bool Run()
+        private void InitializeActors()
         {
-            //Definition definition = base.InteractionDefinition as Definition;
             Actor.SynchronizationLevel = Sim.SyncLevel.NotStarted;
             Target.SynchronizationLevel = Sim.SyncLevel.NotStarted;
+        }
+
+        private void SetupInteraction()
+        {
+            Actor.RouteTurnToFace(Target.Position);
+            Target.RouteTurnToFace(Actor.Position);
+            StandardEntry();
+            BeginCommodityUpdates();
+            StartSocialContext();
+            AcquireStateMachine("vampirehypnoticgaze");
+            EnterStateMachine("vampirehypnoticgaze", "Enter", "x", "y");
+            SetActor("x", Target);
+            SetActor("y", Actor);
+            EnterState("x", "Enter");
+            EnterState("y", "Enter");
+            AnimateJoinSims("Success");
+            StandardExit();
+            WaitForSyncComplete(1.5f);
+            FinishLinkedInteraction(true);
+            EndCommodityUpdates(true);
+        }
+
+        private void ApplyBuffs()
+        {
+            Actor.BuffManager.AddElement(BuffNames.Dazed, Origin.FromVampire);
+            Actor.BuffManager.AddElement(BuffNames.Obsessed, Origin.FromVampire);
+            Actor.BuffManager.RemoveElement(BuffNames.ImminentNemesis);
+        }
+
+        private void NotifyAutonomy(PassionCore.Player player, PassionCore.Player player2)
+        {
+            if (PassionCore.Settings.AutonomyChance <= 0 || !PassionCore.Settings.AutonomyNotify) return;
+            player.IsAutonomous = true;
+            player2.IsAutonomous = true;
+            if (Target == Actor) return;
+            try
+            {
+                StringBuilder stringBuilder =
+                    new StringBuilder(PassionCommon.Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
+                stringBuilder.Replace("[player]", player.Name);
+                stringBuilder.Replace("[label]", PassionCore.Settings.ActiveLabel.ToLower());
+                stringBuilder.Replace("[partner]", player2.Name);
+                stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
+                PassionCommon.SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public override bool Run()
+        {
+            InitializeActors();
             if (BeginSocialInteraction(new SocialInteractionB.Definition(), false, 1f, true))
             {
-                Actor.RouteTurnToFace(Target.Position);
-                Target.RouteTurnToFace(Actor.Position);
-                StandardEntry();
-                BeginCommodityUpdates();
-                StartSocialContext();
-                AcquireStateMachine("vampirehypnoticgaze");
-                EnterStateMachine("vampirehypnoticgaze", "Enter", "x", "y");
-                SetActor("x", Target);
-                SetActor("y", Actor);
-                EnterState("x", "Enter");
-                EnterState("y", "Enter");
-                AnimateJoinSims("Success");
-                StandardExit();
-                WaitForSyncComplete(1.5f);
-                FinishLinkedInteraction(true);
-                EndCommodityUpdates(true);
-                Actor.BuffManager.AddElement(BuffNames.Dazed, Origin.FromVampire);
+                SetupInteraction();
+                ApplyBuffs();
                 PassionCore.Player player = PassionCore.GetPlayer(Target);
                 PassionCore.Player player2 = PassionCore.GetPlayer(Actor);
                 PassionCore.Settings.AutonomyNotify = true;
                 Actor.InteractionQueue.AddAfterCheckingForDuplicates(
                     PassionCore.Interactions.UseSimForPassion.Singleton.CreateInstance(Actor, Target,
                         new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
-                Actor.BuffManager.AddElement(BuffNames.Obsessed, Origin.FromVampire);
-                Actor.BuffManager.RemoveElement(BuffNames.ImminentNemesis);
-                if (PassionCore.Settings.AutonomyChance > 0 && PassionCore.Settings.AutonomyNotify)
-                {
-                    player.IsAutonomous = true;
-                    player2.IsAutonomous = true;
-                    if (Target != Actor)
-                    {
-                        try
-                        {
-                            StringBuilder stringBuilder =
-                                new StringBuilder(PassionCommon.Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
-                            stringBuilder.Replace("[player]", player.Name);
-                            stringBuilder.Replace("[label]", PassionCore.Settings.ActiveLabel.ToLower());
-                            stringBuilder.Replace("[partner]", player2.Name);
-                            stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
-                            PassionCommon.SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    }
-                }
-
+                NotifyAutonomy(player, player2);
                 Cleanup();
                 return true;
             }

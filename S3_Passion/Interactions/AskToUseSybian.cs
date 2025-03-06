@@ -43,24 +43,33 @@ namespace Passion.S3_Passion.Interactions
         {
             Sim sim = GetSelectedObject() as Sim;
             if (sim != null)
-                sim.InteractionQueue.AddNext(PassionCore.Interactions.UseObjectForPassion.Singleton.CreateInstance(Target,
+            {
+                sim.InteractionQueue.AddNext(PassionCore.Interactions.UseObjectForPassion.Singleton.CreateInstance(
+                    Target,
                     sim, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
+            }
+
             return true;
         }
 
         private static List<Sim> CollectPeople(Sim actor, Lot targetLot)
         {
-            List<Sim> list = new List<Sim>();
+            List<Sim> sims = new List<Sim>();
             foreach (Sim sim in targetLot.GetSims())
             {
-                if (actor != sim && sim.SimDescription.TeenOrAbove && sim.SimDescription.IsHuman &&
-                    !sim.LotCurrent.IsWorldLot)
+                if (IsValidSim(actor, sim))
                 {
-                    list.Add(sim);
+                    sims.Add(sim);
                 }
             }
 
-            return list;
+            return sims;
+        }
+
+        private static bool IsValidSim(Sim actor, Sim sim)
+        {
+            return actor != sim && sim.SimDescription.TeenOrAbove && sim.SimDescription.IsHuman &&
+                   !sim.LotCurrent.IsWorldLot;
         }
     }
 }
