@@ -3606,6 +3606,7 @@ namespace S3_Passion
 				}
 				return result;
 			}
+			// end if a sim will ACCEPT passion
 
 			public void DegradeRelationship(Player partner)
 			{

@@ -111,44 +111,6 @@ namespace S3_Passion
 
 		//TODO: refactor all the satisfaction stuff?
 
-		public static bool Satisfaction(Sim sim)
-		{
-			if (sim != null)
-			{
-				BuffManager buffManager = sim.BuffManager;
-				BuffNames name = BuffNames.Undefined;
-				BuffNames buffNames = BuffNames.Undefined;
-				foreach (BuffNames item in Names.Libido)
-				{
-					if (buffManager.HasElement(item))
-					{
-						name = item;
-						break;
-					}
-				}
-				buffNames = Satisfaction(name);
-				return Replace(buffManager, buffNames, Origin.FromBeingNaked);
-			}
-			return false;
-		}
-
-		public static bool PartialSatisfaction(Sim sim)
-		{
-			if (sim != null)
-			{
-				BuffManager buffManager = sim.BuffManager;
-				if (buffManager.HasAnyElement((BuffNames)1358929223039794148uL, (BuffNames)12415407305475427397uL, (BuffNames)13910300093031145699uL, (BuffNames)7244019685987188093uL, (BuffNames)8185339104921261200uL))
-				{
-					return Replace(buffManager, (BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
-				}
-				if (!buffManager.HasAnyElement(Names.Libido.ToArray()))
-				{
-					buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.FromBeingNaked);
-					return true;
-				}
-			}
-			return false;
-		}
 
 	// this seems to trigger the libido increase from watching stuff. im changing watchurgency to increaseurgency to make it a lil more broad
 	// starts at highest left and ifelses down to the lowest
@@ -222,29 +184,9 @@ namespace S3_Passion
 			return false;
 		}
 
-		public static BuffNames Satisfaction(BuffInstance instance)
-		{
-			BuffNames buffGuid = (BuffNames)instance.BuffGuid;
-			return Satisfaction(buffGuid);
-		}
+		// satisfaction used to be here but i nuked it lmao
 
-		public static BuffNames Satisfaction(BuffNames name)
-		{
-			switch (name)
-			{
-			case (BuffNames)16113274642161440716uL:
-			case (BuffNames)16341761339885008577uL:
-				return (BuffNames)16113274642161440716uL;
-			case (BuffNames)10626820509964641423uL:
-				return (BuffNames)16341761339885008577uL;
-			case (BuffNames)16512105510841219241uL:
-				return (BuffNames)10626820509964641423uL;
-			case (BuffNames)8185339104921261200uL:
-				return (BuffNames)16512105510841219241uL;
-			default:
-				return (BuffNames)8185339104921261200uL;
-			}
-		}
+
 
 		public override void OnTimeout(BuffManager bm, BuffInstance bi, OnTimeoutReasons reason)
 		{
