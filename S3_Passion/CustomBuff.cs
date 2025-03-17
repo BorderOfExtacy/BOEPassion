@@ -445,7 +445,7 @@ namespace S3_Passion
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
 				defaultBuffData.mPolarityOverride = Polarity.Negative;
 				defaultBuffData.mTimeoutSimMinutes = 180f;
-				defaultBuffData.mEffectValue = -5;
+				defaultBuffData.mEffectValue = -15;
 				break;
 
 		// end libido buffs
