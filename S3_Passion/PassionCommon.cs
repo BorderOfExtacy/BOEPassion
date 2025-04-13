@@ -214,85 +214,19 @@ namespace S3_Passion
 			{
 				public class Penis
 				{
-					public static readonly BlendValue[] BlankBlends = new BlendValue[2]
-					{
-						new BlendValue(ErectBlend, 0f),
-						new BlendValue(FemaleErectBlend, 0f)
-					};
+
 
 					public const ulong Accessory = 328910682824383521uL;
 
 					public static List<ulong> IDs;
 
-					private static FacialBlendData mErectBlend;
 
-					private static FacialBlendData mFemaleErectBlend;
+                    ResourceKey softKey = ResourceKey.FromString("0x00000000-0x00000000-0x0000000000000000");
+                    ResourceKey hardKey = ResourceKey.FromString("0x00000000-0x00000000-0x0000000000000000");
 
-					private static FacialBlendData mForeskinBlend;
 
-					public static FacialBlendData ErectBlend
-					{
-						get
-						{
-							if (mErectBlend == null)
-							{
-								try
-								{
-									mErectBlend = new FacialBlendData(new BlendUnit(new ResourceKey(4287645100653294805uL, 3039776853u, 0u)));
-								}
-								catch
-								{
-								}
-							}
-							return mErectBlend;
-						}
-					}
-
-					public static FacialBlendData FemaleErectBlend
-					{
-						get
-						{
-							if (mFemaleErectBlend == null)
-							{
-								try
-								{
-									mFemaleErectBlend = new FacialBlendData(new BlendUnit(new ResourceKey(4029370978840255872uL, 3039776853u, 0u)));
-								}
-								catch
-								{
-								}
-							}
-							return mFemaleErectBlend;
-						}
-					}
-
-					public static FacialBlendData ForeskinBlend
-					{
-						get
-						{
-							if (mForeskinBlend == null)
-							{
-								try
-								{
-									mForeskinBlend = new FacialBlendData(new BlendUnit(new ResourceKey(17118777923511104575uL, 3039776853u, 0u)));
-								}
-								catch
-								{
-								}
-							}
-							return mForeskinBlend;
-						}
-					}
-
-					public static bool ErectionLoaded
-					{
-						get
-						{
-							return ErectBlend != null || FemaleErectBlend != null;
-						}
-					}
-
-					public static bool GetHard(Sim sim)
+                    // makes sim get hard -- save for later
+                    public static bool GetHard(Sim sim)
 					{
 						if (!ErectionLoaded)
 						{
@@ -317,7 +251,8 @@ namespace S3_Passion
 						return sim.RefreshCurrentOutfit(false);
 					}
 
-					public static bool GetSoft(Sim sim)
+                    // makes sim get soft -- save for later
+                    public static bool GetSoft(Sim sim)
 					{
 						if (!ErectionLoaded)
 						{
@@ -333,43 +268,7 @@ namespace S3_Passion
 						return sim.RefreshCurrentOutfit(false);
 					}
 
-					private static float Get(Sim sim, FacialBlendData blend, OutfitCategories cat, int ind)
-					{
-						float num = 0f;
-						try
-						{
-							SimOutfit outfit = sim.SimDescription.GetOutfit(cat, ind);
-							if (outfit != null)
-							{
-								int num2 = ((!blend.mBidirectional) ? 1 : 2);
-								SimOutfit.BlendInfo[] blends = outfit.Blends;
-								for (int i = 0; i < blends.Length; i++)
-								{
-									SimOutfit.BlendInfo blendInfo = blends[i];
-									if (blends[i].key == blend.mBlend1.GetKey())
-									{
-										num += blends[i].amount;
-										if (--num2 == 0)
-										{
-											break;
-										}
-									}
-									else if (blend.mBidirectional && blends[i].key == blend.mBlend2.GetKey())
-									{
-										num -= blendInfo.amount;
-										if (--num2 == 0)
-										{
-											break;
-										}
-									}
-								}
-							}
-						}
-						catch
-						{
-						}
-						return num;
-					}
+					
 
 					// I THINK THESE ARE CAS PARTS???????
 					static Penis()
@@ -387,9 +286,6 @@ namespace S3_Passion
 						list.Add(10829650939803730647uL);
 						list.Add(8828424442779924380uL);
 						IDs = list;
-						mErectBlend = null;
-						mFemaleErectBlend = null;
-						mForeskinBlend = null;
 					}
 				}
 
