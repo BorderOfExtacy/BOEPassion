@@ -97,7 +97,7 @@ namespace S3_Passion
 						{
 							num--;
 						}
-						Libido.PartialSatisfaction(Actor);
+						// Libido.PartialSatisfaction(Actor);
 						PassionCommon.Wait(2);
 					}
 					Target.RemoveFromUseList(Actor);
@@ -190,7 +190,7 @@ namespace S3_Passion
 						{
 							num--;
 						}
-						Libido.PartialSatisfaction(Actor);
+						// Libido.PartialSatisfaction(Actor);
 						PassionCommon.Wait(2);
 					}
 					Target.RemoveFromUseList(Actor);
@@ -288,7 +288,7 @@ namespace S3_Passion
 						{
 							num--;
 						}
-						Libido.PartialSatisfaction(Actor);
+						// Libido.PartialSatisfaction(Actor);
 						PassionCommon.Wait(2u);
 					}
 					Target.RemoveFromUseList(Actor);

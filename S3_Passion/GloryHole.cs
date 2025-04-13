@@ -118,7 +118,7 @@ namespace S3_Passion
 							activeGloryHole.SlutReady = false;
 							Actor.PlaySoloAnimation("a_gloryhole_blowjobB_01v");
 							activeGloryHole.AnimationSwitch = false;
-							Libido.PartialSatisfaction(Actor);
+							// Libido.PartialSatisfaction(Actor);
 						}
 						PassionCommon.Wait(2);
 					}
@@ -198,7 +198,7 @@ namespace S3_Passion
 							activeGloryHole.StudReady = false;
 							Actor.PlaySoloAnimation("a_gloryhole_blowjobA_01v");
 							activeGloryHole.AnimationSwitch = false;
-							Libido.PartialSatisfaction(Actor);
+							// Libido.PartialSatisfaction(Actor);
 							if (activeGloryHole.HasSlut && Actor.Motives.GetMotiveValue(CommodityKind.Bladder) < -80f)
 							{
 								Actor.Motives.LerpToFill(this, CommodityKind.Bladder, 2f);

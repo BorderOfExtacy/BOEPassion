@@ -226,47 +226,9 @@ namespace S3_Passion
 
 
                     // makes sim get hard -- save for later
-                    public static bool GetHard(Sim sim)
-					{
-						if (!ErectionLoaded)
-						{
-							return false;
-						}
-						float num = 0f;
-						try
-						{
-							if (ForeskinBlend != null)
-							{
-								num = Get(sim, ForeskinBlend, sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
-							}
-							Set(sim, new BlendValue[2]
-							{
-								new BlendValue(ErectBlend, 1f - num),
-								new BlendValue(FemaleErectBlend, num)
-							}, sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
-						}
-						catch
-						{
-						}
-						return sim.RefreshCurrentOutfit(false);
-					}
+                    
 
-                    // makes sim get soft -- save for later
-                    public static bool GetSoft(Sim sim)
-					{
-						if (!ErectionLoaded)
-						{
-							return false;
-						}
-						try
-						{
-							Set(sim, BlankBlends, sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
-						}
-						catch
-						{
-						}
-						return sim.RefreshCurrentOutfit(false);
-					}
+
 
 					
 
