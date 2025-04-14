@@ -4667,37 +4667,69 @@ namespace S3_Passion
 					{
 					}
 					SimDescription simDescription = Actor.SimDescription;
+
 					//
-					// START REFACTOR -- ADD IN OTHER GENITALS LOL
 					// check to see what junk a sim has
 					// im sorry if any competent programmers see this
+					//
 
+					//
 					// if sim has a penis
-					if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
+					//
+					if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x4470460D3515EB11")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB7323F029C089C69")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x7A84DD417645F79C")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null)
 					{
 						GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.penis;
 
                         //iterate thru the penis types to see which one the sims has (there's a better way to do this probably but idc)
 
-						//masc peen
-                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
+						//AM peen
+                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x4470460D3515EB11")) != null)
 						{
-							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_masc;
+							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM;
                         }
-                        //fem peen
+
+                        //AF peen
                         else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
                         {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_fem;
+                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AF;
                         }
-						// fallback if it can't find it
-						else
+
+                        //TM peen
+                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB7323F029C089C69")) != null)
+                        {
+                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM;
+                        }
+
+                        //TF peen
+                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
+                        {
+                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF;
+                        }
+
+                        //EM peen
+                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x7A84DD417645F79C")) != null)
+                        {
+                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM;
+                        }
+
+                        //EF peen
+                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null)
+                        {
+                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF;
+                        }
+
+                        // fallback if it can't find it
+                        else
 						{
                             GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
-                            PassionCommon.SystemMessage("This sim has a penis (allegedly), but the UUID of their genitals wasn't parsed!");
+                            PassionCommon.SystemMessage("This sim has a penis (allegedly), but the ResourceKey of their genitals wasn't parsed!");
                         }
 
                     }
+
+					//
 					// if sim has a vagina
+					//
 					else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
 					{
                         GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.vagina;
@@ -4756,9 +4788,9 @@ namespace S3_Passion
                         GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.UNSET;
                         PassionCommon.SystemMessage("This sim's genitalia was not successfully parsed!");
                     }
-						// ...done! make sure to change the RK later
-						// END REFACTOR -- ADD IN OTHER GENITALS LOL
-						//
+
+
+
 
 
 					SimDescription simDescription2 = Actor.SimDescription;
