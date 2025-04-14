@@ -373,17 +373,6 @@ namespace S3_Passion
 						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
 					}
 					list3.Add(rowInfo);
-					rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.VampireInteractions, Settings.VampireInteractions), new List<ObjectPicker.ColumnInfo>());
-					rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.VampireInteractions")));
-					if (Settings.VampireInteractions)
-					{
-						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Enabled")));
-					}
-					else
-					{
-						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
-					}
-					list3.Add(rowInfo);
 					rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.ChildrenOut, Settings.ChildrenOut), new List<ObjectPicker.ColumnInfo>());
 					rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.ChildrenOut")));
 					if (Settings.ChildrenOut)
@@ -417,62 +406,6 @@ namespace S3_Passion
 						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
 					}
 					list3.Add(rowInfo);
-					if (Settings.VampireInteractions)
-					{
-						rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.VampiresVisitAtNight, Settings.VampiresVisitAtNight), new List<ObjectPicker.ColumnInfo>());
-						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.VampiresVisitAtNight")));
-						if (Settings.VampiresVisitAtNight)
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Enabled")));
-						}
-						else
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
-						}
-						list3.Add(rowInfo);
-					}
-					if (Settings.VampireInteractions)
-					{
-						rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.VampireHypnoSex, Settings.VampireHypnoSex), new List<ObjectPicker.ColumnInfo>());
-						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.VampireHypnoSex")));
-						if (Settings.VampireHypnoSex)
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Enabled")));
-						}
-						else
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
-						}
-						list3.Add(rowInfo);
-					}
-					if (Settings.VampireInteractions)
-					{
-						rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.EvilFighter, Settings.EvilFighter), new List<ObjectPicker.ColumnInfo>());
-						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.EvilFighter")));
-						if (Settings.EvilFighter)
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Enabled")));
-						}
-						else
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
-						}
-						list3.Add(rowInfo);
-					}
-					if (Settings.VampireInteractions)
-					{
-						rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.RemoveVisualOverride, Settings.RemoveVisualOverride), new List<ObjectPicker.ColumnInfo>());
-						rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.RemoveVisualOverride")));
-						if (Settings.RemoveVisualOverride)
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Enabled")));
-						}
-						else
-						{
-							rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.Disabled")));
-						}
-						list3.Add(rowInfo);
-					}
 					rowInfo = new ObjectPicker.RowInfo(new SettingItem(Setting.BroadCasterEnable, Settings.BroadCasterEnable), new List<ObjectPicker.ColumnInfo>());
 					rowInfo.ColumnInfo.Add(new ObjectPicker.TextColumn(PassionCommon.Localize("S3_Passion.Terms.BroadCasterEnable")));
 					if (Settings.BroadCasterEnable)
@@ -14719,19 +14652,6 @@ namespace S3_Passion
 			CustomCareer.Load();
 		}
 
-		// INJECT MODSTUFF
-
-		private const string MOTIVES_SPREADSHEET = "Motives_Hypochondriasis";
-
-		
-
-		public static void AddInteractions(Terrain i)
-		{
-			i.AddInteraction(VampireTeleport.Singleton);
-			i.AddInteraction(VampireDrainsEnergyFromAll.Singleton);
-			i.AddInteraction(VampireKillsThemAll.Singleton);
-		}
-
 
 
 
@@ -14760,14 +14680,6 @@ namespace S3_Passion
 						{
 							Load(objects as GameObject[]);
 						}
-					}
-				}
-				Terrain[] objects2 = Sims3.Gameplay.Queries.GetObjects<Terrain>();
-				foreach (Terrain terrain in objects2)
-				{
-					if (terrain != null)
-					{
-						AddInteractions(terrain);
 					}
 				}
 				FenceRedwood_Gate[] objects3 = Sims3.Gameplay.Queries.GetObjects<FenceRedwood_Gate>();
@@ -14815,14 +14727,6 @@ namespace S3_Passion
 					{
 						actor.InteractionQueue.Add(Interactions.StopAllPassion.Singleton.CreateInstance(actor, actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 					}
-					if (actor.SimDescription.IsVampire && actor != Sim.ActiveActor && Settings.VampireInteractions && Settings.RemoveVisualOverride)
-					{
-						actor.InteractionQueue.Add(RemoveVisualOverrideOnStart.Singleton.CreateInstance(actor, actor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
-					}
-				}
-				if (Sim.ActiveActor.SimDescription.IsVampire && Settings.VampireInteractions && Settings.RemoveVisualOverride)
-				{
-					Sim.ActiveActor.InteractionQueue.Add(RemoveVisualOverrideOnStart.Singleton.CreateInstance(Sim.ActiveActor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
 				}
 			}
 			catch
@@ -14954,17 +14858,6 @@ namespace S3_Passion
 					sim.AddInteraction(CastElectrocuteBlast.Singleton, true);
 					sim.AddInteraction(WitchReleaseMindControl.Singleton, true);
 					sim.AddInteraction(CastUglyCharm.Singleton, true);
-					sim.AddInteraction(HypnoticGazeFuck.Singleton, true);
-					sim.AddInteraction(VampireMindControl.Singleton, true);
-					sim.AddInteraction(VampireReleaseMindControl.Singleton, true);
-					sim.AddInteraction(VampireDrainsEnergy.Singleton, true);
-					sim.AddInteraction(VampireBites.Singleton, true);
-					sim.AddInteraction(VampireZombiefy.Singleton, true);
-					sim.AddInteraction(VampireAttack.Singleton, true);
-					sim.AddInteraction(VampireMakeSelfPea.Singleton, true);
-					sim.AddInteraction(VampireFireBlast.Singleton, true);
-					sim.AddInteraction(VampireTranform.Singleton, true);
-					sim.AddInteraction(VampireBitesToKill.Singleton, true);
 				}
 			}
 			else if (obj != null)
@@ -15029,15 +14922,10 @@ namespace S3_Passion
 		public static void StartListening()
 		{
 			//start listening for new events
-			OnNewDay = EventTracker.AddListener(EventTypeId.kBecameDaytime, CheckForVamires);
-			OnNewSimAdded = EventTracker.AddListener(EventTypeId.kSimInstantiated, CheckForVamires);
-			OnNewSimAged = EventTracker.AddListener(EventTypeId.kSimAgeTransition, CheckForVamires);
-			OnSimInstantiated = EventTracker.AddListener(EventTypeId.kSimInstantiated, CheckForVamires);
 			OnNewDay = EventTracker.AddListener(EventTypeId.kBecameDaytime, Cleanup);
 			OnNewSimAdded = EventTracker.AddListener(EventTypeId.kSimInstantiated, Load);
 			OnNewSimAged = EventTracker.AddListener(EventTypeId.kSimAgeTransition, Load);
 			OnNewObjectAdded = EventTracker.AddListener(EventTypeId.kBoughtObject, Load);
-			OnTerrain = EventTracker.AddListener(EventTypeId.kSimInstantiated, TerrainObj);
 			OnNewObjectAddedInInventory = EventTracker.AddListener(EventTypeId.kInventoryObjectAdded, Load);
 			OnAnyFlirt = EventTracker.AddListener(EventTypeId.kFlirting, Autonomy.PassionCheck);
 			OnFlowerKiss = EventTracker.AddListener(EventTypeId.kFlowerKiss, Autonomy.PassionCheck);
@@ -15050,7 +14938,6 @@ namespace S3_Passion
 			ONWatchedTv = EventTracker.AddListener(EventTypeId.kWatchedSportsChannel, Autonomy.WhenWatchTV);
 			OnDance2Music = EventTracker.AddListener(EventTypeId.kSimDanced, Autonomy.DanceNude2Music);
 			OnGotMassage = EventTracker.AddListener(EventTypeId.kGotMassage, Autonomy.HappendAtMassage);
-			OnSimInstantiated = EventTracker.AddListener(EventTypeId.kSimInstantiated, TerrainObj);
 		}
 
 		public static void StopListening()
@@ -15072,185 +14959,6 @@ namespace S3_Passion
 			EventTracker.RemoveListener(OnDance2Music);
 		}
 
-		public static ListenerAction CheckForVamires(Event e)
-		{
-			CheckForVamires();
-			return ListenerAction.Keep;
-		}
-
-		// vampire shit lmao
-		public static void CheckForVamires()
-		{
-			if (!Settings.VampireInteractions)
-			{
-				return;
-			}
-			Sim activeActor = Sim.ActiveActor;
-			try
-			{
-				if ((SimClock.Hours24 == 12 || SimClock.Hours24 == 15 || SimClock.Hours24 == 19) && GuestVampiresInLot != 0 && Settings.VampiresVisitAtNight && Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
-				{
-					GuestVampiresInLot = 0;
-				}
-				foreach (Sim actor in LotManager.Actors)
-				{
-					if (GuestVampiresInLot == 2 || !Settings.VampiresVisitAtNight)
-					{
-						break;
-					}
-					Relationship relationship = Sim.ActiveActor.SimDescription.GetRelationship(actor.SimDescription, false);
-					if (actor.SimDescription.IsVampire && Settings.VampiresVisitAtNight && (SimClock.Hours24 >= 21 || SimClock.Hours24 <= 6) && actor != Sim.ActiveActor && !Sim.ActiveActor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !Sim.ActiveActor.LotCurrent.IsWorldLot && actor.LotHome != Sim.ActiveActor.LotHome && relationship != null && relationship.LTR.Liking >= 90f && actor.SimDescription.TeenOrAbove && GuestVampiresInLot == 0 && GuestVampireName != actor.SimDescription.FullName.ToString())
-					{
-						GuestVampireName = actor.SimDescription.FullName.ToString();
-						GuestVampiresInLot = 1;
-					}
-					if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance && !Sim.ActiveActor.Posture.Satisfies(CommodityKind.SwimmingInPool, null) && !Sim.ActiveActor.LotCurrent.IsWorldLot && actor.SimDescription.IsVampire && Settings.VampiresVisitAtNight && (SimClock.Hours24 >= 21 || SimClock.Hours24 <= 6) && actor != Sim.ActiveActor && actor.LotHome != Sim.ActiveActor.LotHome && relationship != null && relationship.LTR.Liking >= 90f && actor.SimDescription.TeenOrAbove && !actor.InteractionQueue.IsRunning(Interactions.UseObjectForPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.UseObjectForPassionWithSim.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.UseSimForPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.ActiveJoinPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.JoinPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.AskToJoinPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.AskToSoloPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.AskToPassionOther.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.AskToWatchPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.WatchPassion.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && !actor.InteractionQueue.IsRunning(Interactions.WatchMasturbate.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), false) && GuestVampiresInLot == 1)
-					{
-						GuestVampiresInLot = 2;
-						actor.Motives.SetValue(CommodityKind.VampireThirst, 100f);
-						actor.Motives.SetValue(CommodityKind.Hygiene, 100f);
-						actor.Motives.SetValue(CommodityKind.Energy, 100f);
-						actor.Motives.SetValue(CommodityKind.Bladder, 100f);
-						actor.Motives.SetValue(CommodityKind.Fun, 100f);
-						actor.Motives.SetValue(CommodityKind.Social, 100f);
-						if (actor.InteractionQueue.Count != 0)
-						{
-							actor.InteractionQueue.CancelAllInteractions();
-						}
-						PassionCommon.Wait(50);
-						Vector3 positionOnFloor = Sim.ActiveActor.PositionOnFloor;
-						positionOnFloor.x += 1f;
-						VampireTeleport.TeleportVamp(actor, positionOnFloor, null, true, true);
-						actor.InteractionQueue.Add(GoToLot.Singleton.CreateInstance(Sim.ActiveActor.LotCurrent, actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
-						EventTracker.SendEvent(EventTypeId.kInvitedSimOver, Sim.ActiveActor, actor);
-						if ((actor.SimDescription.GenderPreferenceIsFemale() && Sim.ActiveActor.SimDescription.IsFemale && Sim.ActiveActor.SimDescription.GenderPreferenceIsFemale()) || (!actor.SimDescription.GenderPreferenceIsFemale() && Sim.ActiveActor.SimDescription.IsMale && Sim.ActiveActor.SimDescription.GenderPreferenceIsFemale()) || (!actor.SimDescription.GenderPreferenceIsFemale() && Sim.ActiveActor.SimDescription.IsMale && !Sim.ActiveActor.SimDescription.GenderPreferenceIsFemale()))
-						{
-							actor.BuffManager.AddElement(BuffNames.DreamComeTrue, 200f, Origin.FromWooHooWithOccult);
-							Sim.ActiveActor.InteractionQueue.AddAfterCheckingForDuplicates(BeHypnoticGazeFuck.Singleton.CreateInstance(actor, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
-						}
-						break;
-					}
-				}
-			}
-			catch
-			{
-			}
-			try
-			{
-				foreach (Sim sim in Sim.ActiveActor.LotCurrent.GetSims())
-				{
-					Relationship relationship2 = activeActor.SimDescription.GetRelationship(sim.SimDescription, false);
-					if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance && Settings.VampireHypnoSex && sim.SimDescription != null && sim.SimDescription.IsVampire && sim.Motives.GetMotiveValue(CommodityKind.VampireThirst) >= 10f && sim != Sim.ActiveActor && relationship2 != null && relationship2.LTR.Liking > 20f && !sim.BuffManager.HasElement(BuffNames.DreamComeTrue) && !Sim.ActiveActor.BuffManager.HasElement(BuffNames.Dazed) && Sim.ActiveActor.CurrentOutfitCategory != OutfitCategories.Naked && Sim.ActiveActor.InteractionQueue.Count <= 1 && GameUtils.IsInstalled(ProductVersion.EP11) && ((sim.SimDescription.GenderPreferenceIsFemale() && Sim.ActiveActor.SimDescription.IsFemale && Sim.ActiveActor.SimDescription.GenderPreferenceIsFemale()) || (!sim.SimDescription.GenderPreferenceIsFemale() && Sim.ActiveActor.SimDescription.IsMale && Sim.ActiveActor.SimDescription.GenderPreferenceIsFemale()) || (!sim.SimDescription.GenderPreferenceIsFemale() && Sim.ActiveActor.SimDescription.IsMale && !Sim.ActiveActor.SimDescription.GenderPreferenceIsFemale())))
-					{
-						sim.BuffManager.AddElement(BuffNames.DreamComeTrue, 200f, Origin.FromWooHooWithOccult);
-						Sim.ActiveActor.InteractionQueue.AddAfterCheckingForDuplicates(BeHypnoticGazeFuck.Singleton.CreateInstance(sim, Sim.ActiveActor, new InteractionPriority(InteractionPriorityLevel.RequiredNPCBehavior), false, true));
-					}
-				}
-			}
-			catch
-			{
-			}
-			try
-			{
-				foreach (Sim sim2 in Sim.ActiveActor.LotCurrent.GetSims())
-				{
-					if (sim2.SimDescription.IsVampire && Settings.EvilFighter && sim2.TraitManager.HasElement(TraitNames.Unlucky) && sim2.TraitManager.HasElement(TraitNames.Evil) && GameUtils.IsInstalled(ProductVersion.EP11) && RandomUtil.CoinFlip() && RandomUtil.CoinFlip() && RandomUtil.CoinFlip() && RandomUtil.CoinFlip() && RandomUtil.CoinFlip())
-					{
-						Vector3 position = sim2.Position;
-						sim2.PushGetStruckByLightning();
-						if (CauseEffectService.IsDystopiaWorld)
-						{
-							Audio.StartSound("thunder_future", position);
-						}
-						else
-						{
-							Audio.StartSound("thunder_near", position);
-						}
-						float[] cameraShakeTuningValues = SeasonsManager.GetCameraShakeTuningValues();
-						CameraController.Shake(cameraShakeTuningValues[0], cameraShakeTuningValues[1]);
-					}
-				}
-			}
-			catch
-			{
-			}
-			try
-			{
-				if (activeActor != null && activeActor.SimDescription.IsVampire && Sim.ActiveActor.TraitManager.HasElement(TraitNames.SuperVampire) && Settings.EvilFighter)
-				{
-					foreach (Sim actor2 in LotManager.Actors)
-					{
-						if ((actor2 == Sim.ActiveActor || !actor2.SimDescription.IsVampire) && (actor2 == Sim.ActiveActor || !actor2.SimDescription.IsWerewolf))
-						{
-							continue;
-						}
-						if ((actor2.TraitManager.HasElement(TraitNames.Evil) && !activeActor.TraitManager.HasElement(TraitNames.Evil)) || (!actor2.TraitManager.HasElement(TraitNames.Evil) && activeActor.TraitManager.HasElement(TraitNames.Evil)))
-						{
-							Relationship relationship3 = Relationship.Get(activeActor, actor2, false);
-							relationship3.LTR.ForceChangeState(LongTermRelationshipTypes.Enemy);
-						}
-						else if ((actor2.TraitManager.HasElement(TraitNames.Evil) && activeActor.TraitManager.HasElement(TraitNames.Evil)) || activeActor.TraitManager.HasElement(TraitNames.Evil))
-						{
-							if (!activeActor.BuffManager.HasElement(BuffNames.FeelingUnlucky) && activeActor.TraitManager.HasElement(TraitNames.Evil))
-							{
-								activeActor.BuffManager.RemoveElement(BuffNames.FeelingLucky);
-								activeActor.BuffManager.AddElement(BuffNames.FeelingUnlucky, 1350f, Origin.FromAlone);
-							}
-							if (!activeActor.BuffManager.HasElement(BuffNames.FearOfHuman) && activeActor.TraitManager.HasElement(TraitNames.Evil))
-							{
-								activeActor.BuffManager.AddElement(BuffNames.FearOfHuman, 1350f, Origin.FromBeingAroundNonFriends);
-							}
-							if (!actor2.BuffManager.HasElement(BuffNames.FeelingUnlucky) && actor2.TraitManager.HasElement(TraitNames.Evil))
-							{
-								actor2.BuffManager.RemoveElement(BuffNames.FeelingLucky);
-								actor2.BuffManager.AddElement(BuffNames.FeelingUnlucky, 1350f, Origin.FromAlone);
-							}
-							if (!actor2.BuffManager.HasElement(BuffNames.FearOfHuman) && actor2.TraitManager.HasElement(TraitNames.Evil))
-							{
-								actor2.BuffManager.AddElement(BuffNames.FearOfHuman, 1350f, Origin.FromBeingAroundNonFriends);
-							}
-							if (actor2.TraitManager.HasElement(TraitNames.Evil))
-							{
-								Relationship relationship4 = Relationship.Get(activeActor, actor2, false);
-								relationship4.LTR.ForceChangeState(LongTermRelationshipTypes.BestFriend);
-							}
-						}
-					}
-				}
-			}
-			catch
-			{
-			}
-			try
-			{
-				if (!Settings.EvilFighter)
-				{
-					return;
-				}
-				foreach (Household sHousehold in Household.sHouseholdList)
-				{
-					foreach (SimDescription allSimDescription in sHousehold.AllSimDescriptions)
-					{
-						if ((activeActor.SimDescription.IsVampire && allSimDescription != activeActor.SimDescription && allSimDescription.IsVampire && allSimDescription.Contactable) || (activeActor.SimDescription.IsVampire && allSimDescription != activeActor.SimDescription && allSimDescription.IsWerewolf && allSimDescription.Contactable))
-						{
-							Relationship relationship5 = Relationship.Get(activeActor.SimDescription, allSimDescription, true);
-							if (relationship5 != null)
-							{
-								relationship5.MakeAcquaintances();
-							}
-							if ((allSimDescription.TraitManager.HasElement(TraitNames.Evil) && !activeActor.SimDescription.TraitManager.HasElement(TraitNames.Evil)) || (!allSimDescription.TraitManager.HasElement(TraitNames.Evil) && activeActor.SimDescription.TraitManager.HasElement(TraitNames.Evil)))
-							{
-								Relationship relationship6 = Relationship.Get(activeActor.SimDescription, allSimDescription, false);
-								relationship6.LTR.ForceChangeState(LongTermRelationshipTypes.Enemy);
-							}
-						}
-					}
-				}
-			}
-			catch
-			{
-			}
-		}
 
 		public static ListenerAction Cleanup(Event e)
 		{
@@ -15577,16 +15285,6 @@ namespace S3_Passion
 					AllTargets.Remove(target.Object.ObjectId.Value);
 				}
 			}
-		}
-
-		public static ListenerAction TerrainObj(Event e)
-		{
-			Terrain terrain = e.TargetObject as Terrain;
-			if (terrain != null)
-			{
-				AddInteractions(terrain);
-			}
-			return ListenerAction.Keep;
 		}
 	}
 }
