@@ -327,7 +327,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelZero";
 				defaultBuffData.mDescription = "dLibidoLevelZero";
 				defaultBuffData.mHelpText = "hLibidoLevelZero";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl00";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -338,7 +338,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelOne";
 				defaultBuffData.mDescription = "dLibidoLevelOne";
 				defaultBuffData.mHelpText = "hLibidoLevelOne";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl01";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -349,7 +349,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelTwo";
 				defaultBuffData.mDescription = "dLibidoLevelTwo";
 				defaultBuffData.mHelpText = "hLibidoLevelTwo";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl02";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -360,7 +360,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelThree";
 				defaultBuffData.mDescription = "dLibidoLevelThree";
 				defaultBuffData.mHelpText = "hLibidoLevelThree";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl03";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -371,7 +371,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelFour";
 				defaultBuffData.mDescription = "dLibidoLevelFour";
 				defaultBuffData.mHelpText = "hLibidoLevelFour";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl04";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -382,7 +382,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelFive";
 				defaultBuffData.mDescription = "dLibidoLevelFive";
 				defaultBuffData.mHelpText = "hLibidoLevelFive";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl05";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -393,7 +393,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelSix";
 				defaultBuffData.mDescription = "dLibidoLevelSix";
 				defaultBuffData.mHelpText = "hLibidoLevelSix";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl06";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -404,7 +404,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelSeven";
 				defaultBuffData.mDescription = "dLibidoLevelSeven";
 				defaultBuffData.mHelpText = "hLibidoLevelSeven";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl07";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
@@ -415,7 +415,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelEight";
 				defaultBuffData.mDescription = "dLibidoLevelEight";
 				defaultBuffData.mHelpText = "hLibidoLevelEight";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl08";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
@@ -427,7 +427,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelNine";
 				defaultBuffData.mDescription = "dLibidoLevelNine";
 				defaultBuffData.mHelpText = "hLibidoLevelNine";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl09";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
@@ -439,7 +439,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lLibidoLevelTen";
 				defaultBuffData.mDescription = "dLibidoLevelTen";
 				defaultBuffData.mHelpText = "hLibidoLevelTen";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_libidoLvl10";
 				defaultBuffData.mBuffCategory = BuffCategory.Mental;
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
