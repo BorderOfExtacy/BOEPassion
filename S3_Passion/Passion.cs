@@ -4574,7 +4574,7 @@ namespace S3_Passion
                 else
                 {
                     PassionCommon.SystemMessage("this sim's cock is MISSING what the FUCK");
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF;
+                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM;
                 }
             }
 
@@ -4764,19 +4764,19 @@ namespace S3_Passion
 					//
 					// if sim has a vagina
 					//
-					else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
+					else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x25A4947D2A7B1823")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xC1E55AEF1301DA97")) != null)
 					{
                         GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.vagina;
 
                         //masc vag
-                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
+                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x25A4947D2A7B1823")) != null)
                         {
-							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultvagina_masc;
+							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultvagina_AM;
                         }
                         //fem vag
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
+                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xC1E55AEF1301DA97")) != null)
                         {
-							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultvagina_fem;
+							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultvagina_AF;
                         }
                         // fallback if it can't find it
                         else
@@ -4786,36 +4786,37 @@ namespace S3_Passion
                         }
 
                     }
-                    // if sim has both
-                    else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
-                    {
-                        GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.both;
-                        PassionCommon.SystemMessage("this hasnt been set up yet. how are you here.");
+                    //// if sim has both
+                    //else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
+                    //{
+                    //    GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.both;
+                    //    PassionCommon.SystemMessage("this hasnt been set up yet. how are you here.");
 
-                    }
+                    //}
                     // if sim has no junk
-                    else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
-                    {
-                        GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.neither;
+					// comment out for now, will add proper rks later
+                    //else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
+                    //{
+                    //    GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.neither;
 
-                        //masc null
-                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_barbiedoll_masc;
-                        }
-                        //fem null
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_barbiedoll_fem;
-                        }
-                        // fallback if it can't find it
-                        else
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
-                            PassionCommon.SystemMessage("This sim has no junk (allegedly), but the UUID of their genitals wasn't parsed!");
-                        }
+                    //    //masc null
+                    //    if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
+                    //    {
+                    //        GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_barbiedoll_masc;
+                    //    }
+                    //    //fem null
+                    //    else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
+                    //    {
+                    //        GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_barbiedoll_fem;
+                    //    }
+                    //    // fallback if it can't find it
+                    //    else
+                    //    {
+                    //        GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
+                    //        PassionCommon.SystemMessage("This sim has no junk (allegedly), but the UUID of their genitals wasn't parsed!");
+                    //    }
 
-                    }
+                    //}
                     else
 					{
 						GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
@@ -6355,75 +6356,80 @@ namespace S3_Passion
 			// attach strapon to dickless sim
 			public bool SwitchToStrapon(Sim PlayerSim, bool AddRemove)
 			{
-				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x92245A61BDDD4F2A");
 				SimDescription simDescription = PlayerSim.SimDescription;
-				try
-				{
-					// if straps are disabled (aka for cowards)
-					if ((Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null) || (Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null) || (Settings.FemaleUseStrapOn && simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null))
+
+					try
 					{
-						return false;
-					}
-					// if player doesnt have any straps
-					if (Settings.FemaleUseStrapOn && !World.ResourceExists(key) && AddRemove)
-					{
-						PassionCommon.SystemMessage("StrapOn Accessory was not found. Setting is now disabled!");
-						Settings.FemaleUseStrapOn = false;
-						return false;
-					}
-					// if we're adding it
-					if (AddRemove)
-					{
-						SimDescription simDescription2 = PlayerSim.SimDescription;
-						if (simDescription2.GetOutfitCount(OutfitCategories.Naked) == 1)
+						// if straps are disabled (aka for cowards)
+						if (!Settings.FemaleUseStrapOn)
 						{
-							// generate new outfit
-							SimOutfit uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xCE17741BF55E817A"));
-							SimOutfit resultOutfit;
-							if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription2, "fAccessoryStrapon", out resultOutfit))
+							return false;
+						}
+						// if we're adding it
+						if (AddRemove)
+						{
+							SimDescription simDescription2 = PlayerSim.SimDescription;
+							if (simDescription2.GetOutfitCount(OutfitCategories.Naked) == 1)
 							{
-								simDescription2.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
-								SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
-								SwitchOutfitHelper.Start();
-								SwitchOutfitHelper.Wait(false);
+							// generate new outfit
+							SimOutfit uniform = null;
+
+                            // if sim is female
+                            if (simDescription.IsFemale)
+                            {
+                                uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xF32C06036EFA3D8E"));
+                            }
+                            // if sim is male
+                            else
+                            {
+                                uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xF32C06036EFA3D85"));
+                            }
+
+                            SimOutfit resultOutfit;
+								if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription2, "Strapon", out resultOutfit))
+								{
+									simDescription2.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
+									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+									SwitchOutfitHelper.Start();
+									SwitchOutfitHelper.Wait(false);
+									try
+									{
+										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+									}
+									catch
+									{
+									}
+									return true;
+								}
+							}
+						}
+						// end strap addition
+
+						// if we're removing it
+						else if (!AddRemove)
+						{
+							SimDescription simDescription3 = PlayerSim.SimDescription;
+							if (simDescription3.GetOutfitCount(OutfitCategories.Naked) != 1)
+							{
+								while (simDescription3.GetOutfitCount(OutfitCategories.Naked) > 1)
+								{
+									simDescription3.RemoveOutfit(OutfitCategories.Naked, 0, true);
+								}
 								try
 								{
-									PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+									PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
 								}
 								catch
 								{
 								}
-								return true;
+								return false;
 							}
 						}
+						// end strap removal
 					}
-					// end strap addition
-
-					// if we're removing it
-					else if (!AddRemove)
+					catch
 					{
-						SimDescription simDescription3 = PlayerSim.SimDescription;
-						if (simDescription3.GetOutfitCount(OutfitCategories.Naked) != 1)
-						{
-							while (simDescription3.GetOutfitCount(OutfitCategories.Naked) > 1)
-							{
-								simDescription3.RemoveOutfit(OutfitCategories.Naked, 0, true);
-							}
-							try
-							{
-								PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
-							}
-							catch
-							{
-							}
-							return false;
-						}
 					}
-					// end strap removal
-				}
-				catch
-				{
-				}
 				return false;
 			}
 
@@ -6431,25 +6437,50 @@ namespace S3_Passion
 			//... so thats what that meant
 			public bool SwitchToPeener(Sim PlayerSim, bool AddIt, object PeenType)
 			{
-				ResourceKey key = ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883");
-				if (!World.ResourceExists(key) && AddIt)
-				{
-					PassionCommon.SystemMessage("SpaceMan Peener is not installed. SM animations will use the default penis.");
-					return false;
-				}
-				if (World.ResourceExists(key))
-				{
-					try
-					{
+
 						// if we're adding it
 						if (AddIt)
 						{
 							SimDescription simDescription = PlayerSim.SimDescription;
-							if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883")) == null)
-							{
-								SimOutfit uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x5F49653E2405BBFB"));
+					SimOutfit uniform = null;
+
+                    //
+                    // iterate thru the erect options
+                    if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM))
+                    {
+                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB2999B1205FC"));
+                    }
+                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AF))
+                    {
+                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB2999B1205F7"));
+                    }
+                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM))
+                    //{
+                        
+                    //}
+                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF))
+                    //{
+                        
+                    //}
+                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM))
+                    //{
+                        
+                    //}
+                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF))
+                    //{
+                        
+                    //}
+                    else
+                    {
+                        PassionCommon.SystemMessage("this sim's cock is MISSING what the FUCK");
+                    }
+					//
+					//
+
+
+                    
 								SimOutfit resultOutfit;
-								if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "Spaceman_ Peener", out resultOutfit))
+								if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "ErectPenis", out resultOutfit))
 								{
 									simDescription.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
 									SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
@@ -6464,7 +6495,7 @@ namespace S3_Passion
 									}
 								}
 								return true;
-							}
+							
 						}
 						// end peen addition
 
@@ -6472,10 +6503,9 @@ namespace S3_Passion
 						else if (!AddIt)
 						{
 							SimDescription simDescription2 = PlayerSim.SimDescription;
-							if (simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x0603B3F0BE3C7883")) != null)
+							if (simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x2005899A9D7F8331")) != null || simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x3AE7F490428FEB7F")) != null)
 							{
-								if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1 && simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8")) == null)
-								{
+
 									while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 1)
 									{
 										simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
@@ -6487,28 +6517,15 @@ namespace S3_Passion
 									catch
 									{
 									}
-								}
-								else if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1 && simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5BF7D41C6F2D94E8")) != null)
-								{
-									simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
-									try
-									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
-									}
-									catch
-									{
-									}
-								}
+								
 							}
 							return false;
 						}
-						// end peen removal
-					}
-					catch
-					{
-					}
-				}
+				// end peen removal
+
 				return false;
+
+
 			}
 
 			public void OnAnimationCompleted(StateMachineClient sender, IEvent evt)

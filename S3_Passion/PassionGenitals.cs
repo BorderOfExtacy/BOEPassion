@@ -7,8 +7,8 @@
         {
             UNSET,
 
-            VANILLA_defaultpenis_AM, // UUID; 0x034AEECB-0x00000000-0x4470460D3515EB11 || MASCDEFAULTHARD
-            VANILLA_defaultpenis_AF, // UUID; 0x034AEECB-0x00000000-0xB25D1F4F442041E6 || FEMDEFAULTHARD
+            VANILLA_defaultpenis_AM, // UUID; 0x034AEECB-0x00000000-0x4470460D3515EB11 || 0x025ED6F4-0x00000000-0x082BB2999B1205FC
+            VANILLA_defaultpenis_AF, // UUID; 0x034AEECB-0x00000000-0xB25D1F4F442041E6 || 0x025ED6F4-0x00000000-0x082BB2999B1205F7
             VANILLA_defaultpenis_TM, // UUID; 0x034AEECB-0x00000000-0xB7323F029C089C69 || MASCDEFAULTHARD
             VANILLA_defaultpenis_TF, // UUID; 0x034AEECB-0x00000000-0x49CBFB1B775EC86E || FEMDEFAULTHARD
             VANILLA_defaultpenis_EM, // UUID; 0x034AEECB-0x00000000-0x7A84DD417645F79C || MASCDEFAULTHARD
@@ -28,14 +28,14 @@
             VANILLA_barbiedoll_EM, // UUID; BARBIEDOLLMASC
             VANILLA_barbiedoll_EF, // UUID; BARBIEDOLLFEM
         }
-        // uuid format is: SOFT || HARD || HARD SIMO
+        // uuid format is: SOFT || HARD SIMO
 
         public enum SimStraponList
         {
             UNSET,
 
-            VANILLA_default_AF, // 0x025ED6F4-0x00000000-0xCE17741BF55E817A; 
-            VANILLA_default_AM, // UUID; 
+            VANILLA_default_AF, // 0x025ED6F4-0x00000000-0xF32C06036EFA3D8E; 
+            VANILLA_default_AM, // 0x025ED6F4-0x00000000-0xF32C06036EFA3D85; 
             VANILLA_default_TF, // UUID; 
             VANILLA_default_TM, // UUID; 
             VANILLA_default_EF, // UUID; 
