@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>BOE_Passion</AssemblyName>
+    <AssemblyName>Passion</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TargetFramework>net20</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
@@ -16,7 +16,9 @@
       <Private>False</Private>
     </Reference>
 </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Remove="UpgradeLog.htm" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Sims3GameplaySystems">
       <HintPath>Deps\Sims3GameplaySystems.dll</HintPath>

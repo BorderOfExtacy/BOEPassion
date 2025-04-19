@@ -177,7 +177,7 @@ namespace S3_Passion
 				}
 				if (!buffManager.HasAnyElement(Names.Libido.ToArray()))
 				{
-					buffManager.AddElement((BuffNames)8185339104921261200uL, Origin.None);
+					buffManager.AddElement((BuffNames)2248271455579464240uL, Origin.None);
 					return true;
 				}
 			}
