@@ -6502,25 +6502,23 @@ namespace S3_Passion
 						// if we're removing it
 						else if (!AddIt)
 						{
-							SimDescription simDescription2 = PlayerSim.SimDescription;
-							if (simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x2005899A9D7F8331")) != null || simDescription2.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x3AE7F490428FEB7F")) != null)
-							{
-
-									while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 1)
-									{
-										simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
-									}
-									try
-									{
-										PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
-									}
-									catch
-									{
-									}
-								
-							}
-							return false;
-						}
+                    SimDescription simDescription2 = PlayerSim.SimDescription;
+                    if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1)
+                    {
+                        while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 1)
+                        {
+                            simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
+                        }
+                        try
+                        {
+                            PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+                        }
+                        catch
+                        {
+                        }
+                        return false;
+                    }
+                }
 				// end peen removal
 
 				return false;
@@ -6693,7 +6691,17 @@ namespace S3_Passion
 					//	}
 					//}
 					RegisterWoohoo();
-					if (IsInPlace && ExitPoint != Vector3.Empty && ExitPoint != Vector3.Invalid)
+                    try
+                    {
+                        if (!ActiveLeave && !CanSwitch && Settings.GetSoft && (!Settings.StrapOnMode || GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis)))
+                        {
+							SwitchToPeener(Actor, false, PassionGenitals.SimGenitaliaList.UNSET);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                    if (IsInPlace && ExitPoint != Vector3.Empty && ExitPoint != Vector3.Invalid)
 					{
 						Location = ExitPoint;
 					}
