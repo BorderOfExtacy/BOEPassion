@@ -6454,22 +6454,22 @@ namespace S3_Passion
                     {
                         uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB2999B1205F7"));
                     }
-                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM))
-                    //{
-                        
-                    //}
-                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF))
-                    //{
-                        
-                    //}
-                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM))
-                    //{
-                        
-                    //}
-                    //else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF))
-                    //{
-                        
-                    //}
+                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM))
+                    {
+                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BC5999B1225B7"));
+                    }
+                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF))
+                    {
+                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BC5999B1225BC"));
+                    }
+                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM))
+                    {
+                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB6999B120C30"));
+                    }
+                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF))
+                    {
+                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB6999B120C3B"));
+                    }
                     else
                     {
                         PassionCommon.SystemMessage("this sim's cock is MISSING what the FUCK");
