@@ -5304,36 +5304,36 @@ namespace S3_Passion
 									try
 									{
                                         // SIM 3 STRAP START
-                                        if (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim3, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim3, false);
                                         }
                                         // SIM 3 STRAP END
 
                                         // SIM 4 STRAP START
-                                        if (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim4, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim4, false);
                                         }
                                         // SIM 4 STRAP END
 
                                         // SIM 5 STRAP START
-                                        if (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim5, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim5, false);
                                         }
@@ -5470,48 +5470,48 @@ namespace S3_Passion
 									{
 
                                         // SIM 6 STRAP START
-                                        if (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim6, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim6, false);
                                         }
                                         // SIM 6 STRAP END
 
                                         // SIM 7 STRAP START
-                                        if (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim7, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim7, false);
                                         }
                                         // SIM 7 STRAP END
 
                                         // SIM 8 STRAP START
-                                        if (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim8, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim8, false);
                                         }
                                         // SIM 8 STRAP END
 
                                         // SIM 9 STRAP START
-                                        if (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim9, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !simDescription9.IsPregnant && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !simDescription9.IsPregnant && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim9, false);
                                         }
@@ -5675,60 +5675,60 @@ namespace S3_Passion
 									{
 
                                         // SIM 10 STRAP START
-                                        if (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim10, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim10, false);
                                         }
                                         // SIM 10 STRAP END
 
                                         // SIM 11 STRAP START
-                                        if (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim11, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim11, false);
                                         }
                                         // SIM 11 STRAP END
 
                                         // SIM 12 STRAP START
-                                        if (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim12, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim12, false);
                                         }
                                         // SIM 12 STRAP END
 
                                         // SIM 13 STRAP START
-                                        if (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim13, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim13, false);
                                         }
                                         // SIM 13 STRAP END
 
                                         // SIM 14 STRAP START
-                                        if (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim14, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim14, false);
                                         }
@@ -5922,72 +5922,72 @@ namespace S3_Passion
 									{
 
                                         // SIM 15 STRAP START
-                                        if (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim15, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim15, false);
                                         }
                                         // SIM 15 STRAP END
 
                                         // SIM 16 STRAP START
-                                        if (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim16, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim16, false);
                                         }
                                         // SIM 16 STRAP END
 
                                         // SIM 17 STRAP START
-                                        if (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim17, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim17, false);
                                         }
                                         // SIM 17 STRAP END
 
                                         // SIM 18 STRAP START
-                                        if (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim18, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim18, false);
                                         }
                                         // SIM 18 STRAP END
 
                                         // SIM 19 STRAP START
-                                        if (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim19, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim19, false);
                                         }
                                         // SIM 19 STRAP END
 
                                         // SIM 20 STRAP START
-                                        if (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim20, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim20, false);
                                         }
