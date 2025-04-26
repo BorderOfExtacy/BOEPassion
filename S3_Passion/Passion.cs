@@ -2764,23 +2764,13 @@ namespace S3_Passion
 
 			public PassionState State;
 
-			//EDIT EDIT: remove these entirely in favor of just giving the genitalia an ID. or something
-
-			
-
-			public object SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
-
-			//add these while im at it
-
-			
-
             public object SimStrapon = PassionGenitals.SimStraponList.UNSET;
 
-            
+			public string SimGenitalType;
 
-            public object GenitalType = PassionGenitals.GenitalTypeList.UNSET;
+			public string SimJunkBaseCASP;
 
-            // ok cool if these explode im going to kill someone (aka my sims)
+			public string SimErectSIMO;
 
             public bool IsActive;
 
@@ -3222,9 +3212,10 @@ namespace S3_Passion
 				Player player = new Player();
 				player.Actor = sim;
 				player.RefreshHeightModifier(sim);
-                player.SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
                 player.SimStrapon = PassionGenitals.SimStraponList.UNSET;
-                player.GenitalType = PassionGenitals.GenitalTypeList.UNSET;
+				player.SimGenitalType = "";
+				player.SimJunkBaseCASP = "";
+				player.SimErectSIMO = "";
                 player.PositionIndex = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
@@ -4545,43 +4536,6 @@ namespace S3_Passion
 				return StartLoop();
 			}
 
-            public object SimPenis(Sim sim)
-            {
-                if (GetPlayer(sim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM))
-                {
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM;
-                }
-                else if (GetPlayer(sim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AF))
-                {
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AF;
-                }
-                else if (GetPlayer(sim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM))
-                {
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM;
-                }
-                else if (GetPlayer(sim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF))
-                {
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF;
-                }
-                else if (GetPlayer(sim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM))
-                {
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM;
-                }
-                else if (GetPlayer(sim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF))
-                {
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF;
-                }
-                else if (GetPlayer(sim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.JVSMITH_athletic_AM))
-                {
-                    return PassionGenitals.SimGenitaliaList.JVSMITH_athletic_AM;
-                }
-                else
-                {
-                    PassionCommon.SystemMessage("this sim's cock is MISSING what the FUCK");
-                    return PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM;
-                }
-            }
-
 
             public bool StartLoop()
 			{
@@ -4709,173 +4663,26 @@ namespace S3_Passion
 					//
 					// check to see what junk a sim has
 					// im sorry if any competent programmers see this
+					// edit: is it less scary now. please clap
 					//
 
-					//
-					// if sim has a penis
-					//
-					if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x1A76E24B5B8B9818")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB7323F029C089C69")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x7A84DD417645F79C")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x791177023F4DE467")) != null)
+					
+                   foreach (PassionBody.BodyShop body in PassionBody.coolbodyshop)
 					{
-						GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.penis;
+                        string PartName = body.Name;
+                        string PartType = body.GenitalType;
+                        string PartBase = body.BaseCASP;
+                        string PartErect = body.ErectSIMO;
 
-                        //iterate thru the penis types to see which one the sims has (there's a better way to do this probably but idc)
-
-						//AM peen
-                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x1A76E24B5B8B9818")) != null)
+                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString(PartBase)) != null)
 						{
-							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM;
-                        }
-
-                        //AF peen
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AF;
-                        }
-
-                        //TM peen
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB7323F029C089C69")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM;
-                        }
-
-                        //TF peen
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF;
-                        }
-
-                        //EM peen
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x7A84DD417645F79C")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM;
-                        }
-
-                        //EF peen
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF;
-                        }
-
-                        //JVSMITH athletic
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x791177023F4DE467")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.JVSMITH_athletic_AM;
-                        }
-
-                        // fallback if it can't find it
-                        else
-						{
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
-                            PassionCommon.SystemMessage("This sim has a penis (allegedly), but the ResourceKey of their genitals wasn't parsed!");
+                            PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
+							GetPlayer(Actor).SimGenitalType = PartType;
+                            GetPlayer(Actor).SimJunkBaseCASP = PartBase;
+                            GetPlayer(Actor).SimErectSIMO = PartErect;
                         }
 
                     }
-
-					//
-					// if sim has a vagina
-					//
-					else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x25A4947D2A7B1823")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xC1E55AEF1301DA97")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x47DAFA0357873852")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xA823ACD8C94FFAD2")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x8994DC6F288202D1")) != null)
-					{
-                        GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.vagina;
-
-                        //masc vag
-                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x25A4947D2A7B1823")) != null)
-                        {
-							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultvagina_AM;
-                        }
-
-                        //fem vag
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xC1E55AEF1301DA97")) != null)
-                        {
-							GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VANILLA_defaultvagina_AF;
-                        }
-
-                        //vp bubblebutt v2
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x47DAFA0357873852")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_bubblebuttv2_AM;
-                        }
-
-                        //vp gecko
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xA823ACD8C94FFAD2")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_gecko_AM;
-                        }
-
-                        //vp rivenvulva
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x8994DC6F288202D1")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_rivenvulva_AM;
-                        }
-
-                        // fallback if it can't find it
-                        else
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
-                            PassionCommon.SystemMessage("This sim has a vagina (allegedly), but the UUID of their genitals wasn't parsed!");
-                        }
-
-                    }
-                    //// if sim has both
-                    //else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB25D1F4F442041E6")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x23697088F9BC3EA8")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x49CBFB1B775EC86E")) != null)
-                    //{
-                    //    GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.both;
-                    //    PassionCommon.SystemMessage("this hasnt been set up yet. how are you here.");
-
-                    //}
-
-                    //if sim has no junk
-                    else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5812B0703BB2B55B")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB17203331C00898E")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x8AF1542868BCE779")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x009469987A7EE3FA")) != null || simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x51F638E21B9AA879")) != null)
-                    {
-                        GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.neither;
-
-                        //vp bigbooty
-                        if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x5812B0703BB2B55B")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_bigbooty_AM;
-                        }
-
-                        //vp bubblebutt v1
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0xB17203331C00898E")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_bubblebuttv1_AM;
-                        }
-
-                        //vp keenan bubblebutt v1
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x8AF1542868BCE779")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_keenanbubblebuttv1_AM;
-                        }
-
-                        //vp keenan bubblebutt v2
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x009469987A7EE3FA")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_keenanbubblebuttv2_AM;
-                        }
-
-                        //vp keenan
-                        else if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString("0x034AEECB-0x00000000-0x51F638E21B9AA879")) != null)
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.VP_keenan_AM;
-                        }
-
-						// fallback
-                        else
-                        {
-                            GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
-                            PassionCommon.SystemMessage("This sim has no junk (allegedly), but the UUID of their genitals wasn't parsed!");
-                        }
-
-                    }
-                    else
-					{
-						GetPlayer(Actor).SimGenitalia = PassionGenitals.SimGenitaliaList.UNSET;
-                        GetPlayer(Actor).GenitalType = PassionGenitals.GenitalTypeList.UNSET;
-                        PassionCommon.SystemMessage("This sim's genitalia was not successfully parsed!");
-                    }
-
-
-
 
 
 					SimDescription simDescription2 = Actor.SimDescription;
@@ -4978,21 +4785,21 @@ namespace S3_Passion
 							try
 							{
 								// penis removal if the sim should stop
-								if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
+								if (GetPlayer(Actor).SimGenitalType == "penis" || GetPlayer(Actor).SimGenitalType == "both")
 								{
-                                    SwitchToPeener(Actor, false, PassionGenitals.SimGenitaliaList.UNSET);
+                                    SwitchToPeener(Actor, false);
                                 }
-								else if (GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-								{
-									SwitchToPeener(Partner.Actor, false, PassionGenitals.SimGenitaliaList.UNSET);
+								else if (GetPlayer(Partner.Actor).SimGenitalType == "penis" || GetPlayer(Partner.Actor).SimGenitalType == "both")
+                                {
+									SwitchToPeener(Partner.Actor, false);
                                 }
 
-								 // remove condom
-                                if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
+                                // remove condom
+                                if (GetPlayer(Actor).SimGenitalType == "penis" || GetPlayer(Actor).SimGenitalType == "both")
                                 {
                                     WearCondom(Actor, false);
                                 }
-                                else if (GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
+                                else if (GetPlayer(Partner.Actor).SimGenitalType == "penis" || GetPlayer(Partner.Actor).SimGenitalType == "both")
                                 {
                                     WearCondom(Partner.Actor, false);
                                 }
@@ -5006,11 +4813,11 @@ namespace S3_Passion
 							try
 							{
 								// remove strap
-								if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither))
+								if (GetPlayer(Actor).SimGenitalType == "vagina" || GetPlayer(Actor).SimGenitalType == "neither")
                                 {
 									SwitchToStrapon(Actor, false);
 								}
-								else if (GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither))
+								else if (GetPlayer(Actor).SimGenitalType == "vagina" || GetPlayer(Actor).SimGenitalType == "neither")
                                 {
 									SwitchToStrapon(Partner.Actor, false);
 								}
@@ -5147,39 +4954,22 @@ namespace S3_Passion
 										
 										//
 										// if strapon IS meant to be used, sim has vagina or null
-										if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+										if ((GetPlayer(Actor).SimGenitalType == "vagina" || GetPlayer(Actor).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(Actor, true);
 										}
-                                        else if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
-                                        {
-                                            SwitchToStrapon(Actor, true);
-                                        }
                                         // if strapon isn't meant to be used
-                                        else if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(Actor).SimGenitalType == "vagina" || GetPlayer(Actor).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
 										{
 											SwitchToStrapon(Actor, false);
 										}
-                                        else if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither) && !Part.Position.PutOnStraOn[1])
-                                        {
-                                            SwitchToStrapon(Actor, false);
-                                        }
 										//end branch
 										//
 
-                                        // if actor has a penis - iterate thru peen types (this is going to suck)
-                                        if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        // if actor has a penis
+                                        if (GetPlayer(Actor).SimGenitalType == "penis" || GetPlayer(Actor).SimGenitalType == "both")
 										{
-                                            Sim labRat = Actor;
-
-											Object simcock = SimPenis(labRat);
-											SwitchToPeener(Actor, true, simcock);
-
-                                        }
-										// if actor has both - iterate thru those
-										else if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+											SwitchToPeener(Actor, true);
                                         }
 										// end branch
 										//
@@ -5221,13 +5011,13 @@ namespace S3_Passion
 									{
                                         // do i really have to repeat this code for every fucking participant. what the hell
 
-										// SIM 1 STRAP START
-                                        if ((GetPlayer(sim).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        // SIM 1 STRAP START
+                                        if ((GetPlayer(sim).SimGenitalType == "vagina" || GetPlayer(sim).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim).SimGenitalType == "vagina" || GetPlayer(sim).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim, false);
                                         }
@@ -5235,12 +5025,12 @@ namespace S3_Passion
                                         // SIM 1 STRAP END
 
                                         // SIM 2 STRAP START
-                                        if ((GetPlayer(sim2).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim2).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[2])
+                                        if ((GetPlayer(sim2).SimGenitalType == "vagina" || GetPlayer(sim2).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim2, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim2).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim2).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[2])
+                                        else if ((GetPlayer(sim2).SimGenitalType == "vagina" || GetPlayer(sim2).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim2, false);
                                         }
@@ -5251,33 +5041,17 @@ namespace S3_Passion
 
                                         // cock processing
 
-										// SIM 1 PEEN START
-                                        if (GetPlayer(sim).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        // SIM 1 PEEN START
+                                        if (GetPlayer(sim).SimGenitalType == "penis" || GetPlayer(sim).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim, true);
                                         }
                                         // SIM 1 PEEN END
 
                                         // SIM 2 PEEN START
-                                        if (GetPlayer(sim2).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim2).SimGenitalType == "penis" || GetPlayer(sim2).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim2;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim2, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim2).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim2, true);
                                         }
                                         // SIM 2 PEEN END
                                     }
@@ -5289,12 +5063,12 @@ namespace S3_Passion
 										// see if sim should NOT be wearing condom
 										if (!Settings.UseCondom || Settings.CondomIsBroken)
 										{
-											if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+											if (GetPlayer(Actor).SimGenitalType == "penis" || GetPlayer(Actor).SimGenitalType == "both")
                                             {
 												WearCondom(Actor, false);
 											}
                                             // check the partner too
-                                            if (GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(Partner.Actor).SimGenitalType == "penis" || GetPlayer(Partner.Actor).SimGenitalType == "both")
                                             {
 												WearCondom(Partner.Actor, false);
 											}
@@ -5302,11 +5076,11 @@ namespace S3_Passion
 										// see if sim SHOULD be wearing condom
 										if (Settings.UseCondom && !Settings.CondomIsBroken)
 										{
-                                            if (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(Actor).SimGenitalType == "penis" || GetPlayer(Actor).SimGenitalType == "both")
                                             {
 												WearCondom(Actor, true);
 											}
-											else if (GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(Partner.Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+											else if (GetPlayer(Partner.Actor).SimGenitalType == "penis" || GetPlayer(Partner.Actor).SimGenitalType == "both")
                                             {
 												WearCondom(Partner.Actor, true);
 											}
@@ -5354,87 +5128,63 @@ namespace S3_Passion
 									try
 									{
                                         // SIM 3 STRAP START
-                                        if ((GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim3).SimGenitalType == "vagina" || GetPlayer(sim3).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim3, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim3).SimGenitalType == "vagina" || GetPlayer(sim3).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim3, false);
                                         }
                                         // SIM 3 STRAP END
 
                                         // SIM 4 STRAP START
-                                        if ((GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim4).SimGenitalType == "vagina" || GetPlayer(sim4).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim4, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim4).SimGenitalType == "vagina" || GetPlayer(sim4).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim4, false);
                                         }
                                         // SIM 4 STRAP END
 
                                         // SIM 5 STRAP START
-                                        if ((GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim5).SimGenitalType == "vagina" || GetPlayer(sim5).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim5, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim5).SimGenitalType == "vagina" || GetPlayer(sim5).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim5, false);
                                         }
                                         // SIM 5 STRAP END
 
-										//
-										// cock time
-										//
+                                        //
+                                        // cock time
+                                        //
 
                                         // SIM 3 PEEN START
-                                        if (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim3).SimGenitalType == "penis" || GetPlayer(sim3).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim3;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim3, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim3, true);
                                         }
                                         // SIM 3 PEEN END
 
                                         // SIM 4 PEEN START
-                                        if (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim4).SimGenitalType == "penis" || GetPlayer(sim4).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim4;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim4, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim4, true);
                                         }
                                         // SIM 4 PEEN END
 
                                         // SIM 5 PEEN START
-                                        if (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim5).SimGenitalType == "penis" || GetPlayer(sim5).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim5;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim5, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim5, true);
                                         }
                                         // SIM 5 PEEN END
 
@@ -5443,30 +5193,30 @@ namespace S3_Passion
 
                                         if (Settings.UseCondom && !Settings.CondomIsBroken)
 										{
-                                            if (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim3).SimGenitalType == "penis" || GetPlayer(sim3).SimGenitalType == "both")
                                             {
 												WearCondom(sim3, true);
 											}
-                                            if (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim4).SimGenitalType == "penis" || GetPlayer(sim4).SimGenitalType == "both")
                                             {
 												WearCondom(sim4, true);
 											}
-                                            if (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim5).SimGenitalType == "penis" || GetPlayer(sim5).SimGenitalType == "both")
                                             {
 												WearCondom(sim5, true);
 											}
 										}
 										else if (!Settings.UseCondom || Settings.CondomIsBroken)
 										{
-                                            if (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim3).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim3).SimGenitalType == "penis" || GetPlayer(sim3).SimGenitalType == "both")
                                             {
 												WearCondom(sim3, false);
 											}
-                                            if (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim4).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim4).SimGenitalType == "penis" || GetPlayer(sim4).SimGenitalType == "both")
                                             {
 												WearCondom(sim4, false);
 											}
-                                            if (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim5).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim5).SimGenitalType == "penis" || GetPlayer(sim5).SimGenitalType == "both")
                                             {
 												WearCondom(sim5, false);
 											}
@@ -5520,110 +5270,78 @@ namespace S3_Passion
 									{
 
                                         // SIM 6 STRAP START
-                                        if ((GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim6).SimGenitalType == "vagina" || GetPlayer(sim6).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim6, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim6).SimGenitalType == "vagina" || GetPlayer(sim6).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim6, false);
                                         }
                                         // SIM 6 STRAP END
 
                                         // SIM 7 STRAP START
-                                        if ((GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim7).SimGenitalType == "vagina" || GetPlayer(sim7).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim7, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim7).SimGenitalType == "vagina" || GetPlayer(sim7).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim7, false);
                                         }
                                         // SIM 7 STRAP END
 
                                         // SIM 8 STRAP START
-                                        if ((GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim8).SimGenitalType == "vagina" || GetPlayer(sim8).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim8, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim8).SimGenitalType == "vagina" || GetPlayer(sim8).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim8, false);
                                         }
                                         // SIM 8 STRAP END
 
                                         // SIM 9 STRAP START
-                                        if ((GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim9).SimGenitalType == "vagina" || GetPlayer(sim9).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim9, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !simDescription9.IsPregnant && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim9).SimGenitalType == "vagina" || GetPlayer(sim9).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim9, false);
                                         }
                                         // SIM 9 STRAP END
 
                                         // SIM 6 PEEN START
-                                        if (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim6).SimGenitalType == "penis" || GetPlayer(sim6).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim6;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim6, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim6, true);
                                         }
                                         // SIM 6 PEEN END
 
                                         // SIM 7 PEEN START
-                                        if (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim7).SimGenitalType == "penis" || GetPlayer(sim7).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim7;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim7, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim7, true);
                                         }
                                         // SIM 7 PEEN END
 
                                         // SIM 8 PEEN START
-                                        if (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim8).SimGenitalType == "penis" || GetPlayer(sim8).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim8;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim8, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim8, true);
                                         }
                                         // SIM 8 PEEN END
 
                                         // SIM 9 PEEN START
-                                        if (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim9).SimGenitalType == "penis" || GetPlayer(sim9).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim9;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim9, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim9, true);
                                         }
                                         // SIM 9 PEEN END
 
@@ -5632,38 +5350,38 @@ namespace S3_Passion
 
                                         if (Settings.UseCondom && !Settings.CondomIsBroken)
                                         {
-                                            if (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim6).SimGenitalType == "penis" || GetPlayer(sim6).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim6, true);
                                             }
-                                            if (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim7).SimGenitalType == "penis" || GetPlayer(sim7).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim7, true);
                                             }
-                                            if (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim8).SimGenitalType == "penis" || GetPlayer(sim8).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim8, true);
                                             }
-                                            if (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim9).SimGenitalType == "penis" || GetPlayer(sim9).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim9, true);
                                             }
                                         }
                                         else if (!Settings.UseCondom || Settings.CondomIsBroken)
                                         {
-                                            if (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim6).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim6).SimGenitalType == "penis" || GetPlayer(sim6).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim6, false);
                                             }
-                                            if (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim7).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim7).SimGenitalType == "penis" || GetPlayer(sim7).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim7, false);
                                             }
-                                            if (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim8).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim8).SimGenitalType == "penis" || GetPlayer(sim8).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim8, false);
                                             }
-                                            if (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim9).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim9).SimGenitalType == "penis" || GetPlayer(sim9).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim9, false);
                                             }
@@ -5725,137 +5443,97 @@ namespace S3_Passion
 									{
 
                                         // SIM 10 STRAP START
-                                        if ((GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim10).SimGenitalType == "vagina" || GetPlayer(sim10).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim10, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim10).SimGenitalType == "vagina" || GetPlayer(sim10).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim10, false);
                                         }
                                         // SIM 10 STRAP END
 
                                         // SIM 11 STRAP START
-                                        if ((GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim11).SimGenitalType == "vagina" || GetPlayer(sim11).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim11, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim11).SimGenitalType == "vagina" || GetPlayer(sim11).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim11, false);
                                         }
                                         // SIM 11 STRAP END
 
                                         // SIM 12 STRAP START
-                                        if ((GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim12).SimGenitalType == "vagina" || GetPlayer(sim12).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim12, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim12).SimGenitalType == "vagina" || GetPlayer(sim12).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim12, false);
                                         }
                                         // SIM 12 STRAP END
 
                                         // SIM 13 STRAP START
-                                        if ((GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim13).SimGenitalType == "vagina" || GetPlayer(sim13).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim13, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim13).SimGenitalType == "vagina" || GetPlayer(sim13).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim13, false);
                                         }
                                         // SIM 13 STRAP END
 
                                         // SIM 14 STRAP START
-                                        if ((GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim14).SimGenitalType == "vagina" || GetPlayer(sim14).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim14, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim14).SimGenitalType == "vagina" || GetPlayer(sim14).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim14, false);
                                         }
                                         // SIM 14 STRAP END
 
                                         // SIM 10 PEEN START
-                                        if (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim10).SimGenitalType == "penis" || GetPlayer(sim10).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim10;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim10, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim10, true);
                                         }
                                         // SIM 10 PEEN END
 
                                         // SIM 11 PEEN START
-                                        if (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim11).SimGenitalType == "penis" || GetPlayer(sim11).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim11;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim11, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim11, true);
                                         }
                                         // SIM 11 PEEN END
 
                                         // SIM 12 PEEN START
-                                        if (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim12).SimGenitalType == "penis" || GetPlayer(sim12).SimGenitalType == "both")
                                         {
-											Sim labRat = sim12;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim12, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim12, true);
                                         }
                                         // SIM 12 PEEN END
 
                                         // SIM 13 PEEN START
-                                        if (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim13).SimGenitalType == "penis" || GetPlayer(sim13).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim13;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim13, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim13, true);
                                         }
                                         // SIM 13 PEEN END
 
                                         // SIM 14 PEEN START
-                                        if (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim14).SimGenitalType == "penis" || GetPlayer(sim14).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim14;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim14, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim14, true);
                                         }
                                         // SIM 14 PEEN END
 
@@ -5864,46 +5542,46 @@ namespace S3_Passion
 
                                         if (Settings.UseCondom && !Settings.CondomIsBroken)
                                         {
-                                            if (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim10).SimGenitalType == "penis" || GetPlayer(sim10).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim10, true);
                                             }
-                                            if (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim11).SimGenitalType == "penis" || GetPlayer(sim11).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim11, true);
                                             }
-                                            if (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim12).SimGenitalType == "penis" || GetPlayer(sim12).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim12, true);
                                             }
-                                            if (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim13).SimGenitalType == "penis" || GetPlayer(sim13).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim13, true);
                                             }
-                                            if (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim14).SimGenitalType == "penis" || GetPlayer(sim14).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim14, true);
                                             }
                                         }
                                         else if (!Settings.UseCondom || Settings.CondomIsBroken)
                                         {
-                                            if (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim10).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim10).SimGenitalType == "penis" || GetPlayer(sim10).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim10, false);
                                             }
-                                            if (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim11).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim11).SimGenitalType == "penis" || GetPlayer(sim11).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim11, false);
                                             }
-                                            if (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim12).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim12).SimGenitalType == "penis" || GetPlayer(sim12).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim12, false);
                                             }
-                                            if (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim13).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim13).SimGenitalType == "penis" || GetPlayer(sim13).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim13, false);
                                             }
-                                            if (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim14).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim14).SimGenitalType == "penis" || GetPlayer(sim14).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim14, false);
                                             }
@@ -5972,164 +5650,116 @@ namespace S3_Passion
 									{
 
                                         // SIM 15 STRAP START
-                                        if ((GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim15).SimGenitalType == "vagina" || GetPlayer(sim15).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim15, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim15).SimGenitalType == "vagina" || GetPlayer(sim15).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim15, false);
                                         }
                                         // SIM 15 STRAP END
 
                                         // SIM 16 STRAP START
-                                        if ((GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim16).SimGenitalType == "vagina" || GetPlayer(sim16).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim16, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim16).SimGenitalType == "vagina" || GetPlayer(sim16).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim16, false);
                                         }
                                         // SIM 16 STRAP END
 
                                         // SIM 17 STRAP START
-                                        if ((GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim17).SimGenitalType == "vagina" || GetPlayer(sim17).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim17, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim17).SimGenitalType == "vagina" || GetPlayer(sim17).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim17, false);
                                         }
                                         // SIM 17 STRAP END
 
                                         // SIM 18 STRAP START
-                                        if ((GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim18).SimGenitalType == "vagina" || GetPlayer(sim18).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim18, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim18).SimGenitalType == "vagina" || GetPlayer(sim18).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim18, false);
                                         }
                                         // SIM 18 STRAP END
 
                                         // SIM 19 STRAP START
-                                        if ((GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim19).SimGenitalType == "vagina" || GetPlayer(sim19).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim19, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim19).SimGenitalType == "vagina" || GetPlayer(sim19).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim19, false);
                                         }
                                         // SIM 19 STRAP END
 
                                         // SIM 20 STRAP START
-                                        if ((GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
+                                        if ((GetPlayer(sim20).SimGenitalType == "vagina" || GetPlayer(sim20).SimGenitalType == "neither") && Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim20, true);
                                         }
                                         // if strapon isn't meant to be used
-                                        else if ((GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.neither)) && !Part.Position.PutOnStraOn[1])
+                                        else if ((GetPlayer(sim20).SimGenitalType == "vagina" || GetPlayer(sim20).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                         {
                                             SwitchToStrapon(sim20, false);
                                         }
                                         // SIM 20 STRAP END
 
                                         // SIM 15 PEEN START
-                                        if (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim15).SimGenitalType == "penis" || GetPlayer(sim15).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim15;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim15, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim15, true);
                                         }
                                         // SIM 15 PEEN END
 
                                         // SIM 16 PEEN START
-                                        if (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim16).SimGenitalType == "penis" || GetPlayer(sim16).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim16;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim16, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim16, true);
                                         }
                                         // SIM 16 PEEN END
 
                                         // SIM 17 PEEN START
-                                        if (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim17).SimGenitalType == "penis" || GetPlayer(sim17).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim17;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim17, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim17, true);
                                         }
                                         // SIM 17 PEEN END
 
                                         // SIM 18 PEEN START
-                                        if (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim18).SimGenitalType == "penis" || GetPlayer(sim18).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim18;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim18, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim18, true);
                                         }
                                         // SIM 18 PEEN END
 
                                         // SIM 19 PEEN START
-                                        if (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim19).SimGenitalType == "penis" || GetPlayer(sim19).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim19;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim19, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim19, true);
                                         }
                                         // SIM 19 PEEN END
 
                                         // SIM 20 PEEN START
-                                        if (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+                                        if (GetPlayer(sim20).SimGenitalType == "penis" || GetPlayer(sim20).SimGenitalType == "both")
                                         {
-                                            Sim labRat = sim20;
-
-                                            Object simcock = SimPenis(labRat);
-                                            SwitchToPeener(sim20, true, simcock);
-                                        }
-                                        // if actor has both - iterate thru those
-                                        else if (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-                                        {
-                                            PassionCommon.SystemMessage("this hasn't been implemented yet lmao");
+                                            SwitchToPeener(sim20, true);
                                         }
                                         // SIM 20 PEEN END
 
@@ -6138,54 +5768,54 @@ namespace S3_Passion
 
                                         if (Settings.UseCondom && !Settings.CondomIsBroken)
                                         {
-                                            if (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim15).SimGenitalType == "penis" || GetPlayer(sim15).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim15, true);
                                             }
-                                            if (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim16).SimGenitalType == "penis" || GetPlayer(sim16).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim16, true);
                                             }
-                                            if (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim17).SimGenitalType == "penis" || GetPlayer(sim17).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim17, true);
                                             }
-                                            if (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim18).SimGenitalType == "penis" || GetPlayer(sim18).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim18, true);
                                             }
-                                            if (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim19).SimGenitalType == "penis" || GetPlayer(sim19).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim19, true);
                                             }
-                                            if (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim20).SimGenitalType == "penis" || GetPlayer(sim20).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim20, true);
                                             }
                                         }
                                         else if (!Settings.UseCondom || Settings.CondomIsBroken)
                                         {
-                                            if (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim15).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim15).SimGenitalType == "penis" || GetPlayer(sim15).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim15, false);
                                             }
-                                            if (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim16).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim16).SimGenitalType == "penis" || GetPlayer(sim16).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim16, false);
                                             }
-                                            if (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim17).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim17).SimGenitalType == "penis" || GetPlayer(sim17).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim17, false);
                                             }
-                                            if (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim18).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim18).SimGenitalType == "penis" || GetPlayer(sim18).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim18, false);
                                             }
-                                            if (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim19).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim19).SimGenitalType == "penis" || GetPlayer(sim19).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim19, false);
                                             }
-                                            if (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || (GetPlayer(sim20).GenitalType.Equals(PassionGenitals.GenitalTypeList.both)))
+                                            if (GetPlayer(sim20).SimGenitalType == "penis" || GetPlayer(sim20).SimGenitalType == "both")
                                             {
                                                 WearCondom(sim20, false);
                                             }
@@ -6216,12 +5846,12 @@ namespace S3_Passion
 				{
 					//get out of nakey outfit, take off peen and condom
 
-						SwitchToPeener(Actor, false, PassionGenitals.SimGenitaliaList.UNSET);
+						SwitchToPeener(Actor, false);
 						if (previousOutfitCategory != OutfitCategories.Naked)
 						{
 							Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
 						}
-						SwitchToPeener(Partner.Actor, false, PassionGenitals.SimGenitaliaList.UNSET);
+						SwitchToPeener(Partner.Actor, false);
 						if (previousOutfitCategory != OutfitCategories.Naked)
 						{
 							Partner.Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
@@ -6485,49 +6115,16 @@ namespace S3_Passion
 
 			// add spaceman peener to sims with peens
 			//... so thats what that meant
-			public bool SwitchToPeener(Sim PlayerSim, bool AddIt, object PeenType)
+			public bool SwitchToPeener(Sim PlayerSim, bool AddIt)
 			{
 
 						// if we're adding it
 						if (AddIt)
 						{
 							SimDescription simDescription = PlayerSim.SimDescription;
-					SimOutfit uniform = null;
-
-                    //
-                    // iterate thru the erect options
-                    if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AM))
-                    {
-                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB2999B1205FC"));
-                    }
-                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_AF))
-                    {
-                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB2999B1205F7"));
-                    }
-                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TM))
-                    {
-                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BC5999B1225B7"));
-                    }
-                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_TF))
-                    {
-                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BC5999B1225BC"));
-                    }
-                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EM))
-                    {
-                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB6999B120C30"));
-                    }
-                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.VANILLA_defaultpenis_EF))
-                    {
-                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0x082BB6999B120C3B"));
-                    }
-                    else if (GetPlayer(PlayerSim).SimGenitalia.Equals(PassionGenitals.SimGenitaliaList.JVSMITH_athletic_AM))
-                    {
-                        uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xECDF8339F0F2E686"));
-                    }
-                    else
-                    {
-                        PassionCommon.SystemMessage("this sim's cock is MISSING what the FUCK");
-                    }
+					string ErectPeen = GetPlayer(PlayerSim).SimErectSIMO;
+                    SimOutfit uniform = null;
+                    uniform = new SimOutfit(ResourceKey.FromString(ErectPeen));
 					//
 					//
 
@@ -6747,9 +6344,9 @@ namespace S3_Passion
 					RegisterWoohoo();
                     try
                     {
-                        if (!ActiveLeave && !CanSwitch && Settings.GetSoft && (!Settings.StrapOnMode || GetPlayer(Actor).GenitalType.Equals(PassionGenitals.GenitalTypeList.penis)))
+                        if (!ActiveLeave && !CanSwitch && Settings.GetSoft && (!Settings.StrapOnMode || (GetPlayer(Actor).SimGenitalType == "penis" || GetPlayer(Actor).SimGenitalType == "both")))
                         {
-							SwitchToPeener(Actor, false, PassionGenitals.SimGenitaliaList.UNSET);
+							SwitchToPeener(Actor, false);
                         }
                     }
                     catch
@@ -8005,12 +7602,12 @@ namespace S3_Passion
 				{
 					if (value != null)
 					{
-						if (value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || value.GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
+						if (value.SimGenitalType == "penis" || value.SimGenitalType == "both")
 						{
 							penises++;
 						}
-						if (value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || value.GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
-						{
+						if (value.SimGenitalType == "vagina" || value.SimGenitalType == "both")
+                        {
 							vaginas++;
 						}
 					}
@@ -8475,38 +8072,38 @@ namespace S3_Passion
 								Position.Animation.Slot slot = ((set != null) ? set.GetSlot(i) : null);
 								if (slot != null && slot.NeedsPenis)
 								{
-									if (item.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) || item.GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
+									if (item.SimGenitalType == "penis" || item.SimGenitalType == "both")
 									{
 										if (item.PositionIndex == i)
 										{
 											player = item;
 											break;
 										}
-										if (player == null || !player.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+										if (player == null || player.SimGenitalType != "penis")
 										{
 											player = item;
 										}
 									}
-									else if (player == null || (item.PositionIndex == i && !player.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis)))
+									else if (player == null || (item.PositionIndex == i && player.SimGenitalType != "penis"))
 									{
 										player = item;
 									}
 								}
 								else if (slot != null && slot.NeedsVagina)
 								{
-									if (item.GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) || item.GenitalType.Equals(PassionGenitals.GenitalTypeList.both))
+									if (item.SimGenitalType == "vagina" || item.SimGenitalType == "vagina")
                                     {
 										if (item.PositionIndex == i)
 										{
 											player = item;
 											break;
 										}
-										if (player == null || player.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis))
+										if (player == null || player.SimGenitalType == "penis")
                                         {
 											player = item;
 										}
 									}
-									else if (player == null || (item.PositionIndex == i && player.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis)))
+									else if (player == null || (item.PositionIndex == i && player.SimGenitalType == "penis"))
 
                                     {
 										player = item;
@@ -8814,7 +8411,7 @@ namespace S3_Passion
 							{
 								continue;
 							}
-							if (value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && !value.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
+							if (value.SimGenitalType == "penis" && !value.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
 							{
 								Settings.PassionFuckSession = true;
 								try
@@ -8828,7 +8425,7 @@ namespace S3_Passion
 								Settings.CondomIsBroken = true;
 								return true;
 							}
-							if (value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && value.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
+							if (value.SimGenitalType == "penis" && value.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
 							{
 								Settings.PassionFuckSession = true;
 								foreach (SingleCondom item in value.Actor.Inventory.FindAll<SingleCondom>(true))
@@ -8841,7 +8438,7 @@ namespace S3_Passion
 									}
 								}
 							}
-							else if (value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && value.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
+							else if (value.SimGenitalType == "penis" && value.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
 							{
 								Settings.PassionFuckSession = true;
 								foreach (CondomPack item2 in value.Actor.Inventory.FindAll<CondomPack>(true))
@@ -8864,7 +8461,7 @@ namespace S3_Passion
 								{
 									continue;
 								}
-								if (value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && !value2.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value2.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
+								if (value2.SimGenitalType == "penis" && !value2.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value2.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
 								{
 									Settings.PassionFuckSession = true;
 									try
@@ -8878,7 +8475,7 @@ namespace S3_Passion
 									Settings.CondomIsBroken = true;
 									return true;
 								}
-								if (value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && value2.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
+								if (value2.SimGenitalType == "penis" && value2.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
 								{
 									Settings.PassionFuckSession = true;
 									foreach (SingleCondom item3 in value2.Actor.Inventory.FindAll<SingleCondom>(true))
@@ -8891,7 +8488,7 @@ namespace S3_Passion
 										}
 									}
 								}
-								else if (value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && value2.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value2.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
+								else if (value2.SimGenitalType == "penis" && value2.Actor.Inventory.ContainsType(typeof(CondomPack), 1) && !value2.Actor.Inventory.ContainsType(typeof(SingleCondom), 1) && !Settings.PassionFuckSession)
 								{
 									Settings.PassionFuckSession = true;
 									foreach (CondomPack item4 in value2.Actor.Inventory.FindAll<CondomPack>(true))
@@ -8910,7 +8507,7 @@ namespace S3_Passion
 								}
 								try
 								{
-									if (((value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && PassionCommon.Match(Position.Categories, 4)) || (value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && PassionCommon.Match(Position.Categories, 8)) || (value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && PassionCommon.Match(Position.Categories, 12))) && RandomUtil.RandomChance(Settings.CondomBrakeChance))
+									if (((value2.SimGenitalType == "penis" && PassionCommon.Match(Position.Categories, 4)) || (value2.SimGenitalType == "penis" && PassionCommon.Match(Position.Categories, 8)) || (value2.SimGenitalType == "penis" && PassionCommon.Match(Position.Categories, 12))) && RandomUtil.RandomChance(Settings.CondomBrakeChance))
 									{
 										try
 										{
@@ -8929,7 +8526,7 @@ namespace S3_Passion
 								}
 								try
 								{
-									if (((value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && PassionCommon.Match(Position.Categories, 4)) || (value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && PassionCommon.Match(Position.Categories, 8)) || (value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && PassionCommon.Match(Position.Categories, 12))) && RandomUtil.RandomChance(Settings.CondomBrakeChance))
+									if (((value.SimGenitalType == "penis" && PassionCommon.Match(Position.Categories, 4)) || (value.SimGenitalType == "penis" && PassionCommon.Match(Position.Categories, 8)) || (value.SimGenitalType == "penis" && PassionCommon.Match(Position.Categories, 12))) && RandomUtil.RandomChance(Settings.CondomBrakeChance))
 									{
 										try
 										{
@@ -8976,7 +8573,7 @@ namespace S3_Passion
 						}
 						foreach (Player value2 in Players.Values)
 						{
-							if (!value2.IsActive || value2.Actor == value.Actor || (!value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossibleSameSexPregnancy) && Settings.PregnancyMethod != PregnancyMethod.KWSystem) || ((Settings.PregnancyMethod != PregnancyMethod.ByCategory || !PassionCommon.Match(Position.Categories, 12)) && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossiblePregnancy) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !value.Actor.IsFemale || !PassionCommon.Match(Position.Categories, 4)) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !value.Actor.IsMale || !PassionCommon.Match(Position.Categories, 8)) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !PassionCommon.Match(Position.Categories, 12))))
+							if (!value2.IsActive || value2.Actor == value.Actor || (value2.SimGenitalType != "penis" && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossibleSameSexPregnancy) && Settings.PregnancyMethod != PregnancyMethod.KWSystem) || ((Settings.PregnancyMethod != PregnancyMethod.ByCategory || !PassionCommon.Match(Position.Categories, 12)) && (Settings.PregnancyMethod != PregnancyMethod.ByPosition || !Position.PossiblePregnancy) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !value.Actor.IsFemale || !PassionCommon.Match(Position.Categories, 4)) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !value.Actor.IsMale || !PassionCommon.Match(Position.Categories, 8)) && (Settings.PregnancyMethod != PregnancyMethod.KWSystem || !PassionCommon.Match(Position.Categories, 12))))
 							{
 								continue;
 							}
@@ -8990,7 +8587,7 @@ namespace S3_Passion
 								PassionCommon.Impregnate(value2.Actor, value.Actor);
 								break;
 							}
-							if ((RandomUtil.RandomChance(Settings.PregnancyRisk) && !value.Actor.SimDescription.IsPregnant && !value2.Actor.SimDescription.IsPregnant && value.Actor.SimDescription.IsFemale && !value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && value2.Actor.SimDescription.IsFemale && !value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis)) || (RandomUtil.RandomChance(Settings.PregnancyRisk) && !value.Actor.SimDescription.IsPregnant && !value2.Actor.SimDescription.IsPregnant && value.Actor.SimDescription.IsFemale && !value.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && value2.Actor.SimDescription.IsFemale && value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis)))
+							if ((RandomUtil.RandomChance(Settings.PregnancyRisk) && !value.Actor.SimDescription.IsPregnant && !value2.Actor.SimDescription.IsPregnant && value.Actor.SimDescription.IsFemale && value.SimGenitalType != "penis" && value2.Actor.SimDescription.IsFemale && value2.SimGenitalType != "penis") || (RandomUtil.RandomChance(Settings.PregnancyRisk) && !value.Actor.SimDescription.IsPregnant && !value2.Actor.SimDescription.IsPregnant && value.Actor.SimDescription.IsFemale && value.SimGenitalType != "penis" && value2.Actor.SimDescription.IsFemale && value2.SimGenitalType == "penis"))
 							{
 								if (Settings.PregnancyMale)
 								{
@@ -8998,7 +8595,7 @@ namespace S3_Passion
 									break;
 								}
 							}
-							else if (((RandomUtil.RandomChance(Settings.PregnancyRisk) && value.Actor.SimDescription.IsMale && value2.Actor.SimDescription.IsFemale && value2.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis)) || (RandomUtil.RandomChance(Settings.PregnancyRisk) && Settings.PregnancyMale && value.Actor.SimDescription.IsMale && value2.Actor.SimDescription.IsMale)) && Settings.PregnancyMale)
+							else if (((RandomUtil.RandomChance(Settings.PregnancyRisk) && value.Actor.SimDescription.IsMale && value2.Actor.SimDescription.IsFemale && value2.SimGenitalType == "penis") || (RandomUtil.RandomChance(Settings.PregnancyRisk) && Settings.PregnancyMale && value.Actor.SimDescription.IsMale && value2.Actor.SimDescription.IsMale)) && Settings.PregnancyMale)
 							{
 								PassionCommon.Impregnate(value.Actor, value2.Actor);
 								break;
@@ -9464,7 +9061,7 @@ namespace S3_Passion
 								{
 									if (clip != null && clip.IsValid)
 									{
-										if (((player.GenitalType.Equals(PassionGenitals.GenitalTypeList.penis) && clip.NeedsPenis) || (player.GenitalType.Equals(PassionGenitals.GenitalTypeList.vagina) && clip.NeedsVagina)) && clip.CompareFlags(player.Flags))
+										if (((player.SimGenitalType == "penis" && clip.NeedsPenis) || (player.SimGenitalType == "vagina" && clip.NeedsVagina)) && clip.CompareFlags(player.Flags))
 										{
 											return clip;
 										}
@@ -14476,6 +14073,7 @@ namespace S3_Passion
 				{
 					PassionType.Load();
 				}
+				PassionBody.LoadBodies("bababooey");
 				Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
 				foreach (PassionType value in LoadedTypes.Values)
 				{
@@ -14720,6 +14318,7 @@ namespace S3_Passion
 			mAllPlayers = null;
 			mAllTargets.Clear();
 			mAllTargets = null;
+			PassionBody.Unload();
 			STD.ClearData();
 			Target.ClearMinMaxSims();
 			PersistableSettings.Export("PassionSettingsBackup");
