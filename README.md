@@ -28,11 +28,6 @@ Up to date non-code mod contents (i.e. images, strings, etc) can usually be foun
 Any help is welcome! I'm far from a competent programmer, so anything is *really* appreciated.
 [You can check the current issues for a collection of bugs and feature ideas if you're into that.](https://github.com/BorderOfExtacy/BOEPassion/issues)
 
-### Body parts
-
-Currently, sim body parts are hard-coded (i am not a comptent enough programmer to write an xml parser yet) and must be added directly.
-
-If you have a bottom you'd like made compatible from the backend, see this guide [TBA] , and [create an issue ticket](https://github.com/BorderOfExtacy/BOEPassion/issues) with the needed information. Your mesh will not be included with the mod if you don't want it to be - the compat will still rely on the end user have your bottom as well as the mod itself.
 
 ## Help
 
