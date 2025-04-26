@@ -10,7 +10,7 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 
-namespace Passion.S3_Passion
+namespace S3_Passion
 {
     class PassionBody
     {
@@ -23,7 +23,7 @@ namespace Passion.S3_Passion
             public string ErectSIMO;
         }
 
-        public static List<BodyShop> _bodyshop = new List<BodyShop>();
+        public static List<BodyShop> coolbodyshop = new List<BodyShop>();
 
         public static void LoadBodies(string fileName)
         {
@@ -57,7 +57,7 @@ namespace Passion.S3_Passion
                 body.BaseCASP = basecasp;
                 body.ErectSIMO = erectsimo;
                 BodyShop item = body;
-                _bodyshop.Add(item);
+                coolbodyshop.Add(item);
         }
 
     }
