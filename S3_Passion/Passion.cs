@@ -14073,6 +14073,7 @@ namespace S3_Passion
 				{
 					PassionType.Load();
 				}
+				PassionBody.LoadBodies("bababooey");
 				Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
 				foreach (PassionType value in LoadedTypes.Values)
 				{
