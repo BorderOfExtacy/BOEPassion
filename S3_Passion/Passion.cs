@@ -14318,6 +14318,7 @@ namespace S3_Passion
 			mAllPlayers = null;
 			mAllTargets.Clear();
 			mAllTargets = null;
+			PassionBody.Unload();
 			STD.ClearData();
 			Target.ClearMinMaxSims();
 			PersistableSettings.Export("PassionSettingsBackup");

@@ -40,8 +40,8 @@ namespace S3_Passion
                             string PartSIMO = row.GetString("ErectSIMO");
 
                             CreateBodyEntry(PartName, PartType, PartCASP, PartSIMO);
-
-                        }
+                            PassionCommon.SystemMessage("body created: " + PartName);
+                }
             }
             else
             {
@@ -60,5 +60,12 @@ namespace S3_Passion
                 coolbodyshop.Add(item);
         }
 
+        public static void Unload()
+        {
+            coolbodyshop.Clear();
+        }
+
     }
-}
+
+
+    }
