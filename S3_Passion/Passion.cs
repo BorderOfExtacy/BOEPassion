@@ -3726,7 +3726,9 @@ namespace S3_Passion
 										PlayInviteFailure(partner);
 									}
 									DegradeRelationship(partner);
-								}
+                                    Leave();
+                                    return false;
+                                }
 							}
 						}
 					}
