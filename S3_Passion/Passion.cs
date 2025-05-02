@@ -6266,7 +6266,8 @@ namespace S3_Passion
 				}
 				Part part = Part;
 				Part part2 = partner.Part;
-				int positionIndex = PositionIndex;
+				Part.BroWeAreSwitching = true;
+                int positionIndex = PositionIndex;
 				int positionIndex2 = partner.PositionIndex;
 				if (part == part2)
 				{
@@ -6317,7 +6318,7 @@ namespace S3_Passion
 			{
 				CanSwitch = false;
 				SwitchPart = null;
-				AreWeSwitching = false;
+				Part.BroWeAreSwitching = false;
 
 
             }
@@ -7367,6 +7368,8 @@ namespace S3_Passion
 
 			public SequenceInstance CurrentSequence;
 
+			public static bool BroWeAreSwitching = false;
+
 			public Target Target;
 
 			public Player Initiator;
@@ -7950,6 +7953,7 @@ namespace S3_Passion
 				Reserve(player);
 			}
 
+
 			public void GetRandomValidPosition()
 			{
 				bool flag = PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.SameCategory);
@@ -7958,19 +7962,27 @@ namespace S3_Passion
 				int penises = 0;
 				int vaginas = 0;
                 GetSexCharacteristics(out penises, out vaginas);
-				IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num);
-				if (randomValidPosition == null && !flag)
+				if (Part.BroWeAreSwitching == true)
 				{
-					randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas);
-				}
-				if (randomValidPosition != null)
-				{
-					SmartSetPosition(randomValidPosition);
-				}
+                    IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, true);
+                }
 				else
 				{
-					StopAllPlayers();
-				}
+                    IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, false);
+                    if (randomValidPosition == null && !flag)
+                    {
+                        randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas);
+                    }
+                    if (randomValidPosition != null)
+                    {
+                        SmartSetPosition(randomValidPosition);
+                    }
+                    else
+                    {
+                        StopAllPlayers();
+                    }
+                }
+				
 			}
 
 			public bool Add(Player player)
@@ -10300,32 +10312,40 @@ namespace S3_Passion
 
 			public static IPositionChoice GetRandomValidPosition(PassionType type, int participants, int penises, int vaginas)
 			{
-				return GetRandomValidPosition(type, participants, penises, vaginas, 1);
+				return GetRandomValidPosition(type, participants, penises, vaginas, 1, false);
 			}
 
-			public static IPositionChoice GetRandomValidPosition(PassionType type, int participants, int penises, int vaginas, int category)
+			public static IPositionChoice GetRandomValidPosition(PassionType type, int participants, int penises, int vaginas, int category, bool IsItASwitch)
 			{
 				List<IPositionChoice> list = new List<IPositionChoice>();
-				if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Positions))
+				if (IsItASwitch == true)
 				{
-					list.AddRange(GetValidPositions(type, participants, penises, vaginas, category));
-				}
-				if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Sequences))
+                    return null;
+                }
+				else
 				{
-					list.AddRange(GetValidSequences(type, participants, category));
-				}
-				if (list.Count > 0)
-				{
-					int @int = RandomUtil.GetInt(0, list.Count - 1);
-					try
-					{
-						return list[@int];
-					}
-					catch
-					{
-					}
-				}
-				return null;
+                    if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Positions))
+                    {
+                        list.AddRange(GetValidPositions(type, participants, penises, vaginas, category));
+                    }
+                    if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Sequences))
+                    {
+                        list.AddRange(GetValidSequences(type, participants, category));
+                    }
+                    if (list.Count > 0)
+                    {
+                        int @int = RandomUtil.GetInt(0, list.Count - 1);
+                        try
+                        {
+                            return list[@int];
+                        }
+                        catch
+                        {
+                        }
+                    }
+                    return null;
+                }
+				
 			}
 
 			public static List<IPositionChoice> GetValidSequences(PassionType type, int participants, int categories)
