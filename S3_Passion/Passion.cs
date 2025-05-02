@@ -6264,9 +6264,12 @@ namespace S3_Passion
 				{
 					return;
 				}
+				if (Part.BroWeAreSwitching == false)
+				{
+					return;
+				}
 				Part part = Part;
 				Part part2 = partner.Part;
-				Part.BroWeAreSwitching = true;
                 int positionIndex = PositionIndex;
 				int positionIndex2 = partner.PositionIndex;
 				if (part == part2)
@@ -6358,6 +6361,7 @@ namespace S3_Passion
 					//		Libido.PartialSatisfaction(Actor);
 					//	}
 					//}
+					Part.BroWeAreSwitching = false;
 					RegisterWoohoo();
                     try
                     {
@@ -12128,6 +12132,7 @@ namespace S3_Passion
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
+                    Part.BroWeAreSwitching = true;
                     SwitchPlayerPartner = Target;
 					SwitchPlayerActor = Actor;
 					player.Switch(player2);
