@@ -6318,7 +6318,6 @@ namespace S3_Passion
 			{
 				CanSwitch = false;
 				SwitchPart = null;
-				Part.BroWeAreSwitching = false;
 
 
             }
@@ -10320,6 +10319,7 @@ namespace S3_Passion
 				List<IPositionChoice> list = new List<IPositionChoice>();
 				if (IsItASwitch == true)
 				{
+                    Part.BroWeAreSwitching = false;
                     return null;
                 }
 				else
@@ -12179,7 +12179,7 @@ namespace S3_Passion
 							}
 						}
 						player.EndSwitch();
-						return true;
+                        return true;
 					}
 					return false;
 				}
