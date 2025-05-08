@@ -2792,6 +2792,8 @@ namespace S3_Passion
 
 			public bool CanSwitch;
 
+			public bool AreWeSwitching;
+
 			public long StartTime;
 
 			public int NumberAccepted;
@@ -2801,6 +2803,8 @@ namespace S3_Passion
 			public int PositionIndex;
 
 			public string BufferedAnimation;
+
+			public string SwitchRoleBuffer;
 
 			public string BufferedTargetAnimation;
 
@@ -3219,6 +3223,7 @@ namespace S3_Passion
                 player.PositionIndex = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
+				player.AreWeSwitching = false;
 				player.IsAutonomous = false;
 				player.DirectTargeted = false;
 				player.ActiveJoin = false;
@@ -3232,6 +3237,7 @@ namespace S3_Passion
 				player.PreviousOutfitCategory = OutfitCategories.None;
 				player.PreviousOutfitIndex = 0;
 				player.BufferedAnimation = string.Empty;
+				player.SwitchRoleBuffer = string.Empty;
 				return player;
 			}
 
@@ -3679,6 +3685,9 @@ namespace S3_Passion
 				return null;
 			}
 
+
+			// this can be considered the 'true' start of the loop i think, because
+			// asking to passion leads to this section, and it runs down the list from there?
 			public bool Invite(Player partner, Interaction<Sim, Sim> interaction)
 			{
 				if (partner != null && partner.IsValid)
@@ -4539,6 +4548,7 @@ namespace S3_Passion
 			}
 
 
+			// START THE PASSION LOOP
             public bool StartLoop()
 			{
 				if (IsValid && HasPart)
@@ -4586,7 +4596,7 @@ namespace S3_Passion
 				return false;
 			}
 
-			// animation logging
+			// animations for objects
 			public string Animation2Obj(string anim)
 			{
 				Settings.ObjectAnimation = null;
@@ -4625,6 +4635,7 @@ namespace S3_Passion
 				return Settings.ObjectAnimation;
 			}
 
+			// THE BIG BOY, WHERE IT ALL HAPPENS
 			public bool DoLoop()
 			{
 				OutfitCategories previousOutfitCategory = PreviousOutfitCategory;
@@ -4650,7 +4661,7 @@ namespace S3_Passion
 				if (IsValid)
 				{
 					IsActive = true;
-					try
+                    try
 					{
 						if (Actor.SimDescription.Teen)
 						{
@@ -4678,7 +4689,7 @@ namespace S3_Passion
 
                         if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString(PartBase)) != null)
 						{
-                            PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
+                           // PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
 							GetPlayer(Actor).SimGenitalType = PartType;
                             GetPlayer(Actor).SimJunkBaseCASP = PartBase;
                             GetPlayer(Actor).SimErectSIMO = PartErect;
@@ -4731,6 +4742,7 @@ namespace S3_Passion
 						CumInteractions = true;
 						try
 						{
+							// get the animation for the object (mostly cars)
 							Animation2Obj(Part.Position.Name.ToString());
 						}
 						catch
@@ -6245,17 +6257,20 @@ namespace S3_Passion
 			}
 
 			// switch position?
+			// things without prefix infer the actor, partner is player2 aka the other guy
 			public void Switch(Player partner)
 			{
-				ClearBuffer();
-				partner.ClearBuffer();
 				if (partner == null || !IsValid || !partner.IsValid || !HasPart || !partner.HasPart)
+				{
+					return;
+				}
+				if (Part.BroWeAreSwitching == false)
 				{
 					return;
 				}
 				Part part = Part;
 				Part part2 = partner.Part;
-				int positionIndex = PositionIndex;
+                int positionIndex = PositionIndex;
 				int positionIndex2 = partner.PositionIndex;
 				if (part == part2)
 				{
@@ -6306,8 +6321,11 @@ namespace S3_Passion
 			{
 				CanSwitch = false;
 				SwitchPart = null;
-			}
 
+
+            }
+
+			// stop interaction (but dont actually leave it?)
 			public void Stop(ExitReason reason)
 			{
 				if (IsValid)
@@ -6343,6 +6361,7 @@ namespace S3_Passion
 					//		Libido.PartialSatisfaction(Actor);
 					//	}
 					//}
+					Part.BroWeAreSwitching = false;
 					RegisterWoohoo();
                     try
                     {
@@ -7352,6 +7371,8 @@ namespace S3_Passion
 
 			public SequenceInstance CurrentSequence;
 
+			public static bool BroWeAreSwitching = false;
+
 			public Target Target;
 
 			public Player Initiator;
@@ -7935,6 +7956,7 @@ namespace S3_Passion
 				Reserve(player);
 			}
 
+
 			public void GetRandomValidPosition()
 			{
 				bool flag = PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.SameCategory);
@@ -7942,20 +7964,28 @@ namespace S3_Passion
 				int num2 = (HasPosition ? Position.Categories : num);
 				int penises = 0;
 				int vaginas = 0;
-				GetSexCharacteristics(out penises, out vaginas);
-				IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num);
-				if (randomValidPosition == null && !flag)
+                GetSexCharacteristics(out penises, out vaginas);
+				if (Part.BroWeAreSwitching == true)
 				{
-					randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas);
-				}
-				if (randomValidPosition != null)
-				{
-					SmartSetPosition(randomValidPosition);
-				}
+                    IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, true);
+                }
 				else
 				{
-					StopAllPlayers();
-				}
+                    IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, false);
+                    if (randomValidPosition == null && !flag)
+                    {
+                        randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas);
+                    }
+                    if (randomValidPosition != null)
+                    {
+                        SmartSetPosition(randomValidPosition);
+                    }
+                    else
+                    {
+                        StopAllPlayers();
+                    }
+                }
+				
 			}
 
 			public bool Add(Player player)
@@ -10285,32 +10315,41 @@ namespace S3_Passion
 
 			public static IPositionChoice GetRandomValidPosition(PassionType type, int participants, int penises, int vaginas)
 			{
-				return GetRandomValidPosition(type, participants, penises, vaginas, 1);
+				return GetRandomValidPosition(type, participants, penises, vaginas, 1, false);
 			}
 
-			public static IPositionChoice GetRandomValidPosition(PassionType type, int participants, int penises, int vaginas, int category)
+			public static IPositionChoice GetRandomValidPosition(PassionType type, int participants, int penises, int vaginas, int category, bool IsItASwitch)
 			{
 				List<IPositionChoice> list = new List<IPositionChoice>();
-				if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Positions))
+				if (IsItASwitch == true)
 				{
-					list.AddRange(GetValidPositions(type, participants, penises, vaginas, category));
-				}
-				if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Sequences))
+                    Part.BroWeAreSwitching = false;
+                    return null;
+                }
+				else
 				{
-					list.AddRange(GetValidSequences(type, participants, category));
-				}
-				if (list.Count > 0)
-				{
-					int @int = RandomUtil.GetInt(0, list.Count - 1);
-					try
-					{
-						return list[@int];
-					}
-					catch
-					{
-					}
-				}
-				return null;
+                    if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Positions))
+                    {
+                        list.AddRange(GetValidPositions(type, participants, penises, vaginas, category));
+                    }
+                    if (PassionCommon.Match(Settings.RandomizationOptions, RandomizationOptions.Sequences))
+                    {
+                        list.AddRange(GetValidSequences(type, participants, category));
+                    }
+                    if (list.Count > 0)
+                    {
+                        int @int = RandomUtil.GetInt(0, list.Count - 1);
+                        try
+                        {
+                            return list[@int];
+                        }
+                        catch
+                        {
+                        }
+                    }
+                    return null;
+                }
+				
 			}
 
 			public static List<IPositionChoice> GetValidSequences(PassionType type, int participants, int categories)
@@ -12018,6 +12057,8 @@ namespace S3_Passion
 				}
 			}
 
+
+			// passionloop int
 			internal sealed class PassionLoop : Interaction<Sim, Sim>
 			{
 				[DoesntRequireTuning]
@@ -12091,7 +12132,8 @@ namespace S3_Passion
 				{
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
-					SwitchPlayerPartner = Target;
+                    Part.BroWeAreSwitching = true;
+                    SwitchPlayerPartner = Target;
 					SwitchPlayerActor = Actor;
 					player.Switch(player2);
 					return true;
@@ -12142,7 +12184,7 @@ namespace S3_Passion
 							}
 						}
 						player.EndSwitch();
-						return true;
+                        return true;
 					}
 					return false;
 				}
