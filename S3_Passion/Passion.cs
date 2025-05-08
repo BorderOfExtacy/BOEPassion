@@ -6349,18 +6349,10 @@ namespace S3_Passion
 				{
 					Actor.LookAtManager.EnableLookAts();
 					ClearPosture();
-					// change this to use new libido system
-					//if (Settings.LibidoBuff)
-					//{
-					//	if (HadPartner)
-					//	{
-					//		Libido.Satisfaction(Actor);
-					//	}
-					//	else
-					//	{
-					//		Libido.PartialSatisfaction(Actor);
-					//	}
-					//}
+					if (Settings.LibidoBuff)
+					{
+                        Libido.SatisfactionCalc(Actor, Partner.Actor);
+					}
 					Part.BroWeAreSwitching = false;
 					RegisterWoohoo();
                     try
@@ -6414,16 +6406,6 @@ namespace S3_Passion
 				else
 				{
 					EventTracker.SendEvent(new WooHooEvent(EventTypeId.kWooHooed, Actor, Partner.Actor, Partner.Actor));
-				}
-				if (Settings.WoohooBuff)
-				// gives the 'had woohoo' buff
-				// if they already have it... remove it and add it again, i guess?
-				{
-					if (Actor.BuffManager.HasElement((BuffNames)2111502432315482727uL))
-					{
-						Actor.BuffManager.RemoveElement((BuffNames)2111502432315482727uL);
-					}
-					Actor.BuffManager.AddElement((BuffNames)2111502432315482727uL, Origin.None);
 				}
 				if (Actor.SimDescription.HadFirstWooHoo)
 				{
