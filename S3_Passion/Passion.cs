@@ -13739,7 +13739,239 @@ namespace S3_Passion
 				}
 			}
 
-			public sealed class UsePoolLadderForPassionWithSim : Interaction<Sim, PoolLadder>
+            // NEW INTERACTIONS YAYE
+
+            internal sealed class AddAsexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Add Asexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (actor.HasTrait((TraitNames)6177560411462291097uL))
+						{
+							return false;
+						}
+						else
+						{
+							return true;
+						}
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+					AddMarkers.AsexualToggle(Actor, true);
+                    return true;
+                }
+            }
+
+            internal sealed class RemoveAsexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Remove Asexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (actor.HasTrait((TraitNames)6177560411462291097uL))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    AddMarkers.AsexualToggle(Actor, false);
+                    return true;
+                }
+            }
+
+            internal sealed class AddHypersexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Add Hypersexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (actor.HasTrait((TraitNames)5711695705602619160uL))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    AddMarkers.HypersexualToggle(Actor, true);
+                    return true;
+                }
+            }
+
+            internal sealed class RemoveHypersexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Remove Hypersexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (actor.HasTrait((TraitNames)5711695705602619160uL))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    AddMarkers.HypersexualToggle(Actor, false);
+                    return true;
+                }
+            }
+
+            internal sealed class AddAbstinentTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Add Abstinent Marker");
+                    }
+
+                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (actor.HasTrait((TraitNames)2214287488174702228uL))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    AddMarkers.AbstinentToggle(Actor, true);
+                    return true;
+                }
+            }
+
+            internal sealed class RemoveAbstinentTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Remove Abstinent Marker");
+                    }
+
+                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (actor.HasTrait((TraitNames)2214287488174702228uL))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+							return false;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    AddMarkers.AbstinentToggle(Actor, false);
+                    return true;
+                }
+            }
+
+            // END NEW INTERACTIONS
+
+            public sealed class UsePoolLadderForPassionWithSim : Interaction<Sim, PoolLadder>
 			{
 				private sealed class Definition : InteractionDefinition<Sim, PoolLadder, UsePoolLadderForPassionWithSim>, IHasTraitIcon, IHasMenuPathIcon
 				{
@@ -14332,7 +14564,13 @@ namespace S3_Passion
 					sim.AddInteraction(Interactions.PassionSettingsMenu.Singleton, true);
 					sim.AddInteraction(Interactions.PassionSettingsMenuActive.Singleton, true);
 					sim.AddInteraction(Interactions.Reassure.Singleton, true);
-					sim.AddInteraction(Interactions.ResetMe.Singleton, true);
+                    sim.AddInteraction(Interactions.AddAbstinentTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.AddAsexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.AddHypersexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.RemoveAbstinentTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.RemoveAsexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.RemoveHypersexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.ResetMe.Singleton, true);
 					sim.AddInteraction(Interactions.ResetMeActive.Singleton, true);
 					sim.AddInteraction(StripperPole.Strip.Singleton, true);
 					sim.AddInteraction(StripperPole.DanceOnPoleStop.Singleton, true);
