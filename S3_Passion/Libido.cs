@@ -2,7 +2,9 @@ using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Interfaces;
+using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Socializing;
+using Sims3.SimIFace;
 
 namespace S3_Passion
 {
@@ -209,7 +211,7 @@ namespace S3_Passion
 
 
                 //random value to keep ppl on their toes
-                int RandomSatisScore = RandomUtil.GetInt(1, 10);
+                int RandomSatisScore = RandomUtil.GetInt(1, 25);
 
                 // how high was the sim's libido for the encounter? higher = more satisfied
                 // if libido was 0-2
@@ -249,7 +251,7 @@ namespace S3_Passion
                 Relationship relationship = simactor.GetRelationship(simpartner, false);
                 if (relationship != null)
                 {
-                    RelSatisScore = (int)relationship.LTR.Liking;
+                    RelSatisScore = (int)relationship.LTR.Liking / 10;
                     if (relationship.AreRomantic())
                     {
                             RelSatisScore += 10;
@@ -258,9 +260,17 @@ namespace S3_Passion
 
 				// boost if partner sim has high woohoo skill with nraas
 				int SkillSatisScore = 0;
+                ResourceKey key = ResourceKey.FromString("0x0333406C-0x00000000-0xFC58F3528FF7A816");
 
-				// add it all together
-				SatisfactionScore = RandomSatisScore + LibidoSatisScore + RelSatisScore + SkillSatisScore;
+				if (!World.ResourceExists(key))
+				{
+					if (simpartner.SkillManager.HasElement((SkillNames)362046248ul)){
+						SkillSatisScore = simpartner.SkillManager.GetSkillLevel((SkillNames)362046248ul);
+					}
+				}
+
+                // add it all together
+                SatisfactionScore = RandomSatisScore + LibidoSatisScore + RelSatisScore + SkillSatisScore;
 
 				ApplySatisfaction(simactor, SatisfactionScore);
             }

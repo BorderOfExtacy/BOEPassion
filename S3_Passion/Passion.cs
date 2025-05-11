@@ -2542,124 +2542,12 @@ namespace S3_Passion
 			}
 
 			// passioncheck -- check to **initiate** autonomous passion
+			// this runs through 'willpassion' for both sims, so see that for like. conditions n shit
 			public static ListenerAction PassionCheck(Event e)
 			{
 				try
 				{
-					// if autonomychance is higher than random, check continues.
-					// refactor this so it takes libido into account as well?
-					if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
-					{
-						Sim sim = e.Actor as Sim;
-						Sim sim2 = e.TargetObject as Sim;
-						if (!(sim.Posture is RelaxingPosture) && !(sim.Posture is SittingPosture) && Player.CanPassion(sim, sim2) && Player.WillPassion(sim, sim2) && Player.WillPassion(sim2, sim) && (Settings.AutonomyActive || (sim.Household != Household.ActiveHousehold && sim2.Household != Household.ActiveHousehold)) && (Settings.AutonomyPublic || sim.LotCurrent.LotType == LotType.Residential))
-						{
-							Player player = GetPlayer(sim);
-							Player player2 = GetPlayer(sim2);
-							if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
-							{
-							// time for some rng bullshit
-
-							int PassionCheckRoll;
-
-							// if sim is 100% libido
-							if (sim.BuffManager.HasElement((BuffNames)2922253427052633003uL))
-							{
-								PassionCheckRoll = 90;
-							}
-							// 90%
-							else if (sim.BuffManager.HasElement((BuffNames)13147589483235469726uL))
-							{
-								PassionCheckRoll = 80;
-							}
-							// 80%
-							else if (sim.BuffManager.HasElement((BuffNames)14041574305464178967uL))
-							{
-								PassionCheckRoll = 70;
-							}
-							// 70%
-							else if (sim.BuffManager.HasElement((BuffNames)16251613925768384549uL))
-							{
-								PassionCheckRoll = 60;
-							}
-							// 60%
-							else if (sim.BuffManager.HasElement((BuffNames)2917472750494117670uL))
-							{
-								PassionCheckRoll = 50;
-							}
-							// 50%
-							else if (sim.BuffManager.HasElement((BuffNames)8200297330989383022uL))
-							{
-								PassionCheckRoll = 40;
-							}
-							// 40%
-							else if (sim.BuffManager.HasElement((BuffNames)8198323707617122614uL))
-							{
-								PassionCheckRoll = 30;
-							}
-							// 30%
-							else if (sim.BuffManager.HasElement((BuffNames)3097843141287298166uL))
-							{
-								PassionCheckRoll = 20;
-							}
-							// 20%
-							else if (sim.BuffManager.HasElement((BuffNames)2922268820215428064uL))
-							{
-								PassionCheckRoll = 10;
-							}
-							else 
-							{
-								PassionCheckRoll = 0;
-							}
-
-
-						if (PassionCheckRoll > 0 && RandomUtil.GetInt(0, 100) > PassionCheckRoll)
-						{
-
-							
-								Target target = player.GetNearbySupportedTarget();
-								if (target == null)
-								{
-									target = GetTarget(sim2);
-								}
-								if (target != null && target.IsValid)
-								{
-									Part part = null;
-									if (target.Parts.Count > 0)
-									{
-										part = RandomUtil.GetRandomObjectFromList(new List<Part>(target.Parts.Values));
-									}
-									if (part != null && player.Join(part))
-									{
-										player.IsAutonomous = true;
-										player2.IsAutonomous = true;
-										player.Actor.InteractionQueue.CancelAllInteractions();
-										player.Actor.InteractionQueue.AddNext(Interactions.AskToPassion.Singleton.CreateInstance(player2.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
-										if (Settings.AutonomyNotify)
-										{
-											try
-											{
-												StringBuilder stringBuilder = new StringBuilder(PassionCommon.Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
-												stringBuilder.Replace("[player]", player.Name);
-												stringBuilder.Replace("[label]", Settings.ActiveLabel.ToLower());
-												stringBuilder.Replace("[partner]", player2.Name);
-												stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
-												PassionCommon.SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
-											}
-											catch
-											{
-											}
-										}
-									}
-								}
-								else if (PassionCommon.Testing)
-								{
-									PassionCommon.SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
-								}
-						}
-							}
-						}
-					}
+					PassionChecks.InitiationCheck(e);
 				}
 				catch
 				{
@@ -2823,6 +2711,8 @@ namespace S3_Passion
 			public OutfitCategories PreferredOutfitCategory;
 
 			public OutfitCategories PreviousOutfitCategory;
+
+			public RejectionReasons RejectionReason;
 
 			public int PreferredOutfitIndex;
 
@@ -3235,6 +3125,7 @@ namespace S3_Passion
 				player.PreferredOutfitCategory = OutfitCategories.None;
 				player.PreferredOutfitIndex = 0;
 				player.PreviousOutfitCategory = OutfitCategories.None;
+				player.RejectionReason = RejectionReasons.None;
 				player.PreviousOutfitIndex = 0;
 				player.BufferedAnimation = string.Empty;
 				player.SwitchRoleBuffer = string.Empty;
@@ -3391,45 +3282,70 @@ namespace S3_Passion
 				return WillPassion(sim, new Sim[1] { target });
 			}
 
-			//
-			//
-			//
+
 			// tests if a sim will ACCEPT a passion request or not
 			// modify this to include multiplers for new libido system
+			// from what i can see.. higher the number, more likely to accept. lets yoloswag
 			public static bool WillPassion(Sim sim, Sim[] targets)
 			{
+				// if rejection is disabled
 				if (!Settings.CanReject)
 				{
 					return true;
 				}
+
 				bool result = false;
+
+				
 				if (sim != null && targets != null && targets.Length != 0)
 				{
 					int num = 70;
-					if (sim.HasTrait(TraitNames.Inappropriate))
-					{
-						num = 0;
-					}
-					else if (sim.HasTrait(TraitNames.PartyAnimal))
-					{
-						num = 50;
-					}
-					else if (sim.HasTrait(TraitNames.Shy))
-					{
-						num = 100;
-					}
-					Dictionary<Sim, int> dictionary = new Dictionary<Sim, int>();
+
+                    bool RejectedLowRel = false;
+                    bool RejectedLowLibido = false;
+                    bool RejectedInPublic = false;
+					bool RejectedIsBlocked = false;
+
+                    // trait based math for sim1 AKA initiator
+                    // the partner sim has to 'beat' this number, so here the 'goal' is lower
+                    // actually i dont think this is ever. fucking used since both initiator and partner are passed thru this?
+                    //  if (sim.HasTrait(TraitNames.Inappropriate))
+                    //{
+                    //	num = 0;
+                    //}
+                    //else if (sim.HasTrait(TraitNames.PartyAnimal))
+                    //{
+                    //	num = 50;
+                    //}
+                    //else if (sim.HasTrait(TraitNames.Shy))
+                    //{
+                    //	num = 100;
+                    //}
+
+                    Dictionary<Sim, int> dictionary = new Dictionary<Sim, int>();
 					foreach (Sim sim2 in targets)
 					{
+						// if theres no other sims, ignore this
 						if (sim2 == null || sim2 == sim)
 						{
 							continue;
 						}
+
 						int num2 = 0;
+
 						Relationship relationship = sim.GetRelationship(sim2, false);
+
 						if (relationship != null)
 						{
-							num2 = (int)relationship.LTR.Liking;
+							// num2 is how many LTR points sim2 has with sim1
+							num2 = (int)relationship.LTR.Liking / 2;
+
+							if (num2 >= 10)
+							{
+								RejectedLowRel = true;
+							}
+
+							// refactor this?
 							if (relationship.AreRomantic())
 							{
 								if (sim.HasTrait(TraitNames.HopelessRomantic))
@@ -3442,6 +3358,8 @@ namespace S3_Passion
 								}
 							}
 						}
+
+						// trait based math for sim2
 						if (sim2.HasTrait(TraitNames.Flirty))
 						{
 							num2 += 5;
@@ -3466,32 +3384,145 @@ namespace S3_Passion
 						{
 							num2 += 100;
 						}
-						BuffManager buffManager = sim.BuffManager;
-						if (buffManager.HasElement((BuffNames)10626820509964641423uL) || buffManager.HasElement((BuffNames)7244019685987188093uL))
+
+						// how high is sim2's libido?
+						// time for the worst ifelse tree evar
+						BuffManager buffManager = sim2.BuffManager;
+
+                        // 0%
+                        if (buffManager.HasElement((BuffNames)2248271455579464240uL))
+                        {
+                            RejectedLowLibido = true;
+                        }
+                        // 10%
+                        else if (buffManager.HasElement((BuffNames)2913570583726353694uL))
 						{
 							num2 += 5;
+							RejectedLowLibido = true;
 						}
-						else if (buffManager.HasElement((BuffNames)16341761339885008577uL) || buffManager.HasElement((BuffNames)13910300093031145699uL))
+						// 20%
+						else if (buffManager.HasElement((BuffNames)2922268820215428064uL))
 						{
 							num2 += 10;
-						}
-						else if (buffManager.HasElement((BuffNames)16113274642161440716uL))
+                            RejectedLowLibido = true;
+                        }
+						// 30%
+						else if (buffManager.HasElement((BuffNames)3097843141287298166uL))
 						{
 							num2 += 15;
 						}
-						else if (buffManager.HasElement((BuffNames)12415407305475427397uL))
+						// 40%
+						else if (buffManager.HasElement((BuffNames)8198323707617122614uL))
 						{
 							num2 += 20;
 						}
-						else if (buffManager.HasElement((BuffNames)1358929223039794148uL))
+						// 50%
+						else if (buffManager.HasElement((BuffNames)8200297330989383022uL))
 						{
-							num2 += 30;
+							num2 += 25;
 						}
-						if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender))
+                        // 60%
+                        else if (buffManager.HasElement((BuffNames)2917472750494117670uL))
+                        {
+                            num2 += 30;
+                        }
+                        // 70%
+                        else if (buffManager.HasElement((BuffNames)16251613925768384549uL))
+                        {
+                            num2 += 35;
+                        }
+                        // 80%
+                        else if (buffManager.HasElement((BuffNames)14041574305464178967uL))
+                        {
+                            num2 += 40;
+                        }
+                        // 90%
+                        else if (buffManager.HasElement((BuffNames)13147589483235469726uL))
+                        {
+                            num2 += 45;
+                        }
+                        // 100%
+                        else if (buffManager.HasElement((BuffNames)2922253427052633003uL))
+                        {
+                            num2 += 50;
+                        }
+
+
+                        if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender))
 						{
 							num2 -= 60;
 						}
-						dictionary.Add(sim2, num2);
+
+
+						// extra modifiers for new traits
+
+						// asexual - denies autonomy
+						if (sim2.HasTrait((TraitNames)6177560411462291097uL) && GetPlayer(sim2).IsAutonomous)
+						{
+							num2 -= 9999;
+							RejectedIsBlocked = true;
+
+						}
+                        // abstinent - denies ALL
+                        if (sim2.HasTrait((TraitNames)2214287488174702228uL))
+                        {
+                            num2 -= 9999;
+							RejectedIsBlocked = true;
+                        }
+                        // hypersexual - more willing
+                        if (sim2.HasTrait((TraitNames)5711695705602619160uL))
+                        {
+                            num2 += 50;
+                        }
+
+						// modifiers based on lot type
+
+						Lot SimCurrentLot = sim2.LotCurrent;
+
+                        // if residential
+                        if (sim2.LotCurrent.LotType == LotType.Residential)
+						{
+							num2 += 10;
+						}
+                        // if its a commercial lot
+                        else if (sim2.LotCurrent.LotType == LotType.Commercial)
+                        {
+							// if its a more suitable commercial lot
+							if (SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.BaseCamp || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.Junkyard || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.DiveBarCriminal || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.CocktailLoungeVampire || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.DanceClubRave || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.RebelHangout || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.Resort)
+							{ 
+								num2 += 0;
+                            }
+                            else
+                            {
+                                num2 -= 10;
+								RejectedInPublic = true;
+                            }
+                        }
+                        // if any other lot
+                        else
+                        {
+                            num2 -= 10;
+							RejectedInPublic = true;
+                        }
+
+						if (RejectedIsBlocked == true)
+						{
+							GetPlayer(sim2).RejectionReason = RejectionReasons.IsBlocked;
+                        }
+						else if (RejectedInPublic == true)
+						{
+                            GetPlayer(sim2).RejectionReason = RejectionReasons.InPublic;
+                        }
+						else if (RejectedLowLibido == true)
+						{
+                            GetPlayer(sim2).RejectionReason = RejectionReasons.LowLibido;
+                        }
+						else if (RejectedLowRel == true)
+						{
+                            GetPlayer(sim2).RejectionReason = RejectionReasons.LowLTR;
+                        }
+
+							dictionary.Add(sim2, num2);
 					}
 					int num3 = 0;
 					if (dictionary.Count > 0)
@@ -3506,17 +3537,17 @@ namespace S3_Passion
 						}
 					}
 					num3 += Modules.GetPassionScoringModifier(sim, targets);
+
 					if (num3 >= num)
 					{
 						result = true;
 					}
+
 				}
 				return result;
 			}
 			// end if a sim will ACCEPT passion
-			//
-			//
-			//
+
 
 			public void DegradeRelationship(Player partner)
 			{
@@ -3735,7 +3766,29 @@ namespace S3_Passion
 										PlayInviteFailure(partner);
 									}
 									DegradeRelationship(partner);
+
+									// send message as to why the invite failed if we have its reason logged
+									// make this non-global for final, its global rn for testing lol
+									if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.IsBlocked)
+									{
+                                        PassionCommon.SimMessage(PassionCommon.Localize("Sorry! I'm... not into that kind of thing.").ToString(), partner.Actor);
+                                    }
+                                    else if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.InPublic)
+                                    {
+                                        PassionCommon.SimMessage(PassionCommon.Localize("Uh, no way. Not in public!").ToString(), partner.Actor);
+                                    }
+                                    else if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.LowLibido)
+                                    {
+                                        PassionCommon.SimMessage(PassionCommon.Localize("I'm not really in the mood for that, not right now.").ToString(), partner.Actor);
+                                    }
+                                    else if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.LowLTR)
+                                    {
+                                        PassionCommon.SimMessage(PassionCommon.Localize("Look, I really don't know you well enough to do that.").ToString(), partner.Actor);
+                                    }
+
+
                                     Leave();
+                                    
                                     return false;
                                 }
 							}
