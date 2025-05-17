@@ -2545,6 +2545,36 @@ namespace S3_Passion
 			// this runs through 'willpassion' for both sims, so see that for like. conditions n shit
 			public static ListenerAction PassionCheck(Event e)
 			{
+				// increase charge + add libido moodlet if rolled here
+				try
+				{
+					Sim guy = e.Actor as Sim;
+                    Sim guy2 = e.TargetObject as Sim;
+                    Player playerguy = GetPlayer(guy);
+                    Player playerguy2 = GetPlayer(guy2);
+
+                    // add 10 to their charge
+                    playerguy.PassionCharge += 10;
+                    playerguy2.PassionCharge += 10;
+
+                    int ChargeThreshold = RandomUtil.GetInt(0, 100);
+
+					if (playerguy.PassionCharge >= ChargeThreshold)
+					{
+						Libido.IncreaseUrgency(guy);
+						playerguy.PassionCharge = 0;
+					}
+                    if(playerguy2.PassionCharge >= ChargeThreshold)
+
+                    {
+                        Libido.IncreaseUrgency(guy2);
+                        playerguy2.PassionCharge = 0;
+                    }
+                }
+				catch
+				{
+
+				}
 				try
 				{
                     // if autonomychance is higher than random, check continues.
@@ -2744,6 +2774,8 @@ namespace S3_Passion
 			public Part Part;
 
 			public int PositionIndex;
+
+			public int PassionCharge;
 
 			public string BufferedAnimation;
 
@@ -3166,6 +3198,7 @@ namespace S3_Passion
 				player.SimJunkBaseCASP = "";
 				player.SimErectSIMO = "";
                 player.PositionIndex = 0;
+				player.PassionCharge = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
 				player.AreWeSwitching = false;
