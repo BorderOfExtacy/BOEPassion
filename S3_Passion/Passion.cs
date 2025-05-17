@@ -13748,7 +13748,7 @@ namespace S3_Passion
             internal sealed class AddAsexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, AddAsexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
@@ -13786,7 +13786,7 @@ namespace S3_Passion
             internal sealed class RemoveAsexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, RemoveAsexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
@@ -13824,7 +13824,7 @@ namespace S3_Passion
             internal sealed class AddHypersexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, AddHypersexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
@@ -13862,7 +13862,7 @@ namespace S3_Passion
             internal sealed class RemoveHypersexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, RemoveHypersexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
@@ -13900,7 +13900,7 @@ namespace S3_Passion
             internal sealed class AddAbstinentTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, AddAbstinentTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
@@ -13938,7 +13938,7 @@ namespace S3_Passion
             internal sealed class RemoveAbstinentTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, Test2>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, RemoveAbstinentTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
