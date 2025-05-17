@@ -2548,6 +2548,8 @@ namespace S3_Passion
 				// increase charge + add libido moodlet if rolled here
 				try
 				{
+					int ChargeThreshold = 0;
+
 					Sim guy = e.Actor as Sim;
                     Sim guy2 = e.TargetObject as Sim;
                     Player playerguy = GetPlayer(guy);
@@ -2555,26 +2557,30 @@ namespace S3_Passion
 
                     // add 10 to their charge
                     playerguy.PassionCharge += 10;
+                    PassionCommon.SystemMessage("sim1 preroll charge is" + playerguy.PassionCharge);
                     playerguy2.PassionCharge += 10;
+                    PassionCommon.SystemMessage("sim2 preroll charge is" + playerguy2.PassionCharge);
 
-                    int ChargeThreshold = RandomUtil.GetInt(0, 100);
+                    ChargeThreshold = RandomUtil.GetInt(0, 100);
+                    PassionCommon.SystemMessage("charge threshold is" + ChargeThreshold);
 
-					if (playerguy.PassionCharge >= ChargeThreshold)
+                    if (playerguy.PassionCharge >= ChargeThreshold)
 					{
 						Libido.IncreaseUrgency(guy);
 						playerguy.PassionCharge = 0;
-					}
-                    if(playerguy2.PassionCharge >= ChargeThreshold)
-
+                        PassionCommon.SystemMessage("sim1 increased libido");
+                    }
+                    if (playerguy2.PassionCharge >= ChargeThreshold)
                     {
                         Libido.IncreaseUrgency(guy2);
                         playerguy2.PassionCharge = 0;
+                        PassionCommon.SystemMessage("sim2 increased libido");
                     }
                 }
 				catch
 				{
-
-				}
+                    PassionCommon.SystemMessage("DUDE YOU BROKE IT");
+                }
 				try
 				{
                     // if autonomychance is higher than random, check continues.
@@ -13833,24 +13839,24 @@ namespace S3_Passion
 
             // NEW INTERACTIONS YAYE
 
-            internal sealed class AddAsexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            internal sealed class AddAsexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, AddAsexualTrait>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, AddAsexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
                         return PassionPath;
                     }
 
-                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
                     {
                         return PassionCommon.Localize("Add Asexual Marker");
                     }
 
-                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                     {
-                        if (actor.HasTrait((TraitNames)6177560411462291097uL))
+                        if (target.HasTrait((TraitNames)6177560411462291097uL))
 						{
 							return false;
 						}
@@ -13866,29 +13872,29 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-					AddMarkers.AsexualToggle(Actor, true);
+					AddMarkers.AsexualToggle(Target, true);
                     return true;
                 }
             }
 
-            internal sealed class RemoveAsexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            internal sealed class RemoveAsexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, RemoveAsexualTrait>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, RemoveAsexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
                         return PassionPath;
                     }
 
-                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
                     {
                         return PassionCommon.Localize("Remove Asexual Marker");
                     }
 
-                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                     {
-                        if (actor.HasTrait((TraitNames)6177560411462291097uL))
+                        if (target.HasTrait((TraitNames)6177560411462291097uL))
                         {
                             return true;
                         }
@@ -13904,29 +13910,29 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.AsexualToggle(Actor, false);
+                    AddMarkers.AsexualToggle(Target, false);
                     return true;
                 }
             }
 
-            internal sealed class AddHypersexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            internal sealed class AddHypersexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, AddHypersexualTrait>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, AddHypersexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
                         return PassionPath;
                     }
 
-                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
                     {
                         return PassionCommon.Localize("Add Hypersexual Marker");
                     }
 
-                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                     {
-                        if (actor.HasTrait((TraitNames)5711695705602619160uL))
+                        if (target.HasTrait((TraitNames)5711695705602619160uL))
                         {
                             return false;
                         }
@@ -13942,29 +13948,29 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.HypersexualToggle(Actor, true);
+                    AddMarkers.HypersexualToggle(Target, true);
                     return true;
                 }
             }
 
-            internal sealed class RemoveHypersexualTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            internal sealed class RemoveHypersexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, RemoveHypersexualTrait>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, RemoveHypersexualTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
                         return PassionPath;
                     }
 
-                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
                     {
                         return PassionCommon.Localize("Remove Hypersexual Marker");
                     }
 
-                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                     {
-                        if (actor.HasTrait((TraitNames)5711695705602619160uL))
+                        if (target.HasTrait((TraitNames)5711695705602619160uL))
                         {
                             return true;
                         }
@@ -13980,29 +13986,29 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.HypersexualToggle(Actor, false);
+                    AddMarkers.HypersexualToggle(Target, false);
                     return true;
                 }
             }
 
-            internal sealed class AddAbstinentTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            internal sealed class AddAbstinentTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, AddAbstinentTrait>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, AddAbstinentTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
                         return PassionPath;
                     }
 
-                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
                     {
                         return PassionCommon.Localize("Add Abstinent Marker");
                     }
 
-                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                     {
-                        if (actor.HasTrait((TraitNames)2214287488174702228uL))
+                        if (target.HasTrait((TraitNames)2214287488174702228uL))
                         {
                             return false;
                         }
@@ -14023,24 +14029,24 @@ namespace S3_Passion
                 }
             }
 
-            internal sealed class RemoveAbstinentTrait : ImmediateInteraction<Sim, IGameObject>, IImmediateInteraction
+            internal sealed class RemoveAbstinentTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
             {
                 [DoesntRequireTuning]
-                private sealed class Definition : ImmediateInteractionDefinition<Sim, IGameObject, RemoveAbstinentTrait>, IImmediateInteractionDefinition
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, RemoveAbstinentTrait>, IImmediateInteractionDefinition
                 {
                     public override string[] GetPath(bool bPath)
                     {
                         return PassionPath;
                     }
 
-                    public override string GetInteractionName(Sim actor, IGameObject target, InteractionObjectPair interaction)
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
                     {
                         return PassionCommon.Localize("Remove Abstinent Marker");
                     }
 
-                    public override bool Test(Sim actor, IGameObject target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                     {
-                        if (actor.HasTrait((TraitNames)2214287488174702228uL))
+                        if (target.HasTrait((TraitNames)2214287488174702228uL))
                         {
                             return true;
                         }
@@ -14056,7 +14062,7 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.AbstinentToggle(Actor, false);
+                    AddMarkers.AbstinentToggle(Target, false);
                     return true;
                 }
             }
