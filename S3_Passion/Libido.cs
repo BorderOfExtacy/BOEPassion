@@ -218,27 +218,27 @@ namespace S3_Passion
                 int LibidoSatisScore = 0;
                 if (buffManager.HasElement((BuffNames)2922253427052633003uL) || buffManager.HasElement((BuffNames)2922253427052633003uL) || buffManager.HasElement((BuffNames)2922253427052633003uL))
 				{
-					LibidoSatisScore = 2;
+					LibidoSatisScore = 5;
 				}
 				//if libido was 3-4
                 else if(buffManager.HasElement((BuffNames)2922253427052633003uL) || buffManager.HasElement((BuffNames)2922253427052633003uL))
                 {
-                    LibidoSatisScore = 4;
+                    LibidoSatisScore = 10;
                 }
                 //if libido was 5-6
                 else if (buffManager.HasElement((BuffNames)2922253427052633003uL) || buffManager.HasElement((BuffNames)2922253427052633003uL))
                 {
-                    LibidoSatisScore = 6;
+                    LibidoSatisScore = 15;
                 }
                 //if libido was 7-8
                 else if (buffManager.HasElement((BuffNames)2922253427052633003uL) || buffManager.HasElement((BuffNames)2922253427052633003uL))
                 {
-                    LibidoSatisScore = 8;
+                    LibidoSatisScore = 20;
                 }
                 //if libido was 9-10
                 else if (buffManager.HasElement((BuffNames)2922253427052633003uL) || buffManager.HasElement((BuffNames)2922253427052633003uL))
                 {
-                    LibidoSatisScore = 10;
+                    LibidoSatisScore = 25;
                 }
 				// fallback
 				else
@@ -248,10 +248,17 @@ namespace S3_Passion
 
 				// how high is sim's relationship with partner?
 				int RelSatisScore = 0;
+				int LTRScore = 0;
                 Relationship relationship = simactor.GetRelationship(simpartner, false);
                 if (relationship != null)
                 {
-                    RelSatisScore = (int)relationship.LTR.Liking / 10;
+					LTRScore = (int)relationship.LTR.Liking;
+
+					LTRScore /= 2;
+
+					RelSatisScore = LTRScore;
+
+
                     if (relationship.AreRomantic())
                     {
                             RelSatisScore += 10;
@@ -268,9 +275,14 @@ namespace S3_Passion
 						SkillSatisScore = simpartner.SkillManager.GetSkillLevel((SkillNames)362046248ul);
 					}
 				}
+				// if player doesnt have woohooer
+				else
+				{
+					SkillSatisScore = 10;
+				}
 
-                // add it all together
-                SatisfactionScore = RandomSatisScore + LibidoSatisScore + RelSatisScore + SkillSatisScore;
+					// add it all together
+					SatisfactionScore = RandomSatisScore + LibidoSatisScore + RelSatisScore + SkillSatisScore;
 
 				ApplySatisfaction(simactor, SatisfactionScore);
             }

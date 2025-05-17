@@ -3338,7 +3338,11 @@ namespace S3_Passion
 						if (relationship != null)
 						{
 							// num2 is how many LTR points sim2 has with sim1
-							num2 = (int)relationship.LTR.Liking / 2;
+							int LTRValue = (int)relationship.LTR.Liking;
+
+							LTRValue /= 2;
+
+							num2 += LTRValue; 
 
 							if (num2 >= 10)
 							{
