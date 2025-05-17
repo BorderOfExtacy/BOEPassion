@@ -2547,8 +2547,63 @@ namespace S3_Passion
 			{
 				try
 				{
-					PassionChecks.InitiationCheck(e);
-				}
+                    // if autonomychance is higher than random, check continues.
+                    // refactor this so it takes libido into account as well?
+                    if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
+                    {
+                        Sim sim = e.Actor as Sim;
+                        Sim sim2 = e.TargetObject as Sim;
+                        if (!(sim.Posture is RelaxingPosture) && !(sim.Posture is SittingPosture) && Player.CanPassion(sim, sim2) && Player.WillPassion(sim, sim2) && Player.WillPassion(sim2, sim) && (Settings.AutonomyActive || (sim.Household != Household.ActiveHousehold && sim2.Household != Household.ActiveHousehold)))
+                        {
+                            Player player = GetPlayer(sim);
+                            Player player2 = GetPlayer(sim2);
+                            if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
+                            {
+
+                                Target target = player.GetNearbySupportedTarget();
+                                if (target == null)
+                                {
+                                    target = GetTarget(sim2);
+                                }
+                                if (target != null && target.IsValid)
+                                {
+                                    Part part = null;
+                                    if (target.Parts.Count > 0)
+                                    {
+                                        part = RandomUtil.GetRandomObjectFromList(new List<Part>(target.Parts.Values));
+                                    }
+                                    if (part != null && player.Join(part))
+                                    {
+                                        player.IsAutonomous = true;
+                                        player2.IsAutonomous = true;
+                                        player.Actor.InteractionQueue.CancelAllInteractions();
+                                        player.Actor.InteractionQueue.AddNext(Interactions.AskToPassion.Singleton.CreateInstance(player2.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
+                                        if (Settings.AutonomyNotify)
+                                        {
+                                            try
+                                            {
+                                                StringBuilder stringBuilder = new StringBuilder(Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
+                                                stringBuilder.Replace("[player]", player.Name);
+                                                stringBuilder.Replace("[label]", Settings.ActiveLabel.ToLower());
+                                                stringBuilder.Replace("[partner]", player2.Name);
+                                                stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
+                                                SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
+                                            }
+                                            catch
+                                            {
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (Testing)
+                                {
+                                    SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
+                                }
+
+                            }
+                        }
+                    }
+                }
 				catch
 				{
 				}
