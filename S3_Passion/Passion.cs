@@ -2545,104 +2545,115 @@ namespace S3_Passion
 			// this runs through 'willpassion' for both sims, so see that for like. conditions n shit
 			public static ListenerAction PassionCheck(Event e)
 			{
-				// increase charge + add libido moodlet if rolled here
-				try
+
+                // im scared
+
+                ShortTermContext sTC = Relationship.GetSTC(e.Actor as Sim, e.TargetObject as Sim);
+
+				// if the current convo stc is romantic
+				// otherwise fuck you
+                if (sTC.IsRomantic)
 				{
-					int ChargeThreshold = 0;
-
-					Sim guy = e.Actor as Sim;
-                    Sim guy2 = e.TargetObject as Sim;
-                    Player playerguy = GetPlayer(guy);
-                    Player playerguy2 = GetPlayer(guy2);
-
-                    // add 10 to their charge
-                    playerguy.PassionCharge += 10;
-                    PassionCommon.SystemMessage("sim1 preroll charge is" + playerguy.PassionCharge);
-                    playerguy2.PassionCharge += 10;
-                    PassionCommon.SystemMessage("sim2 preroll charge is" + playerguy2.PassionCharge);
-
-                    ChargeThreshold = RandomUtil.GetInt(0, 100);
-                    PassionCommon.SystemMessage("charge threshold is" + ChargeThreshold);
-
-                    if (playerguy.PassionCharge >= ChargeThreshold)
-					{
-						Libido.IncreaseUrgency(guy);
-						playerguy.PassionCharge = 0;
-                        PassionCommon.SystemMessage("sim1 increased libido");
-                    }
-                    if (playerguy2.PassionCharge >= ChargeThreshold)
+                    // increase charge + add libido moodlet if rolled here
+                    try
                     {
-                        Libido.IncreaseUrgency(guy2);
-                        playerguy2.PassionCharge = 0;
-                        PassionCommon.SystemMessage("sim2 increased libido");
-                    }
-                }
-				catch
-				{
-                    PassionCommon.SystemMessage("DUDE YOU BROKE IT");
-                }
-				try
-				{
-                    // if autonomychance is higher than random, check continues.
-                    // refactor this so it takes libido into account as well?
-                    if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
-                    {
-                        Sim sim = e.Actor as Sim;
-                        Sim sim2 = e.TargetObject as Sim;
-                        if (!(sim.Posture is RelaxingPosture) && !(sim.Posture is SittingPosture) && Player.CanPassion(sim, sim2) && Player.WillPassion(sim, sim2) && Player.WillPassion(sim2, sim) && (Settings.AutonomyActive || (sim.Household != Household.ActiveHousehold && sim2.Household != Household.ActiveHousehold)))
+                        int ChargeThreshold = 0;
+
+                        Sim guy = e.Actor as Sim;
+                        Sim guy2 = e.TargetObject as Sim;
+                        Player playerguy = GetPlayer(guy);
+                        Player playerguy2 = GetPlayer(guy2);
+
+                        // add 10 to their charge
+                        playerguy.PassionCharge += 10;
+                        PassionCommon.SystemMessage("sim1 preroll charge is" + playerguy.PassionCharge);
+                        playerguy2.PassionCharge += 10;
+                        PassionCommon.SystemMessage("sim2 preroll charge is" + playerguy2.PassionCharge);
+
+                        ChargeThreshold = RandomUtil.GetInt(0, 100);
+                        PassionCommon.SystemMessage("charge threshold is" + ChargeThreshold);
+
+                        if (playerguy.PassionCharge >= ChargeThreshold)
                         {
-                            Player player = GetPlayer(sim);
-                            Player player2 = GetPlayer(sim2);
-                            if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
+                            Libido.IncreaseUrgency(guy);
+                            playerguy.PassionCharge = 0;
+                            PassionCommon.SystemMessage("sim1 increased libido");
+                        }
+                        if (playerguy2.PassionCharge >= ChargeThreshold)
+                        {
+                            Libido.IncreaseUrgency(guy2);
+                            playerguy2.PassionCharge = 0;
+                            PassionCommon.SystemMessage("sim2 increased libido");
+                        }
+                    }
+                    catch
+                    {
+                        PassionCommon.SystemMessage("DUDE YOU BROKE IT");
+                    }
+                    try
+                    {
+                        // if autonomychance is higher than random, check continues.
+                        // refactor this so it takes libido into account as well?
+                        if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
+                        {
+                            Sim sim = e.Actor as Sim;
+                            Sim sim2 = e.TargetObject as Sim;
+                            if (!(sim.Posture is RelaxingPosture) && !(sim.Posture is SittingPosture) && Player.CanPassion(sim, sim2) && Player.WillPassion(sim, sim2) && Player.WillPassion(sim2, sim) && (Settings.AutonomyActive || (sim.Household != Household.ActiveHousehold && sim2.Household != Household.ActiveHousehold)))
                             {
+                                Player player = GetPlayer(sim);
+                                Player player2 = GetPlayer(sim2);
+                                if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
+                                {
 
-                                Target target = player.GetNearbySupportedTarget();
-                                if (target == null)
-                                {
-                                    target = GetTarget(sim2);
-                                }
-                                if (target != null && target.IsValid)
-                                {
-                                    Part part = null;
-                                    if (target.Parts.Count > 0)
+                                    Target target = player.GetNearbySupportedTarget();
+                                    if (target == null)
                                     {
-                                        part = RandomUtil.GetRandomObjectFromList(new List<Part>(target.Parts.Values));
+                                        target = GetTarget(sim2);
                                     }
-                                    if (part != null && player.Join(part))
+                                    if (target != null && target.IsValid)
                                     {
-                                        player.IsAutonomous = true;
-                                        player2.IsAutonomous = true;
-                                        player.Actor.InteractionQueue.CancelAllInteractions();
-                                        player.Actor.InteractionQueue.AddNext(Interactions.AskToPassion.Singleton.CreateInstance(player2.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
-                                        if (Settings.AutonomyNotify)
+                                        Part part = null;
+                                        if (target.Parts.Count > 0)
                                         {
-                                            try
+                                            part = RandomUtil.GetRandomObjectFromList(new List<Part>(target.Parts.Values));
+                                        }
+                                        if (part != null && player.Join(part))
+                                        {
+                                            player.IsAutonomous = true;
+                                            player2.IsAutonomous = true;
+                                            player.Actor.InteractionQueue.CancelAllInteractions();
+                                            player.Actor.InteractionQueue.AddNext(Interactions.AskToPassion.Singleton.CreateInstance(player2.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
+                                            if (Settings.AutonomyNotify)
                                             {
-                                                StringBuilder stringBuilder = new StringBuilder(Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
-                                                stringBuilder.Replace("[player]", player.Name);
-                                                stringBuilder.Replace("[label]", Settings.ActiveLabel.ToLower());
-                                                stringBuilder.Replace("[partner]", player2.Name);
-                                                stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
-                                                SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
-                                            }
-                                            catch
-                                            {
+                                                try
+                                                {
+                                                    StringBuilder stringBuilder = new StringBuilder(Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
+                                                    stringBuilder.Replace("[player]", player.Name);
+                                                    stringBuilder.Replace("[label]", Settings.ActiveLabel.ToLower());
+                                                    stringBuilder.Replace("[partner]", player2.Name);
+                                                    stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
+                                                    SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
+                                                }
+                                                catch
+                                                {
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                else if (Testing)
-                                {
-                                    SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
-                                }
+                                    else if (Testing)
+                                    {
+                                        SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
+                                    }
 
+                                }
                             }
                         }
                     }
+                    catch
+                    {
+                    }
                 }
-				catch
-				{
-				}
+				
 				return ListenerAction.Keep;
 			}
 
@@ -13872,8 +13883,15 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-					AddMarkers.AsexualToggle(Target, true);
+                    OnAddAsexual(Target);
+                    PassionCommon.Message("the interacton didnt shit itself");
                     return true;
+                }
+
+                public void OnAddAsexual(Sim target)
+                {
+                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AsexualToggle(target, true);
                 }
             }
 
@@ -13910,9 +13928,17 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.AsexualToggle(Target, false);
+					OnRemoveAsexual(Target);
+                    PassionCommon.Message("the interacton didnt shit itself");
                     return true;
                 }
+
+				public void OnRemoveAsexual(Sim target)
+				{
+                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AsexualToggle(target, false);
+                }
+
             }
 
             internal sealed class AddHypersexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
@@ -13948,8 +13974,15 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.HypersexualToggle(Target, true);
+                    OnAddHypersexual(Target);
+                    PassionCommon.Message("the interacton didnt shit itself");
                     return true;
+                }
+
+                public void OnAddHypersexual(Sim target)
+                {
+                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.HypersexualToggle(target, true);
                 }
             }
 
@@ -13986,8 +14019,15 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.HypersexualToggle(Target, false);
+                    OnRemoveHypersexual(Target);
+                    PassionCommon.Message("the interacton didnt shit itself");
                     return true;
+                }
+
+                public void OnRemoveHypersexual(Sim target)
+                {
+                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.HypersexualToggle(target, false);
                 }
             }
 
@@ -14024,8 +14064,15 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.AbstinentToggle(Actor, true);
+                    OnAddAbstinent(Target);
+                    PassionCommon.Message("the interacton didnt shit itself");
                     return true;
+                }
+
+                public void OnAddAbstinent(Sim target)
+                {
+                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AbstinentToggle(target, true);
                 }
             }
 
@@ -14062,8 +14109,15 @@ namespace S3_Passion
 
                 public override bool Run()
                 {
-                    AddMarkers.AbstinentToggle(Target, false);
+                    OnRemoveAbstinent(Target);
+                    PassionCommon.Message("the interacton didnt shit itself");
                     return true;
+                }
+
+                public void OnRemoveAbstinent(Sim target)
+                {
+                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AbstinentToggle(target, false);
                 }
             }
 
@@ -14747,14 +14801,7 @@ namespace S3_Passion
 			OnNewSimAged = EventTracker.AddListener(EventTypeId.kSimAgeTransition, Load);
 			OnNewObjectAdded = EventTracker.AddListener(EventTypeId.kBoughtObject, Load);
 			OnNewObjectAddedInInventory = EventTracker.AddListener(EventTypeId.kInventoryObjectAdded, Load);
-			OnAnyFlirt = EventTracker.AddListener(EventTypeId.kFlirting, Autonomy.PassionCheck);
-			OnFlowerKiss = EventTracker.AddListener(EventTypeId.kFlowerKiss, Autonomy.PassionCheck);
-			OnHadFirstKiss = EventTracker.AddListener(EventTypeId.kHadFirstKiss, Autonomy.PassionCheck);
-			OnSimKissed = EventTracker.AddListener(EventTypeId.kSimKissed, Autonomy.PassionCheck);
-			OnHadFirstRomance = EventTracker.AddListener(EventTypeId.kHadFirstRomance, Autonomy.PassionCheck);
-			OnHighlyVisibleVirtuousRomance = EventTracker.AddListener(EventTypeId.kHighlyVisibleVirtuousRomance, Autonomy.PassionCheck);
-			OnMultipleVisibleRomances = EventTracker.AddListener(EventTypeId.kMultipleVisibleRomances, Autonomy.PassionCheck);
-			OnPerformedRomanticSingagram = EventTracker.AddListener(EventTypeId.kPerformedRomanticSingagram, Autonomy.PassionCheck);
+			OnAnyFlirt = EventTracker.AddListener(EventTypeId.kSocialInteraction, Autonomy.PassionCheck);
 			ONWatchedTv = EventTracker.AddListener(EventTypeId.kWatchedSportsChannel, Autonomy.WhenWatchTV);
 			OnDance2Music = EventTracker.AddListener(EventTypeId.kSimDanced, Autonomy.DanceNude2Music);
 			OnGotMassage = EventTracker.AddListener(EventTypeId.kGotMassage, Autonomy.HappendAtMassage);
