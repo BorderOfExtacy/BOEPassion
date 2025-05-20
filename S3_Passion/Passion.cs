@@ -13886,13 +13886,13 @@ namespace S3_Passion
                 public override bool Run()
                 {
                     OnAddAsexual(Target);
-                    PassionCommon.Message("the interacton didnt shit itself");
+                    // PassionCommon.Message("the interacton didnt shit itself");
                     return true;
                 }
 
                 public void OnAddAsexual(Sim target)
                 {
-                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
                     AddMarkers.AsexualToggle(target, true);
                 }
             }
@@ -13931,13 +13931,13 @@ namespace S3_Passion
                 public override bool Run()
                 {
 					OnRemoveAsexual(Target);
-                    PassionCommon.Message("the interacton didnt shit itself");
+                    // PassionCommon.Message("the interacton didnt shit itself");
                     return true;
                 }
 
 				public void OnRemoveAsexual(Sim target)
 				{
-                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
                     AddMarkers.AsexualToggle(target, false);
                 }
 
@@ -13977,13 +13977,13 @@ namespace S3_Passion
                 public override bool Run()
                 {
                     OnAddHypersexual(Target);
-                    PassionCommon.Message("the interacton didnt shit itself");
+                   //  PassionCommon.Message("the interacton didnt shit itself");
                     return true;
                 }
 
                 public void OnAddHypersexual(Sim target)
                 {
-                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
                     AddMarkers.HypersexualToggle(target, true);
                 }
             }
@@ -14022,13 +14022,13 @@ namespace S3_Passion
                 public override bool Run()
                 {
                     OnRemoveHypersexual(Target);
-                    PassionCommon.Message("the interacton didnt shit itself");
+                    // PassionCommon.Message("the interacton didnt shit itself");
                     return true;
                 }
 
                 public void OnRemoveHypersexual(Sim target)
                 {
-                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
                     AddMarkers.HypersexualToggle(target, false);
                 }
             }
@@ -14067,13 +14067,13 @@ namespace S3_Passion
                 public override bool Run()
                 {
                     OnAddAbstinent(Target);
-                    PassionCommon.Message("the interacton didnt shit itself");
+                    // PassionCommon.Message("the interacton didnt shit itself");
                     return true;
                 }
 
                 public void OnAddAbstinent(Sim target)
                 {
-                    PassionCommon.Message("the interacton didnt shit itself for real");
+                   // PassionCommon.Message("the interacton didnt shit itself for real");
                     AddMarkers.AbstinentToggle(target, true);
                 }
             }
@@ -14112,13 +14112,13 @@ namespace S3_Passion
                 public override bool Run()
                 {
                     OnRemoveAbstinent(Target);
-                    PassionCommon.Message("the interacton didnt shit itself");
+                    // PassionCommon.Message("the interacton didnt shit itself");
                     return true;
                 }
 
                 public void OnRemoveAbstinent(Sim target)
                 {
-                    PassionCommon.Message("the interacton didnt shit itself for real");
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
                     AddMarkers.AbstinentToggle(target, false);
                 }
             }

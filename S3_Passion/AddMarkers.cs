@@ -14,12 +14,12 @@ namespace S3_Passion
             if (AddOrRemove)
             {
                 sim.TraitManager.AddElement((TraitNames)6177560411462291097uL);
-                PassionCommon.SystemMessage("imdyingsquirtle");
+                // PassionCommon.SystemMessage("imdyingsquirtle");
             }
             else
             {
                 sim.TraitManager.RemoveElement((TraitNames)6177560411462291097uL);
-                PassionCommon.SystemMessage("bulnosaur");
+                // PassionCommon.SystemMessage("bulnosaur");
             }
         }
 
@@ -28,12 +28,12 @@ namespace S3_Passion
             if (AddOrRemove)
             {
                 sim.TraitManager.AddElement((TraitNames)2214287488174702228uL);
-                PassionCommon.SystemMessage("imdyingsquirtle");
+                // PassionCommon.SystemMessage("imdyingsquirtle");
             }
             else
             {
                 sim.TraitManager.RemoveElement((TraitNames)2214287488174702228uL);
-                PassionCommon.SystemMessage("bulnosaur");
+                // PassionCommon.SystemMessage("bulnosaur");
             }
         }
 
@@ -42,12 +42,12 @@ namespace S3_Passion
             if (AddOrRemove)
             {
                 sim.TraitManager.AddElement((TraitNames)5711695705602619160uL);
-                PassionCommon.SystemMessage("imdyingsquirtle");
+                // PassionCommon.SystemMessage("imdyingsquirtle");
             }
             else
             {
                 sim.TraitManager.RemoveElement((TraitNames)5711695705602619160uL);
-                PassionCommon.SystemMessage("bulnosaur");
+                // PassionCommon.SystemMessage("bulnosaur");
             }
         }
 
