@@ -2546,9 +2546,13 @@ namespace S3_Passion
 			public static ListenerAction PassionCheck(Event e)
 			{
 
-                // im scared
+				// im scared
+				PassionCommon.SystemMessage("passioncheck fired alright");
 
-                ShortTermContext sTC = Relationship.GetSTC(e.Actor as Sim, e.TargetObject as Sim);
+                Sim guy = e.Actor as Sim;
+                Sim guy2 = e.TargetObject as Sim;
+
+                ShortTermContext sTC = Relationship.GetSTC(guy, guy2);
 
 				// if the current convo stc is romantic
 				// otherwise fuck you
@@ -2559,8 +2563,7 @@ namespace S3_Passion
                     {
                         int ChargeThreshold = 0;
 
-                        Sim guy = e.Actor as Sim;
-                        Sim guy2 = e.TargetObject as Sim;
+                        
                         Player playerguy = GetPlayer(guy);
                         Player playerguy2 = GetPlayer(guy2);
 
@@ -2653,8 +2656,12 @@ namespace S3_Passion
                     {
                     }
                 }
-				
-				return ListenerAction.Keep;
+				else
+				{
+					SystemMessage("context isnt romantic. fuck you.");
+				}
+
+					return ListenerAction.Keep;
 			}
 
 			// jealousy/cheating check
