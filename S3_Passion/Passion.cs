@@ -2567,12 +2567,26 @@ namespace S3_Passion
 						Player playerguy2 = GetPlayer(guy2);
 
 						// add 10 to their charge
-						playerguy.PassionCharge += 10;
-						// PassionCommon.SystemMessage("sim1 preroll charge is" + playerguy.PassionCharge);
-						playerguy2.PassionCharge += 10;
-						// PassionCommon.SystemMessage("sim2 preroll charge is" + playerguy2.PassionCharge);
+						if (guy.TraitManager.HasElement((TraitNames)5711695705602619160uL))
+						{
+							playerguy.PassionCharge += 25;
+						}
+						else
+						{
+                            playerguy.PassionCharge += 10;
+                        }
+                        // PassionCommon.SystemMessage("sim1 preroll charge is" + playerguy.PassionCharge);
+                        if (guy2.TraitManager.HasElement((TraitNames)5711695705602619160uL))
+                        {
+                            playerguy2.PassionCharge += 25;
+                        }
+                        else
+                        {
+                            playerguy2.PassionCharge += 10;
+                        }
+                        // PassionCommon.SystemMessage("sim2 preroll charge is" + playerguy2.PassionCharge);
 
-						ChargeThreshold = RandomUtil.GetInt(0, 100);
+                        ChargeThreshold = RandomUtil.GetInt(0, 100);
 						// PassionCommon.SystemMessage("charge threshold is" + ChargeThreshold);
 
 						if (playerguy.PassionCharge >= ChargeThreshold)
@@ -3044,7 +3058,7 @@ namespace S3_Passion
 			{
 				get
 				{
-					return Actor != null && !Actor.HasBeenDestroyed;
+					return Actor != null && !Actor.HasBeenDestroyed && !Actor.TraitManager.HasElement((TraitNames)2214287488174702228uL);
 				}
 			}
 
