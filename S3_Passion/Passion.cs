@@ -3420,7 +3420,7 @@ namespace S3_Passion
 				
 				if (sim != null && targets != null && targets.Length != 0)
 				{
-					int num = 70;
+					int num = PassionAutonomyTuning.CheckThreshold;
 
                     bool RejectedLowRel = false;
                     bool RejectedLowLibido = false;
@@ -3609,43 +3609,53 @@ namespace S3_Passion
 						{
 							num2 += 10;
 						}
-                        // if its a commercial lot
-                        else if (sim2.LotCurrent.LotType == LotType.Commercial)
-                        {
-							// if its a more suitable commercial lot
-							if (SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.BaseCamp || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.Junkyard || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.DiveBarCriminal || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.CocktailLoungeVampire || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.DanceClubRave || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.RebelHangout || SimCurrentLot.mMetaAutonomyType == Lot.MetaAutonomyType.Resort)
-							{ 
-								num2 += 0;
-                            }
-                            else
+						else
+						{
+                            foreach (PassionAutonomyTuning.PassionLots lot in PassionAutonomyTuning.PassionLotList)
                             {
-                                num2 -= 10;
-								RejectedInPublic = true;
+                                Lot.MetaAutonomyType LotType = (Lot.MetaAutonomyType)lot.LotTypeEnum;
+                                bool LotAxis = lot.LotAxis;
+                                int LotScore = lot.LotScore;
+
+                                try
+                                {
+                                    if (SimCurrentLot.mMetaAutonomyType == LotType)
+                                    {
+                                        if (LotAxis)
+                                        {
+                                            num2 += LotScore;
+                                        }
+                                        else
+                                        {
+                                            num2 -= LotScore;
+											RejectedInPublic = true;
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    Message("something in the lot autonomy check Broke lmao");
+                                }
+
                             }
-                        }
-                        // if any other lot
-                        else
-                        {
-                            num2 -= 10;
-							RejectedInPublic = true;
                         }
 
 						if (RejectedIsBlocked == true)
 						{
 							GetPlayer(sim2).RejectionReason = RejectionReasons.IsBlocked;
-                        }
+						}
 						else if (RejectedInPublic == true)
 						{
-                            GetPlayer(sim2).RejectionReason = RejectionReasons.InPublic;
-                        }
+							GetPlayer(sim2).RejectionReason = RejectionReasons.InPublic;
+						}
 						else if (RejectedLowLibido == true)
 						{
-                            GetPlayer(sim2).RejectionReason = RejectionReasons.LowLibido;
-                        }
+							GetPlayer(sim2).RejectionReason = RejectionReasons.LowLibido;
+						}
 						else if (RejectedLowRel == true)
 						{
-                            GetPlayer(sim2).RejectionReason = RejectionReasons.LowLTR;
-                        }
+							GetPlayer(sim2).RejectionReason = RejectionReasons.LowLTR;
+						}
 
 							dictionary.Add(sim2, num2);
 					}
