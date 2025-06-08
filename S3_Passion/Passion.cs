@@ -3420,7 +3420,7 @@ namespace S3_Passion
 				
 				if (sim != null && targets != null && targets.Length != 0)
 				{
-					int num = PassionAutonomyTuning.CheckThreshold;
+					int num = PassionAutonomyTuning.bCheckThreshold;
 
                     bool RejectedLowRel = false;
                     bool RejectedLowLibido = false;
@@ -3484,99 +3484,105 @@ namespace S3_Passion
 							}
 						}
 
-						// trait based math for sim2
-						if (sim2.HasTrait(TraitNames.Flirty))
-						{
-							num2 += 5;
-						}
-						else if (sim2.HasTrait(TraitNames.Unflirty))
-						{
-							num2 -= 10;
-						}
-						if (sim2.HasTrait(TraitNames.Attractive))
-						{
-							num2 += 10;
-						}
-						if (GameUtils.IsInstalled(ProductVersion.EP1) && sim2.HasTrait(TraitNames.EyeCandy))
-						{
-							num2 += 20;
-						}
-						if (GameUtils.IsInstalled(ProductVersion.EP9) && sim2.HasTrait(TraitNames.Irresistible))
-						{
-							num2 += 40;
-						}
-						if (GameUtils.IsInstalled(ProductVersion.EP3) && sim2.HasTrait(TraitNames.MasterOfSeduction))
-						{
-							num2 += 100;
-						}
+                        // trait based math for sim2
+                        foreach (PassionAutonomyTuning.PassionTraitAutonomy trait in PassionAutonomyTuning.PassionAutoTraitList)
+                        {
+                            TraitNames ParsedTraitName;
 
-						// how high is sim2's libido?
-						// time for the worst ifelse tree evar
-						BuffManager buffManager = sim2.BuffManager;
+
+                            ParserFunctions.TryParseEnum<TraitNames>(trait.TraitName, out ParsedTraitName, TraitNames.Unknown);
+
+                            TraitNames TraitType = ParsedTraitName;
+
+
+                            try
+                            {
+                                if (sim2.HasTrait(TraitType))
+                                {
+                                    bool TraitAxis = trait.TraitAxis;
+                                    int TraitScore = trait.TraitScore;
+
+                                    if (TraitAxis)
+                                    {
+                                        num2 += TraitScore;
+                                    }
+                                    else
+                                    {
+                                        num2 -= TraitScore;
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                Message("something in the trait autonomy check Broke lmao");
+                            }
+
+                        }
+
+                        // how high is sim2's libido?
+                        // time for the worst ifelse tree evar
+                        BuffManager buffManager = sim2.BuffManager;
 
                         // 0%
                         if (buffManager.HasElement((BuffNames)2248271455579464240uL))
                         {
+                            num2 += PassionAutonomyTuning.ZeroPercentLibidoBonus;
                             RejectedLowLibido = true;
                         }
                         // 10%
                         else if (buffManager.HasElement((BuffNames)2913570583726353694uL))
 						{
-							num2 += 5;
-							RejectedLowLibido = true;
+							num2 += PassionAutonomyTuning.OnePercentLibidoBonus;
+
+                            RejectedLowLibido = true;
 						}
 						// 20%
 						else if (buffManager.HasElement((BuffNames)2922268820215428064uL))
 						{
-							num2 += 10;
+                            num2 += PassionAutonomyTuning.TwoPercentLibidoBonus;
                             RejectedLowLibido = true;
                         }
 						// 30%
 						else if (buffManager.HasElement((BuffNames)3097843141287298166uL))
 						{
-							num2 += 15;
-						}
+                            num2 += PassionAutonomyTuning.ThreePercentLibidoBonus;
+                        }
 						// 40%
 						else if (buffManager.HasElement((BuffNames)8198323707617122614uL))
 						{
-							num2 += 20;
-						}
+                            num2 += PassionAutonomyTuning.FourPercentLibidoBonus;
+                        }
 						// 50%
 						else if (buffManager.HasElement((BuffNames)8200297330989383022uL))
 						{
-							num2 += 25;
-						}
+                            num2 += PassionAutonomyTuning.FivePercentLibidoBonus;
+                        }
                         // 60%
                         else if (buffManager.HasElement((BuffNames)2917472750494117670uL))
                         {
-                            num2 += 30;
+                            num2 += PassionAutonomyTuning.SixPercentLibidoBonus;
                         }
                         // 70%
                         else if (buffManager.HasElement((BuffNames)16251613925768384549uL))
                         {
-                            num2 += 35;
+                            num2 += PassionAutonomyTuning.SevenPercentLibidoBonus;
                         }
                         // 80%
                         else if (buffManager.HasElement((BuffNames)14041574305464178967uL))
                         {
-                            num2 += 40;
+                            num2 += PassionAutonomyTuning.EightPercentLibidoBonus;
                         }
                         // 90%
                         else if (buffManager.HasElement((BuffNames)13147589483235469726uL))
                         {
-                            num2 += 45;
+                            num2 += PassionAutonomyTuning.NinePercentLibidoBonus;
                         }
                         // 100%
                         else if (buffManager.HasElement((BuffNames)2922253427052633003uL))
                         {
-                            num2 += 50;
+                            num2 += PassionAutonomyTuning.TenPercentLibidoBonus;
                         }
 
-
-                        if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender))
-						{
-							num2 -= 60;
-						}
 
 
 						// extra modifiers for new traits
@@ -3597,12 +3603,14 @@ namespace S3_Passion
                         // hypersexual - more willing
                         if (sim2.HasTrait((TraitNames)5711695705602619160uL))
                         {
-                            num2 += 50;
+                            num2 += PassionAutonomyTuning.bHypersexualBonus;
                         }
+
 
 						// modifiers based on lot type
 
 						Lot SimCurrentLot = sim2.LotCurrent;
+                        int CoolerLotScore = 0;
 
                         // if residential
                         if (sim2.LotCurrent.LotType == LotType.Residential)
@@ -3611,23 +3619,32 @@ namespace S3_Passion
 						}
 						else
 						{
+							
+
                             foreach (PassionAutonomyTuning.PassionLots lot in PassionAutonomyTuning.PassionLotList)
                             {
-                                Lot.MetaAutonomyType LotType = (Lot.MetaAutonomyType)lot.LotTypeEnum;
-                                bool LotAxis = lot.LotAxis;
-                                int LotScore = lot.LotScore;
+								Lot.MetaAutonomyType ParsedLotName;
+
+
+                                ParserFunctions.TryParseEnum<Lot.MetaAutonomyType>(lot.LotTypeName, out ParsedLotName, Lot.MetaAutonomyType.None);
+
+								Lot.MetaAutonomyType LotType = ParsedLotName;
+                                
 
                                 try
                                 {
                                     if (SimCurrentLot.mMetaAutonomyType == LotType)
                                     {
+                                        bool LotAxis = lot.LotAxis;
+                                        CoolerLotScore = lot.LotScore;
+
                                         if (LotAxis)
                                         {
-                                            num2 += LotScore;
+                                            num2 += CoolerLotScore;
                                         }
                                         else
                                         {
-                                            num2 -= LotScore;
+                                            num2 -= CoolerLotScore;
 											RejectedInPublic = true;
                                         }
                                     }
@@ -3638,7 +3655,14 @@ namespace S3_Passion
                                 }
 
                             }
+							// fallback if the lot wasn't checked
+							if (CoolerLotScore == 0)
+							{
+								num2 += PassionAutonomyTuning.bDefaultPublicScore;
+                            }
                         }
+
+						// set rejection reason for notif
 
 						if (RejectedIsBlocked == true)
 						{
@@ -14563,7 +14587,9 @@ namespace S3_Passion
 					PassionType.Load();
 				}
 				PassionBody.LoadBodies("bababooey");
-				Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
+                PassionAutonomyTuning.LoadPassionLotAutonomy("bababooey");
+                PassionAutonomyTuning.LoadPassionTraitAutonomy("bababooey");
+                Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
 				foreach (PassionType value in LoadedTypes.Values)
 				{
 					if (value != null && !value.IsSim && value.IsGameObject)
@@ -14814,6 +14840,7 @@ namespace S3_Passion
 			mAllTargets.Clear();
 			mAllTargets = null;
 			PassionBody.Unload();
+			PassionAutonomyTuning.Unload();
 			STD.ClearData();
 			Target.ClearMinMaxSims();
 			PersistableSettings.Export("PassionSettingsBackup");
@@ -14911,7 +14938,11 @@ namespace S3_Passion
 
 		public static bool IsValid(Sim sim, bool load)
 		{
-			if (sim != null && !sim.HasBeenDestroyed && sim.IsHuman && IsValidAge(sim, load))
+            if (sim.HasTrait((TraitNames)2214287488174702228uL))
+			{
+				return false;
+			}
+            if (sim != null && !sim.HasBeenDestroyed && sim.IsHuman && IsValidAge(sim, load))
 			{
 				return true;
 			}
