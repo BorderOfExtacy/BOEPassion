@@ -2542,130 +2542,136 @@ namespace S3_Passion
 			}
 
 			// passioncheck -- check to **initiate** autonomous passion
+			// this runs through 'willpassion' for both sims, so see that for like. conditions n shit
 			public static ListenerAction PassionCheck(Event e)
 			{
 				try
 				{
-					// if autonomychance is higher than random, check continues.
-					// refactor this so it takes libido into account as well?
-					if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
+					// im scared
+					// PassionCommon.SystemMessage("passioncheck fired alright");
+
+					Sim guy = e.Actor as Sim;
+					Sim guy2 = e.TargetObject as Sim;
+
+					ShortTermContext sTC = Relationship.GetSTC(guy, guy2);
+
+					// if the current convo stc is romantic
+					// otherwise fuck you
+					if (sTC.IsRomantic)
 					{
-						Sim sim = e.Actor as Sim;
-						Sim sim2 = e.TargetObject as Sim;
-						if (!(sim.Posture is RelaxingPosture) && !(sim.Posture is SittingPosture) && Player.CanPassion(sim, sim2) && Player.WillPassion(sim, sim2) && Player.WillPassion(sim2, sim) && (Settings.AutonomyActive || (sim.Household != Household.ActiveHousehold && sim2.Household != Household.ActiveHousehold)) && (Settings.AutonomyPublic || sim.LotCurrent.LotType == LotType.Residential))
+
+						int ChargeThreshold = 0;
+
+
+						Player playerguy = GetPlayer(guy);
+						Player playerguy2 = GetPlayer(guy2);
+
+						// add 10 to their charge
+						if (guy.TraitManager.HasElement((TraitNames)5711695705602619160uL))
 						{
-							Player player = GetPlayer(sim);
-							Player player2 = GetPlayer(sim2);
-							if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
-							{
-							// time for some rng bullshit
-
-							int PassionCheckRoll;
-
-							// if sim is 100% libido
-							if (sim.BuffManager.HasElement((BuffNames)2922253427052633003uL))
-							{
-								PassionCheckRoll = 90;
-							}
-							// 90%
-							else if (sim.BuffManager.HasElement((BuffNames)13147589483235469726uL))
-							{
-								PassionCheckRoll = 80;
-							}
-							// 80%
-							else if (sim.BuffManager.HasElement((BuffNames)14041574305464178967uL))
-							{
-								PassionCheckRoll = 70;
-							}
-							// 70%
-							else if (sim.BuffManager.HasElement((BuffNames)16251613925768384549uL))
-							{
-								PassionCheckRoll = 60;
-							}
-							// 60%
-							else if (sim.BuffManager.HasElement((BuffNames)2917472750494117670uL))
-							{
-								PassionCheckRoll = 50;
-							}
-							// 50%
-							else if (sim.BuffManager.HasElement((BuffNames)8200297330989383022uL))
-							{
-								PassionCheckRoll = 40;
-							}
-							// 40%
-							else if (sim.BuffManager.HasElement((BuffNames)8198323707617122614uL))
-							{
-								PassionCheckRoll = 30;
-							}
-							// 30%
-							else if (sim.BuffManager.HasElement((BuffNames)3097843141287298166uL))
-							{
-								PassionCheckRoll = 20;
-							}
-							// 20%
-							else if (sim.BuffManager.HasElement((BuffNames)2922268820215428064uL))
-							{
-								PassionCheckRoll = 10;
-							}
-							else 
-							{
-								PassionCheckRoll = 0;
-							}
-
-
-						if (PassionCheckRoll > 0 && RandomUtil.GetInt(0, 100) > PassionCheckRoll)
+							playerguy.PassionCharge += 25;
+						}
+						else
 						{
+                            playerguy.PassionCharge += 10;
+                        }
+                        // PassionCommon.SystemMessage("sim1 preroll charge is" + playerguy.PassionCharge);
+                        if (guy2.TraitManager.HasElement((TraitNames)5711695705602619160uL))
+                        {
+                            playerguy2.PassionCharge += 25;
+                        }
+                        else
+                        {
+                            playerguy2.PassionCharge += 10;
+                        }
+                        // PassionCommon.SystemMessage("sim2 preroll charge is" + playerguy2.PassionCharge);
 
-							
-								Target target = player.GetNearbySupportedTarget();
-								if (target == null)
+                        ChargeThreshold = RandomUtil.GetInt(0, 100);
+						// PassionCommon.SystemMessage("charge threshold is" + ChargeThreshold);
+
+						if (playerguy.PassionCharge >= ChargeThreshold)
+						{
+							Libido.IncreaseUrgency(guy);
+							playerguy.PassionCharge = 0;
+							// PassionCommon.SystemMessage("sim1 increased libido");
+						}
+						if (playerguy2.PassionCharge >= ChargeThreshold)
+						{
+							Libido.IncreaseUrgency(guy2);
+							playerguy2.PassionCharge = 0;
+							// PassionCommon.SystemMessage("sim2 increased libido");
+						}
+
+
+						// if autonomychance is higher than random, check continues.
+						// refactor this so it takes libido into account as well?
+						if (Settings.AutonomyChance > 0 && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
+						{
+							Sim sim = e.Actor as Sim;
+							Sim sim2 = e.TargetObject as Sim;
+							if (!(sim.Posture is RelaxingPosture) && !(sim.Posture is SittingPosture) && Player.CanPassion(sim, sim2) && Player.WillPassion(sim, sim2) && Player.WillPassion(sim2, sim) && (Settings.AutonomyActive || (sim.Household != Household.ActiveHousehold && sim2.Household != Household.ActiveHousehold)))
+							{
+								Player player = GetPlayer(sim);
+								Player player2 = GetPlayer(sim2);
+								if (player.IsValid && player2.IsValid && !player.IsActive && !player2.IsActive)
 								{
-									target = GetTarget(sim2);
-								}
-								if (target != null && target.IsValid)
-								{
-									Part part = null;
-									if (target.Parts.Count > 0)
+
+									Target target = player.GetNearbySupportedTarget();
+									if (target == null)
 									{
-										part = RandomUtil.GetRandomObjectFromList(new List<Part>(target.Parts.Values));
+										target = GetTarget(sim2);
 									}
-									if (part != null && player.Join(part))
+									if (target != null && target.IsValid)
 									{
-										player.IsAutonomous = true;
-										player2.IsAutonomous = true;
-										player.Actor.InteractionQueue.CancelAllInteractions();
-										player.Actor.InteractionQueue.AddNext(Interactions.AskToPassion.Singleton.CreateInstance(player2.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
-										if (Settings.AutonomyNotify)
+										Part part = null;
+										if (target.Parts.Count > 0)
 										{
-											try
+											part = RandomUtil.GetRandomObjectFromList(new List<Part>(target.Parts.Values));
+										}
+										if (part != null && player.Join(part))
+										{
+											player.IsAutonomous = true;
+											player2.IsAutonomous = true;
+											player.Actor.InteractionQueue.CancelAllInteractions();
+											player.Actor.InteractionQueue.AddNext(Interactions.AskToPassion.Singleton.CreateInstance(player2.Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
+											if (Settings.AutonomyNotify)
 											{
-												StringBuilder stringBuilder = new StringBuilder(PassionCommon.Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
-												stringBuilder.Replace("[player]", player.Name);
-												stringBuilder.Replace("[label]", Settings.ActiveLabel.ToLower());
-												stringBuilder.Replace("[partner]", player2.Name);
-												stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
-												PassionCommon.SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
-											}
-											catch
-											{
+												try
+												{
+													StringBuilder stringBuilder = new StringBuilder(Localize("S3_Passion.Terms.AutonomyNotifySimMessage"));
+													stringBuilder.Replace("[player]", player.Name);
+													stringBuilder.Replace("[label]", Settings.ActiveLabel.ToLower());
+													stringBuilder.Replace("[partner]", player2.Name);
+													stringBuilder.Replace("[address]", player.Actor.LotCurrent.Name);
+													SimMessage(stringBuilder.ToString(), player.Actor, player2.Actor);
+												}
+												catch
+												{
+												}
 											}
 										}
 									}
+									else if (Testing)
+									{
+										SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
+									}
+
 								}
-								else if (PassionCommon.Testing)
-								{
-									PassionCommon.SystemMessage("No valid target found for Autonomy for " + player.Name + " & " + player2.Name);
-								}
-						}
 							}
 						}
+
+					}
+					else
+					{
+						// SystemMessage("context isnt romantic. fuck you.");
 					}
 				}
 				catch
 				{
-				}
-				return ListenerAction.Keep;
-			}
+                    // SystemMessage("uh oh");
+                }
+                return ListenerAction.Keep;
+            }
 
 			// jealousy/cheating check
 			public static void JealousyCheck(Sim witness, ReactionBroadcaster rb)
@@ -2802,6 +2808,8 @@ namespace S3_Passion
 
 			public int PositionIndex;
 
+			public int PassionCharge;
+
 			public string BufferedAnimation;
 
 			public string SwitchRoleBuffer;
@@ -2823,6 +2831,8 @@ namespace S3_Passion
 			public OutfitCategories PreferredOutfitCategory;
 
 			public OutfitCategories PreviousOutfitCategory;
+
+			public RejectionReasons RejectionReason;
 
 			public int PreferredOutfitIndex;
 
@@ -3048,7 +3058,7 @@ namespace S3_Passion
 			{
 				get
 				{
-					return Actor != null && !Actor.HasBeenDestroyed;
+					return Actor != null && !Actor.HasBeenDestroyed && !Actor.TraitManager.HasElement((TraitNames)2214287488174702228uL);
 				}
 			}
 
@@ -3221,6 +3231,7 @@ namespace S3_Passion
 				player.SimJunkBaseCASP = "";
 				player.SimErectSIMO = "";
                 player.PositionIndex = 0;
+				player.PassionCharge = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
 				player.AreWeSwitching = false;
@@ -3235,6 +3246,7 @@ namespace S3_Passion
 				player.PreferredOutfitCategory = OutfitCategories.None;
 				player.PreferredOutfitIndex = 0;
 				player.PreviousOutfitCategory = OutfitCategories.None;
+				player.RejectionReason = RejectionReasons.None;
 				player.PreviousOutfitIndex = 0;
 				player.BufferedAnimation = string.Empty;
 				player.SwitchRoleBuffer = string.Empty;
@@ -3391,45 +3403,74 @@ namespace S3_Passion
 				return WillPassion(sim, new Sim[1] { target });
 			}
 
-			//
-			//
-			//
+
 			// tests if a sim will ACCEPT a passion request or not
 			// modify this to include multiplers for new libido system
+			// from what i can see.. higher the number, more likely to accept. lets yoloswag
 			public static bool WillPassion(Sim sim, Sim[] targets)
 			{
+				// if rejection is disabled
 				if (!Settings.CanReject)
 				{
 					return true;
 				}
+
 				bool result = false;
+
+				
 				if (sim != null && targets != null && targets.Length != 0)
 				{
-					int num = 70;
-					if (sim.HasTrait(TraitNames.Inappropriate))
-					{
-						num = 0;
-					}
-					else if (sim.HasTrait(TraitNames.PartyAnimal))
-					{
-						num = 50;
-					}
-					else if (sim.HasTrait(TraitNames.Shy))
-					{
-						num = 100;
-					}
-					Dictionary<Sim, int> dictionary = new Dictionary<Sim, int>();
+					int num = PassionAutonomyTuning.bCheckThreshold;
+
+                    bool RejectedLowRel = false;
+                    bool RejectedLowLibido = false;
+                    bool RejectedInPublic = false;
+					bool RejectedIsBlocked = false;
+
+                    // trait based math for sim1 AKA initiator
+                    // the partner sim has to 'beat' this number, so here the 'goal' is lower
+                    // actually i dont think this is ever. fucking used since both initiator and partner are passed thru this?
+                    //  if (sim.HasTrait(TraitNames.Inappropriate))
+                    //{
+                    //	num = 0;
+                    //}
+                    //else if (sim.HasTrait(TraitNames.PartyAnimal))
+                    //{
+                    //	num = 50;
+                    //}
+                    //else if (sim.HasTrait(TraitNames.Shy))
+                    //{
+                    //	num = 100;
+                    //}
+
+                    Dictionary<Sim, int> dictionary = new Dictionary<Sim, int>();
 					foreach (Sim sim2 in targets)
 					{
+						// if theres no other sims, ignore this
 						if (sim2 == null || sim2 == sim)
 						{
 							continue;
 						}
+
 						int num2 = 0;
+
 						Relationship relationship = sim.GetRelationship(sim2, false);
+
 						if (relationship != null)
 						{
-							num2 = (int)relationship.LTR.Liking;
+							// num2 is how many LTR points sim2 has with sim1
+							int LTRValue = (int)relationship.LTR.Liking;
+
+							LTRValue /= 2;
+
+							num2 += LTRValue; 
+
+							if (num2 >= 10)
+							{
+								RejectedLowRel = true;
+							}
+
+							// refactor this?
 							if (relationship.AreRomantic())
 							{
 								if (sim.HasTrait(TraitNames.HopelessRomantic))
@@ -3442,56 +3483,205 @@ namespace S3_Passion
 								}
 							}
 						}
-						if (sim2.HasTrait(TraitNames.Flirty))
+
+                        // trait based math for sim2
+                        foreach (PassionAutonomyTuning.PassionTraitAutonomy trait in PassionAutonomyTuning.PassionAutoTraitList)
+                        {
+                            TraitNames ParsedTraitName;
+
+
+                            ParserFunctions.TryParseEnum<TraitNames>(trait.TraitName, out ParsedTraitName, TraitNames.Unknown);
+
+                            TraitNames TraitType = ParsedTraitName;
+
+
+                            try
+                            {
+                                if (sim2.HasTrait(TraitType))
+                                {
+                                    bool TraitAxis = trait.TraitAxis;
+                                    int TraitScore = trait.TraitScore;
+
+                                    if (TraitAxis)
+                                    {
+                                        num2 += TraitScore;
+                                    }
+                                    else
+                                    {
+                                        num2 -= TraitScore;
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                Message("something in the trait autonomy check Broke lmao");
+                            }
+
+                        }
+
+                        // how high is sim2's libido?
+                        // time for the worst ifelse tree evar
+                        BuffManager buffManager = sim2.BuffManager;
+
+                        // 0%
+                        if (buffManager.HasElement((BuffNames)2248271455579464240uL))
+                        {
+                            num2 += PassionAutonomyTuning.ZeroPercentLibidoBonus;
+                            RejectedLowLibido = true;
+                        }
+                        // 10%
+                        else if (buffManager.HasElement((BuffNames)2913570583726353694uL))
 						{
-							num2 += 5;
+							num2 += PassionAutonomyTuning.OnePercentLibidoBonus;
+
+                            RejectedLowLibido = true;
 						}
-						else if (sim2.HasTrait(TraitNames.Unflirty))
+						// 20%
+						else if (buffManager.HasElement((BuffNames)2922268820215428064uL))
 						{
-							num2 -= 10;
+                            num2 += PassionAutonomyTuning.TwoPercentLibidoBonus;
+                            RejectedLowLibido = true;
+                        }
+						// 30%
+						else if (buffManager.HasElement((BuffNames)3097843141287298166uL))
+						{
+                            num2 += PassionAutonomyTuning.ThreePercentLibidoBonus;
+                        }
+						// 40%
+						else if (buffManager.HasElement((BuffNames)8198323707617122614uL))
+						{
+                            num2 += PassionAutonomyTuning.FourPercentLibidoBonus;
+                        }
+						// 50%
+						else if (buffManager.HasElement((BuffNames)8200297330989383022uL))
+						{
+                            num2 += PassionAutonomyTuning.FivePercentLibidoBonus;
+                        }
+                        // 60%
+                        else if (buffManager.HasElement((BuffNames)2917472750494117670uL))
+                        {
+                            num2 += PassionAutonomyTuning.SixPercentLibidoBonus;
+                        }
+                        // 70%
+                        else if (buffManager.HasElement((BuffNames)16251613925768384549uL))
+                        {
+                            num2 += PassionAutonomyTuning.SevenPercentLibidoBonus;
+                        }
+                        // 80%
+                        else if (buffManager.HasElement((BuffNames)14041574305464178967uL))
+                        {
+                            num2 += PassionAutonomyTuning.EightPercentLibidoBonus;
+                        }
+                        // 90%
+                        else if (buffManager.HasElement((BuffNames)13147589483235469726uL))
+                        {
+                            num2 += PassionAutonomyTuning.NinePercentLibidoBonus;
+                        }
+                        // 100%
+                        else if (buffManager.HasElement((BuffNames)2922253427052633003uL))
+                        {
+                            num2 += PassionAutonomyTuning.TenPercentLibidoBonus;
+                        }
+
+
+
+						// extra modifiers for new traits
+
+						// asexual - denies autonomy
+						if (sim2.HasTrait((TraitNames)6177560411462291097uL) && GetPlayer(sim2).IsAutonomous)
+						{
+							num2 -= 9999;
+							RejectedIsBlocked = true;
+
 						}
-						if (sim2.HasTrait(TraitNames.Attractive))
+                        // abstinent - denies ALL
+                        if (sim2.HasTrait((TraitNames)2214287488174702228uL))
+                        {
+                            num2 -= 9999;
+							RejectedIsBlocked = true;
+                        }
+                        // hypersexual - more willing
+                        if (sim2.HasTrait((TraitNames)5711695705602619160uL))
+                        {
+                            num2 += PassionAutonomyTuning.bHypersexualBonus;
+                        }
+
+
+						// modifiers based on lot type
+
+						Lot SimCurrentLot = sim2.LotCurrent;
+                        int CoolerLotScore = 0;
+
+                        // if residential
+                        if (sim2.LotCurrent.LotType == LotType.Residential)
 						{
 							num2 += 10;
 						}
-						if (GameUtils.IsInstalled(ProductVersion.EP1) && sim2.HasTrait(TraitNames.EyeCandy))
+						else
 						{
-							num2 += 20;
-						}
-						if (GameUtils.IsInstalled(ProductVersion.EP9) && sim2.HasTrait(TraitNames.Irresistible))
+							
+
+                            foreach (PassionAutonomyTuning.PassionLots lot in PassionAutonomyTuning.PassionLotList)
+                            {
+								Lot.MetaAutonomyType ParsedLotName;
+
+
+                                ParserFunctions.TryParseEnum<Lot.MetaAutonomyType>(lot.LotTypeName, out ParsedLotName, Lot.MetaAutonomyType.None);
+
+								Lot.MetaAutonomyType LotType = ParsedLotName;
+                                
+
+                                try
+                                {
+                                    if (SimCurrentLot.mMetaAutonomyType == LotType)
+                                    {
+                                        bool LotAxis = lot.LotAxis;
+                                        CoolerLotScore = lot.LotScore;
+
+                                        if (LotAxis)
+                                        {
+                                            num2 += CoolerLotScore;
+                                        }
+                                        else
+                                        {
+                                            num2 -= CoolerLotScore;
+											RejectedInPublic = true;
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    Message("something in the lot autonomy check Broke lmao");
+                                }
+
+                            }
+							// fallback if the lot wasn't checked
+							if (CoolerLotScore == 0)
+							{
+								num2 += PassionAutonomyTuning.bDefaultPublicScore;
+                            }
+                        }
+
+						// set rejection reason for notif
+
+						if (RejectedIsBlocked == true)
 						{
-							num2 += 40;
+							GetPlayer(sim2).RejectionReason = RejectionReasons.IsBlocked;
 						}
-						if (GameUtils.IsInstalled(ProductVersion.EP3) && sim2.HasTrait(TraitNames.MasterOfSeduction))
+						else if (RejectedInPublic == true)
 						{
-							num2 += 100;
+							GetPlayer(sim2).RejectionReason = RejectionReasons.InPublic;
 						}
-						BuffManager buffManager = sim.BuffManager;
-						if (buffManager.HasElement((BuffNames)10626820509964641423uL) || buffManager.HasElement((BuffNames)7244019685987188093uL))
+						else if (RejectedLowLibido == true)
 						{
-							num2 += 5;
+							GetPlayer(sim2).RejectionReason = RejectionReasons.LowLibido;
 						}
-						else if (buffManager.HasElement((BuffNames)16341761339885008577uL) || buffManager.HasElement((BuffNames)13910300093031145699uL))
+						else if (RejectedLowRel == true)
 						{
-							num2 += 10;
+							GetPlayer(sim2).RejectionReason = RejectionReasons.LowLTR;
 						}
-						else if (buffManager.HasElement((BuffNames)16113274642161440716uL))
-						{
-							num2 += 15;
-						}
-						else if (buffManager.HasElement((BuffNames)12415407305475427397uL))
-						{
-							num2 += 20;
-						}
-						else if (buffManager.HasElement((BuffNames)1358929223039794148uL))
-						{
-							num2 += 30;
-						}
-						if (!sim.SimDescription.NotOpposedToRomanceWithGender(sim2.SimDescription.Gender))
-						{
-							num2 -= 60;
-						}
-						dictionary.Add(sim2, num2);
+
+							dictionary.Add(sim2, num2);
 					}
 					int num3 = 0;
 					if (dictionary.Count > 0)
@@ -3506,17 +3696,17 @@ namespace S3_Passion
 						}
 					}
 					num3 += Modules.GetPassionScoringModifier(sim, targets);
+
 					if (num3 >= num)
 					{
 						result = true;
 					}
+
 				}
 				return result;
 			}
 			// end if a sim will ACCEPT passion
-			//
-			//
-			//
+
 
 			public void DegradeRelationship(Player partner)
 			{
@@ -3735,7 +3925,29 @@ namespace S3_Passion
 										PlayInviteFailure(partner);
 									}
 									DegradeRelationship(partner);
+
+									// send message as to why the invite failed if we have its reason logged
+									// make this non-global for final, its global rn for testing lol
+									if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.IsBlocked)
+									{
+                                        PassionCommon.SimMessage(PassionCommon.Localize("Sorry! I'm... not into that kind of thing.").ToString(), partner.Actor);
+                                    }
+                                    else if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.InPublic)
+                                    {
+                                        PassionCommon.SimMessage(PassionCommon.Localize("Uh, no way. Not in public!").ToString(), partner.Actor);
+                                    }
+                                    else if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.LowLibido)
+                                    {
+                                        PassionCommon.SimMessage(PassionCommon.Localize("I'm not really in the mood for that, not right now.").ToString(), partner.Actor);
+                                    }
+                                    else if (GetPlayer(partner.Actor).RejectionReason == RejectionReasons.LowLTR)
+                                    {
+                                        PassionCommon.SimMessage(PassionCommon.Localize("Look, I really don't know you well enough to do that.").ToString(), partner.Actor);
+                                    }
+
+
                                     Leave();
+                                    
                                     return false;
                                 }
 							}
@@ -6349,18 +6561,10 @@ namespace S3_Passion
 				{
 					Actor.LookAtManager.EnableLookAts();
 					ClearPosture();
-					// change this to use new libido system
-					//if (Settings.LibidoBuff)
-					//{
-					//	if (HadPartner)
-					//	{
-					//		Libido.Satisfaction(Actor);
-					//	}
-					//	else
-					//	{
-					//		Libido.PartialSatisfaction(Actor);
-					//	}
-					//}
+					if (Settings.LibidoBuff)
+					{
+                        Libido.SatisfactionCalc(Actor, Partner.Actor);
+					}
 					Part.BroWeAreSwitching = false;
 					RegisterWoohoo();
                     try
@@ -6414,16 +6618,6 @@ namespace S3_Passion
 				else
 				{
 					EventTracker.SendEvent(new WooHooEvent(EventTypeId.kWooHooed, Actor, Partner.Actor, Partner.Actor));
-				}
-				if (Settings.WoohooBuff)
-				// gives the 'had woohoo' buff
-				// if they already have it... remove it and add it again, i guess?
-				{
-					if (Actor.BuffManager.HasElement((BuffNames)2111502432315482727uL))
-					{
-						Actor.BuffManager.RemoveElement((BuffNames)2111502432315482727uL);
-					}
-					Actor.BuffManager.AddElement((BuffNames)2111502432315482727uL, Origin.None);
 				}
 				if (Actor.SimDescription.HadFirstWooHoo)
 				{
@@ -13704,7 +13898,282 @@ namespace S3_Passion
 				}
 			}
 
-			public sealed class UsePoolLadderForPassionWithSim : Interaction<Sim, PoolLadder>
+            // NEW INTERACTIONS YAYE
+
+            internal sealed class AddAsexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, AddAsexualTrait>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Add Asexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (target.HasTrait((TraitNames)6177560411462291097uL))
+						{
+							return false;
+						}
+						else
+						{
+							return true;
+						}
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    OnAddAsexual(Target);
+                    // PassionCommon.Message("the interacton didnt shit itself");
+                    return true;
+                }
+
+                public void OnAddAsexual(Sim target)
+                {
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AsexualToggle(target, true);
+                }
+            }
+
+            internal sealed class RemoveAsexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, RemoveAsexualTrait>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Remove Asexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (target.HasTrait((TraitNames)6177560411462291097uL))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+					OnRemoveAsexual(Target);
+                    // PassionCommon.Message("the interacton didnt shit itself");
+                    return true;
+                }
+
+				public void OnRemoveAsexual(Sim target)
+				{
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AsexualToggle(target, false);
+                }
+
+            }
+
+            internal sealed class AddHypersexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, AddHypersexualTrait>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Add Hypersexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (target.HasTrait((TraitNames)5711695705602619160uL))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    OnAddHypersexual(Target);
+                   //  PassionCommon.Message("the interacton didnt shit itself");
+                    return true;
+                }
+
+                public void OnAddHypersexual(Sim target)
+                {
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.HypersexualToggle(target, true);
+                }
+            }
+
+            internal sealed class RemoveHypersexualTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, RemoveHypersexualTrait>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Remove Hypersexual Marker");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (target.HasTrait((TraitNames)5711695705602619160uL))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    OnRemoveHypersexual(Target);
+                    // PassionCommon.Message("the interacton didnt shit itself");
+                    return true;
+                }
+
+                public void OnRemoveHypersexual(Sim target)
+                {
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.HypersexualToggle(target, false);
+                }
+            }
+
+            internal sealed class AddAbstinentTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, AddAbstinentTrait>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Add Abstinent Marker");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (target.HasTrait((TraitNames)2214287488174702228uL))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    OnAddAbstinent(Target);
+                    // PassionCommon.Message("the interacton didnt shit itself");
+                    return true;
+                }
+
+                public void OnAddAbstinent(Sim target)
+                {
+                   // PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AbstinentToggle(target, true);
+                }
+            }
+
+            internal sealed class RemoveAbstinentTrait : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, RemoveAbstinentTrait>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return PassionPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Remove Abstinent Marker");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+                        if (target.HasTrait((TraitNames)2214287488174702228uL))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+							return false;
+                        }
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+                    OnRemoveAbstinent(Target);
+                    // PassionCommon.Message("the interacton didnt shit itself");
+                    return true;
+                }
+
+                public void OnRemoveAbstinent(Sim target)
+                {
+                    // PassionCommon.Message("the interacton didnt shit itself for real");
+                    AddMarkers.AbstinentToggle(target, false);
+                }
+            }
+
+            // END NEW INTERACTIONS
+
+            public sealed class UsePoolLadderForPassionWithSim : Interaction<Sim, PoolLadder>
 			{
 				private sealed class Definition : InteractionDefinition<Sim, PoolLadder, UsePoolLadderForPassionWithSim>, IHasTraitIcon, IHasMenuPathIcon
 				{
@@ -14118,7 +14587,9 @@ namespace S3_Passion
 					PassionType.Load();
 				}
 				PassionBody.LoadBodies("bababooey");
-				Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
+                PassionAutonomyTuning.LoadPassionLotAutonomy("bababooey");
+                PassionAutonomyTuning.LoadPassionTraitAutonomy("bababooey");
+                Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
 				foreach (PassionType value in LoadedTypes.Values)
 				{
 					if (value != null && !value.IsSim && value.IsGameObject)
@@ -14297,7 +14768,13 @@ namespace S3_Passion
 					sim.AddInteraction(Interactions.PassionSettingsMenu.Singleton, true);
 					sim.AddInteraction(Interactions.PassionSettingsMenuActive.Singleton, true);
 					sim.AddInteraction(Interactions.Reassure.Singleton, true);
-					sim.AddInteraction(Interactions.ResetMe.Singleton, true);
+                    sim.AddInteraction(Interactions.AddAbstinentTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.AddAsexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.AddHypersexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.RemoveAbstinentTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.RemoveAsexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.RemoveHypersexualTrait.Singleton, true);
+                    sim.AddInteraction(Interactions.ResetMe.Singleton, true);
 					sim.AddInteraction(Interactions.ResetMeActive.Singleton, true);
 					sim.AddInteraction(StripperPole.Strip.Singleton, true);
 					sim.AddInteraction(StripperPole.DanceOnPoleStop.Singleton, true);
@@ -14363,6 +14840,7 @@ namespace S3_Passion
 			mAllTargets.Clear();
 			mAllTargets = null;
 			PassionBody.Unload();
+			PassionAutonomyTuning.Unload();
 			STD.ClearData();
 			Target.ClearMinMaxSims();
 			PersistableSettings.Export("PassionSettingsBackup");
@@ -14376,14 +14854,7 @@ namespace S3_Passion
 			OnNewSimAged = EventTracker.AddListener(EventTypeId.kSimAgeTransition, Load);
 			OnNewObjectAdded = EventTracker.AddListener(EventTypeId.kBoughtObject, Load);
 			OnNewObjectAddedInInventory = EventTracker.AddListener(EventTypeId.kInventoryObjectAdded, Load);
-			OnAnyFlirt = EventTracker.AddListener(EventTypeId.kFlirting, Autonomy.PassionCheck);
-			OnFlowerKiss = EventTracker.AddListener(EventTypeId.kFlowerKiss, Autonomy.PassionCheck);
-			OnHadFirstKiss = EventTracker.AddListener(EventTypeId.kHadFirstKiss, Autonomy.PassionCheck);
-			OnSimKissed = EventTracker.AddListener(EventTypeId.kSimKissed, Autonomy.PassionCheck);
-			OnHadFirstRomance = EventTracker.AddListener(EventTypeId.kHadFirstRomance, Autonomy.PassionCheck);
-			OnHighlyVisibleVirtuousRomance = EventTracker.AddListener(EventTypeId.kHighlyVisibleVirtuousRomance, Autonomy.PassionCheck);
-			OnMultipleVisibleRomances = EventTracker.AddListener(EventTypeId.kMultipleVisibleRomances, Autonomy.PassionCheck);
-			OnPerformedRomanticSingagram = EventTracker.AddListener(EventTypeId.kPerformedRomanticSingagram, Autonomy.PassionCheck);
+			OnAnyFlirt = EventTracker.AddListener(EventTypeId.kSocialInteraction, Autonomy.PassionCheck);
 			ONWatchedTv = EventTracker.AddListener(EventTypeId.kWatchedSportsChannel, Autonomy.WhenWatchTV);
 			OnDance2Music = EventTracker.AddListener(EventTypeId.kSimDanced, Autonomy.DanceNude2Music);
 			OnGotMassage = EventTracker.AddListener(EventTypeId.kGotMassage, Autonomy.HappendAtMassage);
@@ -14396,13 +14867,6 @@ namespace S3_Passion
 			EventTracker.RemoveListener(OnNewSimAged);
 			EventTracker.RemoveListener(OnNewObjectAdded);
 			EventTracker.RemoveListener(OnAnyFlirt);
-			EventTracker.RemoveListener(OnFlowerKiss);
-			EventTracker.RemoveListener(OnHadFirstKiss);
-			EventTracker.RemoveListener(OnSimKissed);
-			EventTracker.RemoveListener(OnHadFirstRomance);
-			EventTracker.RemoveListener(OnHighlyVisibleVirtuousRomance);
-			EventTracker.RemoveListener(OnMultipleVisibleRomances);
-			EventTracker.RemoveListener(OnPerformedRomanticSingagram);
 			EventTracker.RemoveListener(OnSimInstantiated);
 			EventTracker.RemoveListener(ONWatchedTv);
 			EventTracker.RemoveListener(OnDance2Music);
@@ -14474,7 +14938,11 @@ namespace S3_Passion
 
 		public static bool IsValid(Sim sim, bool load)
 		{
-			if (sim != null && !sim.HasBeenDestroyed && sim.IsHuman && IsValidAge(sim, load))
+            if (sim.HasTrait((TraitNames)2214287488174702228uL))
+			{
+				return false;
+			}
+            if (sim != null && !sim.HasBeenDestroyed && sim.IsHuman && IsValidAge(sim, load))
 			{
 				return true;
 			}

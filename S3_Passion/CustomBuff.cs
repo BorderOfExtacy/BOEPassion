@@ -456,7 +456,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lSatisfactionAmazing";
 				defaultBuffData.mDescription = "dSatisfactionAmazing";
 				defaultBuffData.mHelpText = "hSatisfactionAmazing";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_SatisfactionAmazing";
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.ReallyGood;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -467,7 +467,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lSatisfactionGood";
 				defaultBuffData.mDescription = "dSatisfactionGood";
 				defaultBuffData.mHelpText = "hSatisfactionGood";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_SatisfactionGood";
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.Good;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -478,7 +478,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lSatisfactionNeutral";
 				defaultBuffData.mDescription = "dSatisfactionNeutral";
 				defaultBuffData.mHelpText = "hSatisfactionNeutral";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_SatisfactionNeutral";
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.Fair;
 				defaultBuffData.mAxisEffected = MoodAxis.Happy;
@@ -489,7 +489,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lSatisfactionBad";
 				defaultBuffData.mDescription = "dSatisfactionBad";
 				defaultBuffData.mHelpText = "hSatisfactionBad";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_SatisfactionBad";
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.Bad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
@@ -501,7 +501,7 @@ namespace S3_Passion
 				defaultBuffData.mBuffName = "lSatisfactionHorrible";
 				defaultBuffData.mDescription = "dSatisfactionHorrible";
 				defaultBuffData.mHelpText = "hSatisfactionHorrible";
-				defaultBuffData.mThumbString = "";
+				defaultBuffData.mThumbString = "img_SatisfactionHorrible";
 				defaultBuffData.mBuffCategory = BuffCategory.Social;
 				defaultBuffData.mMoodletColor = MoodColor.ReallyBad;
 				defaultBuffData.mAxisEffected = MoodAxis.Stressed;
