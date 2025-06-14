@@ -5,6 +5,7 @@ using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
+using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.EventSystem;
@@ -1111,7 +1112,27 @@ namespace S3_Passion
 			}
 		}
 
-		public static void CleanMoodlets(List<BuffNames> buffs)
+
+        public static void NukeAutonomy(Sim character)
+        {
+            character.InteractionQueue.CancelAllInteractions();
+            character.InteractionQueue.CancelAutonomousInteractions();
+
+            character.mAutonomy.AllowedToRunMetaAutonomy = false;
+            character.Autonomy.IncrementAutonomyDisabled();
+
+            AutonomyManager.RemoveActor(character);
+        }
+
+
+        public static void UnNukeAutonomy(Sim character)
+        {
+            character.Autonomy.DecrementAutonomyDisabled();
+            AutonomyManager.Add(character.Autonomy);
+        }
+
+
+        public static void CleanMoodlets(List<BuffNames> buffs)
 		{
 			if (buffs != null && buffs.Count > 0)
 			{

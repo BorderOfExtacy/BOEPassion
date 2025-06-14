@@ -2796,6 +2796,8 @@ namespace S3_Passion
 
 			public bool CanAnimate;
 
+			public bool AutonomyIsDisabled;
+
 			public bool CanSwitch;
 
 			public bool AreWeSwitching;
@@ -3236,6 +3238,7 @@ namespace S3_Passion
 				player.CanSwitch = false;
 				player.AreWeSwitching = false;
 				player.IsAutonomous = false;
+				player.AutonomyIsDisabled = false;
 				player.DirectTargeted = false;
 				player.ActiveJoin = false;
 				player.NumberAccepted = 0;
@@ -4486,118 +4489,7 @@ namespace S3_Passion
 				}
 			}
 
-			// broadcast when people start passion
-			// DONE -- REWRITE THE DIALOG FOR THE LOVE OF FUCKING GOD
-			public void BroadcastPassionStart()
-			{
-				try
-				{
-					if (!IsValid || !IsActive || Actor.LotCurrent == null || Actor.LotCurrent.IsWorldLot)
-					{
-						return;
-					}
-					foreach (Sim allActor in Actor.LotCurrent.GetAllActors())
-					{
-						if (allActor == null || allActor.RoomId != Actor.RoomId || (allActor.CurrentInteraction != null && allActor.CurrentInteraction.Target is RabbitHole) || allActor.SimDescription.ChildOrBelow || allActor.SimDescription.IsPet || !CanPassion(allActor))
-						{
-							continue;
-						}
-						Player player = GetPlayer(allActor);
-						if (!player.IsValid || player.IsActive || player.State != 0)
-						{
-							continue;
-						}
-						// START REFACTOR
-
-						// if witness is party animal
-						if (player.Actor.HasTrait(TraitNames.PartyAnimal))
-						{
-							player.Actor.PlayReaction(ReactionTypes.PumpFist, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("WOOOOOO YEAH!! You guys know how to PARTY HARD! LITERALLY!").ToString(), player.Actor);
-							}
-						}
-						// if witness is flirty
-						else if (player.Actor.HasTrait(TraitNames.Flirty))
-						{
-							player.Actor.PlayReaction(ReactionTypes.Giggle, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Ooh la la! Who could deny such a show?").ToString(), player.Actor);
-							}
-						}
-						// if witness is daredevil
-						else if (player.Actor.HasTrait(TraitNames.Daredevil))
-						{
-							player.Actor.PlayReaction(ReactionTypes.PumpFist, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							// set the message to be on a coinflip to potentially cut down on the barrage of notifs when sims screw in a crowded place
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Livin' it on the edge, huh? Cheers, bro!").ToString(), player.Actor);
-							}
-						}
-						// if witness is diva
-						else if (GameUtils.IsInstalled(ProductVersion.EP6) && player.Actor.HasTrait(TraitNames.Diva))
-						{
-							player.Actor.PlayReaction(ReactionTypes.Fascinated, Actor, ReactionSpeed.Immediate);
-							player.Actor.InteractionQueue.AddNext(Interactions.Embarrassed.Singleton.CreateInstance(Actor, allActor, new InteractionPriority(InteractionPriorityLevel.Privacy), true, true));
-							if (Settings.AutonomyNotify && player.Actor.SimDescription.IsHuman && RandomUtil.CoinFlip())
-							{
-								PassionCommon.SimMessage(PassionCommon.Localize("Wow, what a bold move...! I'm so intruiged...!").ToString(), player.Actor);
-							}
-						}
-						// general reactions
-						else if (Settings.AutonomyChance > 0 && (Settings.AutonomyActive || !player.Actor.LotHome.IsActive) && (Settings.AutonomyPublic || player.Actor.LotCurrent.LotType == LotType.Residential) && RandomUtil.GetInt(0, 99) < Settings.AutonomyChance)
-						{
-							player.IsAutonomous = true;
-							player.Actor.InteractionQueue.AddNext(Interactions.WatchLoop.Singleton.CreateInstance(Actor, player.Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true));
-							// add coinflip to reduce spam in crowded areas
-							if (Settings.AutonomyNotify && RandomUtil.CoinFlip())
-							{
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Awkward)
-								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Um... could you people get a room?").ToString(), player.Actor);
-								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Embarrassed)
-								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Stop it!! That's too freaky for here!").ToString(), player.Actor);
-								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Boo)
-								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Boo! Boooooo!! Cut it out!").ToString(), player.Actor);
-								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.Inappropriate)
-								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Ergh, no thanks. Do that somewhere else.").ToString(), player.Actor);
-								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.FreakOut)
-								{
-									PassionCommon.SimMessage(PassionCommon.Localize("Is this seriously happening?! Here? In PUBLIC?!").ToString(), player.Actor);
-								}
-								if (PassionCommon.RandomReactionNeg == ReactionTypes.ThrowUp)
-								{
-									PassionCommon.SimMessage(PassionCommon.Localize("What the hell?! I'm gonna be sick...").ToString(), player.Actor);
-								}
-							}
-							if (player.Actor.InteractionQueue.Count > 1)
-							{
-								player.Actor.InteractionQueue.CancelInteraction(player.Actor.CurrentInteraction, false);
-							}
-						}
-
-						// END REFACTOR
-					}
-				}
-				catch
-				{
-				}
-			}
+			
 
 			// ????? this is literally the same as above. whats going on here
 			public void BroadcastPassionResult()
@@ -4932,10 +4824,11 @@ namespace S3_Passion
 
                     StartTime = SimClock.CurrentTicks;
 					Modules.LoopProcessing(Actor);
-					if (Settings.BroadCasterEnable && IsInitiator)
+					if (GetPlayer(Actor).AutonomyIsDisabled == false)
 					{
-						BroadcastPassionStart();
-					}
+						NukeAutonomy(Actor);
+						GetPlayer(Actor).AutonomyIsDisabled = true;
+                    }
 					if (Settings.BroadCasterEnable)
 					{
 						BroadcastPassionResult();
@@ -6434,25 +6327,45 @@ namespace S3_Passion
 				Libido.IncreaseUrgency(Actor);
 				long num = SimClock.CurrentTicks + RandomUtil.GetInt(600, 1200);
 				long num2 = SimClock.CurrentTicks + RandomUtil.GetInt(30, 50);
-				while (IsWatching && Actor.HasNoExitReason() && target.IsActive && (!currentInteraction.Autonomous || SimClock.CurrentTicks < num))
+                string DudeName = Actor.Name;
+                string DudeNameTarget = target.Actor.Name;
+                while (IsWatching && Actor.HasNoExitReason() && target.IsActive && (!currentInteraction.Autonomous || SimClock.CurrentTicks < num))
 				{
 					if (SimClock.CurrentTicks > num2)
 					{
 						// if a sim is a party animal or is the RNG check passes a sim who is watching may join
 						// ...rewrite this
-						if (Settings.AutonomyChance > 0 && (Actor.HasTrait(TraitNames.PartyAnimal) || RandomUtil.GetInt(0, 299) < Settings.AutonomyChance))
+						if (Settings.AutonomyChance > 0 && (Actor.HasTrait(TraitNames.PartyAnimal) || RandomUtil.GetInt(0, 399) < Settings.AutonomyChance))
 						{
 							if (IsAutonomous && target.HasPart && target.Part.IsAutonomous && target.Part.HasRoom && WillPassion(target.Part) && Join(target.Part))
 							{
-								currentInteraction.EndCommodityUpdates(true);
-								DirectStartLoop();
-								return;
+                                if (PickBoolean.Show(DudeName + " would like to join the fun with " + DudeNameTarget +"! Is this OK?", false, PassionCommon.Localize("S3_Passion.Terms.Yes"), PassionCommon.Localize("S3_Passion.Terms.No")))
+                                {
+                                    currentInteraction.EndCommodityUpdates(true);
+                                    DirectStartLoop();
+                                    return;
+                                }
+								else
+								{
+                                    currentInteraction.EndCommodityUpdates(true);
+                                    currentInteraction.StandardExit();
+                                }
+
+                                
 							}
 							if (Join(GetTarget(Actor)))
 							{
-								currentInteraction.EndCommodityUpdates(true);
-								DirectStartLoop();
-								return;
+                              if (PickBoolean.Show(DudeName + " would like to join the fun with " + DudeNameTarget + "! Is this OK?", false, PassionCommon.Localize("S3_Passion.Terms.Yes"), PassionCommon.Localize("S3_Passion.Terms.No")))
+								{
+                                    currentInteraction.EndCommodityUpdates(true);
+                                    DirectStartLoop();
+                                    return;
+                                }
+							else
+								{
+                                    currentInteraction.EndCommodityUpdates(true);
+                                    currentInteraction.StandardExit();
+                                }
 							}
 						}
 						Actor.PlayReaction(PassionCommon.RandomReactionPos, target.Actor, ReactionSpeed.ImmediateWithoutOverlay);
@@ -6648,7 +6561,12 @@ namespace S3_Passion
 				CanSwitch = false;
 				SpinDisabled = false;
 				DirectTargeted = false;
-				StartTime = 0L;
+                if (GetPlayer(Actor).AutonomyIsDisabled == true)
+                {
+                    UnNukeAutonomy(Actor);
+                    GetPlayer(Actor).AutonomyIsDisabled = false;
+                }
+                StartTime = 0L;
 				NumberAccepted = 0;
 				PositionIndex = 0;
 				PartnersToCheckCount = 0;
