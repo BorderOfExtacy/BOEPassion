@@ -4342,11 +4342,11 @@ namespace S3_Passion
 				CanAnimate = false;
 				State = PassionState.Animating;
 				Animate(BufferedAnimation);
-				if (State != PassionState.Leaving && State != PassionState.Stopping)
+                if (State != PassionState.Leaving && State != PassionState.Stopping)
 				{
-					State = PassionState.Ready;
+                    State = PassionState.Ready;
 				}
-			}
+            }
 
 			public void Animate(string clip)
 			{
@@ -4371,8 +4371,9 @@ namespace S3_Passion
 					stateMachineClient.SetActor(PassionCommon.X, Actor);
 					stateMachineClient.EnterState(PassionCommon.X, "Enter");
 					stateMachineClient.RequestState(PassionCommon.X, "Play Animation");
-					stateMachineClient.RequestState(PassionCommon.X, "Exit");
-				}
+                    stateMachineClient.RequestState(PassionCommon.X, "Exit");
+                    
+                }
 				catch
 				{
 				}
@@ -4695,7 +4696,8 @@ namespace S3_Passion
 					Part.StartVisualEffects();
 					Part.StartSoundEffects();
 					Actor.InteractionQueue.PushAsContinuation(Interactions.PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), true);
-					return true;
+                    
+                    return true;
 				}
 				return false;
 			}
@@ -4742,7 +4744,8 @@ namespace S3_Passion
 			// THE BIG BOY, WHERE IT ALL HAPPENS
 			public bool DoLoop()
 			{
-				OutfitCategories previousOutfitCategory = PreviousOutfitCategory;
+                
+                OutfitCategories previousOutfitCategory = PreviousOutfitCategory;
 				int previousOutfitIndex = PreviousOutfitIndex;
 				string text = null;
 				string text2 = null;
@@ -4824,11 +4827,6 @@ namespace S3_Passion
 
                     StartTime = SimClock.CurrentTicks;
 					Modules.LoopProcessing(Actor);
-					if (GetPlayer(Actor).AutonomyIsDisabled == false)
-					{
-						NukeAutonomy(Actor);
-						GetPlayer(Actor).AutonomyIsDisabled = true;
-                    }
 					if (Settings.BroadCasterEnable)
 					{
 						BroadcastPassionResult();
@@ -5952,13 +5950,13 @@ namespace S3_Passion
 							}
 						}
 						PassionCommon.Wait();
-					}
+                    }
 					ImproveRelationships();
 					EndMotiveUpdates();
 				}
 				if (HasPart)
 				{
-					Leave();
+                    Leave();
 					Reset();
 				}
 				try
@@ -6561,11 +6559,6 @@ namespace S3_Passion
 				CanSwitch = false;
 				SpinDisabled = false;
 				DirectTargeted = false;
-                if (GetPlayer(Actor).AutonomyIsDisabled == true)
-                {
-                    UnNukeAutonomy(Actor);
-                    GetPlayer(Actor).AutonomyIsDisabled = false;
-                }
                 StartTime = 0L;
 				NumberAccepted = 0;
 				PositionIndex = 0;
@@ -12197,7 +12190,13 @@ namespace S3_Passion
 
 				public static readonly InteractionDefinition Singleton = new Definition();
 
-				public override ThumbnailKey GetIconKey()
+                public override void Init(ref InteractionInstanceParameters parameters)
+                {
+                    parameters.Priority = new InteractionPriority(InteractionPriorityLevel.High);
+                    base.Init(ref parameters);
+                }
+
+                public override ThumbnailKey GetIconKey()
 				{
 					return WoohooThumbnail;
 				}
