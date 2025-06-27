@@ -15,6 +15,14 @@ namespace S3_Passion
     class PassionBody
     {
 
+
+        [Tunable] public static string FallbackErectPenisAM;
+
+        [Tunable] public static string FallbackErectPenisEM;
+
+        [Tunable] public static string FallbackErectPenisTM;
+
+
         public class BodyShop
         {
             public string Name;
@@ -25,7 +33,7 @@ namespace S3_Passion
 
         public static List<BodyShop> coolbodyshop = new List<BodyShop>();
 
-        public static void LoadBodies(string fileName)
+        public static void LoadBodies()
         {
 
             XmlDbData xmlDbData = XmlDbData.ReadData("BOE_Bodies");

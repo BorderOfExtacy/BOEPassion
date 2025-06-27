@@ -2804,6 +2804,8 @@ namespace S3_Passion
 
 			public bool AreWeSwitching;
 
+			public bool StrapIsOn;
+
 			public long StartTime;
 
 			public int NumberAccepted;
@@ -3238,6 +3240,7 @@ namespace S3_Passion
 				player.PassionCharge = 0;
 				player.CanAnimate = false;
 				player.CanSwitch = false;
+				player.StrapIsOn = false;
 				player.AreWeSwitching = false;
 				player.IsStartingSesh = false;
 				player.IsAutonomous = false;
@@ -4798,9 +4801,32 @@ namespace S3_Passion
                         string PartBase = body.BaseCASP;
                         string PartErect = body.ErectSIMO;
 
+
+                        if (Actor.IsMale)
+                        {
+                            GetPlayer(Actor).SimGenitalType = "penis";
+                            if (simDescription.YoungAdultOrAdult)
+                            {
+                                GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisAM;
+                            }
+                            else if (simDescription.Elder)
+                            {
+                                GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisEM;
+                            }
+                            else if (simDescription.Teen)
+                            {
+                                GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisTM;
+                            }
+                        }
+                        else
+                        {
+                            GetPlayer(Actor).SimGenitalType = "vagina";
+                        }
+
+
                         if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString(PartBase)) != null)
 						{
-                           // PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
+                            // PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
 							GetPlayer(Actor).SimGenitalType = PartType;
                             GetPlayer(Actor).SimJunkBaseCASP = PartBase;
                             GetPlayer(Actor).SimErectSIMO = PartErect;
@@ -4809,7 +4835,7 @@ namespace S3_Passion
                     }
 
 
-					SimDescription simDescription2 = Actor.SimDescription;
+                    SimDescription simDescription2 = Actor.SimDescription;
 					SimDescription simDescription3 = Actor.SimDescription;
 					SimDescription simDescription4 = Actor.SimDescription;
 					SimDescription simDescription5 = Actor.SimDescription;
@@ -6200,6 +6226,7 @@ namespace S3_Passion
 									catch
 									{
 									}
+									GetPlayer(PlayerSim).StrapIsOn = true;
 									return true;
 								}
 							}
@@ -6223,7 +6250,8 @@ namespace S3_Passion
 								catch
 								{
 								}
-								return false;
+                            GetPlayer(PlayerSim).StrapIsOn = false;
+                            return false;
 							}
 						}
 						// end strap removal
@@ -14152,6 +14180,68 @@ namespace S3_Passion
                 }
             }
 
+
+            internal sealed class ToggleStrapon : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, ToggleStrapon>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+						return NoPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Toggle strapon");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+
+                        if (!IsAutonomous && IsValid(target))
+                        {
+                            Player player = GetPlayer(target);
+                            if (player.IsActive)
+                            {
+                                if (GetPlayer(target).SimGenitalType == "vagina" || GetPlayer(target).SimGenitalType == "neither")
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                        return false;
+
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+
+                    Player balls = null;
+
+                    balls = new Player();
+
+                    if (GetPlayer(Target).StrapIsOn)
+					{
+                        balls.SwitchToStrapon(Target, false);
+						return false;
+                    }
+					else
+					{
+                        balls.SwitchToStrapon(Target, true);
+                        return true;
+                    }
+                }
+            }
+
             // END NEW INTERACTIONS
 
             public sealed class UsePoolLadderForPassionWithSim : Interaction<Sim, PoolLadder>
@@ -14567,9 +14657,9 @@ namespace S3_Passion
 				{
 					PassionType.Load();
 				}
-				PassionBody.LoadBodies("bababooey");
                 PassionAutonomyTuning.LoadPassionLotAutonomy("bababooey");
                 PassionAutonomyTuning.LoadPassionTraitAutonomy("bababooey");
+                PassionBody.LoadBodies();
                 Load(Sims3.Gameplay.Queries.GetGlobalObjects<Sim>());
 				foreach (PassionType value in LoadedTypes.Values)
 				{
@@ -14732,7 +14822,8 @@ namespace S3_Passion
 					RefreshPlayer(sim);
 					sim.AddInteraction(Interactions.UseObjectForPassion.Singleton, true);
 					sim.AddInteraction(Interactions.UseSimForPassion.Singleton, true);
-					sim.AddInteraction(Interactions.SwitchWith.Singleton, true);
+                    sim.AddInteraction(Interactions.ToggleStrapon.Singleton, true);
+                    sim.AddInteraction(Interactions.SwitchWith.Singleton, true);
 					sim.AddInteraction(Interactions.ChangePosition.Singleton, true);
 					sim.AddInteraction(Interactions.StopPassion.Singleton, true);
 					sim.AddInteraction(Interactions.StopAllPassion.Singleton, true);
