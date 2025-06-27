@@ -2800,6 +2800,8 @@ namespace S3_Passion
 
 			public bool CanSwitch;
 
+			public bool IsStartingSesh;
+
 			public bool AreWeSwitching;
 
 			public long StartTime;
@@ -3237,6 +3239,7 @@ namespace S3_Passion
 				player.CanAnimate = false;
 				player.CanSwitch = false;
 				player.AreWeSwitching = false;
+				player.IsStartingSesh = false;
 				player.IsAutonomous = false;
 				player.AutonomyIsDisabled = false;
 				player.DirectTargeted = false;
@@ -4695,6 +4698,7 @@ namespace S3_Passion
 					Part.CurrentPositionInvalidate();
 					Part.StartVisualEffects();
 					Part.StartSoundEffects();
+					Part.HahaFirst = true;
 					Actor.InteractionQueue.PushAsContinuation(Interactions.PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), true);
                     
                     return true;
@@ -7478,6 +7482,8 @@ namespace S3_Passion
 
 			public static bool BroWeAreSwitching = false;
 
+			public static bool HahaFirst = false;
+
 			public Target Target;
 
 			public Player Initiator;
@@ -8069,21 +8075,34 @@ namespace S3_Passion
 				int num2 = (HasPosition ? Position.Categories : num);
 				int penises = 0;
 				int vaginas = 0;
+				IPositionChoice choice = null;
                 GetSexCharacteristics(out penises, out vaginas);
 				if (Part.BroWeAreSwitching == true)
 				{
-                    IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, true);
+                    choice = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, true);
                 }
 				else
 				{
-                    IPositionChoice randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, false);
-                    if (randomValidPosition == null && !flag)
+					if (Part.HahaFirst)
+					{
+						if (Settings.ExcludeInvalidPositions)
+						{
+							GetSexCharacteristics(out penises, out vaginas);
+						}
+						choice = Position.ChoosePositionDialog(Type, Count, penises, vaginas);
+						Part.HahaFirst = false;
+					}
+					else
+					{
+						choice = Position.GetRandomValidPosition(Type, Count, penises, vaginas, flag ? num2 : num, false);
+						if (choice == null && !flag)
+						{
+                            choice = Position.GetRandomValidPosition(Type, Count, penises, vaginas);
+						}
+					}
+                    if (choice != null)
                     {
-                        randomValidPosition = Position.GetRandomValidPosition(Type, Count, penises, vaginas);
-                    }
-                    if (randomValidPosition != null)
-                    {
-                        SmartSetPosition(randomValidPosition);
+                        SmartSetPosition(choice);
                     }
                     else
                     {
@@ -8317,7 +8336,8 @@ namespace S3_Passion
 
 			public void SortAndGetPosition()
 			{
-				if (Settings.InitialCategory == 1024)
+
+                    if (Settings.InitialCategory == 1024)
 				{
 					bool flag = true;
 					foreach (Player value in Players.Values)
@@ -9148,11 +9168,13 @@ namespace S3_Passion
 
 					public ClipData Add(string clip, CASAgeGenderFlags flags, bool penis, bool vagina)
 					{
+						// adds per-sim animation data
 						return Add(new ClipData(clip, flags, penis, vagina));
 					}
 
 					public ClipData Add(ClipData clipdata)
 					{
+						//adds per-sim animation data, but as like, clipdata this time
 						Clips.Add(clipdata);
 						Update();
 						return clipdata;
@@ -9170,8 +9192,12 @@ namespace S3_Passion
 						NeedsPenis = true;
 						NeedsVagina = true;
 						NeedsBreasts = true;
+
+						// for each clip in the clip list
 						foreach (ClipData clip in Clips)
 						{
+
+							//turns off various bools if the clip doesnt need them?
 							if (!clip.NeedsPenis)
 							{
 								NeedsPenis = false;
@@ -9184,6 +9210,7 @@ namespace S3_Passion
 							{
 								NeedsBreasts = false;
 							}
+
 						}
 					}
 
@@ -9194,10 +9221,15 @@ namespace S3_Passion
 						{
 							if (player != null && player.IsValid)
 							{
+
+								//for each sim in the clip collection
 								foreach (ClipData clip in Clips)
 								{
 									if (clip != null && clip.IsValid)
 									{
+										// SAVE THIS: where a position is assigned, i think!!
+										// if a clip needs a peen and sim has peen OR if a clip has vagene and sim has vagene
+										// refactor to include if the clip is a top or bottom position - whether genitals or sexual role takes priority should be a setting
 										if (((player.SimGenitalType == "penis" && clip.NeedsPenis) || (player.SimGenitalType == "vagina" && clip.NeedsVagina)) && clip.CompareFlags(player.Flags))
 										{
 											return clip;
@@ -9725,11 +9757,19 @@ namespace S3_Passion
 								{
 									position2.MaxSims = position2.MinSims;
 								}
+
+
+								// FOR EACH ACTOR
 								foreach (XML.Node item in matchingNodes)
 								{
+									//actor id
 									int num7 = PassionCommon.Int(item.GetAttribute("Id")) + 1;
+
 									position2.AddHardCodedAnimation(num7, item["Animation"]);
+
+									// what's inputted in the viable genders
 									string text5 = item["Genders"].ToLower();
+
 									position2.Genders = item["Genders"];
 									position2.UseTheWhip = PassionCommon.Bool(item["UseWhip"]);
 									if (position2.ActorPosition.ContainsKey(num7))
@@ -9740,19 +9780,33 @@ namespace S3_Passion
 									{
 										position2.ActorPosition.Add(num7, true);
 									}
+
+									// remove this bc idfk what's going on
+									// i think this is where it gathers what genitalia types are needed?
+
+									// flag = penis (in orig this means male sim or strapon)
+									// if flag is true, it means peenar
 									bool flag = text5.Contains("male") && (!text5.Contains("female") || PassionCommon.Bool(item["UseStrapon"]));
+
+									// if vagina2 is true, it means vagine
 									bool vagina2 = text5 == "female";
+
+									//if the position calls for a strapon
 									if (PassionCommon.Bool(item["UseStrapon"]))
 									{
+										//if the position's strap list includes this actor's key
 										if (position2.PutOnStraOn.ContainsKey(num7))
 										{
 											position2.PutOnStraOn[num7] = true;
 										}
+										// else we add it to the list
 										else
 										{
 											position2.PutOnStraOn.Add(num7, true);
 										}
 									}
+
+									// if the position calls for a penis
 									if (flag)
 									{
 										if (position2.NeedsPenis.ContainsKey(num7))
@@ -9764,6 +9818,8 @@ namespace S3_Passion
 											position2.NeedsPenis.Add(num7, true);
 										}
 									}
+
+									// for each sim in the animation (?)
 									for (int k = position2.MinSims; k <= position2.MaxSims; k++)
 									{
 										Animation.Set set2;
@@ -9777,7 +9833,12 @@ namespace S3_Passion
 											set2 = position2.Sets[k];
 										}
 										Animation.Slot slot3 = set2.Add(num7);
+
+										// add the animation for the sim? reminder flag is penis bool, vagina2 is vagina bool
 										slot3.Add(item["Animation"], CASAgeGenderFlags.None, flag, vagina2);
+
+										//sim accessory processing
+										//WHYYYYYY is this hardcoded
 										XML.Node matchingNode5 = item.GetMatchingNode("Accessory");
 										if (matchingNode5 != null)
 										{
@@ -9960,6 +10021,9 @@ namespace S3_Passion
 										}
 									}
 								}
+								// END FOR EACH ACTOR
+
+
 								switch (matchingNode11["Category"].ToLower())
 								{
 								case "anal":
