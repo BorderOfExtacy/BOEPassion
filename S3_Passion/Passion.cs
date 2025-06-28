@@ -2806,6 +2806,8 @@ namespace S3_Passion
 
 			public bool StrapIsOn;
 
+			public bool PeenIsErect;
+
 			public long StartTime;
 
 			public int NumberAccepted;
@@ -3241,6 +3243,7 @@ namespace S3_Passion
 				player.CanAnimate = false;
 				player.CanSwitch = false;
 				player.StrapIsOn = false;
+				player.PeenIsErect = false;
 				player.AreWeSwitching = false;
 				player.IsStartingSesh = false;
 				player.IsAutonomous = false;
@@ -4787,14 +4790,35 @@ namespace S3_Passion
 					}
 					SimDescription simDescription = Actor.SimDescription;
 
-					//
-					// check to see what junk a sim has
-					// im sorry if any competent programmers see this
-					// edit: is it less scary now. please clap
-					//
+                    //
+                    // check to see what junk a sim has
+                    // im sorry if any competent programmers see this
+                    // edit: is it less scary now. please clap
+                    //
 
-					
-                   foreach (PassionBody.BodyShop body in PassionBody.coolbodyshop)
+                    if (Actor.IsMale)
+                    {
+                        GetPlayer(Actor).SimGenitalType = "penis";
+                        if (simDescription.YoungAdultOrAdult)
+                        {
+                            GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisAM;
+                        }
+                        else if (simDescription.Elder)
+                        {
+                            GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisEM;
+                        }
+                        else if (simDescription.Teen)
+                        {
+                            GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisTM;
+                        }
+                    }
+                    else
+                    {
+                        GetPlayer(Actor).SimGenitalType = "vagina";
+                    }
+
+
+                    foreach (PassionBody.BodyShop body in PassionBody.coolbodyshop)
 					{
                         string PartName = body.Name;
                         string PartType = body.GenitalType;
@@ -4802,31 +4826,9 @@ namespace S3_Passion
                         string PartErect = body.ErectSIMO;
 
 
-                        if (Actor.IsMale)
-                        {
-                            GetPlayer(Actor).SimGenitalType = "penis";
-                            if (simDescription.YoungAdultOrAdult)
-                            {
-                                GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisAM;
-                            }
-                            else if (simDescription.Elder)
-                            {
-                                GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisEM;
-                            }
-                            else if (simDescription.Teen)
-                            {
-                                GetPlayer(Actor).SimErectSIMO = PassionBody.FallbackErectPenisTM;
-                            }
-                        }
-                        else
-                        {
-                            GetPlayer(Actor).SimGenitalType = "vagina";
-                        }
-
-
                         if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString(PartBase)) != null)
 						{
-                            // PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
+                            PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
 							GetPlayer(Actor).SimGenitalType = PartType;
                             GetPlayer(Actor).SimJunkBaseCASP = PartBase;
                             GetPlayer(Actor).SimErectSIMO = PartErect;
@@ -14242,6 +14244,102 @@ namespace S3_Passion
                 }
             }
 
+
+            internal sealed class ToggleErection : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+            {
+                [DoesntRequireTuning]
+                private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, ToggleErection>, IImmediateInteractionDefinition
+                {
+                    public override string[] GetPath(bool bPath)
+                    {
+                        return NoPath;
+                    }
+
+                    public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+                    {
+                        return PassionCommon.Localize("Toggle erection");
+                    }
+
+                    public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                    {
+
+                        if (!IsAutonomous && IsValid(target))
+                        {
+                            Player player = GetPlayer(target);
+                            if (player.IsActive)
+                            {
+                                if (GetPlayer(target).SimGenitalType == "penis" || GetPlayer(target).SimGenitalType == "both")
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                        return false;
+
+                    }
+                }
+
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+
+                    Player balls = null;
+
+                    balls = new Player();
+
+                    if (GetPlayer(Target).PeenIsErect)
+                    {
+                        balls.SwitchToPeener(Target, false);
+                        return false;
+                    }
+                    else
+                    {
+                        balls.SwitchToPeener(Target, true);
+                        return true;
+                    }
+                }
+            }
+
+
+            internal sealed class DEBUGCheckBottom : ImmediateInteraction<Sim, Sim>, IImmediateInteraction
+			{
+				[DoesntRequireTuning]
+				private sealed class Definition : ImmediateInteractionDefinition<Sim, Sim, DEBUGCheckBottom>, IImmediateInteractionDefinition
+				{
+					public override string[] GetPath(bool bPath)
+					{
+						return PassionPath;
+					}
+
+					public override string GetInteractionName(Sim actor, Sim target, InteractionObjectPair interaction)
+					{
+						return PassionCommon.Localize("DEBUG: Check nude bottom hash");
+					}
+
+					public override bool Test(Sim actor, Sim target, bool IsAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+					{
+						return true;
+					}
+				}
+                public static readonly InteractionDefinition Singleton = new Definition();
+
+
+                public override bool Run()
+                {
+
+					PenisInspection.GetBottomCASP(Target);
+					return true;
+
+                }
+            }
+
+
             // END NEW INTERACTIONS
 
             public sealed class UsePoolLadderForPassionWithSim : Interaction<Sim, PoolLadder>
@@ -14823,6 +14921,7 @@ namespace S3_Passion
 					sim.AddInteraction(Interactions.UseObjectForPassion.Singleton, true);
 					sim.AddInteraction(Interactions.UseSimForPassion.Singleton, true);
                     sim.AddInteraction(Interactions.ToggleStrapon.Singleton, true);
+                    sim.AddInteraction(Interactions.ToggleErection.Singleton, true);
                     sim.AddInteraction(Interactions.SwitchWith.Singleton, true);
 					sim.AddInteraction(Interactions.ChangePosition.Singleton, true);
 					sim.AddInteraction(Interactions.StopPassion.Singleton, true);
@@ -14855,7 +14954,8 @@ namespace S3_Passion
 					sim.AddInteraction(CastElectrocuteBlast.Singleton, true);
 					sim.AddInteraction(WitchReleaseMindControl.Singleton, true);
 					sim.AddInteraction(CastUglyCharm.Singleton, true);
-				}
+                    sim.AddInteraction(Interactions.DEBUGCheckBottom.Singleton, true);
+                }
 			}
 			else if (obj != null)
 			{
