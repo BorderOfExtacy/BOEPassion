@@ -4828,7 +4828,7 @@ namespace S3_Passion
 
                         if (simDescription.GetOutfit(OutfitCategories.Naked, 0).GetPartPreset(ResourceKey.FromString(PartBase)) != null)
 						{
-                            PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
+                           // PassionCommon.SystemMessage("WE FOUND A MATCH BESTIES!!!!!\n" + PartName);
 							GetPlayer(Actor).SimGenitalType = PartType;
                             GetPlayer(Actor).SimJunkBaseCASP = PartBase;
                             GetPlayer(Actor).SimErectSIMO = PartErect;
