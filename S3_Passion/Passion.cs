@@ -659,7 +659,7 @@ namespace S3_Passion
 					{
 						list2.Add(tabInfo);
 					}
-					List<ObjectPicker.RowInfo> list4 = MenuList.Show(PassionCommon.Localize("S3_Passion.Terms.Settings") + "\rPassion Version ( " + PassionCommon.Version + " )", PassionCommon.Localize("S3_Passion.Terms.Ok"), PassionCommon.Localize("S3_Passion.Terms.Cancel"), list2, list);
+					List<ObjectPicker.RowInfo> list4 = MenuList.Show(PassionCommon.Localize("S3_Passion.Terms.Settings") + "\rBORDEROFEXTACY_Passion, Version " + PassionCommon.Version + "", PassionCommon.Localize("S3_Passion.Terms.Ok"), PassionCommon.Localize("S3_Passion.Terms.Cancel"), list2, list);
 					if (list4 == null || list4.Count <= 0)
 					{
 						break;
@@ -7778,6 +7778,21 @@ namespace S3_Passion
 				}
 			}
 
+			public bool CheckActiveParticipants()
+			{
+				foreach (Player duder in Players.Values)
+				{
+					if (duder != null)
+					{
+						if (duder.Actor.IsInActiveHousehold)
+						{
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
 			public static void GetPartsForTarget(GameObject target, PartArea target_part, out PartData part1, out PartData part2)
 			{
 				part1 = null;
@@ -8113,7 +8128,9 @@ namespace S3_Passion
                 }
 				else
 				{
-					if (Part.HahaFirst)
+					bool isActiveHousehold = CheckActiveParticipants();
+
+					if (Part.HahaFirst && isActiveHousehold)
 					{
 						if (Settings.ExcludeInvalidPositions)
 						{
@@ -10917,49 +10934,54 @@ namespace S3_Passion
 				list.Add(new ObjectPicker.HeaderInfo(PassionCommon.Localize("S3_Passion.Terms.Category"), null, 100));
 				list.Add(new ObjectPicker.HeaderInfo(PassionCommon.Localize("S3_Passion.Terms.Participants"), null, 50));
 				List<ObjectPicker.TabInfo> list2 = new List<ObjectPicker.TabInfo>();
-				list2.Add(new ObjectPicker.TabInfo("shop_all_r2", PassionCommon.Localize("S3_Passion.Terms.All"), PositionListForDialog(type, participants, penises, vaginas)));
-				ObjectPicker.TabInfo tabInfo = new ObjectPicker.TabInfo("shop_skill_r2", PassionCommon.Localize("S3_Passion.Terms.Masturbate"), PositionListForDialog(type, participants, penises, vaginas, 16));
+				list2.Add(new ObjectPicker.TabInfo("boe_img_icon_allanim", PassionCommon.Localize("S3_Passion.Terms.All"), PositionListForDialog(type, participants, penises, vaginas)));
+				ObjectPicker.TabInfo tabInfo = new ObjectPicker.TabInfo("boe_img_icon_handjob", PassionCommon.Localize("S3_Passion.Terms.Masturbate"), PositionListForDialog(type, participants, penises, vaginas, 16));
                 if (tabInfo.RowInfo.Count >= 0)
 				{
 					list2.Add(tabInfo);
 				}
-				ObjectPicker.TabInfo tabInfo2 = new ObjectPicker.TabInfo("shop_skill_r2", PassionCommon.Localize("S3_Passion.Terms.Oral"), PositionListForDialog(type, participants, penises, vaginas, 2));
+				ObjectPicker.TabInfo tabInfo2 = new ObjectPicker.TabInfo("boe_img_icon_oral", PassionCommon.Localize("S3_Passion.Terms.Oral"), PositionListForDialog(type, participants, penises, vaginas, 2));
 				if (tabInfo2.RowInfo.Count >= 0)
 				{
 					list2.Add(tabInfo2);
 				}
-				ObjectPicker.TabInfo tabInfo3 = new ObjectPicker.TabInfo("shop_skill_r2", PassionCommon.Localize("S3_Passion.Terms.Vaginal"), PositionListForDialog(type, participants, penises, vaginas, 4));
+				ObjectPicker.TabInfo tabInfo3 = new ObjectPicker.TabInfo("boe_img_icon_vaginal", PassionCommon.Localize("S3_Passion.Terms.Vaginal"), PositionListForDialog(type, participants, penises, vaginas, 4));
 				if (tabInfo3.RowInfo.Count >= 0)
 				{
 					list2.Add(tabInfo3);
 				}
-				ObjectPicker.TabInfo tabInfo4 = new ObjectPicker.TabInfo("shop_skill_r2", PassionCommon.Localize("S3_Passion.Terms.Anal"), PositionListForDialog(type, participants, penises, vaginas, 8));
+				ObjectPicker.TabInfo tabInfo4 = new ObjectPicker.TabInfo("boe_img_icon_anal", PassionCommon.Localize("S3_Passion.Terms.Anal"), PositionListForDialog(type, participants, penises, vaginas, 8));
 				if (tabInfo4.RowInfo.Count >= 0)
 				{
 					list2.Add(tabInfo4);
 				}
 				List<ObjectPicker.RowInfo> list3 = MenuList.Show(PassionCommon.Localize("S3_Passion.Terms.ChangePosition"), PassionCommon.Localize("S3_Passion.Terms.Ok"), PassionCommon.Localize("S3_Passion.Terms.Cancel"), list2, list);
-				if (list3 != null && list3.Count > 0)
+
+                if (list3 != null && list3.Count > 0)
 				{
-					try
+                    Object wildCard = list3[0].Item;
+                    try
 					{
 
-                        string randomCheck = list3[0].Item as string;
-						if (randomCheck == "6942069")
+						if (wildCard.Equals(6942069))
 						{
-							result = Position.GetRandomValidPosition(type, participants, penises, vaginas);
-
-						}
-						else {
-
-							result = list3[0].Item as IPositionChoice;
-						}
+                            result = GetRandomValidPosition(type, participants, penises, vaginas);
+                        }
+						else
+						{
+                            result = list3[0].Item as IPositionChoice;
+                        }
+						
 					}
 					catch
 					{
 					}
 				}
-				return result;
+				else
+				{
+                    result = GetRandomValidPosition(type, participants, penises, vaginas);
+                }
+					return result;
 			}
 
 			public static List<ObjectPicker.RowInfo> PositionListForDialog(PassionType type, int participants, int penises, int vaginas)
@@ -11019,6 +11041,7 @@ namespace S3_Passion
                 list.Add(rowInfo69);
 
                 // end add random
+
                 return list;
 			}
 

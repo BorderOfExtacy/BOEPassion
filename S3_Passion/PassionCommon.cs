@@ -609,7 +609,7 @@ namespace S3_Passion
 
 		public static bool Testing = true;
 
-		public static string Version = "2.7.6.7";
+		public static string Version = "0.3.9";
 
 		public const bool ForceLoad = true;
 
