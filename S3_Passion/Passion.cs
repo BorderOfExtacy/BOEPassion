@@ -4705,7 +4705,7 @@ namespace S3_Passion
 					Part.StartVisualEffects();
 					Part.StartSoundEffects();
 					Part.HahaFirst = true;
-					Actor.InteractionQueue.PushAsContinuation(Interactions.PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.UserDirected), false, true), true);
+					Actor.InteractionQueue.PushAsContinuation(Interactions.PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.High), false, true), true);
                     
                     return true;
 				}
@@ -6465,8 +6465,8 @@ namespace S3_Passion
 				{
 					SwitchPart = part2;
 					partner.SwitchPart = part;
-					Actor.InteractionQueue.AddNext(Interactions.SwitchRoute.Singleton.CreateInstance(partner.Actor, Actor, new InteractionPriority(InteractionPriorityLevel.High), false, true));
-					partner.Actor.InteractionQueue.AddNext(Interactions.SwitchRoute.Singleton.CreateInstance(Actor, partner.Actor, new InteractionPriority(InteractionPriorityLevel.High), false, true));
+					Actor.InteractionQueue.AddNext(Interactions.SwitchRoute.Singleton.CreateInstance(partner.Actor, Actor, new InteractionPriority(InteractionPriorityLevel.Fire), false, true));
+					partner.Actor.InteractionQueue.AddNext(Interactions.SwitchRoute.Singleton.CreateInstance(Actor, partner.Actor, new InteractionPriority(InteractionPriorityLevel.Fire), false, true));
 					ActiveLeaveJoin = true;
 					partner.ActiveLeaveJoin = true;
 					Stop();
@@ -10943,7 +10943,17 @@ namespace S3_Passion
 				{
 					try
 					{
-						result = list3[0].Item as IPositionChoice;
+
+                        string randomCheck = list3[0].Item as string;
+						if (randomCheck == "6942069")
+						{
+							result = Position.GetRandomValidPosition(type, participants, penises, vaginas);
+
+						}
+						else {
+
+							result = list3[0].Item as IPositionChoice;
+						}
 					}
 					catch
 					{
@@ -11002,7 +11012,7 @@ namespace S3_Passion
                 // add random option (i hope)
 
                 ObjectPicker.RowInfo rowInfo69 = new ObjectPicker.RowInfo(6942069, new List<ObjectPicker.ColumnInfo>());
-                rowInfo69.ColumnInfo.Add(new ObjectPicker.TextColumn("== CHOOSE FOR ME =="));
+                rowInfo69.ColumnInfo.Add(new ObjectPicker.TextColumn("((!! == CHOOSE FOR ME ==!!))"));
                 rowInfo69.ColumnInfo.Add(new ObjectPicker.TextColumn("Roll the dice!"));
                 rowInfo69.ColumnInfo.Add(new ObjectPicker.TextColumn(""));
                 rowInfo69.ColumnInfo.Add(new ObjectPicker.TextColumn(""));
@@ -11047,16 +11057,9 @@ namespace S3_Passion
 				{
 					try
 					{
-						string randomCheck = list3[0].Item as string;
-						if (randomCheck == "6942069")
-						{
-							int mysteryPosition = RandomUtil.GetInt(list3.Count);
-							result = list3[mysteryPosition].Item as Position;
-						}
-						else
-						{
-							result = list3[0].Item as Position;
-						}
+						
+						result = list3[0].Item as Position;
+
 					}
 					catch
 					{
