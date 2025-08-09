@@ -2848,6 +2848,8 @@ namespace S3_Passion
 
 			public int PreferredOutfitIndex;
 
+			public bool SwitchBuffer;
+
 			public int PreviousOutfitIndex;
 
 			public int PartnersToCheckCount = 0;
@@ -3255,6 +3257,7 @@ namespace S3_Passion
 				player.PeenIsErect = false;
 				player.CancelledOnTwitterDotCom = false;
                 player.IsNaked = false;
+				player.SwitchBuffer = false;
 				player.AreWeSwitching = false;
 				player.IsStartingSesh = false;
 				player.IsAutonomous = false;
@@ -6445,6 +6448,10 @@ namespace S3_Passion
 				{
 					return;
 				}
+				if (SwitchBuffer == true)
+				{
+					return;
+				}
 				Part part = Part;
 				Part part2 = partner.Part;
                 int positionIndex = PositionIndex;
@@ -6455,7 +6462,10 @@ namespace S3_Passion
 					partner.PositionIndex = positionIndex;
 					BufferedAnimation = Part.Position.GetAnimation(this);
 					partner.BufferedAnimation = Part.Position.GetAnimation(partner);
-				}
+                    SwitchBuffer = true;
+                    partner.SwitchBuffer = true;
+                    return;
+                }
 				else if (part.Target == part2.Target)
 				{
 					Vector3 exitPoint = ExitPoint;
@@ -6480,20 +6490,21 @@ namespace S3_Passion
 					}
 					BufferedAnimation = part2.Position.GetAnimation(this);
 					partner.BufferedAnimation = part.Position.GetAnimation(partner);
-				}
+                    SwitchBuffer = true;
+                    partner.SwitchBuffer = true;
+                    return;
+                }
 				else
 				{
 					SwitchPart = part2;
 					partner.SwitchPart = part;
-					Actor.InteractionQueue.AddNext(Interactions.SwitchRoute.Singleton.CreateInstance(partner.Actor, Actor, new InteractionPriority(InteractionPriorityLevel.Fire), false, true));
-					partner.Actor.InteractionQueue.AddNext(Interactions.SwitchRoute.Singleton.CreateInstance(Actor, partner.Actor, new InteractionPriority(InteractionPriorityLevel.Fire), false, true));
 					ActiveLeaveJoin = true;
 					partner.ActiveLeaveJoin = true;
 					Stop();
 					partner.Stop();
-					CancelledOnTwitterDotCom = true;
-					partner.CancelledOnTwitterDotCom = true;
-                    
+					SwitchBuffer = true;
+                    partner.SwitchBuffer = true;
+                    return;
                 }
 			}
 
@@ -6501,7 +6512,7 @@ namespace S3_Passion
 			{
 				CanSwitch = false;
 				SwitchPart = null;
-
+                SwitchBuffer = false;
 
             }
 
@@ -12414,10 +12425,20 @@ namespace S3_Passion
 					Player player = GetPlayer(Actor);
 					Player player2 = GetPlayer(Target);
                     Part.BroWeAreSwitching = true;
+					player.SwitchBuffer = false;
+					player2.SwitchBuffer = false;
                     SwitchPlayerPartner = Target;
 					SwitchPlayerActor = Actor;
-					player.Switch(player2);
-					return true;
+					if (player.SwitchBuffer || player2.SwitchBuffer)
+					{ 
+						return false; 
+					}
+					else
+					{
+                        player.Switch(player2);
+                        return true;
+                    }
+
 				}
 			}
 
@@ -12450,22 +12471,27 @@ namespace S3_Passion
 					{
 						Player player = GetPlayer(Actor);
 						Player player2 = GetPlayer(Target);
-						if (player.IsValid && player2.IsValid)
-						{
-							player.CanSwitch = true;
-							int num = 0;
-							while (!player2.CanSwitch && player.Actor.HasNoExitReason() && ++num < 270)
-							{
-								PassionCommon.Wait(10u);
-							}
-							player.ActiveLeaveJoin = true;
-							if (player.Join(player.SwitchPart))
-							{
-								player.Route();
-							}
+						if (player.SwitchBuffer)
+						{ 
+							return false; 
 						}
-						player.EndSwitch();
-                        return true;
+						else
+						{
+                            if (player.IsValid && player2.IsValid)
+                            {
+                                player.CanSwitch = true;
+								player.SwitchBuffer = true;
+                                
+                                player.ActiveLeaveJoin = true;
+                                if (player.Join(player.SwitchPart))
+                                {
+                                    player.Route();
+                                }
+                            }
+                            player.EndSwitch();
+                            return true;
+                        }
+						
 					}
 					return false;
 				}
