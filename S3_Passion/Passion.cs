@@ -2806,7 +2806,11 @@ namespace S3_Passion
 
 			public bool StrapIsOn;
 
+			public bool IsNaked;
+
 			public bool PeenIsErect;
+
+			public bool CancelledOnTwitterDotCom;
 
 			public long StartTime;
 
@@ -3011,8 +3015,13 @@ namespace S3_Passion
 				}
 				set
 				{
-					SetOutfit(value);
-				}
+					if (!IsNaked) { 
+
+						SetOutfit(value);
+						IsNaked = true;
+
+                    }
+                }
 			}
 
 			public Player PlayerInteractedWith
@@ -3244,6 +3253,8 @@ namespace S3_Passion
 				player.CanSwitch = false;
 				player.StrapIsOn = false;
 				player.PeenIsErect = false;
+				player.CancelledOnTwitterDotCom = false;
+                player.IsNaked = false;
 				player.AreWeSwitching = false;
 				player.IsStartingSesh = false;
 				player.IsAutonomous = false;
@@ -4180,7 +4191,13 @@ namespace S3_Passion
 				return false;
 			}
 
-			public bool RouteToTarget()
+			public void CancelTheFuckingInteractionPlease()
+			{
+				Actor.InteractionQueue.CancelInteraction(Actor.CurrentInteraction, false);
+				CancelledOnTwitterDotCom = false;
+            }
+
+            public bool RouteToTarget()
 			{
 				if (IsValid && HasPart && Part.HasTarget)
 				{
@@ -4343,7 +4360,8 @@ namespace S3_Passion
 				if (HasPart)
 				{
 					Part.ChangePosition();
-				}
+					CancelledOnTwitterDotCom = true;
+                }
 			}
 
 			public void Animate()
@@ -4690,7 +4708,6 @@ namespace S3_Passion
 								Outfit = OutfitCategories.Sleepwear;
 							}
 						}
-
 					}
 					else
 					{
@@ -4706,7 +4723,6 @@ namespace S3_Passion
 					Part.StartSoundEffects();
 					Part.HahaFirst = true;
 					Actor.InteractionQueue.PushAsContinuation(Interactions.PassionLoop.Singleton.CreateInstance(Actor, Actor, new InteractionPriority(InteractionPriorityLevel.High), false, true), true);
-                    
                     return true;
 				}
 				return false;
@@ -4865,6 +4881,8 @@ namespace S3_Passion
 					}
 					while (IsValid && HasPart)
 					{
+
+
 						Actor.AddInteraction(CumOnFace.Singleton, true);
 						Actor.AddInteraction(CumOnTits.Singleton, true);
 						Actor.AddInteraction(CumOnButt.Singleton, true);
@@ -5981,7 +5999,8 @@ namespace S3_Passion
 								item6.CanAnimate = true;
 							}
 						}
-						PassionCommon.Wait();
+                        int MaxPassionTime = TicksToMinutes(Settings.RandomizationLength);
+                        Wait(MaxPassionTime);
                     }
 					ImproveRelationships();
 					EndMotiveUpdates();
@@ -6270,7 +6289,7 @@ namespace S3_Passion
 			{
 
 						// if we're adding it
-						if (AddIt)
+						if (AddIt && !PeenIsErect)
 						{
 							SimDescription simDescription = PlayerSim.SimDescription;
 					string ErectPeen = GetPlayer(PlayerSim).SimErectSIMO;
@@ -6296,6 +6315,7 @@ namespace S3_Passion
 									{
 									}
 								}
+					PeenIsErect = true;
 								return true;
 							
 						}
@@ -6471,7 +6491,10 @@ namespace S3_Passion
 					partner.ActiveLeaveJoin = true;
 					Stop();
 					partner.Stop();
-				}
+					CancelledOnTwitterDotCom = true;
+					partner.CancelledOnTwitterDotCom = true;
+                    
+                }
 			}
 
 			public void EndSwitch()
@@ -6511,7 +6534,7 @@ namespace S3_Passion
                         Libido.SatisfactionCalc(Actor, Partner.Actor);
 					}
 					Part.BroWeAreSwitching = false;
-					RegisterWoohoo();
+                    RegisterWoohoo();
                     try
                     {
                         if (!ActiveLeave && !CanSwitch && Settings.GetSoft && (!Settings.StrapOnMode || (GetPlayer(Actor).SimGenitalType == "penis" || GetPlayer(Actor).SimGenitalType == "both")))
@@ -6529,7 +6552,9 @@ namespace S3_Passion
 					if (!ActiveLeave && !CanSwitch && (Settings.Outfit != 0 || HasPreferredOutfit))
 					{
 						RevertOutfit();
-					}
+                        IsNaked = false;
+						PeenIsErect = false;
+                    }
 					Modules.PostProcessing(Actor);
 					ActiveLeave = false;
 				}
@@ -6594,6 +6619,7 @@ namespace S3_Passion
 				SpinDisabled = false;
 				DirectTargeted = false;
                 StartTime = 0L;
+				CancelledOnTwitterDotCom = false;
 				NumberAccepted = 0;
 				PositionIndex = 0;
 				PartnersToCheckCount = 0;
@@ -8596,7 +8622,7 @@ namespace S3_Passion
 				foreach (Player value in Players.Values)
 				{
 					value.ActiveLeaveJoin = false;
-					value.Stop();
+                    value.Stop();
 				}
 			}
 
@@ -13422,8 +13448,8 @@ namespace S3_Passion
 
 				public override bool Run()
 				{
-					GetPlayer(Target).ChangePosition();
-					return true;
+                    GetPlayer(Target).ChangePosition();
+                    return true;
 				}
 			}
 
