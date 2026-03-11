@@ -2511,11 +2511,13 @@ namespace S3_Passion.BOE_Interaction
                 if (PassionBase.GetPlayer(Target).StrapIsOn)
                 {
                     balls.SwitchToStrapon(Target, false);
+                    PassionBase.GetPlayer(Target).ForceNoStrap = true;
                     return false;
                 }
                 else
                 {
                     balls.SwitchToStrapon(Target, true);
+                    PassionBase.GetPlayer(Target).ForceNoStrap = false;
                     return true;
                 }
             }

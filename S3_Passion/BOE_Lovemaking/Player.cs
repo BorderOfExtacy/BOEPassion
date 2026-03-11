@@ -58,6 +58,8 @@ namespace S3_Passion.BOE_Lovemaking
 
         public bool SpinDisabled;
 
+        public bool ForceNoStrap;
+
         public bool HasPreferredOutfit;
 
         public bool CanAnimate;
@@ -520,6 +522,7 @@ namespace S3_Passion.BOE_Lovemaking
             player.PassionCharge = 0;
             player.CanAnimate = false;
             player.CanSwitch = false;
+            player.ForceNoStrap = false;
             player.StrapIsOn = false;
             player.PeenIsErect = false;
             player.CancelledOnTwitterDotCom = false;
@@ -3483,9 +3486,16 @@ namespace S3_Passion.BOE_Lovemaking
                 {
                     return false;
                 }
+                // if strapon has been force toggled off
+                if (PassionBase.GetPlayer(PlayerSim).ForceNoStrap)
+                {
+                    return false;
+                }
                 // if we're adding it
                 if (AddRemove)
                 {
+
+
                     SimDescription simDescription2 = PlayerSim.SimDescription;
                     if (simDescription2.GetOutfitCount(OutfitCategories.Naked) == 1)
                     {
@@ -3896,6 +3906,7 @@ namespace S3_Passion.BOE_Lovemaking
             CanSwitch = false;
             SpinDisabled = false;
             DirectTargeted = false;
+            ForceNoStrap = false;
             StartTime = 0L;
             CancelledOnTwitterDotCom = false;
             NumberAccepted = 0;

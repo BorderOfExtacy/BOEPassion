@@ -232,7 +232,7 @@ namespace S3_Passion.BOE_Settings
             Motives = PassionMotives.PassionStandard;
             InitialCategory = 1;
             MaxLength = 0L;
-            RandomizationLength = 60L;
+            RandomizationLength = 2222L;
             RandomizationOptions = RandomizationOptions.PositionsAndSequences;
             STDSimmunity = STDImmunity.Immune;
             ConsentPercentage = 0.01f;
