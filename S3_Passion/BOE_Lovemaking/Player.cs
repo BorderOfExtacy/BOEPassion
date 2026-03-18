@@ -19,6 +19,7 @@ using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Objects.Plumbing;
 using Sims3.Gameplay.Objects.Seating;
 using Sims3.Gameplay.Pools;
+using Sims3.Gameplay.Services;
 using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.ThoughtBalloons;
 using Sims3.Gameplay.Utilities;
@@ -1965,22 +1966,7 @@ namespace S3_Passion.BOE_Lovemaking
                 ExitPoint = new Vector3(Actor.Position);
                 if (!ActiveJoin)
                 {
-                    SaveOutfit();
-                    if (PersistableSettings.Settings.NakedShower && HasPart && Part.HasTarget && Part.Target.HasObject && (Part.Target.Object is IShowerable || Part.Target.Object is IBathtub))
-                    {
-                        Outfit = OutfitCategories.Naked;
-                    }
-                    else if (!UsePreferredOutfit())
-                    {
-                        if (PersistableSettings.Settings.Outfit == OutfitCategories.Naked && Outfit != OutfitCategories.Naked)
-                        {
-                            Outfit = OutfitCategories.Naked;
-                        }
-                        else if (PersistableSettings.Settings.Outfit == OutfitCategories.Sleepwear && Outfit != OutfitCategories.Sleepwear)
-                        {
-                            Outfit = OutfitCategories.Sleepwear;
-                        }
-                    }
+                    
                 }
                 else
                 {
@@ -3573,16 +3559,32 @@ namespace S3_Passion.BOE_Lovemaking
             {
                 SimDescription simDescription = PlayerSim.SimDescription;
                 string ErectPeen = PassionBase.GetPlayer(PlayerSim).SimErectSIMO;
-                SimOutfit uniform = null;
-                uniform = new SimOutfit(ResourceKey.FromString(ErectPeen));
-                //
-                //
+                CASPart junk;
+                junk = new CASPart(ResourceKey.FromString(ErectPeen));
 
 
 
-                SimOutfit resultOutfit;
-                if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "ErectPenis", out resultOutfit))
+
+                SimBuilder simBuilder = new SimBuilder();
+                simBuilder.UseCompression = true;
+                OutfitUtils.SetOutfit(simBuilder, PlayerSim.CurrentOutfit, simDescription);
+                CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                for (int i = 0; i < parts.Length; i++)
                 {
+                    CASPart part = parts[i];
+                    if (part.BodyType == BodyTypes.LowerBody)
+                    {
+                        simBuilder.RemovePart(part);
+                    }
+                }
+                
+                
+                    CASPart part2 = junk;
+                    simBuilder.AddPart(part2);
+                    ResourceKey key = simBuilder.CacheOutfit("BOE_Erect" + simDescription.SimDescriptionId);
+                    SimOutfit resultOutfit = new SimOutfit(key);
+
+               
                     simDescription.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
                     SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
                     SwitchOutfitHelper.Start();
@@ -3594,7 +3596,7 @@ namespace S3_Passion.BOE_Lovemaking
                     catch
                     {
                     }
-                }
+                
                 PeenIsErect = true;
                 return true;
 
@@ -3613,7 +3615,7 @@ namespace S3_Passion.BOE_Lovemaking
                     }
                     try
                     {
-                        PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+                        PlayerSim.SwitchToOutfitWithoutSpin(PreviousOutfitCategory, PreviousOutfitIndex);
                     }
                     catch
                     {
