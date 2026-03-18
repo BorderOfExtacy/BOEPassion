@@ -377,10 +377,10 @@ namespace S3_Passion.BOE_Lovemaking
                     Clips = new List<ClipData>();
                 }
 
-                public ClipData Add(string clip, CASAgeGenderFlags flags, bool penis, bool vagina)
+                public ClipData Add(string clip, CASAgeGenderFlags flags, bool penis, bool vagina, string nude)
                 {
                     // adds per-sim animation data
-                    return Add(new ClipData(clip, flags, penis, vagina));
+                    return Add(new ClipData(clip, flags, penis, vagina, nude));
                 }
 
                 public ClipData Add(ClipData clipdata)
@@ -443,6 +443,10 @@ namespace S3_Passion.BOE_Lovemaking
                                     // refactor to include if the clip is a top or bottom position - whether genitals or sexual role takes priority should be a setting
                                     if ((player.SimGenitalType == "penis" && clip.NeedsPenis || player.SimGenitalType == "vagina" && clip.NeedsVagina) && clip.CompareFlags(player.Flags))
                                     {
+
+                                        player.UndressLevel = clip.NudeType;
+                                        
+                                        
                                         return clip;
                                     }
                                     result = clip;
@@ -478,6 +482,8 @@ namespace S3_Passion.BOE_Lovemaking
 
                 public bool NeedsTeen;
 
+                public string NudeType;
+
                 public bool IsValid
                 {
                     get
@@ -492,7 +498,7 @@ namespace S3_Passion.BOE_Lovemaking
                     {
                         position = 1;
                     }
-                    return new ClipData(clip1 + AWPosition[position] + clip2 + (participants == 3 ? "o" : string.Empty), position == 1, false);
+                    return new ClipData(clip1 + AWPosition[position] + clip2 + (participants == 3 ? "o" : string.Empty), position == 1, false, "Fullbody");
                 }
 
                 public static bool Exists(string clip)
@@ -509,33 +515,34 @@ namespace S3_Passion.BOE_Lovemaking
                     return PassionCommon.Match(flags, (uint)Flags);
                 }
 
-                public ClipData(string clip, CASAgeGenderFlags flags)
+                public ClipData(string clip, CASAgeGenderFlags flags, string nude)
                 {
-                    Initialize(clip, flags, false, false, false);
+                    Initialize(clip, flags, false, false, false, nude);
                 }
 
-                public ClipData(string clip, bool penis, bool vagina)
+                public ClipData(string clip, bool penis, bool vagina, string nude)
                 {
-                    Initialize(clip, CASAgeGenderFlags.None, penis, vagina, false);
+                    Initialize(clip, CASAgeGenderFlags.None, penis, vagina, false, nude);
                 }
 
-                public ClipData(string clip, CASAgeGenderFlags flags, bool penis, bool vagina)
+                public ClipData(string clip, CASAgeGenderFlags flags, bool penis, bool vagina, string nude)
                 {
-                    Initialize(clip, flags, penis, vagina, false);
+                    Initialize(clip, flags, penis, vagina, false, nude);
                 }
 
-                public ClipData(string clip, CASAgeGenderFlags flags, bool penis, bool vagina, bool breasts)
+                public ClipData(string clip, CASAgeGenderFlags flags, bool penis, bool vagina, bool breasts, string nude)
                 {
-                    Initialize(clip, flags, penis, vagina, breasts);
+                    Initialize(clip, flags, penis, vagina, breasts, nude);
                 }
 
-                public void Initialize(string clip, CASAgeGenderFlags flags, bool penis, bool vagina, bool breasts)
+                public void Initialize(string clip, CASAgeGenderFlags flags, bool penis, bool vagina, bool breasts, string nude)
                 {
                     Clip = clip;
                     Flags = flags;
                     NeedsPenis = penis;
                     NeedsVagina = vagina;
                     NeedsBreasts = breasts;
+                    NudeType = nude;
                 }
 
                 static ClipData()
@@ -903,6 +910,9 @@ namespace S3_Passion.BOE_Lovemaking
                                                 attribute = attribute.Replace(" ", string.Empty);
                                                 string[] array3 = attribute.Split(',');
                                                 string[] array4 = array3;
+
+                                                
+
                                                 foreach (string text4 in array4)
                                                 {
                                                     switch (text4.ToLower())
@@ -922,7 +932,7 @@ namespace S3_Passion.BOE_Lovemaking
                                                     }
                                                 }
                                             }
-                                            slot.Add(matchingNode10.Value, cASAgeGenderFlags, penis, vagina);
+                                            slot.Add(matchingNode10.Value, cASAgeGenderFlags, penis, vagina, "LowerBody");
                                         }
                                     }
                                     set.Update();
@@ -980,6 +990,8 @@ namespace S3_Passion.BOE_Lovemaking
 
                                 // what's inputted in the viable genders
                                 string text5 = item["Genders"].ToLower();
+
+                                string nudity = item["NakedFlags"];
 
                                 position2.Genders = item["Genders"];
                                 position2.UseTheWhip = PassionCommon.Bool(item["UseWhip"]);
@@ -1046,7 +1058,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     Animation.Slot slot3 = set2.Add(num7);
 
                                     // add the animation for the sim? reminder flag is penis bool, vagina2 is vagina bool
-                                    slot3.Add(item["Animation"], CASAgeGenderFlags.None, flag, vagina2);
+                                    slot3.Add(item["Animation"], CASAgeGenderFlags.None, flag, vagina2, nudity);
 
                                     //sim accessory processing
                                     //WHYYYYYY is this hardcoded

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using S3_Passion;
 using S3_Passion.BOE_Core;
+using S3_Passion.BOE_Debug;
 using S3_Passion.BOE_Interaction;
 using S3_Passion.BOE_Settings;
 using S3_Passion.BOE_Tunables;
@@ -20,6 +21,7 @@ using Sims3.Gameplay.Objects.Plumbing;
 using Sims3.Gameplay.Objects.Seating;
 using Sims3.Gameplay.Pools;
 using Sims3.Gameplay.Services;
+using Sims3.Gameplay.Situations;
 using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.ThoughtBalloons;
 using Sims3.Gameplay.Utilities;
@@ -27,6 +29,7 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.SimIFace.RouteDestinations;
 using Sims3.SimIFace.VideoRecording;
+using Sims3.UI.CAS;
 
 namespace S3_Passion.BOE_Lovemaking
 {
@@ -75,6 +78,8 @@ namespace S3_Passion.BOE_Lovemaking
 
         public bool StrapIsOn;
 
+        public string nudeTopRK;
+
         public bool IsNaked;
 
         public bool PeenIsErect;
@@ -94,6 +99,8 @@ namespace S3_Passion.BOE_Lovemaking
         public string BufferedAnimation;
 
         public string SwitchRoleBuffer;
+
+        public string UndressLevel;
 
         public string BufferedTargetAnimation;
 
@@ -481,6 +488,7 @@ namespace S3_Passion.BOE_Lovemaking
             }
         }
 
+
         public bool HasCigarette
         {
             get
@@ -536,6 +544,8 @@ namespace S3_Passion.BOE_Lovemaking
             player.DirectTargeted = false;
             player.ActiveJoin = false;
             player.NumberAccepted = 0;
+            player.UndressLevel = "";
+            player.nudeTopRK = "";
             player.Partner = null;
             player.SwitchPart = null;
             player.StartTime = 0L;
@@ -1374,6 +1384,15 @@ namespace S3_Passion.BOE_Lovemaking
             }
             string animationName = "a2a_soc_Amorous_flirtHitOn_Amorous_Amorous_y";
             ProductVersion productVersion = ProductVersion.BaseGame;
+
+            // set pre passion outfits
+            PassionBase.GetPlayer(Actor).PreviousOutfitCategory = Actor.CurrentOutfitCategory;
+            PassionBase.GetPlayer(Actor).PreviousOutfitIndex = Actor.CurrentOutfitIndex;
+
+            partner.PreviousOutfitCategory = partner.Actor.CurrentOutfitCategory;
+            partner.PreviousOutfitIndex = partner.Actor.CurrentOutfitIndex;
+
+
             if (Actor.SimDescription.Teen || partner.Actor.SimDescription.Teen)
             {
                 animationName = "a2a_soc_Neutral_RevealSecret_Friendly_Neutral_y";
@@ -2091,6 +2110,9 @@ namespace S3_Passion.BOE_Lovemaking
                 {
                     PassionBase.GetPlayer(Actor).SimGenitalType = "vagina";
                 }
+
+
+                PenisInspection.GetBottomCASP2(Actor, PassionBase.GetPlayer(Actor));
 
 
                 foreach (PassionBody.BodyShop body in PassionBody.coolbodyshop)
@@ -3562,44 +3584,88 @@ namespace S3_Passion.BOE_Lovemaking
                 CASPart junk;
                 junk = new CASPart(ResourceKey.FromString(ErectPeen));
 
-
-
-
                 SimBuilder simBuilder = new SimBuilder();
                 simBuilder.UseCompression = true;
+
+                // get current outfit
                 OutfitUtils.SetOutfit(simBuilder, PlayerSim.CurrentOutfit, simDescription);
-                CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
-                for (int i = 0; i < parts.Length; i++)
+
+
+                // figure out our nudity type (if this doesnt work im going to fucking kill someone)
+                if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "LowerBody")
                 {
-                    CASPart part = parts[i];
-                    if (part.BodyType == BodyTypes.LowerBody)
+                    CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                    for (int i = 0; i < parts.Length; i++)
                     {
-                        simBuilder.RemovePart(part);
+                        CASPart part = parts[i];
+                        if (part.BodyType == BodyTypes.LowerBody)
+                        {
+                            simBuilder.RemovePart(part);
+                        }
                     }
                 }
-                
-                
-                    CASPart part2 = junk;
-                    simBuilder.AddPart(part2);
-                    ResourceKey key = simBuilder.CacheOutfit("BOE_Erect" + simDescription.SimDescriptionId);
-                    SimOutfit resultOutfit = new SimOutfit(key);
+                else if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "UpperBody")
+                {
+                    CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                    for (int i = 0; i < parts.Length; i++)
+                    {
+                        CASPart part = parts[i];
+                        if (part.BodyType == BodyTypes.UpperBody)
+                        {
+                            simBuilder.RemovePart(part);
+                        }
+                    }
+                }
+                else
+                {
+                    CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                    for (int i = 0; i < parts.Length; i++)
+                    {
+                        CASPart part = parts[i];
+                        if (part.BodyType == BodyTypes.FullBody)
+                        {
+                            simBuilder.RemovePart(part);
+                        }
+                    }
+                }
 
-               
-                    simDescription.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
-                    SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+
+              CASPart part2 = junk;
+             // add the dong
+             simBuilder.AddPart(part2);
+
+                // special checks if undress type is fullbody or top, so we can add the sim's top too
+                CASPart NakeyTop;
+
+                if (PassionBase.GetPlayer(PlayerSim).UndressLevel != "LowerBody")
+                {
+                    NakeyTop = new CASPart(ResourceKey.FromString(PassionBase.GetPlayer(PlayerSim).nudeTopRK));
+                    simBuilder.AddPart(NakeyTop);
+                }
+                
+
+
+                ResourceKey key = simBuilder.CacheOutfit("BOE_Erect" + simDescription.SimDescriptionId);
+                    SimOutfit uniform = new SimOutfit(key);
+
+                SimOutfit resultOutfit;
+                //if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "imdying", out resultOutfit))
+                //{
+                simDescription.AddOutfit(uniform, OutfitCategories.Naked, 0);
+                SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
                     SwitchOutfitHelper.Start();
                     SwitchOutfitHelper.Wait(false);
                     try
                     {
-                        PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+                        PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, uniform, 0);
                     }
                     catch
                     {
                     }
-                
-                PeenIsErect = true;
-                return true;
 
+                    PeenIsErect = true;
+                    return true;
+                //}
             }
             // end peen addition
 
