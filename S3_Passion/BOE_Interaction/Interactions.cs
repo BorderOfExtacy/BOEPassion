@@ -611,6 +611,11 @@ namespace S3_Passion.BOE_Interaction
                 else
                 {
                     player.Switch(player2);
+
+                    Actor.ResetAllAnimation();
+                    Target.ResetAllAnimation();
+                   
+
                     return true;
                 }
 
@@ -1650,6 +1655,8 @@ namespace S3_Passion.BOE_Interaction
             public override bool Run()
             {
                 PassionBase.GetPlayer(Target).ChangePosition();
+                Actor.ResetAllAnimation();
+                Target.ResetAllAnimation();
                 return true;
             }
         }

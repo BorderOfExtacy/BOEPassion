@@ -2407,9 +2407,10 @@ namespace S3_Passion.BOE_Lovemaking
                                         SwitchToStrapon(Actor, true);
                                     }
                                     // if strapon isn't meant to be used
+                                    // EDIT; changing this to GetNaked
                                     else if ((PassionBase.GetPlayer(Actor).SimGenitalType == "vagina" || PassionBase.GetPlayer(Actor).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(Actor, false);
+                                        GetNaked(Actor, true);
                                     }
                                     //end branch
                                     //
@@ -2458,6 +2459,7 @@ namespace S3_Passion.BOE_Lovemaking
                                 try
                                 {
                                     // do i really have to repeat this code for every fucking participant. what the hell
+                                    // edit now that i added GetNaked - THIS IS GOING TO SUCK!!!!!!!!!!!
 
                                     // SIM 1 STRAP START
                                     if ((PassionBase.GetPlayer(sim).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim).SimGenitalType == "neither") && PersistableSettings.Settings.FemaleUseStrapOn && Part.Position.PutOnStraOn[1])
@@ -2467,7 +2469,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim, false);
+                                        GetNaked(sim, true);
                                     }
 
                                     // SIM 1 STRAP END
@@ -2480,7 +2482,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim2).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim2).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim2, false);
+                                        GetNaked(sim2, true);
                                     }
                                     // SIM 2 STRAP END
 
@@ -2583,7 +2585,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim3).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim3).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim3, false);
+                                        GetNaked(sim3, true);
                                     }
                                     // SIM 3 STRAP END
 
@@ -2595,7 +2597,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim4).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim4).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim4, false);
+                                        GetNaked(sim4, true);
                                     }
                                     // SIM 4 STRAP END
 
@@ -2607,7 +2609,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim5).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim5).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim5, false);
+                                        GetNaked(sim5, true);
                                     }
                                     // SIM 5 STRAP END
 
@@ -2725,7 +2727,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim6).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim6).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim6, false);
+                                        GetNaked(sim6, true);
                                     }
                                     // SIM 6 STRAP END
 
@@ -2737,7 +2739,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim7).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim7).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim7, false);
+                                        GetNaked(sim7, true);
                                     }
                                     // SIM 7 STRAP END
 
@@ -2749,7 +2751,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim8).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim8).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim8, false);
+                                        GetNaked(sim8, true);
                                     }
                                     // SIM 8 STRAP END
 
@@ -2761,7 +2763,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim9).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim9).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim9, false);
+                                        GetNaked(sim9, true);
                                     }
                                     // SIM 9 STRAP END
 
@@ -2898,7 +2900,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim10).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim10).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim10, false);
+                                        GetNaked(sim10, true);
                                     }
                                     // SIM 10 STRAP END
 
@@ -2910,7 +2912,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim11).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim11).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim11, false);
+                                        GetNaked(sim11, true);
                                     }
                                     // SIM 11 STRAP END
 
@@ -2922,7 +2924,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim12).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim12).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim12, false);
+                                        GetNaked(sim12, true);
                                     }
                                     // SIM 12 STRAP END
 
@@ -2934,7 +2936,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim13).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim13).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim13, false);
+                                        GetNaked(sim13, true);
                                     }
                                     // SIM 13 STRAP END
 
@@ -2946,7 +2948,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim14).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim14).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim14, false);
+                                        GetNaked(sim14, true);
                                     }
                                     // SIM 14 STRAP END
 
@@ -3105,7 +3107,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim15).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim15).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim15, false);
+                                        GetNaked(sim15, true);
                                     }
                                     // SIM 15 STRAP END
 
@@ -3117,7 +3119,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim16).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim16).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim16, false);
+                                        GetNaked(sim16, true);
                                     }
                                     // SIM 16 STRAP END
 
@@ -3129,7 +3131,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim17).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim17).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim17, false);
+                                        GetNaked(sim17, true);
                                     }
                                     // SIM 17 STRAP END
 
@@ -3141,7 +3143,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim18).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim18).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim18, false);
+                                        GetNaked(sim18, true);
                                     }
                                     // SIM 18 STRAP END
 
@@ -3153,7 +3155,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim19).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim19).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim19, false);
+                                        GetNaked(sim19, true);
                                     }
                                     // SIM 19 STRAP END
 
@@ -3165,7 +3167,7 @@ namespace S3_Passion.BOE_Lovemaking
                                     // if strapon isn't meant to be used
                                     else if ((PassionBase.GetPlayer(sim20).SimGenitalType == "vagina" || PassionBase.GetPlayer(sim20).SimGenitalType == "neither") && !Part.Position.PutOnStraOn[1])
                                     {
-                                        SwitchToStrapon(sim20, false);
+                                        GetNaked(sim20, true);
                                     }
                                     // SIM 20 STRAP END
 
@@ -3280,8 +3282,9 @@ namespace S3_Passion.BOE_Lovemaking
                             item6.CanAnimate = true;
                         }
                     }
-                    int MaxPassionTime = PassionCommon.TicksToMinutes(PersistableSettings.Settings.RandomizationLength);
-                    PassionCommon.Wait(MaxPassionTime);
+
+                    PassionCommon.Wait();
+
                 }
                 ImproveRelationships();
                 EndMotiveUpdates();
@@ -3321,6 +3324,16 @@ namespace S3_Passion.BOE_Lovemaking
                     Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
                 }
                 SwitchToStrapon(Partner.Actor, false);
+                if (previousOutfitCategory != OutfitCategories.Naked)
+                {
+                    Partner.Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
+                }
+                GetNaked(Actor, false);
+                if (previousOutfitCategory != OutfitCategories.Naked)
+                {
+                    Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
+                }
+                GetNaked(Partner.Actor, false);
                 if (previousOutfitCategory != OutfitCategories.Naked)
                 {
                     Partner.Actor.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
@@ -3576,83 +3589,93 @@ namespace S3_Passion.BOE_Lovemaking
         public bool SwitchToPeener(Sim PlayerSim, bool AddIt)
         {
 
-            // if we're adding it
-            if (AddIt && !PeenIsErect)
+            if (PassionBase.GetPlayer(PlayerSim).SimGenitalType == "penis" || PassionBase.GetPlayer(PlayerSim).SimGenitalType == "both")
             {
-                SimDescription simDescription = PlayerSim.SimDescription;
-                string ErectPeen = PassionBase.GetPlayer(PlayerSim).SimErectSIMO;
-                CASPart junk;
-                junk = new CASPart(ResourceKey.FromString(ErectPeen));
 
-                SimBuilder simBuilder = new SimBuilder();
-                simBuilder.UseCompression = true;
-
-                // get current outfit
-                OutfitUtils.SetOutfit(simBuilder, PlayerSim.CurrentOutfit, simDescription);
-
-
-                // figure out our nudity type (if this doesnt work im going to fucking kill someone)
-                if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "LowerBody")
+                // if we're adding it
+                if (AddIt && !PassionBase.GetPlayer(PlayerSim).PeenIsErect)
                 {
-                    CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        CASPart part = parts[i];
-                        if (part.BodyType == BodyTypes.LowerBody)
-                        {
-                            simBuilder.RemovePart(part);
-                        }
-                    }
-                }
-                else if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "UpperBody")
-                {
-                    CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        CASPart part = parts[i];
-                        if (part.BodyType == BodyTypes.UpperBody)
-                        {
-                            simBuilder.RemovePart(part);
-                        }
-                    }
-                }
-                else
-                {
-                    CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        CASPart part = parts[i];
-                        if (part.BodyType == BodyTypes.FullBody)
-                        {
-                            simBuilder.RemovePart(part);
-                        }
-                    }
-                }
-
-
-              CASPart part2 = junk;
-             // add the dong
-             simBuilder.AddPart(part2);
-
-                // special checks if undress type is fullbody or top, so we can add the sim's top too
-                CASPart NakeyTop;
-
-                if (PassionBase.GetPlayer(PlayerSim).UndressLevel != "LowerBody")
-                {
+                    SimDescription simDescription = PlayerSim.SimDescription;
+                    string ErectPeen = PassionBase.GetPlayer(PlayerSim).SimErectSIMO;
+                    CASPart junk;
+                    junk = new CASPart(ResourceKey.FromString(ErectPeen));
+                    CASPart NakeyTop;
                     NakeyTop = new CASPart(ResourceKey.FromString(PassionBase.GetPlayer(PlayerSim).nudeTopRK));
-                    simBuilder.AddPart(NakeyTop);
-                }
-                
+
+                    SimBuilder simBuilder = new SimBuilder();
+                    simBuilder.UseCompression = true;
+
+                    // get current outfit
+                    OutfitUtils.SetOutfit(simBuilder, PlayerSim.CurrentOutfit, simDescription);
 
 
-                ResourceKey key = simBuilder.CacheOutfit("BOE_Erect" + simDescription.SimDescriptionId);
+                    // figure out our nudity type (if this doesnt work im going to fucking kill someone)
+                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "LowerBody")
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.LowerBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                            // if theyre wearing fullbody we wanna remove that too and and the top :p
+                            else if (part.BodyType == BodyTypes.FullBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                        }
+                    }
+                    else if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "UpperBody")
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.UpperBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.FullBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                        }
+                    }
+
+
+                    CASPart part2 = junk;
+                    // add the dong
+                    simBuilder.AddPart(part2);
+
+                    // special checks if undress type is fullbody or top, so we can add the sim's top too
+
+
+                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel != "LowerBody")
+                    {
+                        simBuilder.AddPart(NakeyTop);
+                    }
+
+
+
+                    ResourceKey key = simBuilder.CacheOutfit("BOE_Erect" + simDescription.SimDescriptionId);
                     SimOutfit uniform = new SimOutfit(key);
 
-                SimOutfit resultOutfit;
-                //if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "imdying", out resultOutfit))
-                //{
-                simDescription.AddOutfit(uniform, OutfitCategories.Naked, 0);
-                SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+
+                    //if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "imdying", out resultOutfit))
+                    //{
+                    simDescription.AddOutfit(uniform, OutfitCategories.Naked, 0);
+                    SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
                     SwitchOutfitHelper.Start();
                     SwitchOutfitHelper.Wait(false);
                     try
@@ -3663,38 +3686,181 @@ namespace S3_Passion.BOE_Lovemaking
                     {
                     }
 
-                    PeenIsErect = true;
+                    PassionBase.GetPlayer(PlayerSim).PeenIsErect = true;
                     return true;
-                //}
-            }
-            // end peen addition
+                    //}
+                }
+                // end peen addition
 
-            // if we're removing it
-            else if (!AddIt)
-            {
-                SimDescription simDescription2 = PlayerSim.SimDescription;
-                if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1)
+                // if we're removing it
+                else if (!AddIt)
                 {
-                    while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 1)
+                    SimDescription simDescription2 = PlayerSim.SimDescription;
+                    if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1)
                     {
-                        simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
+                        while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 1)
+                        {
+                            simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
+                        }
+                        try
+                        {
+                            PlayerSim.SwitchToOutfitWithoutSpin(PreviousOutfitCategory, PreviousOutfitIndex);
+                        }
+                        catch
+                        {
+                        }
+                        return false;
                     }
+                }
+                // end peen removal
+            }
+            return false;
+
+
+        }
+
+        // im just copying this without changing the internal terms bc im lazy
+        // surely this won't haunt me layer (clueless)
+        public bool GetNaked(Sim PlayerSim, bool AddIt)
+        {
+            if (PassionBase.GetPlayer(PlayerSim).SimGenitalType == "vagina" || PassionBase.GetPlayer(PlayerSim).SimGenitalType == "neither")
+            {
+                // if we're adding it
+                if (AddIt && !PassionBase.GetPlayer(PlayerSim).PeenIsErect)
+                {
+                    SimDescription simDescription = PlayerSim.SimDescription;
+
+                    // this is their bottom mesh, not peenar
+                    string ErectPeen = PassionBase.GetPlayer(PlayerSim).SimJunkBaseCASP;
+                    CASPart junk;
+                    junk = new CASPart(ResourceKey.FromString(ErectPeen));
+
+                    CASPart NakeyTop;
+                    NakeyTop = new CASPart(ResourceKey.FromString(PassionBase.GetPlayer(PlayerSim).nudeTopRK));
+
+                    SimBuilder simBuilder = new SimBuilder();
+                    simBuilder.UseCompression = true;
+
+                    // get current outfit
+                    OutfitUtils.SetOutfit(simBuilder, PlayerSim.CurrentOutfit, simDescription);
+
+
+                    // figure out our nudity type (if this doesnt work im going to fucking kill someone)
+                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "LowerBody")
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.LowerBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                            // if theyre wearing fullbody we wanna remove that too and and the top :p
+                            else if (part.BodyType == BodyTypes.FullBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                        }
+                    }
+                    else if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "UpperBody")
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.UpperBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.FullBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                            else if (part.BodyType == BodyTypes.LowerBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                        }
+                    }
+
+
+                    CASPart part2 = junk;
+                    // add the dong
+                    simBuilder.AddPart(part2);
+
+                    // special checks if undress type is fullbody or top, so we can add the sim's top too
+
+
+                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel != "LowerBody")
+                    {
+                        simBuilder.AddPart(NakeyTop);
+                    }
+
+
+
+                    ResourceKey key = simBuilder.CacheOutfit("BOE_Nakey" + simDescription.SimDescriptionId);
+                    SimOutfit uniform = new SimOutfit(key);
+
+
+                    //if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "imdying", out resultOutfit))
+                    //{
+                    simDescription.AddOutfit(uniform, OutfitCategories.Naked, 0);
+                    SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+                    SwitchOutfitHelper.Start();
+                    SwitchOutfitHelper.Wait(false);
                     try
                     {
-                        PlayerSim.SwitchToOutfitWithoutSpin(PreviousOutfitCategory, PreviousOutfitIndex);
+                        PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, uniform, 0);
                     }
                     catch
                     {
                     }
-                    return false;
+
+                    PassionBase.GetPlayer(PlayerSim).PeenIsErect = true;
+                    return true;
+                    //}
                 }
+                // end peen addition
+
+                // if we're removing it
+                else if (!AddIt)
+                {
+                    SimDescription simDescription2 = PlayerSim.SimDescription;
+                    if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1)
+                    {
+                        while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 1)
+                        {
+                            simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
+                        }
+                        try
+                        {
+                            PlayerSim.SwitchToOutfitWithoutSpin(PreviousOutfitCategory, PreviousOutfitIndex);
+                        }
+                        catch
+                        {
+                        }
+                        return false;
+                    }
+                }
+                // end peen removal
             }
-            // end peen removal
 
             return false;
 
 
         }
+
+
 
         public void OnAnimationCompleted(StateMachineClient sender, IEvent evt)
         {
@@ -3893,9 +4059,15 @@ namespace S3_Passion.BOE_Lovemaking
                 RegisterWoohoo();
                 try
                 {
+                    // if sim has peen that needs to be de erected
                     if (!ActiveLeave && !CanSwitch && PersistableSettings.Settings.GetSoft && (!PersistableSettings.Settings.StrapOnMode || PassionBase.GetPlayer(Actor).SimGenitalType == "penis" || PassionBase.GetPlayer(Actor).SimGenitalType == "both"))
                     {
                         SwitchToPeener(Actor, false);
+                    }
+                    // if sim is just nakey (no peen)
+                    else if (!ActiveLeave && !CanSwitch && PersistableSettings.Settings.GetSoft && (!PersistableSettings.Settings.StrapOnMode || PassionBase.GetPlayer(Actor).SimGenitalType == "vagina" || PassionBase.GetPlayer(Actor).SimGenitalType == "neither"))
+                    {
+                        GetNaked(Actor, false);
                     }
                 }
                 catch
