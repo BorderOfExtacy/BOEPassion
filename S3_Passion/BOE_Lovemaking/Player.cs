@@ -3513,70 +3513,155 @@ namespace S3_Passion.BOE_Lovemaking
                     return false;
                 }
                 // if we're adding it
-                if (AddRemove)
+                // again im just copying this shit cuz im lazy LMAO
+
+
+                if (AddRemove && !PassionBase.GetPlayer(PlayerSim).PeenIsErect)
                 {
+                    string ErectPeen;
 
-
-                    SimDescription simDescription2 = PlayerSim.SimDescription;
-                    if (simDescription2.GetOutfitCount(OutfitCategories.Naked) == 1)
+                    // set the proper strapon CASP here
+                    // redo this later when you allow modular strapons..
+                    if (simDescription.IsFemale)
                     {
-                        // generate new outfit
-                        SimOutfit uniform = null;
+                        ErectPeen = "0x034AEECB-0x00000000-0x0156A3F716D375E3";
+                    }
+                    // male sim strap
+                    else
+                    {
+                        ErectPeen = "0x034AEECB-0x00000000-0x0F4AB8A71B17F78E";
+                    }
 
-                        // if sim is female
-                        if (simDescription.IsFemale)
-                        {
-                            uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xF32C06036EFA3D8E"));
-                        }
-                        // if sim is male
-                        else
-                        {
-                            uniform = new SimOutfit(ResourceKey.FromString("0x025ED6F4-0x00000000-0xF32C06036EFA3D85"));
-                        }
+                    CASPart junk;
+                    junk = new CASPart(ResourceKey.FromString(ErectPeen));
+                    CASPart NakeyTop;
+                    NakeyTop = new CASPart(ResourceKey.FromString(PassionBase.GetPlayer(PlayerSim).nudeTopRK));
 
-                        SimOutfit resultOutfit;
-                        if (OutfitUtils.TryApplyUniformToOutfit(simDescription2.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription2, "Strapon", out resultOutfit))
+                    SimBuilder simBuilder = new SimBuilder();
+                    simBuilder.UseCompression = true;
+
+                    // get current outfit
+                    OutfitUtils.SetOutfit(simBuilder, PlayerSim.CurrentOutfit, simDescription);
+
+
+                    // figure out our nudity type (if this doesnt work im going to fucking kill someone)
+                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "LowerBody")
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
                         {
-                            simDescription2.AddOutfit(resultOutfit, OutfitCategories.Naked, true);
-                            SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
-                            SwitchOutfitHelper.Start();
-                            SwitchOutfitHelper.Wait(false);
-                            try
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.LowerBody)
                             {
-                                PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, resultOutfit, 0);
+                                simBuilder.RemovePart(part);
                             }
-                            catch
+                            // if theyre wearing fullbody we wanna remove that too and and the top :p
+                            else if (part.BodyType == BodyTypes.FullBody)
                             {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
                             }
-                            PassionBase.GetPlayer(PlayerSim).StrapIsOn = true;
-                            return true;
                         }
                     }
+                    else if (PassionBase.GetPlayer(PlayerSim).UndressLevel == "UpperBody")
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.UpperBody)
+                            {
+                                simBuilder.RemovePart(part);
+                            }
+                        }
+                    }
+                    // else means fully undressed
+                    // add the nude top here too
+                    else
+                    {
+                        CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            CASPart part = parts[i];
+                            if (part.BodyType == BodyTypes.FullBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                            else if (part.BodyType == BodyTypes.LowerBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                            else if (part.BodyType == BodyTypes.UpperBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                        }
+                    }
+
+
+                    CASPart part2 = junk;
+                    // add the dong
+                    simBuilder.AddPart(part2);
+
+                    // special checks if undress type is fullbody or top, so we can add the sim's top too
+
+
+                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel != "LowerBody")
+                    {
+                        simBuilder.AddPart(NakeyTop);
+                    }
+
+
+
+                    ResourceKey key = simBuilder.CacheOutfit("BOE_Erect" + simDescription.SimDescriptionId);
+                    SimOutfit uniform = new SimOutfit(key);
+
+
+                    //if (OutfitUtils.TryApplyUniformToOutfit(simDescription.GetOutfit(OutfitCategories.Naked, 0), uniform, simDescription, "imdying", out resultOutfit))
+                    //{
+                    simDescription.AddOutfit(uniform, OutfitCategories.Naked, 0);
+                    SwitchOutfitHelper = new Sim.SwitchOutfitHelper(PlayerSim, OutfitCategories.Naked, 0);
+                    SwitchOutfitHelper.Start();
+                    SwitchOutfitHelper.Wait(false);
+                    try
+                    {
+                        PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, uniform, 0);
+                    }
+                    catch
+                    {
+                    }
+
+                    PassionBase.GetPlayer(PlayerSim).PeenIsErect = true;
+                    return true;
+                    //}
                 }
-                // end strap addition
+                // end peen addition
 
                 // if we're removing it
+                // ill have to double check if the sim will proceed to also undress or if that needs to be included in the strap removal process
                 else if (!AddRemove)
                 {
-                    SimDescription simDescription3 = PlayerSim.SimDescription;
-                    if (simDescription3.GetOutfitCount(OutfitCategories.Naked) != 1)
+                    SimDescription simDescription2 = PlayerSim.SimDescription;
+                    if (simDescription2.GetOutfitCount(OutfitCategories.Naked) != 1)
                     {
-                        while (simDescription3.GetOutfitCount(OutfitCategories.Naked) > 1)
+                        while (simDescription2.GetOutfitCount(OutfitCategories.Naked) > 1)
                         {
-                            simDescription3.RemoveOutfit(OutfitCategories.Naked, 0, true);
+                            simDescription2.RemoveOutfit(OutfitCategories.Naked, 0, true);
                         }
                         try
                         {
-                            PlayerSim.SwitchToOutfitWithoutSpin(OutfitCategories.Naked, 0);
+                            PlayerSim.SwitchToOutfitWithoutSpin(PreviousOutfitCategory, PreviousOutfitIndex);
                         }
                         catch
                         {
                         }
-                        PassionBase.GetPlayer(PlayerSim).StrapIsOn = false;
                         return false;
                     }
                 }
-                // end strap removal
+                // end peen removal
             }
             catch
             {
@@ -3624,7 +3709,6 @@ namespace S3_Passion.BOE_Lovemaking
                             else if (part.BodyType == BodyTypes.FullBody)
                             {
                                 simBuilder.RemovePart(part);
-                                simBuilder.AddPart(NakeyTop);
                             }
                         }
                     }
@@ -3640,6 +3724,8 @@ namespace S3_Passion.BOE_Lovemaking
                             }
                         }
                     }
+                    // else means fully undressed
+                    // add the nude top here too
                     else
                     {
                         CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
@@ -3649,6 +3735,17 @@ namespace S3_Passion.BOE_Lovemaking
                             if (part.BodyType == BodyTypes.FullBody)
                             {
                                 simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                            else if (part.BodyType == BodyTypes.LowerBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                            else if (part.BodyType == BodyTypes.UpperBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
                             }
                         }
                     }
@@ -3658,13 +3755,6 @@ namespace S3_Passion.BOE_Lovemaking
                     // add the dong
                     simBuilder.AddPart(part2);
 
-                    // special checks if undress type is fullbody or top, so we can add the sim's top too
-
-
-                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel != "LowerBody")
-                    {
-                        simBuilder.AddPart(NakeyTop);
-                    }
 
 
 
@@ -3776,6 +3866,8 @@ namespace S3_Passion.BOE_Lovemaking
                             }
                         }
                     }
+                    // else means fully undressed
+                    // add the nude top here too
                     else
                     {
                         CASPart[] parts = PlayerSim.CurrentOutfit.Parts;
@@ -3785,10 +3877,17 @@ namespace S3_Passion.BOE_Lovemaking
                             if (part.BodyType == BodyTypes.FullBody)
                             {
                                 simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
                             }
                             else if (part.BodyType == BodyTypes.LowerBody)
                             {
                                 simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
+                            }
+                            else if (part.BodyType == BodyTypes.UpperBody)
+                            {
+                                simBuilder.RemovePart(part);
+                                simBuilder.AddPart(NakeyTop);
                             }
                         }
                     }
@@ -3799,12 +3898,6 @@ namespace S3_Passion.BOE_Lovemaking
                     simBuilder.AddPart(part2);
 
                     // special checks if undress type is fullbody or top, so we can add the sim's top too
-
-
-                    if (PassionBase.GetPlayer(PlayerSim).UndressLevel != "LowerBody")
-                    {
-                        simBuilder.AddPart(NakeyTop);
-                    }
 
 
 
@@ -4077,7 +4170,7 @@ namespace S3_Passion.BOE_Lovemaking
                 {
                     Location = ExitPoint;
                 }
-                if (!ActiveLeave && !CanSwitch && (PersistableSettings.Settings.Outfit != 0 || HasPreferredOutfit))
+                if (!ActiveLeave && !CanSwitch)
                 {
                     RevertOutfit();
                     IsNaked = false;

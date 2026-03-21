@@ -101,7 +101,7 @@ namespace S3_Passion.BOE_Debug
         {
             try
             {
-                if (part.BodyType == BodyTypes.LowerBody)
+                if (part.BodyType == BodyTypes.UpperBody)
                 {
 
                     ResourceKey coolhash = part.Key;
